@@ -13,7 +13,7 @@ Installation is pretty simple. Extras installs `scikit-learn` as well
 ```shell
 pip install mlflow[extras]
 git clone https://github.com/mlflow/mlflow
-cd mlflow/
-python examples/sklearn_elasticnet_wine/train.py
+cd mlflow/examples
+python sklearn_elasticnet_wine/train.py
 mlflow ui
 ```
