@@ -20,4 +20,6 @@ cd mlflow/examples
 python sklearn_elasticnet_wine/train.py
 
 mlflow ui
+
+open http://127.0.0.1:5000
 ```
