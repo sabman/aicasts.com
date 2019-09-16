@@ -23,3 +23,12 @@ mlflow ui
 
 open http://127.0.0.1:5000
 ```
+
+![](https://www.evernote.com/l/Ah6gYD4HHfBMh5ZDwazSpy5IRjlDImjzY3UB/image.png)
+
+Now the MLFlow UI is tracking data about our Machine Learning experiments, this is great. Before MLFlow a data scientest has to come up with some internal convention for keeping track of their experiments. In a typical Machine Learning workflow.
+
+## Running in production
+
+
+
