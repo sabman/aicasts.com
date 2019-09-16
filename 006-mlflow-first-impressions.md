@@ -56,6 +56,19 @@ My dashboard now looks like the following:
 
 ![](https://www.evernote.com/l/Ah4jvauaDn1KG5ymXgFJqziFbJWuahZEUC0B/image.png)
 
-## Running in production
+TK: MLFlow diagram https://drive.google.com/file/d/1eA33IE-XGAiLe8F2cvBbNCFa8CLvQMqs/view?usp=sharing
 
+## TK: Running in production
+
+https://github.com/mlflow/mlflow/issues/40
 Running the Tracking Server and UI in production means having
+
+
+## TK: Integrations
+
+Seldon:
+* https://www.seldon.io/open-source/
+* https://github.com/SeldonIO/seldon-core/blob/9052cf10d97574babc1459b63917a6b13ec3b7b1/examples/models/mlflow_model/mlflow.ipynb
+
+Neptune.ml:
+* https://towardsdatascience.com/collaborate-on-mlflow-experiments-in-neptune-fb4f8f84a995
