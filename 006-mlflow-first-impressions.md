@@ -37,14 +37,12 @@ Elasticnet model (alpha=0.200000, l1_ratio=0.400000):
   MAE: 0.6176810535103499
   R2: 0.19391709805063506
 
-mlflow/examples on  master took 3s
 ❯ python sklearn_elasticnet_wine/train.py 0.5 0.4
 Elasticnet model (alpha=0.500000, l1_ratio=0.400000):
   RMSE: 0.8134651568415164
   MAE: 0.6249674191990106
   R2: 0.1453313314484228
 
-mlflow/examples on  master took 3s
 ❯ python sklearn_elasticnet_wine/train.py 0.4 0.5
 Elasticnet model (alpha=0.400000, l1_ratio=0.500000):
   RMSE: 0.8110372935550909
@@ -60,5 +58,4 @@ My dashboard now looks like the following:
 
 ## Running in production
 
-
-
+Running the Tracking Server and UI in production means having
