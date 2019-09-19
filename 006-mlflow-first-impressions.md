@@ -64,6 +64,47 @@ https://github.com/mlflow/mlflow/issues/40
 Running the Tracking Server and UI in production means having
 
 
+### Dependencies
+
+Python 3
+pip3
+boto3
+nginx
+nginx htpasswd module
+aws s3 bucket and credentials
+mlflow
+
+After provisioning a server login in and ensure the dependencies are installed
+
+```
+sudo yum update
+
+sudo yum install nginx 
+# on aws this is: sudo amazon-linux-extras install nginx1.12
+sudo service nginx start
+
+sudo vim /etc/nginx/nginx.conf
+```
+
+in location add:
+
+```
+        location / {
+	        proxy_pass http://localhost:5000/;
+                auth_basic "Restricted Content";
+                auth_basic_user_file /etc/nginx/.htpasswd;
+        }
+```
+
+```
+sudo service nginx reload
+
+sudo yum install httpd-tools
+sudo htpasswd -c /etc/nginx/.htpasswd mlflowuser
+nohup mlflow server --default-artifact-root s3://bucket-for-mlflow/ --host 0.0.0.0 &
+
+```
+
 ## TK: Integrations
 
 Seldon:
