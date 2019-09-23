@@ -111,6 +111,16 @@ Here's a Dockerfile with the above configuration.
 ...
 ```
 
+
+## Production setup
+
+[nginx reverse proxy] <--> [ Docker [flask app] -- Backedup Volume]
+
+## Using it for work
+
+![](https://res.cloudinary.com/practicaldev/image/fetch/s--dc_gXynR--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://ishankhare.com/media/images/nginx-reverse-proxy.png)
+
+
 https://stackoverflow.com/questions/57078147/how-should-i-mount-docker-volumes-in-mlflow-project
 https://medium.com/ixorthink/our-machine-learning-workflow-dvc-mlflow-and-training-in-docker-containers-5b9c80cdf804
 https://towardsdatascience.com/containerize-your-whole-data-science-environment-or-anything-you-want-with-docker-compose-e962b8ce8ce5
