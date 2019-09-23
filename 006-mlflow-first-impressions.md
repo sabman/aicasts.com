@@ -105,6 +105,17 @@ nohup mlflow server --default-artifact-root s3://bucket-for-mlflow/ --host 0.0.0
 
 ```
 
+Here's a Dockerfile with the above configuration.
+
+```Dockerfile
+...
+```
+
+https://stackoverflow.com/questions/57078147/how-should-i-mount-docker-volumes-in-mlflow-project
+https://medium.com/ixorthink/our-machine-learning-workflow-dvc-mlflow-and-training-in-docker-containers-5b9c80cdf804
+https://towardsdatascience.com/containerize-your-whole-data-science-environment-or-anything-you-want-with-docker-compose-e962b8ce8ce5
+
+
 ## TK: Integrations
 
 Seldon:
