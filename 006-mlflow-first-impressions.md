@@ -120,6 +120,7 @@ Here's a Dockerfile with the above configuration.
 
 ![](https://res.cloudinary.com/practicaldev/image/fetch/s--dc_gXynR--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://ishankhare.com/media/images/nginx-reverse-proxy.png)
 
+ref: https://dev.to/ishankhare07/nginx-as-reverse-proxy-for-a-flask-app-using-docker-3ajg
 
 https://stackoverflow.com/questions/57078147/how-should-i-mount-docker-volumes-in-mlflow-project
 https://medium.com/ixorthink/our-machine-learning-workflow-dvc-mlflow-and-training-in-docker-containers-5b9c80cdf804
