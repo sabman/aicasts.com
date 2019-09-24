@@ -1,3 +1,16 @@
+- [MLflow first impressions](#mlflow-first-impressions)
+  - [Installation](#installation)
+  - [TK: Running in production](#tk-running-in-production)
+    - [Dependencies](#dependencies)
+  - [Production setup](#production-setup)
+    - [Docker container for MLflow](#docker-container-for-mlflow)
+    - [Docker container for Database](#docker-container-for-database)
+    - [Docker container for NGINX](#docker-container-for-nginx)
+    - [Stiching it together with Docker Compose](#stiching-it-together-with-docker-compose)
+  - [Using it for work](#using-it-for-work)
+  - [Criticism](#criticism)
+  - [TK: Integrations](#tk-integrations)
+
 # MLflow first impressions
 
 Overall goal:
@@ -52,7 +65,7 @@ Elasticnet model (alpha=0.400000, l1_ratio=0.500000):
 
 > This example uses the familiar pandas, numpy, and sklearn APIs to create a simple machine learning model. The MLflow tracking APIs log information about each training run, like the hyperparameters alpha and l1_ratio, used to train the model and metrics, like the root mean square error, used to evaluate the model. The example also serializes the model in a format that MLflow knows how to deploy.
 
-My dashboard now looks like the following: 
+My dashboard now looks like the following:
 
 ![](https://www.evernote.com/l/Ah4jvauaDn1KG5ymXgFJqziFbJWuahZEUC0B/image.png)
 
@@ -62,7 +75,6 @@ TK: MLFlow diagram https://drive.google.com/file/d/1eA33IE-XGAiLe8F2cvBbNCFa8CLv
 
 https://github.com/mlflow/mlflow/issues/40
 Running the Tracking Server and UI in production means having
-
 
 ### Dependencies
 
@@ -79,7 +91,7 @@ After provisioning a server login in and ensure the dependencies are installed
 ```
 sudo yum update
 
-sudo yum install nginx 
+sudo yum install nginx
 # on aws this is: sudo amazon-linux-extras install nginx1.12
 sudo service nginx start
 
@@ -111,10 +123,22 @@ Here's a Dockerfile with the above configuration.
 ...
 ```
 
-
 ## Production setup
 
-[nginx reverse proxy] <--> [ Docker [flask app] -- Backedup Volume]
+```
+[nginx reverse proxy] <--> [ Docker [flask app] <--> Backedup Volume]
+```
+
+### Docker container for MLflow
+
+- configure S3 location
+- configure database connection
+
+### Docker container for Database
+
+### Docker container for NGINX
+
+### Stiching it together with Docker Compose
 
 ## Using it for work
 
@@ -126,14 +150,17 @@ https://stackoverflow.com/questions/57078147/how-should-i-mount-docker-volumes-i
 https://medium.com/ixorthink/our-machine-learning-workflow-dvc-mlflow-and-training-in-docker-containers-5b9c80cdf804
 https://towardsdatascience.com/containerize-your-whole-data-science-environment-or-anything-you-want-with-docker-compose-e962b8ce8ce5
 
-Criticism
+## Criticism
+
 https://news.ycombinator.com/item?id=18507006
 
 ## TK: Integrations
 
 Seldon:
-* https://www.seldon.io/open-source/
-* https://github.com/SeldonIO/seldon-core/blob/9052cf10d97574babc1459b63917a6b13ec3b7b1/examples/models/mlflow_model/mlflow.ipynb
+
+- https://www.seldon.io/open-source/
+- https://github.com/SeldonIO/seldon-core/blob/9052cf10d97574babc1459b63917a6b13ec3b7b1/examples/models/mlflow_model/mlflow.ipynb
 
 Neptune.ml:
-* https://towardsdatascience.com/collaborate-on-mlflow-experiments-in-neptune-fb4f8f84a995
+
+- https://towardsdatascience.com/collaborate-on-mlflow-experiments-in-neptune-fb4f8f84a995
