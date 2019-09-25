@@ -137,7 +137,16 @@ Here's a Dockerfile with the above configuration.
 Here is a good example of a Dockerise MLFlow
 https://github.com/launchpadrecruits/dockerfiles/tree/master/mlflow
 
+
 ### Docker container for Database
+
+```sh
+create database mlflow;
+create user mlflow with encrypted password 'mlflow';
+grant all privileges on database mlflow to mlflow;
+```
+
+https://thegurus.tech/posts/2019/06/mlflow-production-setup/
 
 ### Docker container for NGINX
 
