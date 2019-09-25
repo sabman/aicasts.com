@@ -137,12 +137,16 @@ Here's a Dockerfile with the above configuration.
 Here is a good example of a Dockerise MLFlow
 https://github.com/launchpadrecruits/dockerfiles/tree/master/mlflow
 
+TODO: modify the docker image
+
+- [ ] to take run time args with DB URL and S3 Bucket
+
 
 ### Docker container for Database
 
 ```sh
 create database mlflow;
-create user mlflow with encrypted password 'mlflow';
+create user mlflow with encrypted password 'supersecretpassword';
 grant all privileges on database mlflow to mlflow;
 ```
 
