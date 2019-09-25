@@ -134,6 +134,9 @@ Here's a Dockerfile with the above configuration.
 - configure S3 location
 - configure database connection
 
+Here is a good example of a Dockerise MLFlow
+https://github.com/launchpadrecruits/dockerfiles/tree/master/mlflow
+
 ### Docker container for Database
 
 ### Docker container for NGINX
