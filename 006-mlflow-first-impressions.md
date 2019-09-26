@@ -188,6 +188,7 @@ create user mlflow with encrypted password 'supersecretpassword';
 grant all privileges on database mlflow to mlflow;
 ```
 
+
 ### Building the image
 
 ```sh
@@ -198,6 +199,28 @@ docker build \
   --build-arg BACKEND_URI=${BACKEND_URI} \
   --build-arg BUCKET=${BUCKET} \
   -t="$(DOCKER_USER)/$(DOCKER_REPO_NAME)" .
+```
+
+TODO: 
+- [ ] setup the mlflow database schema
+- [ ] run the container
+
+```sh
+docker run -d --name="lon-dev-mlflow"
+    -e BACKEND_URI=${BACKEND_URI} \
+    -v `pwd`/logs/lon-dev-mlflow/log:/var/log \
+    -v /Users/shoaib/code/mlflow/docker/dockerfiles/mlflow/mlruns:/mlflow \
+    -p 5000:5000 sabman/mlflow
+# fails with no db schema
+
+docker run -d --name="lon-dev-mlflow" \
+    -e BACKEND_URI=${BACKEND_URI} \
+    -v `pwd`/logs/lon-dev-mlflow/log:/var/log \
+    -v /Users/shoaib/code/mlflow/docker/dockerfiles/mlflow/mlruns:/mlflow \
+    -p 5000:5000 sabman/mlflow mlflow db upgrade ${BACKEND_URI}
+# fails with 
+# sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedObject) constraint "lifecycle_stage" of relation "experiments" does not exist
+# [SQL: ALTER TABLE experiments DROP CONSTRAINT lifecycle_stage]
 ```
 
 https://thegurus.tech/posts/2019/06/mlflow-production-setup/
