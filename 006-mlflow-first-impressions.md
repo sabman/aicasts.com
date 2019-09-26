@@ -5,6 +5,7 @@
   - [Production setup](#production-setup)
     - [Docker container for MLflow](#docker-container-for-mlflow)
     - [Docker container for Database](#docker-container-for-database)
+    - [Building the image](#building-the-image)
     - [Docker container for NGINX](#docker-container-for-nginx)
     - [Stiching it together with Docker Compose](#stiching-it-together-with-docker-compose)
   - [Using it for work](#using-it-for-work)
@@ -137,9 +138,6 @@ Here's a Dockerfile with the above configuration.
 Here is a good example of a Dockerise MLFlow
 https://github.com/launchpadrecruits/dockerfiles/tree/master/mlflow
 
-TODO: modify the docker image
-
-- [ ] to take run time args with DB_URL and S3_BUCKET
 
 Example docker file
 
@@ -181,12 +179,25 @@ CMD mlflow server \
 ```
 
 
+
 ### Docker container for Database
 
 ```sh
 create database mlflow;
 create user mlflow with encrypted password 'supersecretpassword';
 grant all privileges on database mlflow to mlflow;
+```
+
+### Building the image
+
+```sh
+# Source the .env with BACKEND_URI, BUCKET, DOCKER_USER, DOCKER_REPO_NAME
+source <(grep -v '^#' .env | sed -E 's|^(.+)=(.*)$|: ${\1=\2}; export \1|g')
+
+docker build \
+  --build-arg BACKEND_URI=${BACKEND_URI} \
+  --build-arg BUCKET=${BUCKET} \
+  -t="$(DOCKER_USER)/$(DOCKER_REPO_NAME)" .
 ```
 
 https://thegurus.tech/posts/2019/06/mlflow-production-setup/
