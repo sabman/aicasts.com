@@ -152,9 +152,11 @@ ARG BACKEND_URI=db_type://<user_name>:<password>@<host>:<port>/<database_name>
 ENV BACKEND_URI ${BACKEND_URI}
 
 ENV TERM linux
-ENV BUCKET bucket
 
-RUN pip install mlflow==$MLFLOW_VERSION
+ARG BUCKET=s3://bucket-for-mlflow
+ENV BUCKET ${BUCKET}
+
+RUN pip install mlflow==${MLFLOW_VERSION}
 
 RUN mkdir -p /mlflow/
 
