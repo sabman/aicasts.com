@@ -4,6 +4,7 @@
     - [Dependencies](#dependencies)
   - [Production setup](#production-setup)
     - [Docker container for MLflow](#docker-container-for-mlflow)
+      - [using sqlite database](#using-sqlite-database)
 - [Source the .env with BACKEND_URI, BUCKET, DOCKER_USER, DOCKER_REPO_NAME](#source-the-env-with-backenduri-bucket-dockeruser-dockerreponame)
 - [fails with no db schema](#fails-with-no-db-schema)
 - [fails with](#fails-with)
@@ -181,23 +182,136 @@ CMD mlflow server \
 #     --host 0.0.0.0 --gunicorn-opts "--access-logfile -"
 ```
 
+#### using sqlite database
+
+```
+sqlite3 mlflow.db "create table aTable(field1 int); drop table aTable;"
+
+mlflow server \
+  --backend-store-uri sqlite:///mlflow.db \
+  --default-artifact-root s3://${BUCKET}/mlflow-artifacts \
+  --host 0.0.0.0
+```
+
 
 If we look at the database it will look something like the following:
 
+
+```
+sqlite> .databases
+main: /mlflow/mlflow.db
+sqlite> .schema
+```
+
+```sql
+CREATE TABLE experiments (
+	experiment_id INTEGER NOT NULL,
+	name VARCHAR(256) NOT NULL,
+	artifact_location VARCHAR(256),
+	lifecycle_stage VARCHAR(32),
+	CONSTRAINT experiment_pk PRIMARY KEY (experiment_id),
+	CONSTRAINT experiments_lifecycle_stage CHECK (lifecycle_stage IN ('active', 'deleted')),
+	UNIQUE (name)
+);
+CREATE TABLE runs (
+	run_uuid VARCHAR(32) NOT NULL,
+	name VARCHAR(250),
+	source_type VARCHAR(20),
+	source_name VARCHAR(500),
+	entry_point_name VARCHAR(50),
+	user_id VARCHAR(256),
+	status VARCHAR(20),
+	start_time BIGINT,
+	end_time BIGINT,
+	source_version VARCHAR(50),
+	lifecycle_stage VARCHAR(20),
+	artifact_uri VARCHAR(200),
+	experiment_id INTEGER,
+	CONSTRAINT run_pk PRIMARY KEY (run_uuid),
+	CONSTRAINT source_type CHECK (source_type IN ('NOTEBOOK', 'JOB', 'LOCAL', 'UNKNOWN', 'PROJECT')),
+	CONSTRAINT status CHECK (status IN ('SCHEDULED', 'FAILED', 'FINISHED', 'RUNNING')),
+	CONSTRAINT runs_lifecycle_stage CHECK (lifecycle_stage IN ('active', 'deleted')),
+	FOREIGN KEY(experiment_id) REFERENCES experiments (experiment_id)
+);
+CREATE TABLE params (
+	"key" VARCHAR(250) NOT NULL,
+	value VARCHAR(250) NOT NULL,
+	run_uuid VARCHAR(32) NOT NULL,
+	CONSTRAINT param_pk PRIMARY KEY ("key", run_uuid),
+	FOREIGN KEY(run_uuid) REFERENCES runs (run_uuid)
+);
+CREATE TABLE alembic_version (
+	version_num VARCHAR(32) NOT NULL,
+	CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num)
+);
+CREATE TABLE IF NOT EXISTS "metrics" (
+	"key" VARCHAR(250) NOT NULL,
+	value FLOAT NOT NULL,
+	timestamp BIGINT NOT NULL,
+	run_uuid VARCHAR(32) NOT NULL,
+	step BIGINT DEFAULT '0' NOT NULL,
+	is_nan BOOLEAN DEFAULT '0' NOT NULL,
+	CONSTRAINT metric_pk PRIMARY KEY ("key", timestamp, step, run_uuid, value, is_nan),
+	FOREIGN KEY(run_uuid) REFERENCES runs (run_uuid)
+);
+CREATE TABLE experiment_tags (
+	"key" VARCHAR(250) NOT NULL,
+	value VARCHAR(5000),
+	experiment_id INTEGER NOT NULL,
+	CONSTRAINT experiment_tag_pk PRIMARY KEY ("key", experiment_id),
+	FOREIGN KEY(experiment_id) REFERENCES experiments (experiment_id)
+);
+CREATE TABLE IF NOT EXISTS "tags" (
+	"key" VARCHAR(250) NOT NULL,
+	value VARCHAR(5000),
+	run_uuid VARCHAR(32) NOT NULL,
+	CONSTRAINT tag_pk PRIMARY KEY ("key", run_uuid),
+	FOREIGN KEY(run_uuid) REFERENCES runs (run_uuid)
+);
+```
+
+```sh
+root@c67be17b3e16:/mlflow# mlflow server \
+  --backend-store-uri ${BACKEND_URI} \
+  --default-artifact-root s3://${BUCKET}/mlflow-artifacts \
+  --host 0.0.0.0
+
+2019/09/27 22:49:02 INFO mlflow.store.sqlalchemy_store: Creating initial MLflow database tables...
+2019/09/27 22:49:10 INFO mlflow.store.db.utils: Updating database tables at postgresql://mlflow:xxxx@xxxx.rds.amazonaws.com:5432/mlflow
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 451aebb31d03, add metric step
+INFO  [alembic.runtime.migration] Running upgrade 451aebb31d03 -> 90e64c465722, migrate user column to tags
+INFO  [alembic.runtime.migration] Running upgrade 90e64c465722 -> 181f10493468, allow nulls for metric values
+INFO  [alembic.runtime.migration] Running upgrade 181f10493468 -> df50e92ffc5e, Add Experiment Tags Table
+INFO  [alembic.runtime.migration] Running upgrade df50e92ffc5e -> 7ac759974ad8, Update run tags with larger limit
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+[2019-09-27 22:49:29 +0000] [332] [INFO] Starting gunicorn 19.9.0
+[2019-09-27 22:49:29 +0000] [332] [INFO] Listening at: http://0.0.0.0:5000 (332)
+[2019-09-27 22:49:29 +0000] [332] [INFO] Using worker: sync
+[2019-09-27 22:49:29 +0000] [335] [INFO] Booting worker with pid: 335
+[2019-09-27 22:49:29 +0000] [336] [INFO] Booting worker with pid: 336
+[2019-09-27 22:49:29 +0000] [337] [INFO] Booting worker with pid: 337
+[2019-09-27 22:49:29 +0000] [338] [INFO] Booting worker with pid: 338
+```
 
 ```
 ❯ psql -U mlflow -h xxx.rds.amazonaws.com mlflow -W
 Password:
 
 mlflow=> \dt
-           List of relations
- Schema |    Name     | Type  | Owner
---------+-------------+-------+--------
- public | experiments | table | mlflow
- public | metrics     | table | mlflow
- public | params      | table | mlflow
- public | runs        | table | mlflow
- public | tags        | table | mlflow
+             List of relations
+ Schema |      Name       | Type  | Owner
+--------+-----------------+-------+--------
+ public | alembic_version | table | mlflow
+ public | experiment_tags | table | mlflow
+ public | experiments     | table | mlflow
+ public | metrics         | table | mlflow
+ public | params          | table | mlflow
+ public | runs            | table | mlflow
+ public | tags            | table | mlflow
+(7 rows)
  ```
 
 
