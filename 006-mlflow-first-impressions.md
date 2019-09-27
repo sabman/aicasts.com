@@ -4,8 +4,11 @@
     - [Dependencies](#dependencies)
   - [Production setup](#production-setup)
     - [Docker container for MLflow](#docker-container-for-mlflow)
-    - [Docker container for Database](#docker-container-for-database)
-    - [Building the image](#building-the-image)
+- [Source the .env with BACKEND_URI, BUCKET, DOCKER_USER, DOCKER_REPO_NAME](#source-the-env-with-backenduri-bucket-dockeruser-dockerreponame)
+- [fails with no db schema](#fails-with-no-db-schema)
+- [fails with](#fails-with)
+- [sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedObject) constraint "lifecycle_stage" of relation "experiments" does not exist](#sqlalchemyexcprogrammingerror-psycopg2errorsundefinedobject-constraint-%22lifecyclestage%22-of-relation-%22experiments%22-does-not-exist)
+- [[SQL: ALTER TABLE experiments DROP CONSTRAINT lifecycle_stage]](#sql-alter-table-experiments-drop-constraint-lifecyclestage)
     - [Docker container for NGINX](#docker-container-for-nginx)
     - [Stiching it together with Docker Compose](#stiching-it-together-with-docker-compose)
   - [Using it for work](#using-it-for-work)
@@ -179,6 +182,24 @@ CMD mlflow server \
 ```
 
 
+If we look at the database it will look something like the following:
+
+
+```
+❯ psql -U mlflow -h xxx.rds.amazonaws.com mlflow -W
+Password:
+
+mlflow=> \dt
+           List of relations
+ Schema |    Name     | Type  | Owner
+--------+-------------+-------+--------
+ public | experiments | table | mlflow
+ public | metrics     | table | mlflow
+ public | params      | table | mlflow
+ public | runs        | table | mlflow
+ public | tags        | table | mlflow
+ ```
+
 
 ### Docker container for Database
 
@@ -224,6 +245,8 @@ docker run -d --name="lon-dev-mlflow" \
 ```
 
 https://thegurus.tech/posts/2019/06/mlflow-production-setup/
+
+
 
 ### Docker container for NGINX
 
