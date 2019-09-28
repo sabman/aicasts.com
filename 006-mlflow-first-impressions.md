@@ -5,11 +5,6 @@
   - [Production setup](#production-setup)
     - [Docker container for MLflow](#docker-container-for-mlflow)
       - [using sqlite database](#using-sqlite-database)
-- [Source the .env with BACKEND_URI, BUCKET, DOCKER_USER, DOCKER_REPO_NAME](#source-the-env-with-backenduri-bucket-dockeruser-dockerreponame)
-- [fails with no db schema](#fails-with-no-db-schema)
-- [fails with](#fails-with)
-- [sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedObject) constraint "lifecycle_stage" of relation "experiments" does not exist](#sqlalchemyexcprogrammingerror-psycopg2errorsundefinedobject-constraint-%22lifecyclestage%22-of-relation-%22experiments%22-does-not-exist)
-- [[SQL: ALTER TABLE experiments DROP CONSTRAINT lifecycle_stage]](#sql-alter-table-experiments-drop-constraint-lifecyclestage)
     - [Docker container for NGINX](#docker-container-for-nginx)
     - [Stiching it together with Docker Compose](#stiching-it-together-with-docker-compose)
   - [Using it for work](#using-it-for-work)
@@ -124,9 +119,6 @@ nohup mlflow server --default-artifact-root s3://bucket-for-mlflow/ --host 0.0.0
 
 Here's a Dockerfile with the above configuration.
 
-```Dockerfile
-...
-```
 
 ## Production setup
 
@@ -326,8 +318,9 @@ grant all privileges on database mlflow to mlflow;
 
 ### Building the image
 
+Source the .env with BACKEND_URI, BUCKET, DOCKER_USER, DOCKER_REPO_NAME
+
 ```sh
-# Source the .env with BACKEND_URI, BUCKET, DOCKER_USER, DOCKER_REPO_NAME
 source <(grep -v '^#' .env | sed -E 's|^(.+)=(.*)$|: ${\1=\2}; export \1|g')
 
 docker build \
@@ -337,6 +330,7 @@ docker build \
 ```
 
 TODO: 
+
 - [ ] setup the mlflow database schema
 - [ ] run the container
 
@@ -346,16 +340,26 @@ docker run -d --name="lon-dev-mlflow"
     -v `pwd`/logs/lon-dev-mlflow/log:/var/log \
     -v /Users/shoaib/code/mlflow/docker/dockerfiles/mlflow/mlruns:/mlflow \
     -p 5000:5000 sabman/mlflow
-# fails with no db schema
+```
 
+> "fails with no db schema"
+
+```sh
 docker run -d --name="lon-dev-mlflow" \
     -e BACKEND_URI=${BACKEND_URI} \
     -v `pwd`/logs/lon-dev-mlflow/log:/var/log \
     -v /Users/shoaib/code/mlflow/docker/dockerfiles/mlflow/mlruns:/mlflow \
     -p 5000:5000 sabman/mlflow mlflow db upgrade ${BACKEND_URI}
-# fails with 
-# sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedObject) constraint "lifecycle_stage" of relation "experiments" does not exist
-# [SQL: ALTER TABLE experiments DROP CONSTRAINT lifecycle_stage]
+```
+output:
+
+```
+
+fails with 
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedObject) constraint "lifecycle_stage" of relation "experiments" does not exist
+
+[SQL: ALTER TABLE experiments DROP CONSTRAINT lifecycle_stage]
+
 ```
 
 https://thegurus.tech/posts/2019/06/mlflow-production-setup/
