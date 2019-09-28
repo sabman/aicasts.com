@@ -367,7 +367,7 @@ sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedObject) constraint "l
 
 ### TK: Adding Authentication 
 
-TK: Add the following to the Dockerfilw
+TK: Add the following to the Dockerfile
 
 - MLFLOW_TRACKING_USERNAME and MLFLOW_TRACKING_PASSWORD - username and password to use with HTTP Basic authentication. To use Basic authentication, you must set both environment variables .
 - MLFLOW_TRACKING_TOKEN - token to use with HTTP Bearer authentication. Basic authentication takes precedence if set.
