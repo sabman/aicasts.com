@@ -5,6 +5,7 @@
   - [Production setup](#production-setup)
     - [Docker container for MLflow](#docker-container-for-mlflow)
       - [using sqlite database](#using-sqlite-database)
+    - [TK: Adding Authentication](#tk-adding-authentication)
     - [Docker container for NGINX](#docker-container-for-nginx)
     - [Stiching it together with Docker Compose](#stiching-it-together-with-docker-compose)
   - [Using it for work](#using-it-for-work)
@@ -18,6 +19,7 @@ Overall goal:
 1. train model
 2. package model
 3. deploy model
+4. production use case
 
 ## Installation
 
@@ -136,6 +138,7 @@ https://github.com/launchpadrecruits/dockerfiles/tree/master/mlflow
 
 
 Example docker file
+
 
 ```dockerfile
 FROM python:3.6
@@ -361,6 +364,16 @@ sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedObject) constraint "l
 [SQL: ALTER TABLE experiments DROP CONSTRAINT lifecycle_stage]
 
 ```
+
+### TK: Adding Authentication 
+
+TK: Add the following to the Dockerfilw
+
+- MLFLOW_TRACKING_USERNAME and MLFLOW_TRACKING_PASSWORD - username and password to use with HTTP Basic authentication. To use Basic authentication, you must set both environment variables .
+- MLFLOW_TRACKING_TOKEN - token to use with HTTP Bearer authentication. Basic authentication takes precedence if set.
+- MLFLOW_TRACKING_INSECURE_TLS - if set to the literal true, MLflow does not verify the TLS connection, meaning it does not validate certificates or hostnames for https:// tracking URIs. This flag is not recommended for production environments.
+
+https://www.mlflow.org/docs/latest/tracking.html#tracking-auth
 
 https://thegurus.tech/posts/2019/06/mlflow-production-setup/
 
