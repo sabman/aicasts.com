@@ -1,16 +1,16 @@
 - [MLflow first impressions](#mlflow-first-impressions)
-  - [Installation](#installation)
-  - [TK: Running in production](#tk-running-in-production)
-    - [Dependencies](#dependencies)
-  - [Production setup](#production-setup)
-    - [Docker container for MLflow](#docker-container-for-mlflow)
-      - [using sqlite database](#using-sqlite-database)
-    - [TK: Adding Authentication](#tk-adding-authentication)
-    - [Docker container for NGINX](#docker-container-for-nginx)
-    - [Stitching it together with Docker Compose](#stitching-it-together-with-docker-compose)
-  - [Using it for work](#using-it-for-work)
-  - [Criticism](#criticism)
-  - [TK: Integrations](#tk-integrations)
+	- [Installation](#installation)
+	- [TK: Running in production](#tk-running-in-production)
+		- [Dependencies](#dependencies)
+	- [Production setup](#production-setup)
+		- [Docker container for MLflow](#docker-container-for-mlflow)
+			- [using sqlite database](#using-sqlite-database)
+		- [TK: Adding Authentication](#tk-adding-authentication)
+		- [Docker container for NGINX](#docker-container-for-nginx)
+		- [Stitching it together with Docker Compose](#stitching-it-together-with-docker-compose)
+	- [Using it for work](#using-it-for-work)
+	- [Criticism](#criticism)
+	- [TK: Integrations](#tk-integrations)
 
 # MLflow first impressions
 
@@ -334,10 +334,6 @@ docker build \
   -t="$(DOCKER_USER)/$(DOCKER_REPO_NAME)" .
 ```
 
-TODO: 
-
-- [ ] setup the mlflow database schema
-- [ ] run the container
 
 ```sh
 docker run -d --name="lon-dev-mlflow"
@@ -369,7 +365,7 @@ sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedObject) constraint "l
 
 ### TK: Adding Authentication 
 
-TK: Add the following to the Dockerfile
+TK: Add the following to the Dockerfile TODO: Add the following ARGS to Dockerfile
 
 - MLFLOW_TRACKING_USERNAME and MLFLOW_TRACKING_PASSWORD - username and password to use with HTTP Basic authentication. To use Basic authentication, you must set both environment variables .
 - MLFLOW_TRACKING_TOKEN - token to use with HTTP Bearer authentication. Basic authentication takes precedence if set.
