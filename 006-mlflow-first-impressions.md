@@ -7,7 +7,7 @@
       - [using sqlite database](#using-sqlite-database)
     - [TK: Adding Authentication](#tk-adding-authentication)
     - [Docker container for NGINX](#docker-container-for-nginx)
-    - [Stiching it together with Docker Compose](#stiching-it-together-with-docker-compose)
+    - [Stitching it together with Docker Compose](#stitching-it-together-with-docker-compose)
   - [Using it for work](#using-it-for-work)
   - [Criticism](#criticism)
   - [TK: Integrations](#tk-integrations)
@@ -190,6 +190,8 @@ mlflow server \
 
 
 If we look at the database it will look something like the following:
+
+![](006-mlflow-first-impressions/mlflow.png)
 
 
 ```
@@ -381,7 +383,7 @@ https://thegurus.tech/posts/2019/06/mlflow-production-setup/
 
 ### Docker container for NGINX
 
-### Stiching it together with Docker Compose
+### Stitching it together with Docker Compose
 
 ## Using it for work
 
