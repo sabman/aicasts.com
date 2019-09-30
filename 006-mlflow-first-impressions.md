@@ -5,6 +5,8 @@
 	- [Production setup](#production-setup)
 		- [Docker container for MLflow](#docker-container-for-mlflow)
 			- [using sqlite database](#using-sqlite-database)
+		- [Docker container for Database](#docker-container-for-database)
+		- [Building the image](#building-the-image)
 		- [TK: Adding Authentication](#tk-adding-authentication)
 		- [Docker container for NGINX](#docker-container-for-nginx)
 		- [Stitching it together with Docker Compose](#stitching-it-together-with-docker-compose)
@@ -121,7 +123,6 @@ nohup mlflow server --default-artifact-root s3://bucket-for-mlflow/ --host 0.0.0
 
 Here's a Dockerfile with the above configuration.
 
-
 ## Production setup
 
 ```
@@ -136,9 +137,7 @@ Here's a Dockerfile with the above configuration.
 Here is a good example of a Dockerise MLFlow
 https://github.com/launchpadrecruits/dockerfiles/tree/master/mlflow
 
-
 Example docker file
-
 
 ```dockerfile
 FROM python:3.6
@@ -165,6 +164,12 @@ RUN pip install -r extra-requirements.txt
 
 EXPOSE 5000
 
+ARG MLFLOW_TRACKING_USERNAME mlflow
+ENV MLFLOW_TRACKING_USERNAME=${MLFLOW_TRACKING_USERNAME}
+
+# MLFLOW_TRACKING_TOKEN
+# MLFLOW_TRACKING_INSECURE_TLS
+
 CMD mlflow server \
   --backend-store-uri ${BACKEND_URI} \
   --default-artifact-root s3://${BUCKET}/mlflow-artifacts \
@@ -188,11 +193,9 @@ mlflow server \
   --host 0.0.0.0
 ```
 
-
 If we look at the database it will look something like the following:
 
 ![](006-mlflow-first-impressions/mlflow.png)
-
 
 ```
 sqlite> .databases
@@ -309,8 +312,7 @@ mlflow=> \dt
  public | runs            | table | mlflow
  public | tags            | table | mlflow
 (7 rows)
- ```
-
+```
 
 ### Docker container for Database
 
@@ -319,7 +321,6 @@ create database mlflow;
 create user mlflow with encrypted password 'supersecretpassword';
 grant all privileges on database mlflow to mlflow;
 ```
-
 
 ### Building the image
 
@@ -333,7 +334,6 @@ docker build \
   --build-arg BUCKET=${BUCKET} \
   -t="$(DOCKER_USER)/$(DOCKER_REPO_NAME)" .
 ```
-
 
 ```sh
 docker run -d --name="lon-dev-mlflow"
@@ -352,20 +352,23 @@ docker run -d --name="lon-dev-mlflow" \
     -v /Users/shoaib/code/mlflow/docker/dockerfiles/mlflow/mlruns:/mlflow \
     -p 5000:5000 sabman/mlflow mlflow db upgrade ${BACKEND_URI}
 ```
+
 output:
 
 ```
 
-fails with 
+fails with
 sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedObject) constraint "lifecycle_stage" of relation "experiments" does not exist
 
 [SQL: ALTER TABLE experiments DROP CONSTRAINT lifecycle_stage]
 
 ```
 
-### TK: Adding Authentication 
+### TK: Adding Authentication
 
-TK: Add the following to the Dockerfile TODO: Add the following ARGS to Dockerfile
+TK: Add the following to the Dockerfile
+
+<!-- TODO: Add the following ARGS to Dockerfile -->
 
 - MLFLOW_TRACKING_USERNAME and MLFLOW_TRACKING_PASSWORD - username and password to use with HTTP Basic authentication. To use Basic authentication, you must set both environment variables .
 - MLFLOW_TRACKING_TOKEN - token to use with HTTP Bearer authentication. Basic authentication takes precedence if set.
@@ -374,8 +377,6 @@ TK: Add the following to the Dockerfile TODO: Add the following ARGS to Dockerfi
 https://www.mlflow.org/docs/latest/tracking.html#tracking-auth
 
 https://thegurus.tech/posts/2019/06/mlflow-production-setup/
-
-
 
 ### Docker container for NGINX
 
