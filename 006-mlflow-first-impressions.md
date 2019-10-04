@@ -1,6 +1,6 @@
 - [MLflow first impressions](#mlflow-first-impressions)
 	- [Installation](#installation)
-	- [TK: Running in production](#tk-running-in-production)
+	- [Running in production](#running-in-production)
 		- [Dependencies](#dependencies)
 		- [Docker container for MLflow](#docker-container-for-mlflow)
 		- [Sqlite database](#sqlite-database)
@@ -43,11 +43,11 @@ open http://127.0.0.1:5000
 
 ![](https://www.evernote.com/l/Ah6gYD4HHfBMh5ZDwazSpy5IRjlDImjzY3UB/image.png)
 
-Now the MLFlow UI is tracking data about our Machine Learning experiments, this is great. Before MLFlow a data scientest has to come up with some internal convention for keeping track of their experiments. In a typical Machine Learning workflow.
+Now the MLFlow UI is tracking data about our Machine Learning experiments, this is great. Before MLFlow a data scientist has to come up with some internal convention for keeping track of their experiments. In a typical Machine Learning workflow.
 
 I can now try running with some other hyperparameters.
 
-```
+```python
 ❯ python sklearn_elasticnet_wine/train.py 0.2 0.4
 Elasticnet model (alpha=0.200000, l1_ratio=0.400000):
   RMSE: 0.7900051428308212
@@ -73,9 +73,9 @@ My dashboard now looks like the following:
 
 ![](https://www.evernote.com/l/Ah4jvauaDn1KG5ymXgFJqziFbJWuahZEUC0B/image.png)
 
-TK: MLFlow diagram https://drive.google.com/file/d/1eA33IE-XGAiLe8F2cvBbNCFa8CLvQMqs/view?usp=sharing
+MLFlow diagram https://drive.google.com/file/d/1eA33IE-XGAiLe8F2cvBbNCFa8CLvQMqs/view?usp=sharing
 
-## TK: Running in production
+## Running in production
 
 https://github.com/mlflow/mlflow/issues/40
 Running the Tracking Server and UI in production means having
