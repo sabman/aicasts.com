@@ -2,17 +2,17 @@
 	- [Installation](#installation)
 	- [TK: Running in production](#tk-running-in-production)
 		- [Dependencies](#dependencies)
-	- [Production setup](#production-setup)
 		- [Docker container for MLflow](#docker-container-for-mlflow)
 			- [using sqlite database](#using-sqlite-database)
-		- [Docker container for Database](#docker-container-for-database)
+		- [Database initialization](#database-initialization)
 		- [Building the image](#building-the-image)
-		- [TK: Adding Authentication](#tk-adding-authentication)
-		- [Docker container for NGINX](#docker-container-for-nginx)
+		- [Adding Authentication](#adding-authentication)
+		- [Docker container for nginx](#docker-container-for-nginx)
 		- [Stitching it together with Docker Compose](#stitching-it-together-with-docker-compose)
 	- [Using it for work](#using-it-for-work)
 	- [Criticism](#criticism)
 	- [TK: Integrations](#tk-integrations)
+	- [TODO:](#todo)
 
 # MLflow first impressions
 
@@ -123,10 +123,9 @@ nohup mlflow server --default-artifact-root s3://bucket-for-mlflow/ --host 0.0.0
 
 Here's a Dockerfile with the above configuration.
 
-## Production setup
 
 ```
-[nginx reverse proxy] <--> [ Docker [flask app] <--> Backedup Volume]
+[nginx reverse proxy] <--> [ Docker [flask app] <--> Backed up Volume]
 ```
 
 ### Docker container for MLflow
@@ -317,7 +316,7 @@ mlflow=> \dt
 (7 rows)
 ```
 
-### Docker container for Database
+### Database initialization
 
 ```sh
 create database mlflow;
@@ -367,7 +366,7 @@ sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedObject) constraint "l
 
 ```
 
-### TK: Adding Authentication
+### Adding Authentication
 
 TK: Add the following to the Dockerfile
 
@@ -379,7 +378,7 @@ https://www.mlflow.org/docs/latest/tracking.html#tracking-auth
 
 https://thegurus.tech/posts/2019/06/mlflow-production-setup/
 
-### Docker container for NGINX
+### Docker container for nginx
 
 ### Stitching it together with Docker Compose
 
