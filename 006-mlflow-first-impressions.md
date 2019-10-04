@@ -3,8 +3,8 @@
 	- [TK: Running in production](#tk-running-in-production)
 		- [Dependencies](#dependencies)
 		- [Docker container for MLflow](#docker-container-for-mlflow)
-			- [using sqlite database](#using-sqlite-database)
-		- [Database initialization](#database-initialization)
+		- [Sqlite database](#sqlite-database)
+		- [PostgreSQL Database](#postgresql-database)
 		- [Building the image](#building-the-image)
 		- [Adding Authentication](#adding-authentication)
 		- [Docker container for nginx](#docker-container-for-nginx)
@@ -184,7 +184,7 @@ CMD mlflow server \
 #     --host 0.0.0.0 --gunicorn-opts "--access-logfile -"
 ```
 
-#### using sqlite database
+### Sqlite database
 
 ```
 sqlite3 mlflow.db "create table aTable(field1 int); drop table aTable;"
@@ -316,7 +316,9 @@ mlflow=> \dt
 (7 rows)
 ```
 
-### Database initialization
+### PostgreSQL Database 
+
+To initialize the database run the following in PostgreSQL:
 
 ```sh
 create database mlflow;
