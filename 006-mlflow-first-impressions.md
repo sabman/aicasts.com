@@ -3,7 +3,7 @@
 	- [Running in production](#running-in-production)
 		- [Dependencies](#dependencies)
 		- [Docker container for MLflow](#docker-container-for-mlflow)
-			- [Setting up automated](#setting-up-automated)
+			- [Setting up automated docker builds](#setting-up-automated-docker-builds)
 		- [Sqlite database](#sqlite-database)
 		- [PostgreSQL Database](#postgresql-database)
 		- [Building the image](#building-the-image)
@@ -185,7 +185,7 @@ CMD mlflow server \
 #     --host 0.0.0.0 --gunicorn-opts "--access-logfile -"
 ```
 
-#### Setting up automated
+#### Setting up automated docker builds
 
 It's possible to setup automated builds for our image:
 
