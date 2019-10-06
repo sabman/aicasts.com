@@ -191,6 +191,7 @@ It's possible to setup automated builds for our image:
 
 For Docker Hub based solution see: https://docs.docker.com/docker-hub/builds/#how-automated-builds-work
 
+For an AWS based solution see: CodeBuild https://dev.to/jamby1100/automate-docker-build-with-aws-codebuild-9om
 
 ### Sqlite database
 
