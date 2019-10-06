@@ -3,6 +3,7 @@
 	- [Running in production](#running-in-production)
 		- [Dependencies](#dependencies)
 		- [Docker container for MLflow](#docker-container-for-mlflow)
+			- [Setting up automated](#setting-up-automated)
 		- [Sqlite database](#sqlite-database)
 		- [PostgreSQL Database](#postgresql-database)
 		- [Building the image](#building-the-image)
@@ -183,6 +184,13 @@ CMD mlflow server \
 #     --default-artifact-root s3://${BUCKET}/mlflow-artifacts \
 #     --host 0.0.0.0 --gunicorn-opts "--access-logfile -"
 ```
+
+#### Setting up automated
+
+It's possible to setup automated builds for our image:
+
+For Docker Hub based solution see: https://docs.docker.com/docker-hub/builds/#how-automated-builds-work
+
 
 ### Sqlite database
 
