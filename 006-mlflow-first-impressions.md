@@ -206,7 +206,9 @@ mlflow server \
 
 If we look at the database it will look something like the following:
 
+
 ![](006-mlflow-first-impressions/mlflow.png)
+> made with https://pgmodeler.io
 
 ```
 sqlite> .databases
