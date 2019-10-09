@@ -404,6 +404,7 @@ ref: https://dev.to/ishankhare07/nginx-as-reverse-proxy-for-a-flask-app-using-do
 https://stackoverflow.com/questions/57078147/how-should-i-mount-docker-volumes-in-mlflow-project
 https://medium.com/ixorthink/our-machine-learning-workflow-dvc-mlflow-and-training-in-docker-containers-5b9c80cdf804
 https://towardsdatascience.com/containerize-your-whole-data-science-environment-or-anything-you-want-with-docker-compose-e962b8ce8ce5
+https://towardsdatascience.com/tracking-ml-experiments-using-mlflow-7910197091bb
 
 Using MLFlow for feature extraction:
 https://towardsdatascience.com/feature-factories-pt-2-an-introduction-to-mlflow-873be3c66b66
