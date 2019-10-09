@@ -406,6 +406,10 @@ https://medium.com/ixorthink/our-machine-learning-workflow-dvc-mlflow-and-traini
 https://towardsdatascience.com/containerize-your-whole-data-science-environment-or-anything-you-want-with-docker-compose-e962b8ce8ce5
 https://towardsdatascience.com/tracking-ml-experiments-using-mlflow-7910197091bb
 
+https://github.com/brettbevers/miner/blob/master/work/horovod_tutorial/03%20MLflow%20Lab.ipynb
+
+DS Project Setup https://github.com/datanooblol/ds_tool_box
+
 Using MLFlow for feature extraction:
 https://towardsdatascience.com/feature-factories-pt-2-an-introduction-to-mlflow-873be3c66b66
 
