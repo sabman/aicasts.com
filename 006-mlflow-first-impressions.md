@@ -413,6 +413,8 @@ DS Project Setup https://github.com/datanooblol/ds_tool_box
 Using MLFlow for feature extraction:
 https://towardsdatascience.com/feature-factories-pt-2-an-introduction-to-mlflow-873be3c66b66
 
+Reinforcement learning project https://github.com/xebia-france/xebikart-car
+
 ## Criticism
 
 https://news.ycombinator.com/item?id=18507006
