@@ -19,6 +19,9 @@
 
 MLFlow fits in the bigger picture of managing AI/ML products. The lifecycle of developing ML products includes the experimentation and training phase. As data sources and ML models have gotten more complex the ability to manage these experiments have become unyieldy. 
 
+A typical AI flow looks as follows: (image source: https://cloud.google.com/ml-engine/docs/ml-solutions-overview)
+
+![https://cloud.google.com/ml-engine/docs/images/ml-workflow.svg](https://cloud.google.com/ml-engine/docs/images/ml-workflow.svg)
 
 Overall goal:
 
