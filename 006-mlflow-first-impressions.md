@@ -23,6 +23,9 @@ A typical AI flow looks as follows: (image source: https://cloud.google.com/ml-e
 
 ![https://cloud.google.com/ml-engine/docs/images/ml-workflow.svg](https://cloud.google.com/ml-engine/docs/images/ml-workflow.svg)
 
+
+During the training an evaluating of the model have been either propriatory of limited in features.
+
 Overall goal:
 
 1. train model
