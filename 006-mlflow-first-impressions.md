@@ -17,6 +17,8 @@
 
 # MLflow first impressions
 
+MLFlow fits in the bigger picture of managing AI/ML products. The lifecycle of developing ML products includes the experimentation and training phase. As data sources and ML models have gotten more complex the ability to manage these experiments have become unyeidly. 
+
 Overall goal:
 
 1. train model
