@@ -404,6 +404,13 @@ TODO: https://blog.ssdnodes.com/blog/host-multiple-websites-docker-nginx/
 
 ### Stitching it together with Docker Compose
 
+https://www.bogotobogo.com/DevOps/Docker/Docker-Compose-Nginx-Reverse-Proxy-Multiple-Containers.php
+
+```yaml
+...
+
+```
+
 ## Using it for work
 
 ![](https://res.cloudinary.com/practicaldev/image/fetch/s--dc_gXynR--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://ishankhare.com/media/images/nginx-reverse-proxy.png)
