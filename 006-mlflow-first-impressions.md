@@ -407,6 +407,43 @@ TODO: https://blog.ssdnodes.com/blog/host-multiple-websites-docker-nginx/
 https://www.bogotobogo.com/DevOps/Docker/Docker-Compose-Nginx-Reverse-Proxy-Multiple-Containers.php
 
 ```yaml
+version: '3'
+services:
+  notebook:
+    build:
+      context: ./jupyter-notebook-docker
+    ports:
+      - "8888:8888"
+    depends_on: 
+      - mlflow
+    environment: 
+      MLFLOW_TRACKING_URI: 'http://mlflow:5000'
+    volumes: 
+      - file-store:/home/jovyan
+  mlflow:
+    build:
+      context: ./ml-flow-docker
+    expose: 
+      - "5000"
+    ports:
+      - "5000:5000"
+    depends_on: 
+      - postgres
+  postgres:
+    build:
+      context: ./postgres-docker
+    restart: always
+    environment:
+      POSTGRES_USER: 'admin'
+      POSTGRES_PASSWORD: 'secret'
+    ports: 
+      - "5432:5432"
+    volumes:
+      - ./postgres-store:/var/lib/postgresql/data
+
+volumes:
+  postgres-store:
+  file-store:
 ...
 
 ```
