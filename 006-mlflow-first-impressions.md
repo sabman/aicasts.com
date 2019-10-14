@@ -452,14 +452,14 @@ volumes:
 
 ![](https://res.cloudinary.com/practicaldev/image/fetch/s--dc_gXynR--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://ishankhare.com/media/images/nginx-reverse-proxy.png)
 
-ref: https://dev.to/ishankhare07/nginx-as-reverse-proxy-for-a-flask-app-using-docker-3ajg
+references: 
 
-https://stackoverflow.com/questions/57078147/how-should-i-mount-docker-volumes-in-mlflow-project
-https://medium.com/ixorthink/our-machine-learning-workflow-dvc-mlflow-and-training-in-docker-containers-5b9c80cdf804
-https://towardsdatascience.com/containerize-your-whole-data-science-environment-or-anything-you-want-with-docker-compose-e962b8ce8ce5
-https://towardsdatascience.com/tracking-ml-experiments-using-mlflow-7910197091bb
-
-https://github.com/brettbevers/miner/blob/master/work/horovod_tutorial/03%20MLflow%20Lab.ipynb
+- https://dev.to/ishankhare07/nginx-as-reverse-proxy-for-a-flask-app-using-docker-3ajg
+- https://stackoverflow.com/questions/57078147/how-should-i-mount-docker-volumes-in-mlflow-project
+- https://medium.com/ixorthink/our-machine-learning-workflow-dvc-mlflow-and-training-in-docker-containers-5b9c80cdf804
+- https://towardsdatascience.com/containerize-your-whole-data-science-environment-or-anything-you-want-with-docker-compose-e962b8ce8ce5
+- https://towardsdatascience.com/tracking-ml-experiments-using-mlflow-7910197091bb
+- https://github.com/brettbevers/miner/blob/master/work/horovod_tutorial/03%20MLflow%20Lab.ipynb
 
 DS Project Setup https://github.com/datanooblol/ds_tool_box
 
