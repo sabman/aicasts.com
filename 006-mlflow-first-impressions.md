@@ -461,16 +461,18 @@ references:
 - https://towardsdatascience.com/tracking-ml-experiments-using-mlflow-7910197091bb
 - https://github.com/brettbevers/miner/blob/master/work/horovod_tutorial/03%20MLflow%20Lab.ipynb
 
-DS Project Setup https://github.com/datanooblol/ds_tool_box
+DS Project Setups
+- https://github.com/datanooblol/ds_tool_box
 
 Using MLFlow for feature extraction:
-https://towardsdatascience.com/feature-factories-pt-2-an-introduction-to-mlflow-873be3c66b66
+- https://towardsdatascience.com/feature-factories-pt-2-an-introduction-to-mlflow-873be3c66b66
 
-Reinforcement learning project https://github.com/xebia-france/xebikart-car
+Reinforcement learning projects
+- https://github.com/xebia-france/xebikart-car
 
 ## Criticism
 
-https://news.ycombinator.com/item?id=18507006
+- https://news.ycombinator.com/item?id=18507006
 
 ## TK: Integrations
 
