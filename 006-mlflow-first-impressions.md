@@ -460,6 +460,7 @@ references:
 - https://towardsdatascience.com/containerize-your-whole-data-science-environment-or-anything-you-want-with-docker-compose-e962b8ce8ce5
 - https://towardsdatascience.com/tracking-ml-experiments-using-mlflow-7910197091bb
 - https://github.com/brettbevers/miner/blob/master/work/horovod_tutorial/03%20MLflow%20Lab.ipynb
+- https://medium.com/weareservian/deploying-an-ml-model-using-gcp-and-mlflow-27084989f98
 
 DS Project Setups
 - https://github.com/datanooblol/ds_tool_box
