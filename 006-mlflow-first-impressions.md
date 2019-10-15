@@ -1,44 +1,45 @@
 - [MLflow first impressions](#mlflow-first-impressions)
-	- [Installation](#installation)
-	- [Running in production](#running-in-production)
-		- [Dependencies](#dependencies)
-		- [Docker container for MLflow](#docker-container-for-mlflow)
-			- [Setting up automated docker builds](#setting-up-automated-docker-builds)
-		- [Sqlite database](#sqlite-database)
-		- [PostgreSQL Database](#postgresql-database)
-		- [Building the image](#building-the-image)
-		- [Adding Authentication](#adding-authentication)
-		- [Docker container for nginx](#docker-container-for-nginx)
-		- [Stitching it together with Docker Compose](#stitching-it-together-with-docker-compose)
-	- [Using it for work](#using-it-for-work)
-	- [Criticism](#criticism)
-	- [TK: Integrations](#tk-integrations)
-	- [TODO:](#todo)
+  - [Installation](#installation)
+    - [Test driving MLFlow](#test-driving-mlflow)
+  - [Running in production](#running-in-production)
+    - [Dependencies](#dependencies)
+    - [Docker container for MLflow](#docker-container-for-mlflow)
+      - [Setting up automated docker builds](#setting-up-automated-docker-builds)
+    - [Sqlite database](#sqlite-database)
+    - [PostgreSQL Database](#postgresql-database)
+    - [Building the image](#building-the-image)
+    - [Adding Authentication](#adding-authentication)
+    - [Docker container for nginx](#docker-container-for-nginx)
+    - [Stitching it together with Docker Compose](#stitching-it-together-with-docker-compose)
+  - [Using it for work](#using-it-for-work)
+  - [Criticism](#criticism)
+  - [TK: Integrations](#tk-integrations)
+  - [TODO:](#todo)
 
 # MLflow first impressions
 
-MLFlow fits in the bigger picture of managing AI/ML products. The lifecycle of developing ML products includes the experimentation and training phase. As data sources and ML models have gotten more complex the ability to manage these experiments have become unyieldy. 
+MLFlow fits in the bigger picture of managing AI/ML products. The life cycle of developing ML products includes the experimentation and training phase. As data sources and ML models have gotten more complex the ability to manage these experiments have become unwieldy.
 
 A typical AI flow looks as follows: (image source: https://cloud.google.com/ml-engine/docs/ml-solutions-overview)
 
 ![https://cloud.google.com/ml-engine/docs/images/ml-workflow.svg](https://cloud.google.com/ml-engine/docs/images/ml-workflow.svg)
 
+Tools for keeping track of the training an evaluating of the models have been either proprietary or immature. Recently this gap is now being filled by MLFlow. MLFlow is designed to allow Data Scientists to keep track of their projects. In this detailed tutorial we will describe MLFow architecture, how to run and use it in production.
 
-During the training an evaluating of the model have been either propriatory of limited in features.
+Overall goal of MLFlow is :
 
-Overall goal:
-
-1. train model
-2. package model
-3. deploy model
-4. production use case
+1. manage ML projects
+2. track model-training
+3. package models for deployment
 
 ## Installation
 
-Installation is pretty simple. Extras installs `scikit-learn` as well
+### Test driving MLFlow
+
+For some instant gratification lets just instal and try it out - it's pretty simple.
 
 ```
-pip install mlflow[extras] # install scikit-learn too
+pip install mlflow[extras] # extra installs scikit-learn too
 
 git clone https://github.com/mlflow/mlflow
 
@@ -53,9 +54,7 @@ open http://127.0.0.1:5000
 
 ![](https://www.evernote.com/l/Ah6gYD4HHfBMh5ZDwazSpy5IRjlDImjzY3UB/image.png)
 
-Now the MLFlow UI is tracking data about our Machine Learning experiments, this is great. Before MLFlow a data scientist has to come up with some internal convention for keeping track of their experiments. In a typical Machine Learning workflow.
-
-I can now try running with some other hyperparameters.
+Now the MLFlow UI is tracking data about our Machine Learning experiments, this is great. Before MLFlow a data scientist has to come up with some internal convention for keeping track of their experiments. In a typical Machine Learning workflow. We can now try running with some other hyperparameters.
 
 ```python
 ❯ python sklearn_elasticnet_wine/train.py 0.2 0.4
@@ -132,7 +131,6 @@ nohup mlflow server --default-artifact-root s3://bucket-for-mlflow/ --host 0.0.0
 ```
 
 Here's a Dockerfile with the above configuration.
-
 
 ```
 [nginx reverse proxy] <--> [ Docker [flask app] <--> Backed up Volume]
@@ -215,8 +213,8 @@ mlflow server \
 
 If we look at the database it will look something like the following:
 
-
 ![](006-mlflow-first-impressions/mlflow.png)
+
 > made with https://pgmodeler.io
 
 ```
@@ -336,7 +334,7 @@ mlflow=> \dt
 (7 rows)
 ```
 
-### PostgreSQL Database 
+### PostgreSQL Database
 
 To initialize the database run the following in PostgreSQL:
 
@@ -407,36 +405,36 @@ TODO: https://blog.ssdnodes.com/blog/host-multiple-websites-docker-nginx/
 https://www.bogotobogo.com/DevOps/Docker/Docker-Compose-Nginx-Reverse-Proxy-Multiple-Containers.php
 
 ```yaml
-version: '3'
+version: "3"
 services:
   notebook:
     build:
       context: ./jupyter-notebook-docker
     ports:
       - "8888:8888"
-    depends_on: 
+    depends_on:
       - mlflow
-    environment: 
-      MLFLOW_TRACKING_URI: 'http://mlflow:5000'
-    volumes: 
+    environment:
+      MLFLOW_TRACKING_URI: "http://mlflow:5000"
+    volumes:
       - file-store:/home/jovyan
   mlflow:
     build:
       context: ./ml-flow-docker
-    expose: 
+    expose:
       - "5000"
     ports:
       - "5000:5000"
-    depends_on: 
+    depends_on:
       - postgres
   postgres:
     build:
       context: ./postgres-docker
     restart: always
     environment:
-      POSTGRES_USER: 'admin'
-      POSTGRES_PASSWORD: 'secret'
-    ports: 
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "secret"
+    ports:
       - "5432:5432"
     volumes:
       - ./postgres-store:/var/lib/postgresql/data
@@ -444,31 +442,32 @@ services:
 volumes:
   postgres-store:
   file-store:
-...
-
 ```
 
 ## Using it for work
 
 ![](https://res.cloudinary.com/practicaldev/image/fetch/s--dc_gXynR--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://ishankhare.com/media/images/nginx-reverse-proxy.png)
 
-references: 
+references:
 
-- https://dev.to/ishankhare07/nginx-as-reverse-proxy-for-a-flask-app-using-docker-3ajg
-- https://stackoverflow.com/questions/57078147/how-should-i-mount-docker-volumes-in-mlflow-project
-- https://medium.com/ixorthink/our-machine-learning-workflow-dvc-mlflow-and-training-in-docker-containers-5b9c80cdf804
-- https://towardsdatascience.com/containerize-your-whole-data-science-environment-or-anything-you-want-with-docker-compose-e962b8ce8ce5
-- https://towardsdatascience.com/tracking-ml-experiments-using-mlflow-7910197091bb
-- https://github.com/brettbevers/miner/blob/master/work/horovod_tutorial/03%20MLflow%20Lab.ipynb
-- https://medium.com/weareservian/deploying-an-ml-model-using-gcp-and-mlflow-27084989f98
+- [ ] https://dev.to/ishankhare07/nginx-as-reverse-proxy-for-a-flask-app-using-docker-3ajg
+- [ ] https://stackoverflow.com/questions/57078147/how-should-i-mount-docker-volumes-in-mlflow-project
+- [ ] https://medium.com/ixorthink/our-machine-learning-workflow-dvc-mlflow-and-training-in-docker-containers-5b9c80cdf804
+- [ ] https://towardsdatascience.com/containerize-your-whole-data-science-environment-or-anything-you-want-with-docker-compose-e962b8ce8ce5
+- [ ] https://towardsdatascience.com/tracking-ml-experiments-using-mlflow-7910197091bb
+- [ ] https://github.com/brettbevers/miner/blob/master/work/horovod_tutorial/03%20MLflow%20Lab.ipynb
+- [x] https://medium.com/weareservian/deploying-an-ml-model-using-gcp-and-mlflow-27084989f98
 
 DS Project Setups
+
 - https://github.com/datanooblol/ds_tool_box
 
 Using MLFlow for feature extraction:
+
 - https://towardsdatascience.com/feature-factories-pt-2-an-introduction-to-mlflow-873be3c66b66
 
 Reinforcement learning projects
+
 - https://github.com/xebia-france/xebikart-car
 
 ## Criticism
@@ -485,7 +484,6 @@ Seldon:
 Neptune.ml:
 
 - https://towardsdatascience.com/collaborate-on-mlflow-experiments-in-neptune-fb4f8f84a995
-
 
 ## TODO:
 
