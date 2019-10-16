@@ -446,7 +446,7 @@ volumes:
 
 ## Using it for work
 
-Machine learning model traning is a process of experimentation to move your model up the accuracy ladder.
+Machine learning model traning is a process of experimentation to move your model up the accuracy ladder. People have been using lots of methoods to keep track of these experiments.
 
 ![](https://res.cloudinary.com/practicaldev/image/fetch/s--dc_gXynR--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://ishankhare.com/media/images/nginx-reverse-proxy.png)
 
