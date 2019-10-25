@@ -30,9 +30,9 @@ Tools for keeping track of the training an evaluating of the models have been ei
 
 Overall goal of MLFlow is :
 
-1. manage ML projects
-2. track model-training
-3. package models for deployment
+1. Manage ML projects
+2. Track model-training
+3. Package models for deployment
 
 ![](https://miro.medium.com/max/2364/1*KnqK4d7N1JmZ0w-b0r0fNg.png)
 
