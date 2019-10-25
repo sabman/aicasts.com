@@ -21,11 +21,12 @@
 MLFlow fits in the bigger picture of managing AI/ML products. The life cycle of developing ML products includes the experimentation and training phase. As data sources and ML models have gotten more complex the ability to manage these experiments have become unwieldy.
 
 
-A typical AI flow looks as follows: [image source]( https://cloud.google.com/ml-engine/docs/ml-solutions-overview)
+A typical AI flow looks as follows: 
 
 ![https://cloud.google.com/ml-engine/docs/images/ml-workflow.svg](https://cloud.google.com/ml-engine/docs/images/ml-workflow.svg)
+_image source: [google cloud]( https://cloud.google.com/ml-engine/docs/ml-solutions-overview)_
 
-Tools for keeping track of the training an evaluating of the models have been either proprietary or immature. Recently this gap is now being filled by MLFlow. MLFlow is designed to allow Data Scientists to keep track of their projects. In this detailed tutorial we will describe MLFow architecture, how to run and use it in production.
+Tools for keeping track of the training an evaluating of the models have been either proprietary or immature. Recently this gap is now being filled by MLFlow. MLFlow is designed to allow Data Scientists to keep track of their projects. In this detailed tutorial we will describe the MLFow architecture as well as show how to run and use it in production.
 
 Overall goal of MLFlow is :
 
