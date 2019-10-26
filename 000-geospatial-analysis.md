@@ -12,3 +12,4 @@
 - https://github.com/deepVector/geospatial-machine-learning
 - https://github.com/cosmiq/solaris
 - https://github.com/arcrank/Geospatial-Data-Science
+- https://toddwschneider.com/posts/analyzing-1-1-billion-nyc-taxi-and-uber-trips-with-a-vengeance/
