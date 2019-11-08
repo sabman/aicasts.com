@@ -26,3 +26,6 @@ install_on_request: 450 (30 days), 1,424 (90 days), 6,144 (365 days)
 build_error: 0 (30 days)
 
 ```
+
+TODO: Also can be tried with stroage S3
+https://www.geomesa.org/documentation/tutorials/geomesa-hbase-s3-on-aws.html
