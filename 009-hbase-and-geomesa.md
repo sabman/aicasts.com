@@ -34,4 +34,6 @@ brew services start hbase
 ```
 
 TODO: Also can be tried with stroage S3
-https://www.geomesa.org/documentation/tutorials/geomesa-hbase-s3-on-aws.html
+- [ ] https://www.geomesa.org/documentation/tutorials/geomesa-hbase-s3-on-aws.html
+References
+- [ ] https://hbase.apache.org/book.html
