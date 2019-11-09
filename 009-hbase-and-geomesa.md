@@ -1,6 +1,6 @@
 install http://www.apache.org/dyn/closer.cgi/hbase/
 
-```
+```sh
 brew install hbase
 
 brew info hbase
@@ -27,6 +27,10 @@ build_error: 0 (30 days)
 
 brew services start hbase
 
+❯ java -cp geomesa-tutorials-hbase/geomesa-tutorials-hbase-quickstart/target/geomesa-tutorials-hbase-quickstart-2.4.0-SNAPSHOT.jar \
+    org.geomesa.example.hbase.HBaseQuickStart \
+    --hbase.zookeepers localhost           \
+    --hbase.catalog globalevents
 ```
 
 TODO: Also can be tried with stroage S3
