@@ -25,6 +25,8 @@ install: 542 (30 days), 1,768 (90 days), 7,664 (365 days)
 install_on_request: 450 (30 days), 1,424 (90 days), 6,144 (365 days)
 build_error: 0 (30 days)
 
+brew services start hbase
+
 ```
 
 TODO: Also can be tried with stroage S3
