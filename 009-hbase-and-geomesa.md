@@ -37,3 +37,13 @@ TODO: Also can be tried with stroage S3
 - [ ] https://www.geomesa.org/documentation/tutorials/geomesa-hbase-s3-on-aws.html
 References
 - [ ] https://hbase.apache.org/book.html
+
+
+## Setting an EMR cluster
+
+```
+ssh hadoop@ec2-13-210-102-204.ap-southeast-2.compute.amazonaws.com -v -i ~/code/external-devops.pem
+VERSION=2.3.2
+JARS=file:///opt/geomesa/dist/spark/geomesa-hbase-spark-runtime_2.11-${VERSION}.jar,file:///usr/lib/hbase/conf/hbase-site.xml
+spark-shell --jars $JARS --conf spark.executor.memory=2g
+```
