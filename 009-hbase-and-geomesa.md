@@ -1,4 +1,4 @@
-install http://www.apache.org/dyn/closer.cgi/hbase/
+Install http://www.apache.org/dyn/closer.cgi/hbase/
 
 ```sh
 brew install hbase
