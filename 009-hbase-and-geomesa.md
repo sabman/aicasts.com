@@ -49,3 +49,11 @@ VERSION=2.3.2
 JARS=file:///opt/geomesa/dist/spark/geomesa-hbase-spark-runtime_2.11-${VERSION}.jar,file:///usr/lib/hbase/conf/hbase-site.xml
 spark-shell --jars $JARS --conf spark.executor.memory=2g
 ```
+
+## Loading data HBase
+
+```
+bucket_name=geomesa-storage
+aws s3 mb s3://$bucket_name
+aws s3 mb s3://$bucket_name
+```
