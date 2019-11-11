@@ -55,5 +55,5 @@ spark-shell --jars $JARS --conf spark.executor.memory=2g
 ```
 bucket_name=geomesa-storage
 aws s3 mb s3://$bucket_name
-aws s3 mb s3://$bucket_name
+aws s3api put-object --bucket $bucket_name --key hbase-root/
 ```
