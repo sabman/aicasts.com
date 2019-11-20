@@ -6,7 +6,8 @@ Why GeoTemporal matters
 
 # Concepts
 
-- `timestamptz`
+## Data Types
+- `timestamptz` (native to postgresql)
 - `timestampset`
 - `period`
 - `periodset`
