@@ -6,11 +6,24 @@ Why GeoTemporal matters
 
 # Concepts
 
-## Data Types
+## Time and Range Data Types
 - `timestamptz` (native to postgresql)
 - `timestampset`
 - `period`
 - `periodset`
+
+## Temporal Types
+
+tboolinst, tboolseq, tbooli, and tbools
+- tintinst, tintseq, tinti, and tints
+- tfloatinst, tfloatseq, tfloati, and tfloats
+- ttextinst, ttextseq, ttexti, and ttexts
+- tgeompointinst, tgeompointseq, tgeompointi, and tgeompoints
+- tgeogpointinst, tgeogpointseq, tgeogpointi, and tgeogpoints
+
+where the suffixes "inst", "seq", "i", and "s" correspond, respectively, to the durations instant, sequence,
+instant set, and sequence set.
+
 
 ## Interesting Operators
 
