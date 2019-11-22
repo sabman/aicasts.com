@@ -68,3 +68,11 @@ aws s3api put-object --bucket $bucket_name --key hbase-root/
 10544  cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/metrics-core-2.2.0.jar ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
 10545  cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/jopt-simple-5.0.4.jar ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
 ```
+
+## Kafka
+
+```
+10793  brew services restart kafka
+10797  java -cp geomesa-tutorials-kafka/geomesa-tutorials-kafka-quickstart/target/geomesa-tutorials-kafka-quickstart-2.3.1.jar: \\n    org.geomesa.example.kafka.KafkaQuickStart \\n    --kafka.brokers localhost:9092 \\n    --kafka.zookeepers localhost:2181\n
+10798  java -cp geomesa-tutorials-kafka/geomesa-tutorials-kafka-quickstart/target/geomesa-tutorials-kafka-quickstart-2.3.1.jar \\n    org.geomesa.example.kafka.KafkaListener \\n    --kafka.brokers localhost:9092 \\n    --kafka.zookeepers localhost:2181\n
+```
