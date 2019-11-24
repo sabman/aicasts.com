@@ -40,6 +40,9 @@ SELECT tintersects(tgeompointseq '[Point(0 1)@2001-01-01, Point(3 1)@2001-01-04)
 
 ## Interesting Spatial Functions
 
+`speed`: Speed of the temporal point in units per second
+Signature: `speed({tpointseq, tpoints}): tfloats`
+
 ```sql
 SELECT speed(tgeompoints(ARRAY[tgeompointseq
 '[Point(0 0)@2000-01-01, Point(1 1)@2000-01-02, Point(1 0)@2000-01-03]',
@@ -49,9 +52,8 @@ SELECT speed(tgeompoints(ARRAY[tgeompointseq
 [1@2000-01-02, 1@2000-01-03], [1@2000-01-04, 1@2000-01-05]}"
 ```
 
-nearestApproachDistance: Smallest distance ever between the two arguments
-Signature: nearestApproachDistance({geometry, tgeompointmult},
-{geometry, tgeompointmult}): float
+`nearestApproachDistance`: Smallest distance ever between the two arguments
+Signature: `nearestApproachDistance({geometry, tgeompointmult}, {geometry, tgeompointmult}): float`
 
 ```sql
 SELECT nearestApproachDistance(
