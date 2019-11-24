@@ -39,13 +39,29 @@ SELECT tintersects(tgeompointseq '[Point(0 1)@2001-01-01, Point(3 1)@2001-01-04)
 ```
 
 ## Interesting Spatial Functions
+
 ```sql
 SELECT speed(tgeompoints(ARRAY[tgeompointseq
-’[Point(0 0)@2000-01-01, Point(1 1)@2000-01-02, Point(1 0)@2000-01-03]’,
-’[Point(1 0)@2000-01-04, Point(0 0)@2000-01-05]’]))
+'[Point(0 0)@2000-01-01, Point(1 1)@2000-01-02, Point(1 0)@2000-01-03]',
+'[Point(1 0)@2000-01-04, Point(0 0)@2000-01-05]']))
 * 3600 * 24;
 -- "{[1.4142135623731@2000-01-01, 1.4142135623731@2000-01-02),
 [1@2000-01-02, 1@2000-01-03], [1@2000-01-04, 1@2000-01-05]}"
+```
+
+nearestApproachDistance: Smallest distance ever between the two arguments
+Signature: nearestApproachDistance({geometry, tgeompointmult},
+{geometry, tgeompointmult}): float
+
+```sql
+SELECT nearestApproachDistance(
+tgeompointseq '[Point(0 0)@2012-01-02, Point(1 1)@2012-01-04, Point(0 0)@2012-01-06)',
+geometry 'Linestring(2 2,2 1,3 1)');
+-- "1"
+SELECT nearestApproachDistance(
+tgeompointseq '[Point(0 0)@2012-01-01, Point(1 1)@2012-01-03, Point(0 0)@2012-01-05)',
+tgeompointseq '[Point(2 0)@2012-01-02, Point(1 1)@2012-01-04, Point(2 2)@2012-01-06)');
+-- "0.5"
 ```
 
 # Installation
