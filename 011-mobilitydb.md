@@ -76,6 +76,10 @@ docker run --name "mobilitydb" -d -p 25432:5432 -v mobilitydb_data:/var/lib/post
 codewit/mobilitydb
 ```
 
+```
+docker exec -t -i mobilitydb psql -h localhost -p 5432 -d mobilitydb -U docker
+```
+
 # Testing
 
 # Real World Application
