@@ -80,6 +80,10 @@ codewit/mobilitydb
 docker exec -t -i mobilitydb psql -h localhost -p 5432 -d mobilitydb -U docker
 ```
 
+```
+CREATE EXTENSION MobilityDB CASCADE;
+```
+
 # Testing
 
 # Real World Application
