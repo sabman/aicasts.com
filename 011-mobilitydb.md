@@ -66,7 +66,15 @@ tgeompointseq '[Point(2 0)@2012-01-02, Point(1 1)@2012-01-04, Point(2 2)@2012-01
 -- "0.5"
 ```
 
+
 # Installation
+
+```
+docker pull codewit/mobilitydb
+docker volume create mobilitydb_data
+docker run --name "mobilitydb" -d -p 25432:5432 -v mobilitydb_data:/var/lib/postgresql
+codewit/mobilitydb
+```
 
 # Testing
 
