@@ -66,6 +66,12 @@ tgeompointseq '[Point(2 0)@2012-01-02, Point(1 1)@2012-01-04, Point(2 2)@2012-01
 -- "0.5"
 ```
 
+## Spatial Relationships for Temporal Points
+
+```sql
+SELECT intersects(geometry 'Polygon((0 0,0 1,1 1,1 0,0 0))',
+  tgeompoint '[Point(0 1)@2012-01-01, Point(1 1)@2012-01-03)');
+```
 
 # Installation
 
