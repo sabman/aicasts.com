@@ -66,12 +66,25 @@ tgeompointseq '[Point(2 0)@2012-01-02, Point(1 1)@2012-01-04, Point(2 2)@2012-01
 -- "0.5"
 ```
 
+```sql
+SELECT DISTINCT R.RegionId, T.CarId
+FROM Trips T, Regions R
+WHERE ST_Intersects(trajectory(T.Trip), R.Geom)
+ORDER BY R.RegionId, T.CarId;
+```
+
 ## Spatial Relationships for Temporal Points
 
 ```sql
 SELECT intersects(geometry 'Polygon((0 0,0 1,1 1,1 0,0 0))',
   tgeompoint '[Point(0 1)@2012-01-01, Point(1 1)@2012-01-03)');
 ```
+
+```
+SELECT ST_Intersects(geometry 'Polygon((0 0,0 1,1 1,1 0,0 0))',
+  geometry 'Linestring(0 1,1 1)');
+```
+
 
 # Installation
 
