@@ -92,4 +92,6 @@ CREATE EXTENSION MobilityDB CASCADE;
 
 # Testing
 
+## Loading data
+
 # Real World Application
