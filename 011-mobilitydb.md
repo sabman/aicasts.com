@@ -85,6 +85,9 @@ SELECT ST_Intersects(geometry 'Polygon((0 0,0 1,1 1,1 0,0 0))',
   geometry 'Linestring(0 1,1 1)');
 ```
 
+## Range Queries
+
+The queries in this category restrict Trips with respect to a spatial, temporal, or spatio-temporal point or range. In the examples, the spatial points and ranges are given, respectively, in tables Points and Regions, while temporal points and ranges are given, respectively, in tables Instants and Periods.
 
 # Installation
 
