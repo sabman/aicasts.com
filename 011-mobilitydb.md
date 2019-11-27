@@ -89,6 +89,18 @@ SELECT ST_Intersects(geometry 'Polygon((0 0,0 1,1 1,1 0,0 0))',
 
 The queries in this category restrict Trips with respect to a spatial, temporal, or spatio-temporal point or range. In the examples, the spatial points and ranges are given, respectively, in tables Points and Regions, while temporal points and ranges are given, respectively, in tables Instants and Periods.
 
+
+List the cars that have passed at a region from Regions.
+
+```sql 
+SELECT DISTINCT R.RegionId, T.CarId
+FROM Trips T, Regions R
+WHERE ST_Intersects(trajectory(T.Trip), R.Geom)
+ORDER BY R.RegionId, T.CarId;
+```
+
+This is a spatial range query. The query verifies that the trajectory of the car intersects the region. PostGIS performs an implicit bounding box comparison trajectory(T.Trip) && R.Geom using the spatial index on table Regions when executing the predicate ST_Intersects.
+
 # Installation
 
 ```
