@@ -125,6 +125,15 @@ WHERE T1.CarId < T2.CarId AND T1.Trip && stbox(R.Geom, P.Period) AND
 ORDER BY T1.CarId, T2.CarId, R.RegionId, P.PeriodId;
 ```
 
+4. List the first time at which a car visited a point in Points.
+
+```sql
+SELECT T.CarId, P.PointId, MIN(startTimestamp(atValue(T.Trip,P.Geom))) AS Instant
+FROM Trips T, Points P
+WHERE ST_Contains(trajectory(T.Trip), P.Geom)
+GROUP BY T.CarId, P.PointId;
+```
+
 # Installation
 
 ```
