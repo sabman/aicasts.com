@@ -154,6 +154,20 @@ GROUP BY R.RegionID
 HAVING WCOUNT(atGeometry(T.Trip, R.Geom), interval '10 min') IS NOT NULL
 ORDER BY R.RegionID;
 ```
+
+7. Count the number of trips that were active during each hour in May 29, 2007.
+
+```sql
+WITH TimeSplit(Period) AS (
+  SELECT period(H, H + interval ’1 hour’)
+  FROM generate_series(timestamptz ’2007-05-29 00:00:00’,
+    timestamptz ’2007-05-29 23:00:00’, interval ’1 hour’) AS H )
+SELECT Period, COUNT(*)
+FROM TimeSplit S, Trips T
+WHERE S.Period && T.Trip AND atPeriod(Trip, Period) IS NOT NULL
+GROUP BY S.Period
+ORDER BY S.Period;
+```
  
 # Installation
 
