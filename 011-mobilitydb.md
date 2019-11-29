@@ -144,6 +144,17 @@ GROUP BY P.PeriodID
 ORDER BY P.PeriodID;
 ```
 
+6. For each region in Regions, give the window temporal count of trips with a 10-minute interval.
+
+```sql
+SELECT R.RegionID, WCOUNT(atGeometry(T.Trip, R.Geom), interval '10 min')
+FROM Trips T, Regions R
+WHERE T.Trip && R.Geom
+GROUP BY R.RegionID
+HAVING WCOUNT(atGeometry(T.Trip, R.Geom), interval '10 min') IS NOT NULL
+ORDER BY R.RegionID;
+```
+ 
 # Installation
 
 ```
