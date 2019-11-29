@@ -90,7 +90,7 @@ SELECT ST_Intersects(geometry 'Polygon((0 0,0 1,1 1,1 0,0 0))',
 The queries in this category restrict Trips with respect to a spatial, temporal, or spatio-temporal point or range. In the examples, the spatial points and ranges are given, respectively, in tables Points and Regions, while temporal points and ranges are given, respectively, in tables Instants and Periods.
 
 
-List the cars that have passed at a region from Regions.
+1. List the cars that have passed at a region from Regions.
 
 ```sql 
 SELECT DISTINCT R.RegionId, T.CarId
@@ -132,6 +132,16 @@ SELECT T.CarId, P.PointId, MIN(startTimestamp(atValue(T.Trip,P.Geom))) AS Instan
 FROM Trips T, Points P
 WHERE ST_Contains(trajectory(T.Trip), P.Geom)
 GROUP BY T.CarId, P.PointId;
+```
+
+5. Compute how many cars were active at each period in Periods.
+
+```sql
+SELECT P.PeriodID, COUNT(*), TCOUNT(atPeriod(T.Trip, P.Period))
+FROM Trips T, Periods P
+WHERE T.Trip && P.Period
+GROUP BY P.PeriodID
+ORDER BY P.PeriodID;
 ```
 
 # Installation
