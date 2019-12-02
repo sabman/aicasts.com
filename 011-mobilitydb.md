@@ -168,6 +168,17 @@ WHERE S.Period && T.Trip AND atPeriod(Trip, Period) IS NOT NULL
 GROUP BY S.Period
 ORDER BY S.Period;
 ```
+
+8. List the overall traveled distances of the cars during the periods from Periods.
+
+```sql
+SELECT T.CarId, P.PeriodId, P.Period,
+  SUM(length(atPeriod(T.Trip, P.Period))) AS Distance
+FROM Trips T, Periods P
+WHERE T.Trip && P.Period
+GROUP BY T.CarId, P.PeriodId, P.Period
+ORDER BY T.CarId, P.PeriodId;
+```
  
 # Installation
 
