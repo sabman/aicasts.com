@@ -195,6 +195,9 @@ ORDER BY T.CarId, P.PointId;
 > The query projects the trip to the spatial dimension with the trajectory function and computes the traditional distance between the trajectory of the trip and the point. The traditional minimum function is then applied for computing the minimum distance between all trips of the car and the point.
 
  
+ 10. List the minimum temporal distance between each pair of cars.
+ 
+ 
 # Installation
 
 ```
