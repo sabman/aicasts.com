@@ -210,6 +210,19 @@ ORDER BY T1.CarId, T2.CarId;
 
 The query selects two trips T1 and T2 from distinct cars that were both traveling during a common period of time, computes the temporal distance between the trips, and then computes the temporal minimum distance between all trips of the two cars. The query uses the spatio-temporal index to filter the pairs of trips that were both traveling during a common period of time.
 
+ 11. List the nearest approach time, distance, and shortest line between each pair of trips.
+ 
+ ```sql
+ SELECT T1.CarId AS Car1Id, T1.TripId AS Trip1Id, T2.CarId AS Car2Id,
+  T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
+  NearestApproachDistance(T1.Trip, T2.Trip) AS Distance,
+  ShortestLine(T1.Trip, T2.Trip) AS Line
+FROM Trips1 T1, Trips1 T
+WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
+ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
+ ```
+ 
+This query shows similar functionality as that provided by the PostGIS functions `ST_ClosestPointOfApproach` and `ST_DistanceCPA`. The query selects two trips T1 and T2 from distinct cars that were both traveling during a common period of time and computes the required results.
  
 # Installation
 
