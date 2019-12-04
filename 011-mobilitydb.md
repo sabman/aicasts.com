@@ -223,6 +223,20 @@ ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
  ```
  
 This query shows similar functionality as that provided by the PostGIS functions `ST_ClosestPointOfApproach` and `ST_DistanceCPA`. The query selects two trips T1 and T2 from distinct cars that were both traveling during a common period of time and computes the required results.
+
+12. List the nearest approach time, distance, and shortest line between each pair of trips.
+
+```sql
+SELECT T1.CarId AS CarId1, T2.CarId AS CarId2, atPeriodSet(T1.Trip,
+  period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) AS Position
+FROM Trips T1, Trips T
+WHERE T1.CarId < T2.CarId AND T1.Trip && expandSpatial(T2.Trip, 10) AND
+  atPeriodSet(T1.Trip, period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE)))
+  IS NOT NULL
+ORDER BY T1.CarId, T2.CarId, Position;
+```
+
+
  
 # Installation
 
