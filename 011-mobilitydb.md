@@ -255,6 +255,8 @@ FROM TripsTraj T CROSS JOIN LATERAL (
 ) AS P1
 ORDER BY T.TripId, T.CarId, P1.Distance;
 ```
+
+This is a nearest-neighbor query where both the reference and the candidate objects are moving. Therefore, it is not possible to proceed as in the previous query to first project the moving points to the spatial dimension and then compute the traditional distance. Given a trip T1 in the outer query, the subquery computes the temporal distance between T1 and a trip T2 of another car distinct from the car from T1 and then computes the minimum value in the temporal distance. Finally,the ORDER BY and LIMIT clauses in the inner query select the three closest cars.
  
 # Installation
 
