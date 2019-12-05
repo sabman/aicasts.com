@@ -258,6 +258,19 @@ ORDER BY T.TripId, T.CarId, P1.Distance;
 
 This is a nearest-neighbor query where both the reference and the candidate objects are moving. Therefore, it is not possible to proceed as in the previous query to first project the moving points to the spatial dimension and then compute the traditional distance. Given a trip T1 in the outer query, the subquery computes the temporal distance between T1 and a trip T2 of another car distinct from the car from T1 and then computes the minimum value in the temporal distance. Finally,the ORDER BY and LIMIT clauses in the inner query select the three closest cars.
 
+
+14. For each trip from Trips, list the three cars that are closest to that car
+
+```sql
+SELECT T1.CarId AS CarId1, C2.CarId AS CarId2, C2.Distance
+FROM Trips T1 CROSS JOIN LATERAL (
+SELECT T2.CarId, minValue(T1.Trip <-> T2.Trip) AS Distance
+FROM Trips T2
+WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
+ORDER BY Distance LIMIT 3 ) AS C2
+ORDER BY T1.CarId, C2.CarId;
+```
+
 15. For each trip from Trips, list the points from Points that have that car among their three nearest neighbors.
 
 ```sql
