@@ -239,6 +239,22 @@ ORDER BY T1.CarId, T2.CarId, Position;
 The query performs for each pair of trips T1 and T2 of distinct cars a bounding box comparison with the && operator using the spatio-temporal index on the Trips table, where the bounding box of T2 is expanded by 10 m. Then, the period expression computes the periods during which the cars were within 10 m. from each other and the atPeriodSet function projects the trips to those periods. Notice that the expression `tdwithin(T1.Trip, T2.Trip, 10.0)` is conceptually equivalent to `dwithin(T1.Trip, T2.Trip) #<= 10.0`. However, in this case the spatio-temporal index cannot be used for filtering values.
 
 
+**Nearest-Neighbor Queries**
+
+13. For each trip from Trips, list the three points from Points that have been closest to that car.
+
+
+```sql
+WITH TripsTraj AS (
+  SELECT *, trajectory(Trip) AS Trajectory FROM Trips )
+SELECT T.CarId, P1.PointId, P1.Distance
+FROM TripsTraj T CROSS JOIN LATERAL (
+  SELECT P.PointId, T.Trajectory <-> P.Geom AS Distance
+  FROM Points P
+  ORDER BY Distance LIMIT 3 
+) AS P1
+ORDER BY T.TripId, T.CarId, P1.Distance;
+```
  
 # Installation
 
