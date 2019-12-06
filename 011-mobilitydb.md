@@ -289,6 +289,8 @@ ORDER BY T.CarId, T.TripId, P.PointId;
  ```
  
 This is a reverse nearest-neighbor query with moving reference objects and static candidate objects. The query starts by computing the corresponding nearest-neighbor query in the temporary table PointTrips as it is done in Query 13. Then, in the main query it verifies for each trip T and point P that both belong to the PointTrips table.
+
+16. For each trip from Trips, list the cars having the car of the trip among the three nearest neighbors.
  
 # Installation
 
