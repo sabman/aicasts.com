@@ -317,3 +317,4 @@ CREATE EXTENSION MobilityDB CASCADE;
 
 - emergency incident management
 - traffic management
+- logitics optimisation
