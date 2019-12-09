@@ -316,3 +316,4 @@ CREATE EXTENSION MobilityDB CASCADE;
 # Real World Application
 
 - emergency incident management
+- traffic management
