@@ -307,6 +307,7 @@ FROM Trips T1 JOIN Trips T2 ON T1.CarId < T2.CarId
   T2.CarId = TD.CarId2 AND T2.TripId = TD.TripId
 ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
 ```
+This is a reverse nearest-neighbor query where both the reference and the candidate objects are moving. The query starts by computing the corresponding nearest-neighbor query in the temporary table TripDistances as it is done in Query 14. Then, in the main query it verifies for each pair of trips T1 and T2 that both belong to the TripDistances table.
 
  
 # Installation
