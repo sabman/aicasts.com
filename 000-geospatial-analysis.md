@@ -15,3 +15,4 @@
 - https://github.com/arcrank/Geospatial-Data-Science
 - https://github.com/toddwschneider/nyc-taxi-data
 - https://github.com/dataArtisans/flink-streaming-demo
+- https://github.com/azavea/raster-vision
