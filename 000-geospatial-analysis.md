@@ -21,3 +21,4 @@
 
 ## Kaggle
 - https://www.kaggle.com/learn/geospatial-analysis
+- https://www.kaggle.com/tags/geospatial-analysis
