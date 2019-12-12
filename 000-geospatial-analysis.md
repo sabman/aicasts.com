@@ -22,3 +22,4 @@
 ## Kaggle
 - https://www.kaggle.com/learn/geospatial-analysis
 - https://www.kaggle.com/tags/geospatial-analysis
+- https://www.kaggle.com/camnugent/geospatial-feature-engineering-and-visualization
