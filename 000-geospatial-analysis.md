@@ -24,3 +24,6 @@
 - https://www.kaggle.com/tags/geospatial-analysis
 - https://www.kaggle.com/camnugent/geospatial-feature-engineering-and-visualization
 - https://www.kaggle.com/c/datascienceandgis2018/overview
+- https://www.kaggle.com/jcarrillo/machine-learning-for-geospatial-data-workshop-2a
+- https://www.kaggle.com/reubencpereira/spatial-data-repo
+- https://www.kaggle.com/andresionek/geospatial-analysis-of-brazilian-e-commerce
