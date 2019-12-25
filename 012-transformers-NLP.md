@@ -66,9 +66,9 @@ model = BertForMaskedLM.from_pretrained('bert-base-uncased')
 model.eval()
 
 # If you have a GPU, put everything on cuda
-tokens_tensor = tokens_tensor.to('cuda')
-segments_tensors = segments_tensors.to('cuda')
-model.to('cuda')
+tokens_tensor = tokens_tensor.to('cuda') # change to cpu if no gpu
+segments_tensors = segments_tensors.to('cuda') # change to cpu if no gpu
+model.to('cuda') # change to cpu if no gpu
 
 # Predict all tokens
 with torch.no_grad():
