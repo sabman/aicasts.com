@@ -89,3 +89,10 @@ TODO:
 * examples: https://github.com/huggingface/transformers#run-the-examples
   * https://github.com/huggingface/transformers/blob/master/examples/README.md
   * ...
+
+```
+git clone https://github.com/huggingface/transformers
+cd transformers
+pip install .
+pip install -r ./examples/requirements.txt
+```
