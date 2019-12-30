@@ -332,6 +332,10 @@ CREATE EXTENSION MobilityDB CASCADE;
 
 ## Loading data
 
+The ZIP file with the data for this tutorial contains a set of CSV files as follows:
+* datamcar.csv with fields Moid, Licence, Type, and Model contains the vehiclede scriptions (without position history).
+
+
 # Real World Application
 
 - emergency incident management
