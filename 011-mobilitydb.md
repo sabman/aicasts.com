@@ -335,6 +335,7 @@ CREATE EXTENSION MobilityDB CASCADE;
 The ZIP file with the data for this tutorial contains a set of CSV files as follows:
 * datamcar.csv with fields Moid, Licence, Type, and Model contains the vehiclede scriptions (without position history).
 * trips.csv with fields Moid, Tripid, Pos_x, Pos_y, and Instant contains vehicles movements and pauses
+* queryinstants.csv with fields Id and Instant contains timestamps used for queries.
 
 
 # Real World Application
