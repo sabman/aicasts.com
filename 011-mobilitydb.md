@@ -337,6 +337,7 @@ The ZIP file with the data for this tutorial contains a set of CSV files as foll
 * trips.csv with fields Moid, Tripid, Pos_x, Pos_y, and Instant contains vehicles movements and pauses
 * queryinstants.csv with fields Id and Instant contains timestamps used for queries.
 * queryperiods.csv with fields Id, Begin, and End contains periods used for the queries.
+* querypoints.csv with fields Id, Pos_x, and Pos_y contains points used for queries.
 
 
 # Real World Application
