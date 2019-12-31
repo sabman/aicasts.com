@@ -338,6 +338,7 @@ The ZIP file with the data for this tutorial contains a set of CSV files as foll
 * queryinstants.csv with fields Id and Instant contains timestamps used for queries.
 * queryperiods.csv with fields Id, Begin, and End contains periods used for the queries.
 * querypoints.csv with fields Id, Pos_x, and Pos_y contains points used for queries.
+* queryregions.csv with fields Id, SegNo, Xstart, Ystart, Xend, and Yend contains the polygons used for queries.
 
 
 # Real World Application
