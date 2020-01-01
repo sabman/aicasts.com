@@ -340,6 +340,12 @@ The ZIP file with the data for this tutorial contains a set of CSV files as foll
 * querypoints.csv with fields Id, Pos_x, and Pos_y contains points used for queries.
 * queryregions.csv with fields Id, SegNo, Xstart, Ystart, Xend, and Yend contains the polygons used for queries.
 
+```
+CREATE EXTENSION MobilityDB CASCADE;
+```
+
+By using `CASCADE` we load the required "PostGIS" extension prior to loading MobilityDB.
+
 
 # Real World Application
 
