@@ -359,6 +359,8 @@ CREATE TABLE Cars (
 )
 ```
 
+**Trips**
+
 ```sql
 CREATE TABLE TripsInput (
   CarId integer REFERENCES Cars,
@@ -368,6 +370,13 @@ CREATE TABLE TripsInput (
   T timestamptz,
   PRIMARY KEY (CarId, TripId, T)
 );  
+```
+
+```sql
+CREATE TABLE Instants (
+  InstantId integer PRIMARY KEY,
+  Instant timestamptz
+);
 ```
 
 # Real World Application
