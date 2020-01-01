@@ -359,6 +359,17 @@ CREATE TABLE Cars (
 )
 ```
 
+```sql
+CREATE TABLE TripsInput (
+  CarId integer REFERENCES Cars,
+  TripId integer,
+  Lon float,
+  Lat float,
+  T timestamptz,
+  PRIMARY KEY (CarId, TripId, T)
+);  
+```
+
 # Real World Application
 
 - emergency incident management
