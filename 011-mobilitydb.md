@@ -346,6 +346,18 @@ CREATE EXTENSION MobilityDB CASCADE;
 
 By using `CASCADE` we load the required "PostGIS" extension prior to loading MobilityDB.
 
+### Schema
+
+**Cars**
+
+```sql
+CREATE TABLE Cars (
+  CarId integer PRIMARY KEY,
+  Licence varchar(32),
+  Type varchar(32),
+  Model varchar(32)
+)
+```
 
 # Real World Application
 
