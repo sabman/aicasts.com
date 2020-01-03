@@ -377,6 +377,32 @@ CREATE TABLE Instants (
   InstantId integer PRIMARY KEY,
   Instant timestamptz
 );
+CREATE TABLE Periods (
+  PeriodId integer PRIMARY KEY,
+  Tstart TimestampTz,
+  Tend TimestampTz,
+  Period period
+);
+CREATE TABLE Points (
+  PointId integer PRIMARY KEY,
+  PosX double precision,
+  PosY double precision,
+  Geom Geometry(Point)
+);
+CREATE TABLE RegionsInput
+(
+  RegionId integer,
+  SegNo integer,
+  XStart double precision,
+  YStart double precision,
+  XEnd double precision,
+  YEnd double precision,
+  PRIMARY KEY (RegionId, SegNo)
+);
+CREATE TABLE Regions (
+  RegionId integer PRIMARY KEY,
+  Geom Geometry(Polygon)
+);
 ```
 
 # Real World Application
