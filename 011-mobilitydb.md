@@ -415,6 +415,8 @@ CREATE TABLE Trips
 );
 ```
 
+We created the table `Trips` in order to assemble all points composing a trip into a single temporal point.
+
 # Real World Application
 
 - emergency incident management
