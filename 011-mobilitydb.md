@@ -404,6 +404,16 @@ CREATE TABLE Regions (
   Geom Geometry(Polygon)
 );
 ```
+```sql
+CREATE TABLE Trips
+(
+  CarId integer NOT NULL,
+  TripId integer NOT NULL,
+  Trip tgeompoint,
+  PRIMARY KEY (CarId, TripId),
+  FOREIGN KEY (CarId) REFERENCES Cars (CarId)
+);
+```
 
 # Real World Application
 
