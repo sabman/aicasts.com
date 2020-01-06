@@ -1,5 +1,8 @@
+# adapted from https://github.com/aarande/docker-pyart/blob/master/Dockerfile-py3
 FROM continuumio/miniconda3
 MAINTAINER Shoaib Burq
+
+ARG MOVINGPANDAS_VERSION=0.2rc1
 
 RUN groupadd -r devuser && useradd --no-log-init -ms /bin/bash -r -g devuser devuser
 RUN apt-get update && apt-get install -y gcc git && apt-get clean

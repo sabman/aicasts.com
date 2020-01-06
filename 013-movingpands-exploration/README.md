@@ -1,0 +1,1 @@
+This docker image contains the full movingpandas and jupyter notebook environment. The image was adapted from https://github.com/aarande/docker-pyart.
