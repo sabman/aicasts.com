@@ -7,7 +7,7 @@ ARG MOVINGPANDAS_VERSION=0.2rc1
 RUN groupadd -r devuser && useradd --no-log-init -ms /bin/bash -r -g devuser devuser
 RUN apt-get update && apt-get install -y gcc git && apt-get clean
 RUN conda config --append channels conda-forge &&\
-    conda install --yes numpy scipy xarray jupyter matplotlib pyproj basemap nose pillow owslib pyepsg cartopy hvplot \
+    conda install --yes numpy scipy xarray jupyter matplotlib pyproj basemap nose pillow owslib pyepsg cartopy hvplot geoviews \
     movingpandas && pip install nexradaws && conda clean --all
 
 EXPOSE 8888
