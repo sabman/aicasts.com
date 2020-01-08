@@ -21,3 +21,10 @@ cd data
 wget -O demodata_horse_collar.gpkg https://github.com/anitagraser/movingpandas/blob/master/tutorials/data/demodata_horse_collar.gpkg?raw=true
 
 ```
+
+
+```
+$ docker build . -t test
+$ docker volume create somedir
+$ docker run -v somedir:/some_dir alpine chown -R 1001:1001 /some_dir
+```
