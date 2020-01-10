@@ -417,6 +417,21 @@ CREATE TABLE Trips
 
 We created the table `Trips` in order to assemble all points composing a trip into a single temporal point.
 
+Loading the data is as follows:
+
+```sql
+COPY Cars(CarId, Licence, Type, Model) FROM ’/home/mobilitydb/data/datamcar.csv’
+  DELIMITER  ’,’ CSV HEADER;
+COPY TripsInput(CarId, TripId, Lon, Lat, T) FROM ’/home/mobilitydb/data/trips.csv’
+  DELIMITER  ’,’ CSV HEADER;
+COPY Instants(InstantId, Instant) FROM ’/home/mobilitydb/data/queryinstants.csv’
+  DELIMITER  ’,’ CSV HEADER;
+COPY Periods(PeriodId, Tstart, Tend) FROM ’/home/mobilitydb/data/queryperiods.csv’
+  DELIMITER  ’,’ CSV HEADER;
+UPDATE Periods
+SET Period = period(Tstart, Tend);
+```
+
 # Real World Application
 
 - emergency incident management
