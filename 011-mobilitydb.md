@@ -432,6 +432,15 @@ UPDATE Periods
 SET Period = period(Tstart, Tend);
 ```
 
+```sql
+COPY Points(PointId, PosX, PosY) FROM ’/home/mobilitydb/data/querypoints.csv’
+  DELIMITER  ’,’ CSV HEADER;
+UPDATE Points
+SET Geom = ST_Transform(ST_SetSRID(ST_MakePoint(PosX, PosY), 4326), 5676);
+COPY RegionsInput(RegionId, SegNo, XStart, YStart, XEnd, YEnd) FROM
+  ’/home/mobilitydb/data/queryregions.csv’ DELIMITER  ’,’ CSV HEADER;
+```
+
 # Real World Application
 
 - emergency incident management
