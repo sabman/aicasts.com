@@ -441,6 +441,22 @@ COPY RegionsInput(RegionId, SegNo, XStart, YStart, XEnd, YEnd) FROM
   ’/home/mobilitydb/data/queryregions.csv’ DELIMITER  ’,’ CSV HEADER;
 ```
 
+The following query is used to load table Regions from the data in table RegionsInput.
+
+```sql
+INSERT INTO Regions (RegionId, Geom)
+WITH RegionsSegs AS
+(
+  SELECT RegionId, SegNo,
+    ST_Transform(ST_SetSRID(St_MakeLine(ST_MakePoint(XStart, YStart),
+    ST_MakePoint(XEnd, YEnd)), 4326), 5676) AS Geom
+  FROM RegionsInput
+)
+SELECT RegionId, ST_Polygon(ST_LineMerge(ST_Union(Geom ORDER BY SegNo)), 5676) AS Geom
+FROM RegionsSegs
+GROUP BY RegionId;
+```
+
 # Real World Application
 
 - emergency incident management
