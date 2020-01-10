@@ -457,6 +457,16 @@ FROM RegionsSegs
 GROUP BY RegionId;
 ```
 
+The following query is used to load table Trips from the data in table TripsInput.
+
+```sql
+INSERT INTO Trips
+SELECT CarId, TripId, tgeompointseq(array_agg(tgeompointinst(
+  ST_Transform(ST_SetSRID(ST_MakePoint(Lon,Lat), 4326), 5676), T) ORDER BY T))
+FROM TripsInput
+GROUP BY CarId, TripId;
+```
+
 # Real World Application
 
 - emergency incident management
