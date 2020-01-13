@@ -478,6 +478,17 @@ There are a lot of nested functions, so reading from the innermost:
 
 Finally, we create indexes on `traditional`, `spatial`, `temporal` or `spatiotemporal` attributes as well as views to select a subset of the rows from the corresponding tables. This can be done as follows.
 
+```sql
+CREATE UNIQUE INDEX Cars_CarId_Idx ON Cars USING btree(CarId);
+CREATE INDEX Instants_Instant_Idx ON Instants USING btree(Instant);
+CREATE INDEX Periods_Period_Idx ON Periods USING gist(Period);
+CREATE INDEX Points_Geom_Idx ON Points USING gist(Geom);
+CREATE INDEX Regions_Geom_Idx ON Regions USING gist(Geom);
+CREATE INDEX Trips_CarId_idx ON Trips USING btree(CarId);
+CREATE UNIQUE INDEX Trips_pkey_idx ON Trips USING btree(CarId, TripId);
+CREATE INDEX Trips_gist_idx ON Trips USING gist(trip);
+CREATE VIEW Instants1 AS SELECT * FROM Instants LIMIT 10;
+```
 
 
 # Real World Application
