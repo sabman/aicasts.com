@@ -467,6 +467,19 @@ FROM TripsInput
 GROUP BY CarId, TripId;
 ```
 
+There are a lot of nested functions, so reading from the innermost:
+
+* Function `ST_MakePoint` construct a point from the Lon and Lat values.
+* Function `ST_SetSRID` sets the SRID of the point to 4326, that is, to the standard WGS 84 GPS coordinates.
+* Function `ST_Transform` transforms the spherical GPS coordinates to plannar coordinates fitted for Germany.
+* Function `tgeompointinst` gets the point and the time values to create a temporal point of instant duration.
+* Function array_agg collects in an array all temporal points of a given car and a given trip (as specified by the GROUP BY clause)andsortthembytime(asspecifiedbytheORDER BYclause)
+* Function `tgeompointseq` gets the array of temporal points and construct a temporal point of sequence duration.
+
+Finally, we create indexes on `traditional`, `spatial`, `temporal` or `spatiotemporal` attributes as well as views to select a subset of the rows from the corresponding tables. This can be done as follows.
+
+
+
 # Real World Application
 
 - emergency incident management
