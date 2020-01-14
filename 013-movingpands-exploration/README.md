@@ -28,3 +28,5 @@ $ docker build . -t test
 $ docker volume create somedir
 $ docker run -v somedir:/some_dir:rw alpine chown -R 1001:1001 /some_dir
 ```
+
+TODO: fix https://vsupalov.com/docker-shared-permissions/
