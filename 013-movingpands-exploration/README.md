@@ -2,6 +2,7 @@ This docker image contains the full movingpandas and jupyter notebook environmen
 
 ```sh
 docker run --rm -it -p 8888:8888 --name movingpadas \
+ --user "$(id -u):$(id -g)" \
  -v `pwd`/notebooks:/opt/notebooks:rw \
  -v `pwd`/data:/opt/data movingpandas \
  /bin/bash -c "/opt/conda/bin/jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser"
