@@ -2,13 +2,13 @@ This docker image contains the full movingpandas and jupyter notebook environmen
 
 ```sh
 docker run --rm -it -p 8888:8888 --name movingpadas \
- -v `pwd`/notebooks:/opt/notebooks \
+ -v `pwd`/notebooks:/opt/notebooks:rw \
  -v `pwd`/data:/opt/data movingpandas \
  /bin/bash -c "/opt/conda/bin/jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser"
 ```
 
 ```sh
-open http://`docker-machine ip`:8888/?token=7ed010e454728cef8025790862f85e928a76940d591dc9d9
+open http://`docker-machine ip`:8888/?token=c23b78abd62d53872efda9046f4c09d53b172115ac2f6ecc
 ```
 
 ```sh
@@ -26,5 +26,5 @@ wget -O demodata_horse_collar.gpkg https://github.com/anitagraser/movingpandas/b
 ```
 $ docker build . -t test
 $ docker volume create somedir
-$ docker run -v somedir:/some_dir alpine chown -R 1001:1001 /some_dir
+$ docker run -v somedir:/some_dir:rw alpine chown -R 1001:1001 /some_dir
 ```
