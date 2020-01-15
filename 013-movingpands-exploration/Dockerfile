@@ -3,13 +3,13 @@ FROM continuumio/miniconda3
 MAINTAINER Shoaib Burq
 
 ARG MOVINGPANDAS_VERSION=0.1.dev3
-
+ARG USER_ID=1001
 RUN groupadd -g 1001 appgroup && \
-    useradd -u 1001 -g appgroup appuser
+    useradd -u $USER_ID -g appgroup appuser
 
-USER appuser
+USER root
 
-RUN groupadd -r appuser && useradd --no-log-init -ms /bin/bash -r -g appuser appuser
+# RUN groupadd -r appuser && useradd --no-log-init -ms /bin/bash -r -g appuser appuser
 RUN apt-get update && apt-get install -y gcc git && apt-get clean
 RUN conda config --append channels conda-forge &&\
     conda install --yes numpy scipy xarray jupyter matplotlib pyproj basemap nose pillow owslib pyepsg cartopy hvplot geoviews 
