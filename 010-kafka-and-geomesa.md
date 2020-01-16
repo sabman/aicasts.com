@@ -116,3 +116,5 @@ https://github.com/perliedman/leaflet-realtime
 ```
 
 Taxi Data: https://publish.illinois.edu/dbwork/open-data/
+
+The logic is contained in the generic org.geomesa.example.quickstart.GeoMesaQuickStart
