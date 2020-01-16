@@ -118,3 +118,11 @@ https://github.com/perliedman/leaflet-realtime
 Taxi Data: https://publish.illinois.edu/dbwork/open-data/
 
 The logic is contained in the generic org.geomesa.example.quickstart.GeoMesaQuickStart
+
+Some relevant methods are:
+
+createDataStore get a datastore instance from the input configuration
+createSchema create the schema in the datastore, as a pre-requisite to writing data
+writeFeatures overridden in the KafkaQuickStart to simultaneously write and read features from Kafka
+queryFeatures not used in this tutorial
+cleanup delete the sample data and dispose of the datastore instance
