@@ -3,21 +3,24 @@
 
 # Geomesa
 
-```
+Installing Geomesa:
+
+```sh
+# download the tutorials
 git clone https://github.com/geomesa/geomesa-tutorials.git
-gco geomesa-tutorials-2.3.1
+git checkout geomesa-tutorials-2.3.1
 mvn clean install -pl geomesa-tutorials-kafka/geomesa-tutorials-kafka-quickstart -am
-
-
 ```
 
-# Kafka
+# Kafka and Zookeeper
 
-```
+```sh
 brew install kafka
 brew services start kafka
 brew install zookeeper
 brew services start zookeeper
+# brew services restart zookeeper
+# brew services restart kafka
 ```
 
 # GeoServer
@@ -54,7 +57,7 @@ cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/jopt-simple-5.0.4.jar ~/code/geose
 
 https://gis.stackexchange.com/questions/210316/access-control-allow-origin-openlayers-wfs
 
-```
+```sh
 vim webapps/geoserver/WEB-INF/web.xml
 ```
 
@@ -73,7 +76,7 @@ Should have the following:
 ```
 
 
-```
+```sh
 ❯ curl http://0.0.0.0:8080/geoserver/cite/wfs\?service\=WFS\&version\=1.1.0\&request\=GetFeature\&typeName\=cite:tdrive-quickstart\&outputFormat\=application/json | jq
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
@@ -118,18 +121,24 @@ Should have the following:
 
 https://github.com/perliedman/leaflet-realtime
 
-```
-
+```sh
+...
 ```
 
 Taxi Data: https://publish.illinois.edu/dbwork/open-data/
 
-The logic is contained in the generic org.geomesa.example.quickstart.GeoMesaQuickStart
+The logic is contained in the generic `org.geomesa.example.quickstart.GeoMesaQuickStart`
 
 Some relevant methods are:
 
-createDataStore get a datastore instance from the input configuration
-createSchema create the schema in the datastore, as a pre-requisite to writing data
-writeFeatures overridden in the KafkaQuickStart to simultaneously write and read features from Kafka
-queryFeatures not used in this tutorial
-cleanup delete the sample data and dispose of the datastore instance
+* `createDataStore` get a `datastore` instance from the input configuration
+* `createSchema` create the schema in the datastore, as a pre-requisite to writing data
+* `writeFeatures` overridden in the `KafkaQuickStart` to simultaneously write and read features from Kafka
+`queryFeatures` not used in this tutorial
+* `cleanup` delete the sample data and dispose of the `datastore` instance
+
+
+```sh
+cd leaflet-realtime
+
+```
