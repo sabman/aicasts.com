@@ -22,26 +22,33 @@ brew services start zookeeper
 
 # GeoServer
 
-WPS plugin
+## WPS plugin
+
+Download WPS plugin:
+
+```sh
+GEOSERVER_VERSION=2.14.4
+wget https://netix.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/geoserver-${GEOSERVER_VERSION}-bin.zip
 
 ```
-wget https://netix.dl.sourceforge.net/project/geoserver/GeoServer/2.14.4/geoserver-2.14.4-bin.zip
+
+Install plugin in Geoserver:
+
+```sh
+wget https://iweb.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-wps-plugin.zip
+
+cp ~/tmp/geoserver-${GEOSERVER_VERSION}-wps-plugin/* ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
 ```
 
-```
-cp ~/tmp/geoserver-2.14.4-wps-plugin/* ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
-```
+Kafka:
 
-
-
-Kafka 
-```
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/kafka-clients-2.3.1.jar ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/kafka_2.12-2.3.1.jar ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/zkclient-0.11.jar ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/zookeeper-3.4.14.jar ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/metrics-core-2.2.0.jar ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/jopt-simple-5.0.4.jar ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
+```sh
+cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/kafka-clients-2.3.1.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
+cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/kafka_2.12-2.3.1.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
+cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/zkclient-0.11.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
+cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/zookeeper-3.4.14.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
+cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/metrics-core-2.2.0.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
+cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/jopt-simple-5.0.4.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
 ```
 
 
