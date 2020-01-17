@@ -1,5 +1,6 @@
 # Introduction
 
+https://www.geomesa.org/documentation/tutorials/geomesa-quickstart-kafka.html
 
 # Geomesa
 
@@ -10,6 +11,10 @@ Installing Geomesa:
 git clone https://github.com/geomesa/geomesa-tutorials.git
 git checkout geomesa-tutorials-2.3.1
 mvn clean install -pl geomesa-tutorials-kafka/geomesa-tutorials-kafka-quickstart -am
+java -cp geomesa-tutorials-kafka/geomesa-tutorials-kafka-quickstart/target/geomesa-tutorials-kafka-quickstart-2.3.1.jar \
+    org.geomesa.example.kafka.KafkaListener \
+    --kafka.brokers localhost:9092 \
+    --kafka.zookeepers localhost:2181
 ```
 
 # Kafka and Zookeeper
