@@ -46,7 +46,10 @@ Install WPS plugin in Geoserver:
 wget https://iweb.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-wps-plugin.zip
 
 cp ~/tmp/geoserver-${GEOSERVER_VERSION}-wps-plugin/* ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
+
+geoserver /usr/local/Cellar/geoserver/2.15.2/libexec/webapps/geoserver/data
 ```
+
 
 
 Kafka:
