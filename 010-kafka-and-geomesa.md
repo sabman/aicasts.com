@@ -40,7 +40,7 @@ wget https://netix.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VE
 
 ```
 
-Install plugin in Geoserver:
+Install WPS plugin in Geoserver:
 
 ```sh
 wget https://iweb.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-wps-plugin.zip
