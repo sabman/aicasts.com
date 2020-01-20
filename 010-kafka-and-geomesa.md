@@ -48,7 +48,12 @@ wget https://iweb.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VER
 cp ~/tmp/geoserver-${GEOSERVER_VERSION}-wps-plugin/* ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
 ```
 
+
 Kafka:
+
+```sh
+wget https://repo1.maven.org/maven2/org/locationtech/geomesa/geomesa-kafka-gs-plugin_2.11/2.3.2/geomesa-kafka-gs-plugin_2.11-2.3.2-install.tar.gz
+```
 
 ```sh
 cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/kafka-clients-2.3.1.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
