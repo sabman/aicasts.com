@@ -51,7 +51,6 @@ geoserver /usr/local/Cellar/geoserver/2.15.2/libexec/webapps/geoserver/data
 ```
 
 
-
 Kafka:
 
 ```sh
@@ -155,3 +154,18 @@ Some relevant methods are:
 cd leaflet-realtime
 
 ```
+
+### Register the GeoMesa Store with GeoServer
+
+Log into GeoServer using your user and password credentials. Click “Stores” and “Add new Store”. Select the Kafka (GeoMesa) vector data source, and fill in the required parameters.
+
+Basic store info:
+
+workspace this is dependent upon your GeoServer installation
+data source name pick a sensible name, such as geomesa_quick_start
+description this is strictly decorative; GeoMesa quick start
+Connection parameters:
+
+these are the same parameter values that you supplied on the command line when you ran the tutorial; they describe how to connect to the Kafka instance where your data reside
+Click “Save”, and GeoServer will search Zookeeper for any GeoMesa-managed feature types.
+
