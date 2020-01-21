@@ -169,3 +169,11 @@ Connection parameters:
 these are the same parameter values that you supplied on the command line when you ran the tutorial; they describe how to connect to the Kafka instance where your data reside
 Click “Save”, and GeoServer will search Zookeeper for any GeoMesa-managed feature types.
 
+#### Publish the Layer
+
+If you have already run the command to start the tutorial, then GeoServer should recognize the tdrive-quickstart feature type, and should present that as a layer that can be published. Click on the “Publish” link. If not, then run the tutorial as described above in Running the Tutorial. When the tutorial pauses, go to “Layers” and “Add new Layer”. Select the GeoMesa Kafka store you just created, and then click “publish” on the tdrive-quickstart layer.
+
+You will be taken to the Edit Layer screen. You will need to enter values for the data bounding boxes. For this demo, use the values MinX: 116.22366, MinY: 39.72925, MaxX: 116.58804, MaxY: 40.09298.
+
+Click on the “Save” button when you are done.
+
