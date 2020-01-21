@@ -177,3 +177,9 @@ You will be taken to the Edit Layer screen. You will need to enter values for th
 
 Click on the “Save” button when you are done.
 
+#### Listening for Feature Events (optional)
+
+The GeoTools API also includes a mechanism to fire off a FeatureEvent each time there is an event in a DataStore (typically when the data is changed). A client may implement a FeatureListener, which has a single method called changed() that is invoked as each FeatureEvent is fired.
+
+The code in KafkaListener implements a simple FeatureListener that prints the messages received. Open up a second terminal window and run:
+
