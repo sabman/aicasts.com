@@ -56,7 +56,6 @@ brew services start zookeeper
 Download WPS plugin:
 
 ```sh
-GEOSERVER_VERSION=2.14.4
 wget https://netix.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/geoserver-${GEOSERVER_VERSION}-bin.zip
 
 ```
@@ -64,9 +63,9 @@ wget https://netix.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VE
 Install WPS plugin in Geoserver:
 
 ```sh
-wget https://iweb.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-wps-plugin.zip
+cd ~/tmp/ && wget https://iweb.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-wps-plugin.zip 
 
-cp ~/tmp/geoserver-${GEOSERVER_VERSION}-wps-plugin/* ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
+cp ~/tmp/geoserver-${GEOSERVER_VERSION}-wps-plugin/* ${GEOSERVER_HOME}/webapps/geoserver/WEB-INF/lib
 
 geoserver /usr/local/Cellar/geoserver/2.15.2/libexec/webapps/geoserver/data
 ```
@@ -79,19 +78,19 @@ wget https://repo1.maven.org/maven2/org/locationtech/geomesa/geomesa-kafka-gs-pl
 ```
 
 ```sh
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/kafka-clients-2.3.1.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/kafka_2.12-2.3.1.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/zkclient-0.11.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/zookeeper-3.4.14.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/metrics-core-2.2.0.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
-cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/jopt-simple-5.0.4.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
+cp ${KAFKA_HOME}/libexec/libs/kafka-clients-2.3.1.jar ~/code/geoserver-${GEOSERVER_VERSION}/webapps/geoserver/WEB-INF/lib
+cp ${KAFKA_HOME}/libexec/libs/kafka_2.12-2.3.1.jar ${GEOSERVER_HOME}/webapps/geoserver/WEB-INF/lib
+cp ${KAFKA_HOME}/libexec/libs/zkclient-0.11.jar ${GEOSERVER_HOME}/webapps/geoserver/WEB-INF/lib
+cp ${KAFKA_HOME}/libexec/libs/zookeeper-3.4.14.jar ${GEOSERVER_HOME}/webapps/geoserver/WEB-INF/lib
+cp ${KAFKA_HOME}/libexec/libs/metrics-core-2.2.0.jar ${GEOSERVER_HOME}/webapps/geoserver/WEB-INF/lib
+cp ${KAFKA_HOME}/libexec/libs/jopt-simple-5.0.4.jar ${GEOSERVER_HOME}/webapps/geoserver/WEB-INF/lib
 ```
 
 
 https://gis.stackexchange.com/questions/210316/access-control-allow-origin-openlayers-wfs
 
 ```sh
-vim webapps/geoserver/WEB-INF/web.xml
+vim ${GEOSERVER_HOME}/webapps/geoserver/WEB-INF/web.xml
 ```
 
 Should have the following:
