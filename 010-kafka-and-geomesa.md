@@ -41,12 +41,17 @@ java -cp geomesa-tutorials-kafka/geomesa-tutorials-kafka-quickstart/target/geome
 # Kafka and Zookeeper
 
 ```sh
+# installing kafa and zookeeper
 brew install kafka
-brew services start kafka
 brew install zookeeper
+
+# starting
+brew services start kafka
 brew services start zookeeper
-# brew services restart zookeeper
-# brew services restart kafka
+
+# for restarting
+brew services restart zookeeper
+brew services restart kafka
 ```
 
 # GeoServer
