@@ -2,6 +2,27 @@
 
 https://www.geomesa.org/documentation/tutorials/geomesa-quickstart-kafka.html
 
+```sh
+KAFKA_VERSION=2.3.1
+KAFKA_HOME=/usr/local/Cellar/kafka/${KAFKA_VERSION}
+GEOSERVER_VERSION=2.14.4
+ZOOKEEPER_VERSION=3.4.14
+JAVA_VERSION=1.8
+GEOSERVER_HOME=~/code/geoserver-${GEOSERVER_VERSION}
+FRONTEND_HOME=~/code/leaflet-realtime
+GEOMESA_TUTORIALS_HOME=~/code/geomesa-tutorials
+GEOMESA_KAFKA_TUTORIAL_BUILD=${GEOMESA_TUTORIALS_HOME}/geomesa-tutorials-kafka/geomesa-tutorials-kafka-quickstart/target/geomesa-tutorials-kafka-quickstart-2.3.1.jar
+
+# Build Geomesa Kafka tutorial
+mvn clean install -pl ${GEOMESA_TUTORIALS_HOME}/geomesa-tutorials-kafka/geomesa-tutorials-kafka-quickstart -am
+
+# configuring Geoserver
+cd $GEOSERVER_HOME
+
+cd ${FRONTEND_HOME} && python2.7 proxypass.py # runs frontend client on 0.0.0.0:8880
+
+```
+
 # Geomesa
 
 Installing Geomesa:
