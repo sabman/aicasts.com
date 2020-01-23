@@ -498,3 +498,4 @@ CREATE VIEW Instants1 AS SELECT * FROM Instants LIMIT 10;
 - logitics optimisation
 - security and servalence
 - forensic and legal usecases
+- contextual advertising https://www.adonmo.com/
