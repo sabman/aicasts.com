@@ -499,3 +499,13 @@ CREATE VIEW Instants1 AS SELECT * FROM Instants LIMIT 10;
 - security and servalence
 - forensic and legal usecases
 - contextual advertising https://www.adonmo.com/
+
+
+# Installation
+
+```sh
+docker pull codewit/mobilitydb
+docker volume create mobilitydb_data
+docker run --name "mobilitydb" -d -p 25432:5432 -v mobilitydb_data:/var/lib/postgresql 
+	codewit/mobilitydb
+```
