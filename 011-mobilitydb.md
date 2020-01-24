@@ -506,10 +506,13 @@ CREATE VIEW Instants1 AS SELECT * FROM Instants LIMIT 10;
 ```sh
 docker pull codewit/mobilitydb
 docker volume create mobilitydb_data
-docker run --name "mobilitydb" -d -p 25432:5432 -v mobilitydb_data:/var/lib/postgresql 
-	codewit/mobilitydb
+docker run --name "mobilitydb" -d -p 25432:5432 -v mobilitydb_data:/var/lib/postgresql codewit/mobilitydb
 ```
 
 ```sh
 docker exec -t -i mobilitydb psql -h localhost -p 5432 -d mobilitydb -U docker
+
+# on mac
+docker exec -t -i mobilitydb psql -h `docker-machine ip` -p 25432 -d mobilitydb -U docker
 ```
+
