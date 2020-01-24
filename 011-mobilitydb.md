@@ -512,7 +512,8 @@ docker run --name "mobilitydb" -d -p 25432:5432 -v mobilitydb_data:/var/lib/post
 ```sh
 docker exec -t -i mobilitydb psql -h localhost -p 5432 -d mobilitydb -U docker
 
-# on mac
+# on macs
 docker exec -t -i mobilitydb psql -h `docker-machine ip` -p 25432 -d mobilitydb -U docker
 ```
 
+The first command is to download the latest most up-to-date image of MobilityDB. The second command creates a volume container on the host, that we will use to persist the PostgreSQL database files outside of the MobilityDB container. The third command executes this binary image of PostgreSQL, PostGIS, and MobilityDB with the TCP port 5432 in the container mapped to port 25432 on the Docker host (user = pw = docker, db = mobilitydb). This image is based on this docker container, please refer to it for more information.
