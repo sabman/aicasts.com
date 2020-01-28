@@ -18,3 +18,5 @@ nlp({
 })
 >>> {'score': 0.28756016668193496, 'start': 35, 'end': 59, 'answer': 'huggingface/transformers'}
 ```
+
+- [ ] https://mccormickml.com/2019/07/22/BERT-fine-tuning/
