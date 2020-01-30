@@ -520,4 +520,45 @@ docker exec -t -i mobilitydb psql -h `docker-machine ip` -p 25432 -d mobilitydb 
 
 The first command is to download the latest most up-to-date image of MobilityDB. The second command creates a volume container on the host, that we will use to persist the PostgreSQL database files outside of the MobilityDB container. The third command executes this binary image of PostgreSQL, PostGIS, and MobilityDB with the TCP port 5432 in the container mapped to port 25432 on the Docker host (user = pw = docker, db = mobilitydb). This image is based on this docker container, please refer to it for more information.
 
-# Loading the Data
+# Loading the Data in Partitioned Tables
+
+PostgreSQL provides partitioning mechanisms so that large tables can be split in smaller physical tables. This may result in increased performance when querying and manipulating large tables. We will split the Trips table given in the previous section using **list partitioning**, where each partitition will contain all the **trips that start at a particular date**. For doing this, we use the procedure given next for automatically creating the partitions according to a date range.
+
+```sql
+CREATE OR REPLACE FUNCTION create_partitions_by_date(TableName TEXT, StartDate DATE,
+	EndDate DATE)
+RETURNS void AS $$
+DECLARE
+	d DATE;
+	PartitionName TEXT;
+BEGIN
+	IF NOT EXISTS
+		(SELECT 1
+		 FROM information_schema.tables 
+		 WHERE table_name = lower(TableName)) 
+	THEN
+		RAISE EXCEPTION 'Table % does not exist', TableName;
+	END IF;
+	IF StartDate >= EndDate THEN
+		RAISE EXCEPTION 'The start date % must be before the end date %', StartDate, EndDate;
+	END IF;
+	d = StartDate;
+	WHILE d <= EndDate 
+	LOOP
+		PartitionName = TableName || '_' || to_char(d, 'YYYY_MM_DD');
+		IF NOT EXISTS
+			(SELECT 1
+			 FROM information_schema.tables 
+			 WHERE  table_name = lower(PartitionName))
+		THEN
+			EXECUTE format('CREATE TABLE %s PARTITION OF %s FOR VALUES IN (''%s'');', 
+				PartitionName, TableName, to_char(d, 'YYYY-MM-DD'));
+			RAISE NOTICE 'Partition % has been created', PartitionName;
+		END IF;
+		d = d + '1 day'::interval;
+	END LOOP;
+	RETURN;
+END
+$$ LANGUAGE plpgsql;
+
+```
