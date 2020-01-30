@@ -4,6 +4,7 @@
 Why GeoTemporal matters
 * https://www.youtube.com/watch?v=_t7jlFbpty4
 * https://www.youtube.com/watch?v=HyOLKAKh_e8
+* https://docs.mobilitydb.com/MobilityDB/master/
 
 # Concepts
 

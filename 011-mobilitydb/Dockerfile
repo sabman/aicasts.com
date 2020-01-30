@@ -1,0 +1,1 @@
+from codewit/mobilitydb:latest
