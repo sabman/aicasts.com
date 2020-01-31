@@ -562,3 +562,16 @@ END
 $$ LANGUAGE plpgsql;
 
 ```
+
+
+In order to partition table `Trips` by date we need to add an addition column `TripDate` to table TripsInput.
+
+```sql
+ALTER TABLE TripsInput ADD COLUMN TripDate DATE;
+UPDATE TripsInput T1
+SET TripDate = T2.TripDate
+FROM (SELECT DISTINCT TripId, date_trunc('day', MIN(T) OVER (PARTITION BY TripId))
+	AS TripDate FROM TripsInput) T2
+WHERE T1.TripId = T2.TripId;
+```
+
