@@ -592,3 +592,10 @@ CREATE TABLE Trips
 SELECT create_partitions_by_date('Trips', (SELECT MIN(TripDate) FROM TripsInput), 
 	(SELECT MAX(TripDate) FROM TripsInput));
 ```
+To see the partitions that have been created automatically we can use the following statement.
+
+```sql
+SELECT I.inhrelid::regclass AS child
+FROM   pg_inherits I
+WHERE  i.inhparent = 'trips'::regclass;
+```
