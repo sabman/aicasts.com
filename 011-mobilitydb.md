@@ -575,3 +575,20 @@ FROM (SELECT DISTINCT TripId, date_trunc('day', MIN(T) OVER (PARTITION BY TripId
 WHERE T1.TripId = T2.TripId;
 ```
 
+The following statements create table `Trips` partitioned by date and the associated partitions.
+
+```sql
+CREATE TABLE Trips
+(
+	CarId integer NOT NULL,
+	TripId integer NOT NULL,
+	TripDate date,
+	Trip tgeompoint,
+	Traj geometry,
+	PRIMARY KEY (CarId, TripId, TripDate),
+	FOREIGN KEY (CarId) REFERENCES Cars (CarId) 
+) PARTITION BY LIST(TripDate);
+
+SELECT create_partitions_by_date('Trips', (SELECT MIN(TripDate) FROM TripsInput), 
+	(SELECT MAX(TripDate) FROM TripsInput));
+```
