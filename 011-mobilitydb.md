@@ -609,3 +609,8 @@ SELECT CarId, TripId, TripDate, tgeompointseq(array_agg(tgeompointinst(
 FROM TripsInput
 GROUP BY CarId, TripId, TripDate;
 ```
+
+Then, we can define the indexes and the views on the table Trips as shown in the previous section.
+
+An important advantange of the partitioning mechanism in PostgreSQL is that the constraints and the indexes defined on the Trips table are propagated to the partitions as shown next.
+
