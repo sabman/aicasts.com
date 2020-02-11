@@ -599,3 +599,5 @@ SELECT I.inhrelid::regclass AS child
 FROM   pg_inherits I
 WHERE  i.inhparent = 'trips'::regclass;
 ```
+
+We modify the query that loads table Trips from the data in table TripsInput as follows.
