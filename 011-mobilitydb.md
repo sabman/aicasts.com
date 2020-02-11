@@ -601,3 +601,11 @@ WHERE  i.inhparent = 'trips'::regclass;
 ```
 
 We modify the query that loads table Trips from the data in table TripsInput as follows.
+
+```sql
+INSERT INTO Trips
+SELECT CarId, TripId, TripDate, tgeompointseq(array_agg(tgeompointinst(
+	ST_Transform(ST_SetSRID(ST_MakePoint(Lon,Lat), 4326), 5676), T) ORDER BY T))
+FROM TripsInput
+GROUP BY CarId, TripId, TripDate;
+```
