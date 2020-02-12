@@ -612,5 +612,23 @@ GROUP BY CarId, TripId, TripDate;
 
 Then, we can define the indexes and the views on the table Trips as shown in the previous section.
 
-An important advantange of the partitioning mechanism in PostgreSQL is that the constraints and the indexes defined on the Trips table are propagated to the partitions as shown next.
+An important advantage of the partitioning mechanism in PostgreSQL is that the constraints and the indexes defined on the Trips table are propagated to the partitions as shown next.
 
+```sql
+INSERT INTO Trips VALUES (1, 10, '2007-05-30', NULL);
+
+ERROR:  duplicate key value violates unique constraint "trips_2007_05_30_pkey"
+DETAIL:  Key (carid, TripId, tripdate)=(1, 10, 2007-05-30) already exists.
+
+EXPLAIN SELECT COUNT(*) from Trips where Trip && period '[2007-05-28, 2007-05-29]';
+
+"Aggregate  (cost=59.95..59.96 rows=1 width=8)"
+"  ->  Append  (cost=0.14..59.93 rows=8 width=0)"
+"        ->  Index Scan using trips_2007_05_27_trip_idx on trips_2007_05_27  (cost=0.14..8.16 rows=1 width=0)"
+"              Index Cond: (trip && 'STBOX T((,,2007-05-28 00:00:00+00),(,,2007-05-29 00:00:00+00))'::stbox)"
+"        ->  Index Scan using trips_2007_05_28_trip_idx on trips_2007_05_28  (cost=0.27..8.29 rows=1 width=0)"
+"              Index Cond: (trip && 'STBOX T((,,2007-05-28 00:00:00+00),(,,2007-05-29 00:00:00+00))'::stbox)"
+"        ->  Index Scan using trips_2007_05_29_trip_idx on trips_2007_05_29  (cost=0.27..8.29 rows=1 width=0)"
+"              Index Cond: (trip && 'STBOX T((,,2007-05-28 00:00:00+00),(,,2007-05-29 00:00:00+00))'::stbox)"
+[...]
+```
