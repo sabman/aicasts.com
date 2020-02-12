@@ -654,3 +654,18 @@ SELECT count(*) FROM Trips WHERE GeometryType(Traj) = 'LINESTRING';
 -- 828
 ```
 
+We can also determine the spatiotemporal extent of the data using the following query.
+
+```sql
+SELECT extent(Trip) from Trips
+-- "STBOX T((2983189.5, 5831006.5,2007-05-27 00:00:00+02),
+	(3021179.8, 5860883,2007-05-31 00:00:00+02))"
+```
+
+## Figure 8.2. Visualization of the trajectories of the trips in QGIS.
+
+We continue investigating the data set by computing the maximum number of concurrent trips over the whole period
+
+```sql
+SELECT maxValue(tcount(Trip)) FROM Trips;
+```
