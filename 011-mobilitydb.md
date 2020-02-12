@@ -632,3 +632,25 @@ EXPLAIN SELECT COUNT(*) from Trips where Trip && period '[2007-05-28, 2007-05-29
 "              Index Cond: (trip && 'STBOX T((,,2007-05-28 00:00:00+00),(,,2007-05-29 00:00:00+00))'::stbox)"
 [...]
 ```
+
+# Exploring the Data
+
+In order to visualize the data with traditional tools such as QGIS we add to table Trip a column Traj of type geometry containing the trajectory of the trips.
+
+```sql
+ALTER TABLE Trips ADD COLUMN traj geometry;
+UPDATE Trips
+SET Traj = trajectory(Trip);
+```
+
+The visualization of the trajectories in QGIS is given in Figure 8.2, “Visualization of the trajectories of the trips in QGIS.”. In the figure red lines correspond to the trajectories of moving cars, while yellow points correspond to the position of stationary cars. In order to know the total number of trips as well as the number of moving and stationary trips we can issue the following queries.
+
+```sql
+SELECT count(*) FROM Trips;
+-- 1797
+SELECT count(*) FROM Trips WHERE GeometryType(Traj) = 'POINT';
+-- 969
+SELECT count(*) FROM Trips WHERE GeometryType(Traj) = 'LINESTRING';
+-- 828
+```
+
