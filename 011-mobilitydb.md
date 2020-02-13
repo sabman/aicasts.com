@@ -669,3 +669,11 @@ We continue investigating the data set by computing the maximum number of concur
 ```sql
 SELECT maxValue(tcount(Trip)) FROM Trips;
 ```
+
+the average sampling rate
+
+```sql
+SELECT AVG(timespan(Trip)/numInstants(Trip)) FROM Trips;
+-- "03:43:01.695539"
+```
+
