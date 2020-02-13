@@ -677,3 +677,9 @@ SELECT AVG(timespan(Trip)/numInstants(Trip)) FROM Trips;
 -- "03:43:01.695539"
 ```
 
+and the total travelled distance in kilometers of all trips:
+
+```sql
+SELECT SUM(length(Trip)) / 1e3 as TotalLengthKm FROM Trips;
+-- 10074.8123345527
+```
