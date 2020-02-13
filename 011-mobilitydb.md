@@ -683,3 +683,10 @@ and the total travelled distance in kilometers of all trips:
 SELECT SUM(length(Trip)) / 1e3 as TotalLengthKm FROM Trips;
 -- 10074.8123345527
 ```
+
+Now we want to know the average duration of a trip.
+
+```sql
+SELECT AVG(timespan(Trip)) FROM Trips;
+--"07:31:57.195325"
+```
