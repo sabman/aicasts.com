@@ -699,3 +699,7 @@ SELECT length(Trip) / 1e3, timespan(Trip) FROM Trips ORDER BY duration;
 
 The query shows very many trips with zero length and a duration of more than one day. That would imply that there are stationary trips, representing parking overnight and even over the weekend. The previous query can hence be refined as follows:
 
+```sql
+SELECT AVG(timespan(Trip)/numInstants(Trip)) FROM Trips WHERE length(Trip) > 0;
+-- "00:00:01.861784"
+```
