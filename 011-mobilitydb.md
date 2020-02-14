@@ -703,3 +703,26 @@ The query shows very many trips with zero length and a duration of more than one
 SELECT AVG(timespan(Trip)/numInstants(Trip)) FROM Trips WHERE length(Trip) > 0;
 -- "00:00:01.861784"
 ```
+
+The following query produces a histogram of trip length.
+
+```sql
+WITH buckets (bucketNo, bucketRange) AS (
+	SELECT 1, floatrange '[0, 0]' UNION
+	SELECT 2, floatrange '(0, 100)' UNION
+	SELECT 3, floatrange '[100, 1000)' UNION
+	SELECT 4, floatrange '[1000, 5000)' UNION
+	SELECT 5, floatrange '[5000, 10000)' UNION
+	SELECT 6, floatrange '[10000, 50000)' UNION
+	SELECT 7, floatrange '[50000, 100000)' ),
+histogram AS (
+	SELECT bucketNo, bucketRange, count(TripId) as freq
+	FROM buckets left outer join trips on length(trip) <@ bucketRange
+	GROUP BY bucketNo, bucketRange
+	ORDER BY bucketNo, bucketRange
+)
+SELECT bucketNo, bucketRange, freq,
+	repeat('■', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
+FROM histogram;
+				
+```
