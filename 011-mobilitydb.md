@@ -726,3 +726,12 @@ SELECT bucketNo, bucketRange, freq,
 FROM histogram;
 				
 ```
+
+## Querying the Data
+
+We discuss next four categories of queries: range queries, distance queries, temporal aggregate queries, and nearest-neighbor queries[2].
+
+### Range Queries
+
+The queries in this category restrict Trips with respect to a spatial, temporal, or spatio-temporal point or range. In the examples, the spatial points and ranges are given, respectively, in tables Points and Regions, while temporal points and ranges are given, respectively, in tables Instants and Periods.
+
