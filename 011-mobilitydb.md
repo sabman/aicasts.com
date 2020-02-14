@@ -690,3 +690,12 @@ Now we want to know the average duration of a trip.
 SELECT AVG(timespan(Trip)) FROM Trips;
 --"07:31:57.195325"
 ```
+
+This average duration is too long. To investigate more we use the following query
+
+```sql
+SELECT length(Trip) / 1e3, timespan(Trip) FROM Trips ORDER BY duration;
+```
+
+The query shows very many trips with zero length and a duration of more than one day. That would imply that there are stationary trips, representing parking overnight and even over the weekend. The previous query can hence be refined as follows:
+
