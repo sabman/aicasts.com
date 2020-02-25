@@ -15,4 +15,4 @@ RUN cd /usr/local/src/MobilityDB/build && \
 	make && \
 	make install
 RUN echo "shared_preload_libraries = 'postgis-3'" >> /etc/postgresql/12/main/postgresql.conf.template
-RUN echo "max_locks_per_transaction = 150" >> /etc/postgresql/12/main/postgresql.conf.templateA
+RUN echo "max_locks_per_transaction = 150" >> /etc/postgresql/12/main/postgresql.conf.template

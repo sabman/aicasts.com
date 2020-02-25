@@ -735,3 +735,12 @@ We discuss next four categories of queries: range queries, distance queries, tem
 
 The queries in this category restrict Trips with respect to a spatial, temporal, or spatio-temporal point or range. In the examples, the spatial points and ranges are given, respectively, in tables Points and Regions, while temporal points and ranges are given, respectively, in tables Instants and Periods.
 
+1. List the cars that have passed at a region from Regions.
+
+```sql
+SELECT DISTINCT R.RegionId, T.CarId
+FROM Trips T, Regions R
+WHERE ST_Intersects(trajectory(T.Trip), R.Geom)
+ORDER BY R.RegionId, T.CarId;
+```
+
