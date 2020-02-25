@@ -746,3 +746,12 @@ ORDER BY R.RegionId, T.CarId;
 
 This is a spatial range query. The query verifies that the trajectory of the car intersects the region. PostGIS performs an implicit bounding box comparison `trajectory(T.Trip)` && R.Geom using the spatial index on table Regions when executing the predicate `ST_Intersects`.
 
+2. List the cars that were within a region from `Regions` during a period from Periods.
+
+```sql
+SELECT R.RegionId, P.PeriodId, T.CarId
+FROM Trips T, Regions R, Periods P
+WHERE T.Trip && stbox(R.Geom, P.Period) AND 
+	_intersects(atPeriod(T.Trip, P.Period), R.Geom)
+ORDER BY R.RegionId, P.PeriodId, T.CarId;
+```
