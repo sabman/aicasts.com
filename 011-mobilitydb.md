@@ -733,7 +733,7 @@ We discuss next four categories of queries: range queries, distance queries, tem
 
 ### Range Queries
 
-The queries in this category restrict Trips with respect to a spatial, temporal, or spatio-temporal point or range. In the examples, the spatial points and ranges are given, respectively, in tables Points and Regions, while temporal points and ranges are given, respectively, in tables Instants and Periods.
+The queries in this category restrict `Trips` with respect to a spatial, temporal, or spatio-temporal point or range. In the examples, the spatial points and ranges are given, respectively, in tables Points and Regions, while temporal points and ranges are given, respectively, in tables Instants and Periods.
 
 1. List the cars that have passed at a region from Regions.
 
@@ -743,4 +743,6 @@ FROM Trips T, Regions R
 WHERE ST_Intersects(trajectory(T.Trip), R.Geom)
 ORDER BY R.RegionId, T.CarId;
 ```
+
+This is a spatial range query. The query verifies that the trajectory of the car intersects the region. PostGIS performs an implicit bounding box comparison `trajectory(T.Trip)` && R.Geom using the spatial index on table Regions when executing the predicate `ST_Intersects`.
 
