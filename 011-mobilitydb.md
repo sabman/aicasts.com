@@ -773,3 +773,23 @@ ORDER BY T1.CarId, T2.CarId, R.RegionId, P.PeriodId;
 
 This is a **spatio-temporal range join query**. The query selects two trips of different cars and performs bounding box comparisons of each trip with a region and a period using the spatio-temporal index of the `Trips` table. The query then verifies that both cars were located within the region during the period.
 
+
+4. List the first time at which a car visited a point in Points.
+
+```sql
+
+SELECT 
+  T.CarId,
+  P.PointId,
+  MIN(
+    startTimestamp( -- startTimestamp: get the first `timestamp` of the projected trip
+      atValue(T.Trip,P.Geom))) AS Instant -- atValue function projects the trip
+FROM Trips T, Points P
+-- verifies that the car passed by the point
+WHERE ST_Contains(trajectory(T.Trip), P.Geom) -- testing that the trajectory contains the point
+GROUP BY T.CarId, P.PointId;
+```
+
+The query selects a trip and a point and verifies that the car passed by the point by testing that the trajectory of the trip contains the point. Notice that PostGIS will perform the bounding box containment `trajectory(T.Trip) ~ P.Geom` using the spatial index on table Points before executing `ST_Contains`. Then, the query projects the trip to the point with the `atValue` function, get the first `timestamp` of the projected trip with the `startTimestamp` function, and applies the traditional `MIN` aggregate function for all trips of the car and the point.
+
+
