@@ -751,7 +751,9 @@ This is a spatial range query. The query verifies that the trajectory of the car
 ```sql
 SELECT R.RegionId, P.PeriodId, T.CarId
 FROM Trips T, Regions R, Periods P
-WHERE T.Trip && stbox(R.Geom, P.Period) AND 
-	_intersects(atPeriod(T.Trip, P.Period), R.Geom)
+WHERE T.Trip && stbox(R.Geom, P.Period) AND -- bbox 
+	_intersects(atPeriod(T.Trip, P.Period), R.Geom) -- location and time interesect
 ORDER BY R.RegionId, P.PeriodId, T.CarId;
 ```
+
+This is a spatio-temporal range query. The query performs a bounding box comparison with the `&&` operator using the spatio-temporal index on table Trips. After that, the query verifies that the location of the car during the period intersects the region. Notice that the predicate `_intersects` is used instead of intersects to avoid an implicit index test with the bounding box comparison `atPeriod(Trip, P.Period)` `&&` `R.Geom` is performed using the spatio-temporal index.
