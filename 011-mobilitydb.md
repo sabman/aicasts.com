@@ -800,3 +800,14 @@ There are three common types of temporal aggregate queries.
 * Window temporal aggregate queries (also known as cumulative queries), which, given a time interval w, compute the value of the aggregate at a time instant t from the values during the time period [t-w, t].
 
 * Span temporal aggregate queries, which, first, split the time line into predefined intervals independently of the target data, and then, for each of these intervals, aggregate the data that overlap the interval.
+
+
+5. Compute how many cars were active at each period in Periods.
+
+```sql
+SELECT P.PeriodID, COUNT(*), TCOUNT(atPeriod(T.Trip, P.Period))
+FROM Trips T, Periods P
+WHERE T.Trip && P.Period
+GROUP BY P.PeriodID
+ORDER BY P.PeriodID;
+```
