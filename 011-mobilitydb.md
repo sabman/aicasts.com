@@ -811,3 +811,5 @@ WHERE T.Trip && P.Period
 GROUP BY P.PeriodID
 ORDER BY P.PeriodID;
 ```
+
+This is an **instant temporal aggregate query**. For each period, the query projects the trips to the given period and applies the temporal count to the projected trips. The condition in the `WHERE` clause is used for filtering the trips with the spatio-temporal index on table `Trips`.
