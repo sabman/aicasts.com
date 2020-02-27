@@ -791,3 +791,12 @@ GROUP BY T.CarId, P.PointId;
 ```
 
 The query selects a trip and a point and verifies that the car passed by the point by testing that the trajectory of the trip contains the point. Notice that PostGIS will perform the bounding box containment `trajectory(T.Trip) ~ P.Geom` using the spatial index on table Points before executing `ST_Contains`. Then, the query projects the trip to the point with the `atValue` function, get the first `timestamp` of the projected trip with the `startTimestamp` function, and applies the traditional `MIN` aggregate function for all trips of the car and the point.
+
+## Temporal Aggregate Queries
+There are three common types of temporal aggregate queries.
+
+* Instant temporal aggregate queries in which, from a conceptual perspective, the traditional aggregate function is applied at each instant.
+
+* Window temporal aggregate queries (also known as cumulative queries), which, given a time interval w, compute the value of the aggregate at a time instant t from the values during the time period [t-w, t].
+
+* Span temporal aggregate queries, which, first, split the time line into predefined intervals independently of the target data, and then, for each of these intervals, aggregate the data that overlap the interval.
