@@ -827,4 +827,7 @@ ORDER BY R.RegionID;
 
 This is a window temporal aggregate query. Suppose that we are computing pollution levels by region. Since the effect of a car passing at a location lasts some time interval, this is a typical case for window aggregates. For each region, the query computes the spatial projection of the trips to the given region and apply the window temporal count to the projected trips. The condition in the `WHERE` clause is used for filtering the trips with the spatio-temporal index. The condition in the `HAVING` clause is used for removing regions that do not intersect with any trip.
 
-1.
+
+
+--- 
+# Summary
