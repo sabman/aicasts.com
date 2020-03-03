@@ -10,3 +10,6 @@
 # Cartoframes
 
 - https://carto.com/developers/cartoframes/
+
+# Connect to DBs
+- https://towardsdatascience.com/heres-how-to-run-sql-in-jupyter-notebooks-f26eb90f3259
