@@ -21,13 +21,22 @@
 
 ```bash
 
-https://www.digitalocean.com/community/tutorials/how-to-install-run-connect-to-jupyter-notebook-on-remote-server
+# https://www.digitalocean.com/community/tutorials/how-to-install-run-connect-to-jupyter-notebook-on-remote-server
 
 adduser sammy
 usermod -aG sudo sammy
 
+# https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-programming-environment-on-an-ubuntu-18-04-server
 apt update && apt install -y python3-pip
+apt install build-essential libssl-dev libffi-dev python3-dev
+apt install -y python3-venv
+su - sammy
+mkdir environments
+cd environments
+python3.6 -m venv my_env
+source my_env/bin/activate
 
+# https://www.digitalocean.com/community/tutorials/how-to-install-run-connect-to-jupyter-notebook-on-remote-server
 python3 -m pip install jupyter
 
 ```
