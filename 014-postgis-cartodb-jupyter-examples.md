@@ -17,9 +17,17 @@
 
 # Install
 
+
+
 ```bash
+
+https://www.digitalocean.com/community/tutorials/how-to-install-run-connect-to-jupyter-notebook-on-remote-server
+
 adduser sammy
 usermod -aG sudo sammy
+
+apt update && apt install -y python3-pip
+
 python3 -m pip install jupyter
 
 ```
