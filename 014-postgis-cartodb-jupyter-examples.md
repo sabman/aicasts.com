@@ -14,3 +14,12 @@
 # Connect to DBs
 - https://towardsdatascience.com/heres-how-to-run-sql-in-jupyter-notebooks-f26eb90f3259
 
+
+# Install
+
+```bash
+adduser sammy
+usermod -aG sudo sammy
+python3 -m pip install jupyter
+
+```
