@@ -44,7 +44,10 @@ python3 -m pip install jupyter
 
 jupyter notebook --generate-config
 # /home/sammy/.jupyter/jupyter_notebook_config.py
-jupyter notebook password
+# jupyter notebook password
+(my_env) sammy@665b78d8f1be:~$ JUPYTER_HASHED_PW=`python3 -c "from notebook.auth import passwd; print(passwd('your_password'))"`
+(my_env) sammy@665b78d8f1be:~$ echo $JUPYTER_HASHED_PW
+sha1:cfa3f5498c81:9a74501e8126bae20c9938b0e0a1bcca80d9e990
 
 # replace
 #c.NotebookApp.base_url = '/'
