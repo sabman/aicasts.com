@@ -26,7 +26,9 @@ adduser sammy
 usermod -aG sudo sammy
 
 # https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-programming-environment-on-an-ubuntu-18-04-server
-apt update && apt install -y python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv
+apt update && apt install -y python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv expect
+# expect command is used for setting password https://likegeeks.com/expect-command/ 
+
 su - sammy
 mkdir environments
 cd environments
@@ -54,9 +56,6 @@ sed -i.back -e "s/#c.NotebookApp.base_url = '\/'/c.NotebookApp.base_url = '\/jup
 sed -i.bak -e "s/#c.NotebookApp.allow_remote_access = False/c.NotebookApp.allow_remote_access = True/" /home/sammy/.jupyter/jupyter_notebook_config.py
 
 sed -i.bak -e "s/#c.NotebookApp.quit_button = True/c.NotebookApp.quit_button = False/" /home/sammy/.jupyter/jupyter_notebook_config.py
-
-
-
 
 ```
 
