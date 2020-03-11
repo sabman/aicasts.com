@@ -17,5 +17,6 @@ RUN cd /usr/local/src/MobilityDB/build && \
 RUN echo "shared_preload_libraries = 'postgis-2.5'" >> /etc/postgresql/11/main/postgresql.conf.template
 RUN echo "max_locks_per_transaction = 150" >> /etc/postgresql/11/main/postgresql.conf.template
 
-1. install within container
-2. write test for sql API
+# 1. install within container
+# 2. write test for sql API
+# 3. test in jupyter notebook
