@@ -464,6 +464,9 @@ references:
 - [ ] https://github.com/brettbevers/miner/blob/master/work/horovod_tutorial/03%20MLflow%20Lab.ipynb
 - [x] https://medium.com/weareservian/deploying-an-ml-model-using-gcp-and-mlflow-27084989f98
 
+- [ ] end-to-end tutorial https://towardsdatascience.com/a-true-end-to-end-ml-example-lead-scoring-f5b52e9a3c80
+
+
 DS Project Setups
 
 - https://github.com/datanooblol/ds_tool_box
@@ -495,3 +498,4 @@ Neptune.ml:
 
 - Add an actual example of MLFlow in use
 - Add SSL certs for website https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+
