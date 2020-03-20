@@ -466,6 +466,7 @@ references:
 
 - [ ] end-to-end tutorial https://towardsdatascience.com/a-true-end-to-end-ml-example-lead-scoring-f5b52e9a3c80
 
+- [ ] try out Cortex https://github.com/cortexlabs/cortex
 
 DS Project Setups
 
