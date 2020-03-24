@@ -501,3 +501,10 @@ Neptune.ml:
 - Add SSL certs for website https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
 - Production https://thegurus.tech/mlflow-production-setup/
 - https://github.com/mlflow/mlflow/issues/1120#issuecomment-494965826
+
+
+SUPERVISORD CONFIG FOR:
+
+```
+command=nohup mlflow server --default-artifact-root s3://bucket-for-mlflow/ --host 0.0.0.0 &
+```
