@@ -1,7 +1,7 @@
 FROM python:3.6
 LABEL maintainer="shoaib <saburq@gmail.com>"
 
-ENV MLFLOW_VERSION 1.7.1
+ENV MLFLOW_VERSION 1.7.2
 ARG BACKEND_URI=db_type://<user_name>:<password>@<host>:<port>/<database_name>
 ENV BACKEND_URI ${BACKEND_URI}
 
