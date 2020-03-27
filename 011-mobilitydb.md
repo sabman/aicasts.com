@@ -827,6 +827,21 @@ ORDER BY R.RegionID;
 
 This is a window temporal aggregate query. Suppose that we are computing pollution levels by region. Since the effect of a car passing at a location lasts some time interval, this is a typical case for window aggregates. For each region, the query computes the spatial projection of the trips to the given region and apply the window temporal count to the projected trips. The condition in the `WHERE` clause is used for filtering the trips with the spatio-temporal index. The condition in the `HAVING` clause is used for removing regions that do not intersect with any trip.
 
+7. Count the number of trips that were active during each hour in May 29, 2007.
+
+```sql
+WITH TimeSplit(Period) AS (
+	SELECT period(H, H + interval '1 hour')
+	FROM generate_series(timestamptz '2007-05-29 00:00:00', 
+		timestamptz '2007-05-29 23:00:00', interval '1 hour') AS H )
+SELECT Period, COUNT(*)
+FROM TimeSplit S, Trips T
+WHERE S.Period && T.Trip AND atPeriod(Trip, Period) IS NOT NULL
+GROUP BY S.Period
+ORDER BY S.Period;
+```
+
+
 
 
 --- 
@@ -836,3 +851,4 @@ This is a window temporal aggregate query. Suppose that we are computing polluti
 Time types Period, PeriodSet, and TimestampSet which, in addition of the the TimestampTz type provided by PostgreSQL, are used to represent time spans.
 Temporal types tbool, tint, tfloat, and ttext which are based on the bool, int, float, and text types provided by PostgreSQL and are used to represent basic types that evolve on time.
 Spatio-temporal types tgeompoint and tgeogpoint which are based on the geometry and geography types provided by PostGIS (restricted to 2D or 3D points) and are used to represent points that evolve on time. Range types intrange and floatrange which are used to represent ranges of int and float values.
+
