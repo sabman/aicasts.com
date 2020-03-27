@@ -841,6 +841,7 @@ GROUP BY S.Period
 ORDER BY S.Period;
 ```
 
+This is a span temporal aggregate query. The query defines the intervals to consider in the `TimeSplit` temporary table. For each of these intervals, the main query applies the traditional count function for counting the trips that overlap the interval.
 
 
 
