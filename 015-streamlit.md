@@ -8,4 +8,4 @@ streamlit hello
 - https://towardsdatascience.com/how-to-deploy-your-data-science-as-web-apps-easily-with-python-955dd462a9b5
 
 - https://www.rockyourcode.com/run-streamlit-with-docker-and-docker-compose/
-- https://github.com/streamlit/streamlit/issues/837 
+- https://github.com/streamlit/streamlit/issues/837 (running behind nginx)
