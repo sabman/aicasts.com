@@ -852,17 +852,19 @@ The queries in this category deal with either the distance travelled by a single
 
 ```sql
 SELECT T.CarId, P.PeriodId, P.Period,
-  SUM(length(atPeriod(T.Trip, P.Period))) AS Distance
+  SUM(
+    length(atPeriod(T.Trip, P.Period)) -- length of projected trip
+  ) AS Distance
 FROM Trips T, Periods P
-WHERE T.Trip && P.Period
+WHERE T.Trip && P.Period -- && bounding box commparison uses spatio-temporal index
 GROUP BY T.CarId, P.PeriodId, P.Period
 ORDER BY T.CarId, P.PeriodId;
 ```
 
+The query performs a bounding box comparison with the `&&` operator using the spatio-temporal index on the `Trips` table. It then projects the trip to the period, computes the length of the projected trip, and sum the lengths of all the trips of the same car during the period.
 
+----
 
-
---- 
 # Summary
 
 
