@@ -844,6 +844,13 @@ ORDER BY S.Period;
 This is a span temporal aggregate query. The query defines the intervals to consider in the `TimeSplit` temporary table. For each of these intervals, the main query applies the traditional count function for counting the trips that overlap the interval.
 
 
+### Distance queries
+
+The queries in this category deal with either the distance travelled by a single object or the distance between two objects. The complexity of the latter queries depend, on the one hand, on whether the reference objects are static or moving, and on the other, on whether the operation required is either the minimum distance ever or the temporal distance computed at each instant.
+
+8. List the overall traveled distances of the cars during the periods from `Periods`.
+
+
 
 --- 
 # Summary
