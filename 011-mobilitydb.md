@@ -863,6 +863,18 @@ ORDER BY T.CarId, P.PeriodId;
 
 The query performs a bounding box comparison with the `&&` operator using the spatio-temporal index on the `Trips` table. It then projects the trip to the period, computes the length of the projected trip, and sum the lengths of all the trips of the same car during the period.
 
+
+9. List the minimum distance ever between each car and each point from Points.
+
+
+```sql
+SELECT T.CarId, P.PointId, MIN(trajectory(T.Trip) <-> P.Geom) AS MinDistance
+FROM Trips T, Points P
+GROUP BY T.CarId, P.PointId
+ORDER BY T.CarId, P.PointId;
+```
+
+
 ----
 
 # Summary
