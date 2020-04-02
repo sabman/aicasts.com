@@ -886,6 +886,10 @@ GROUP BY T1.CarId, T2.CarId
 ORDER BY T1.CarId, T2.CarId;
 ```
 
+The query selects two trips `T1` and `T2` from distinct cars that were both traveling during a common period of time, computes the temporal distance between the trips, and then computes the temporal minimum distance between all trips of the two cars. The query uses the spatio-temporal index to filter the pairs of trips that were both traveling during a common period of time.
+
+
+
 ----
 
 # Summary
