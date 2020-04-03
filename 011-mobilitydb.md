@@ -905,6 +905,15 @@ This query shows similar functionality as that provided by the PostGIS functions
 12. List when and where a pairs of cars have been at 10 m or less from each other.
 
 
+```sql
+SELECT T1.CarId AS CarId1, T2.CarId AS CarId2, atPeriodSet(T1.Trip,
+	period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) AS Position
+FROM Trips T1, Trips T
+WHERE T1.CarId < T2.CarId AND T1.Trip && expandSpatial(T2.Trip, 10) AND
+	atPeriodSet(T1.Trip, period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) 
+	IS NOT NULL
+ORDER BY T1.CarId, T2.CarId, Position;
+```
 
 ----
 
