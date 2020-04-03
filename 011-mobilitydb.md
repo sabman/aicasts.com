@@ -902,6 +902,9 @@ ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
 
 This query shows similar functionality as that provided by the PostGIS functions `ST_ClosestPointOfApproach` and `ST_DistanceCPA`. The query selects two trips `T1` and `T2` from distinct cars that were both traveling during a common period of time and computes the required results.
 
+12. List when and where a pairs of cars have been at 10 m or less from each other.
+
+
 
 ----
 
