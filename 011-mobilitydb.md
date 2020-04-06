@@ -918,6 +918,18 @@ ORDER BY T1.CarId, T2.CarId, Position;
 The query performs for each pair of trips `T1` and `T2` of distinct cars a bounding box comparison with the `&&` operator using the spatio-temporal index on the `Trips` table, where the bounding box of `T2` is expanded by 10 m. Then, the `period` expression computes the periods during which the cars were within 10 m. from each other and the `atPeriodSet` function projects the trips to those periods. Notice that the expression `tdwithin(T1.Trip, T2.Trip, 10.0)` is conceptually equivalent to `dwithin(T1.Trip, T2.Trip) #<= 10.0`. However, in this case the spatio-temporal index cannot be used for filtering values.
 
 
+## Nearest-Neighbor Queries
+
+There are three common types of nearest-neighbor queries in spatial databases.
+
+- k-nearest-neighbor (kNN) queries find the k nearest points to a given point.
+- Reverse k-nearest-neighbor (RkNN) queries find the points that have a given point among their k nearest-neighbors.
+- Given two sets of points P and Q, aggregate nearest-neighbor (ANN) queries find the points from P that have minimum aggregated distance to all points from Q.
+
+The above types of queries are generalized to temporal points. However, the complexity of these queries depend on whether the reference object and the candidate objects are static or moving. In the examples that follow we only consider the nontemporal version of the nearest-neighbor queries, that is, the one in which the calculation is performed on the projection of temporal points on the spatial dimension. The temporal version of the nearest-neighbor queries remains to be done.
+
+
+
 ----
 
 # Summary
