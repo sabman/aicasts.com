@@ -944,6 +944,17 @@ ORDER BY T.TripId, T.CarId, P1.Distance;
 
 This is a nearest-neighbor query with moving reference objects and static candidate objects. The query above uses PostgreSQL's lateral join, which intuitively iterates over each row in a result set and evaluates a subquery using that row as a parameter. The query starts by computing the trajectory of the trips in the temporary table `TripsTraj`. Then, given a trip `T` in the outer query, the subquery computes the traditional distance between the trajectory of `T` and each point `P`. The ORDER BY and LIMIT clauses in the inner query select the three closest points. PostGIS will use the spatial index on the `Points` table for selecting the three closest points.
 
+14. For each trip from `Trips`, list the three cars that are closest to that car
+
+```sql
+SELECT T1.CarId AS CarId1, C2.CarId AS CarId2, C2.Distance
+FROM Trips T1 CROSS JOIN LATERAL (
+SELECT T2.CarId, minValue(T1.Trip <-> T2.Trip) AS Distance
+FROM Trips T2
+WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
+ORDER BY Distance LIMIT 3 ) AS C2
+ORDER BY T1.CarId, C2.CarId;
+```
 
 
 ----
