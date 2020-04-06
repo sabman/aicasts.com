@@ -929,6 +929,22 @@ There are three common types of nearest-neighbor queries in spatial databases.
 The above types of queries are generalized to temporal points. However, the complexity of these queries depend on whether the reference object and the candidate objects are static or moving. In the examples that follow we only consider the nontemporal version of the nearest-neighbor queries, that is, the one in which the calculation is performed on the projection of temporal points on the spatial dimension. The temporal version of the nearest-neighbor queries remains to be done.
 
 
+13. For each trip from `Trips`, list the three points from `Points` that have been closest to that car.
+
+```sql
+WITH TripsTraj AS (
+	SELECT *, trajectory(Trip) AS Trajectory FROM Trips )
+SELECT T.CarId, P1.PointId, P1.Distance
+FROM TripsTraj T CROSS JOIN LATERAL (
+SELECT P.PointId, T.Trajectory <-> P.Geom AS Distance
+FROM Points P
+ORDER BY Distance LIMIT 3 ) AS P1
+ORDER BY T.TripId, T.CarId, P1.Distance;
+```
+
+This is a nearest-neighbor query with moving reference objects and static candidate objects. The query above uses PostgreSQL's lateral join, which intuitively iterates over each row in a result set and evaluates a subquery using that row as a parameter. The query starts by computing the trajectory of the trips in the temporary table `TripsTraj`. Then, given a trip `T` in the outer query, the subquery computes the traditional distance between the trajectory of `T` and each point `P`. The ORDER BY and LIMIT clauses in the inner query select the three closest points. PostGIS will use the spatial index on the `Points` table for selecting the three closest points.
+
+
 
 ----
 
