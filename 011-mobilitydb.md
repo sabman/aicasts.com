@@ -962,6 +962,23 @@ TThis is a nearest-neighbor query where both the reference and the candidate obj
 
 
 
+15. For each trip from Trips, list the points from Points that have that car among their three nearest neighbors.
+
+
+```sql
+WITH TripsTraj AS (
+	SELECT *, trajectory(Trip) AS Trajectory FROM Trips ),
+PointTrips AS (
+	SELECT P.PointId, T2.CarId, T2.TripId, T2.Distance
+	FROM Points P CROSS JOIN LATERAL (
+	SELECT T1.CarId, T1.TripId, P.Geom <-> T1.Trajectory AS Distance
+	FROM TripsTraj T
+	ORDER BY Distance LIMIT 3 ) AS T2 )
+SELECT T.CarId, T.TripId, P.PointId, PT.Distance
+FROM Trips T CROSS JOIN Points P JOIN PointTrips PT
+ON T.CarId = PT.CarId AND T.TripId = PT.TripId AND P.PointId = PT.PointId
+ORDER BY T.CarId, T.TripId, P.PointId;
+```
 
 
 
