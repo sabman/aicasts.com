@@ -981,6 +981,26 @@ ORDER BY T.CarId, T.TripId, P.PointId;
 This is a reverse nearest-neighbor query with moving reference objects and static candidate objects. The query starts by computing the corresponding nearest-neighbor query in the temporary table `PointTrips` as it is done in Query 13. Then, in the main query it verifies for each trip `T` and point `P` that both belong to the `PointTrips` table.
 
 
+16. For each trip from `Trips`, list the cars having the car of the trip among the three nearest neighbors.
+
+```sql
+WITH TripDistances AS (
+	SELECT T1.CarId AS CarId1, T1.TripId AS TripId1, T3.CarId AS CarId2, 
+		T3.TripId AS TripId2, T3.Distance
+	FROM Trips T1 CROSS JOIN LATERAL (
+	SELECT T2.CarId, T2.TripId, minValue(T1.Trip <-> T2.Trip) AS Distance
+	FROM Trips T
+	WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
+	ORDER BY Distance LIMIT 3 ) AS T3 )
+SELECT T1.CarId, T1.TripId, T2.CarId, T2.TripId, TD.Distance
+FROM Trips T1 JOIN Trips T2 ON T1.CarId < T2.CarId
+	JOIN TripDistances TD ON T1.CarId = TD.CarId1 AND T1.TripId = TD.TripId1 AND
+	T2.CarId = TD.CarId2 AND T2.TripId = TD.TripId
+ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
+```
+
+This is a reverse nearest-neighbor query where both the reference and the candidate objects are moving. The query starts by computing the corresponding nearest-neighbor query in the temporary table `TripDistances` as it is done in Query 14. Then, in the main query it verifies for each pair of trips `T1` and `T2` that both belong to the `TripDistances` table.
+
 
 ----
 
