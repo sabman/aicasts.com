@@ -1004,6 +1004,24 @@ This is a reverse nearest-neighbor query where both the reference and the candid
 
 17. For each group of ten disjoint cars, list the point(s) from `Points`, having the minimum aggregated distance from the given group of ten cars during the given period.
 
+```sql
+WITH Groups AS (
+	SELECT ((ROW_NUMBER() OVER (ORDER BY C.CarId))-1)/10 + 1 AS GroupId, C.CarId
+	FROM Cars C ),
+SumDistances AS (
+	SELECT G.GroupId, P.PointId,
+		SUM(ST_Distance(trajectory(T.Trip), P.Geom)) AS SumDist
+	FROM Groups G, Points P, Trips T
+	WHERE T.CarId = G.CarId
+	GROUP BY G.GroupId, P.PointId )
+SELECT S1.GroupId, S1.PointId, S1.SumDist
+FROM SumDistances S
+WHERE S1.SumDist <= ALL (
+	SELECT SumDist
+	FROM SumDistances S
+	WHERE S1.GroupId = S2.GroupId )
+	ORDER BY S1.GroupId, S1.PointId;
+```
 
 ----
 
