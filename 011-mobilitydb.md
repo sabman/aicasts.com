@@ -1028,6 +1028,13 @@ This is an aggregate nearest-neighbor query. The temporary table `Groups` splits
 
 # BerlinMOD/R Queries
 
+1. What are the models of the vehicles with licence plate numbers from Licences?
+
+```sql
+SELECT DISTINCT L.Licence, C.Model AS Model
+FROM Cars C, Licences L
+WHERE C.Licence = L.Licence;
+```
 
 ----
 
