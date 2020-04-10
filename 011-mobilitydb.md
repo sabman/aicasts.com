@@ -1025,6 +1025,10 @@ WHERE S1.SumDist <= ALL (
 
 This is an aggregate nearest-neighbor query. The temporary table `Groups` splits the cars in groups where the `GroupId` column takes the values from 1 to total number of groups. The temporary table `SumDistances` computes for each group G and point P the sum of the distances between a trip of a car in the group and the point. The main query then selects for each group in table `SumDistances` the points(s) that have the minimum aggregated distance.
 
+
+# BerlinMOD/R Queries
+
+
 ----
 
 # Summary
