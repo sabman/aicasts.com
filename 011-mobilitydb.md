@@ -1036,6 +1036,14 @@ FROM Cars C, Licences L
 WHERE C.Licence = L.Licence;
 ```
 
+2. How many vehicles exist that are passenger cars?
+
+```sql
+SELECT COUNT (Licence)
+FROM Cars C
+WHERE Type = 'passenger';
+```
+
 ----
 
 # Summary
