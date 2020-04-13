@@ -11,7 +11,7 @@ streamlit hello
 - https://github.com/streamlit/streamlit/issues/837 (running behind nginx)
 
 
-```c
+```
  location ~* /streamlit.* {
     proxy_pass http://127.0.0.1:8501;
 
@@ -25,4 +25,13 @@ streamlit hello
     proxy_set_header  Referer  http://localhost;
     proxy_set_header Origin "";
   }
+```
+
+```conf
+[program:streamlit]
+user=sammy
+environment=HOME=/home/sammy
+directory=/home/sammy/environments/streamlit_apps
+priority=500
+command=/bin/bash -c 'source /home/sammy/environments/my_env/bin/activate && streamlit hello'
 ```
