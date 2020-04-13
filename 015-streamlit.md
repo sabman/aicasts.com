@@ -11,7 +11,7 @@ streamlit hello
 - https://github.com/streamlit/streamlit/issues/837 (running behind nginx)
 
 
-```
+```conf
  location ~* /streamlit.* {
     proxy_pass http://127.0.0.1:8501;
 
