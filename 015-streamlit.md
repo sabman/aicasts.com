@@ -35,3 +35,5 @@ directory=/home/sammy/environments/streamlit_apps
 priority=500
 command=/bin/bash -c 'source /home/sammy/environments/my_env/bin/activate && streamlit hello'
 ```
+
+Streamlit config https://github.com/ysraell/examples/blob/d39e4f8cfada8217bd8b9b146f6f42605f839214/Streamlit_DEMO/config.toml
