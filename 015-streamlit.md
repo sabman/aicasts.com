@@ -219,3 +219,6 @@ keyPrefix = ""
 # Default: (unset)
 #profile =
 ```
+
+To run behind a proxy change 
+baseUrlPath = "/streamlit"
