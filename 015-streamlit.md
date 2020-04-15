@@ -3,12 +3,14 @@ pip install streamlit
 streamlit hello
 ```
 
+- https://towardsdatascience.com/build-an-app-to-synthesize-photorealistic-faces-using-tensorflow-and-streamlit-dd2545828021
 - https://awesome-streamlit.org/
 - https://towardsdatascience.com/quickly-build-and-deploy-an-application-with-streamlit-988ca08c7e83
 - https://towardsdatascience.com/how-to-deploy-your-data-science-as-web-apps-easily-with-python-955dd462a9b5
 
 - https://www.rockyourcode.com/run-streamlit-with-docker-and-docker-compose/
 - https://github.com/streamlit/streamlit/issues/837 (running behind nginx)
+
 
 
 ```conf
