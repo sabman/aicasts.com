@@ -224,3 +224,14 @@ keyPrefix = ""
 
 To run behind a proxy change 
 baseUrlPath = "/streamlit"
+
+----
+
+https://towardsdatascience.com/build-an-app-to-synthesize-photorealistic-faces-using-tensorflow-and-streamlit-dd2545828021
+
+```
+git clone https://github.com/streamlit/demo-face-gan.git
+cd demo-face-gan
+pip install -r requirements.txt
+streamlit run app.py
+```
