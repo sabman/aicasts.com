@@ -274,3 +274,32 @@ if os.path.exists(file_path):
         return
 
 ```
+
+Draw download UI
+
+```py
+# Draw UI elements.
+weights_warning = st.warning("Downloading %s..." % file_path)
+progress_bar = st.progress(0)
+
+with open(file_path, "wb") as output_file:
+    with urllib.request.urlopen(...) as response:
+
+        ...
+
+        while True:
+
+            ...  # Save downloaded bytes to file here.
+
+            # Update UI elements.
+            weights_warning.warning(
+                "Downloading %s... (%6.2f/%6.2f MB)" %
+                (file_path, downloaded_size))
+            progress_bar.progress(downloaded_ratio)
+
+...
+
+# Clear UI elements when done.
+weights_warning.empty()
+progress_bar.empty()
+```
