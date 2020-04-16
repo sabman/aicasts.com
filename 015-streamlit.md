@@ -262,3 +262,15 @@ def main():
     # Step 5. Draw the synthesized image.
     st.image(image_out, use_column_width=True)
 ```
+
+1. Download model files
+2. 
+```py
+#  If the file exists and has the expected size, return.
+if os.path.exists(file_path):
+    if "size" not in EXTERNAL_DEPENDENCIES[file_path]:
+        return
+    elif os.path.getsize(file_path) == EXTERNAL_DEPENDENCIES[file_path]["size"]:
+        return
+
+```
