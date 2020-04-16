@@ -10,7 +10,7 @@ streamlit hello
 
 - https://www.rockyourcode.com/run-streamlit-with-docker-and-docker-compose/
 - https://github.com/streamlit/streamlit/issues/837 (running behind nginx)
-
+- https://discuss.streamlit.io/search?q=multiple%20apps
 
 
 ```conf
