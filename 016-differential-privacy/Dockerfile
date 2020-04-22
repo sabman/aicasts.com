@@ -1,8 +1,8 @@
-FROM postgres:11.7-alpine
+FROM rgielen/postgresql-ubuntu
 
-RUN apk add --update-cache \
-    git libreadline-dev bison flex
+RUN apt-get update && apt-get install -y libreadline-dev bison flex git bazel
 
 WORKDIR /tmp
+
 RUN git clone https://github.com/google/differential-privacy.git && \
     cd differential-privacy && bazel build differential_privacy
