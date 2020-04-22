@@ -3,7 +3,7 @@ MAINTAINER romeOz <serggalka@gmail.com>
 
 ENV OS_LOCALE="en_US.UTF-8" \
     DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y locales libreadline-dev bison flex git bazel && locale-gen ${OS_LOCALE} 
+RUN apt-get update && apt-get install -y locales libreadline-dev bison flex git  && locale-gen ${OS_LOCALE} 
 ENV LANG=${OS_LOCALE} \
     LANGUAGE=${OS_LOCALE} \
     LC_ALL=${OS_LOCALE} \
@@ -28,6 +28,11 @@ RUN dpkg-reconfigure locales && apt-get install -y wget sudo gnupg \
  && touch /tmp/.EMPTY_DB
 
 WORKDIR /tmp
+
+RUN apt install curl && \
+    curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add - && \
+    echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list && \
+    apt update && apt install bazel
 
 RUN git clone https://github.com/google/differential-privacy.git && \
     cd differential-privacy && bazel build differential_privacy
