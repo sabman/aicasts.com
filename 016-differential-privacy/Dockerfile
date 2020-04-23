@@ -29,7 +29,7 @@ RUN dpkg-reconfigure locales && apt-get install -y wget sudo gnupg \
 
 WORKDIR /tmp
 
-RUN apt install curl && \
+RUN apt-get update && apt-get install -y curl && \
     curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add - && \
     echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list && \
     apt update && apt install bazel
