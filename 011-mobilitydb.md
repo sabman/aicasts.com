@@ -1058,4 +1058,6 @@ Spatio-temporal types tgeompoint and tgeogpoint which are based on the geometry 
 
 ## Loading mobility data via SQL API
 
-https://carto.com/developers/sql-api/guides/copy-queries/
+1. Create table https://carto.com/developers/sql-api/guides/creating-tables/
+
+2. https://carto.com/developers/sql-api/guides/copy-queries/
