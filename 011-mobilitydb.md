@@ -361,6 +361,20 @@ CREATE TABLE Cars (
 )
 ```
 
+```sql
+CREATE TABLE Cars (
+  CarId integer NOT NULL UNIQUE,
+  Licence varchar(32),
+  Type varchar(32),
+  Model varchar(32)
+)
+
+Alter table cars ADD UNIQUE(carid);
+Alter table cars ALTER COLUMN carid SET NOT NULL;
+```
+
+`SELECT cdb_cartodbfytable('rasul','Cars')`
+
 **Trips**
 
 ```sql
@@ -372,25 +386,63 @@ CREATE TABLE TripsInput (
   T timestamptz,
   PRIMARY KEY (CarId, TripId, T)
 );  
+
+ALTER TABLE tripsinput ADD COLUMN carid INTEGER;
+ALTER TABLE tripsinput ALTER COLUMN carid TYPE INTEGER
+Alter TABLE tripsinput ADD UNIQUE (carid, tripid, t)
+Alter TABLE tripsinput ADD CONSTRAINT fkcars FOREIGN KEY (carid) REFERENCES cars (carid)
+
 ```
+
+```bash
+https://localhost.lan/user/rasul/api/v2/sql?q=CREATE TABLE TripsInput (
+  CarId integer REFERENCES Cars,
+  TripId integer,
+  Lon float,
+  Lat float,
+  T timestamptz,
+  PRIMARY KEY (CarId, TripId, T)
+)&api_key=b5ea4fd859ec55a4ff965bb1a2b382487130967c
+```
+
+`SELECT cdb_cartodbfytable('rasul','TripsInput')`
+
+`https://localhost.lan/user/rasul/api/v2/sql?q=SELECT+cdb_cartodbfytable('rasul','TripsInput')&api_key=b5ea4fd859ec55a4ff965bb1a2b382487130967c`
+
 
 ```sql
 CREATE TABLE Instants (
   InstantId integer PRIMARY KEY,
   Instant timestamptz
 );
+
+SELECT cdb_cartodbfytable('rasul','TripsInput')
+
+ALTER TABLE instants ADD COLUMN instantid INTEGER UNIQUE NOT NULL
+
+-- ----------
+
 CREATE TABLE Periods (
   PeriodId integer PRIMARY KEY,
   Tstart TimestampTz,
   Tend TimestampTz,
   Period period
 );
+
+SELECT cdb_cartodbfytable('rasul','Periods')
+ALTER TABLE periods ADD COLUMN periodid INTEGER UNIQUE NOT NULL
+
 CREATE TABLE Points (
   PointId integer PRIMARY KEY,
   PosX double precision,
   PosY double precision,
   Geom Geometry(Point)
 );
+
+ALTER TABLE points ADD COLUMN pointid INTEGER UNIQUE NOT NULL
+
+SELECT cdb_cartodbfytable('rasul','Points')
+
 CREATE TABLE RegionsInput
 (
   RegionId integer,
@@ -401,10 +453,21 @@ CREATE TABLE RegionsInput
   YEnd double precision,
   PRIMARY KEY (RegionId, SegNo)
 );
+
+SELECT cdb_cartodbfytable('rasul','RegionsInput')
+
+Alter TABLE regionsinput ADD COLUMN regionid int
+Alter TABLE regionsinput ADD UNIQUE (regionid, segno)
+
 CREATE TABLE Regions (
   RegionId integer PRIMARY KEY,
   Geom Geometry(Polygon)
-);
+)
+
+Alter TABLE regions ADD COLUMN regionid integer UNIQUE NOT NULL
+
+SELECT cdb_cartodbfytable('rasul','Regions')
+
 ```
 ```sql
 CREATE TABLE Trips
