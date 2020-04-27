@@ -478,6 +478,13 @@ CREATE TABLE Trips
   PRIMARY KEY (CarId, TripId),
   FOREIGN KEY (CarId) REFERENCES Cars (CarId)
 );
+
+SELECT cdb_cartodbfytable('rasul','Trips')
+
+Alter TABLE trips ADD UNIQUE (carId, tripid)
+
+Alter TABLE trips ADD CONSTRAINT fkcars FOREIGN KEY (carid) REFERENCES cars (carid)
+
 ```
 
 We created the table `Trips` in order to assemble all points composing a trip into a single temporal point.
@@ -506,6 +513,16 @@ COPY RegionsInput(RegionId, SegNo, XStart, YStart, XEnd, YEnd) FROM
   ’/home/mobilitydb/data/queryregions.csv’ DELIMITER  ’,’ CSV HEADER;
 ```
 
+```sql
+Alter table points add column geom(Geometry)
+
+UPDATE points 
+SET geom = 
+ST_Transform(ST_SetSRID(ST_MakePoint(posx, posy), 4326), 5676);
+
+
+```
+
 The following query is used to load table Regions from the data in table RegionsInput.
 
 ```sql
@@ -520,6 +537,24 @@ WITH RegionsSegs AS
 SELECT RegionId, ST_Polygon(ST_LineMerge(ST_Union(Geom ORDER BY SegNo)), 5676) AS Geom
 FROM RegionsSegs
 GROUP BY RegionId;
+
+
+INSERT INTO regions (regionid, geom, the_geom)
+
+with regionssegs as
+(
+  select regionid, segno,
+    st_transform(st_setsrid(st_makeline(st_makepoint(xstart, ystart),
+    st_makepoint(xend, yend)), 4326), 5676) as geom,
+    st_setsrid(st_makeline(st_makepoint(xstart, ystart),
+    st_makepoint(xend, yend)), 4326) as the_geom
+  from regionsinput
+)
+select regionid, 
+    st_polygon(st_linemerge(st_union(geom order by segno)), 5676) as geom,
+    st_polygon(st_linemerge(st_union(the_geom order by segno)), 4326) as the_geom
+from regionssegs
+group by regionid
 ```
 
 The following query is used to load table Trips from the data in table TripsInput.
@@ -530,6 +565,13 @@ SELECT CarId, TripId, tgeompointseq(array_agg(tgeompointinst(
   ST_Transform(ST_SetSRID(ST_MakePoint(Lon,Lat), 4326), 5676), T) ORDER BY T))
 FROM TripsInput
 GROUP BY CarId, TripId;
+
+insert into trips(carid,tripid,trip)
+select carid, tripid, tgeompointseq(array_agg(tgeompointinst(
+	st_transform(st_setsrid(st_makepoint(lon,lat), 4326), 5676), t) order by t)) trip
+from tripsinput
+group by carid, tripid
+
 ```
 
 There are a lot of nested functions, so reading from the innermost:
@@ -704,6 +746,9 @@ In order to visualize the data with traditional tools such as QGIS we add to tab
 ALTER TABLE Trips ADD COLUMN traj geometry;
 UPDATE Trips
 SET Traj = trajectory(Trip);
+
+-- for cartodb
+update trips set the_geom = st_transform(traj, 4326)
 ```
 
 The visualization of the trajectories in QGIS is given in Figure 8.2, “Visualization of the trajectories of the trips in QGIS.”. In the figure red lines correspond to the trajectories of moving cars, while yellow points correspond to the position of stationary cars. In order to know the total number of trips as well as the number of moving and stationary trips we can issue the following queries.
