@@ -2,6 +2,12 @@
 
 https://github.com/interpretml/interpret
 
+- Model debugging - Why did my model make this mistake?
+- Detecting bias - Does my model discriminate?
+- Human-AI cooperation - How can I understand and trust the model's decisions?
+- Regulatory compliance - Does my model satisfy legal requirements?
+- High-risk applications - Healthcare, finance, judicial, ...
+
 ```
 pip install interpret
 ```
