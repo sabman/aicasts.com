@@ -1169,3 +1169,9 @@ Spatio-temporal types tgeompoint and tgeogpoint which are based on the geometry 
 1. Create table https://carto.com/developers/sql-api/guides/creating-tables/
 
 2. https://carto.com/developers/sql-api/guides/copy-queries/
+
+
+```sql
+TABLE Bus ( LineNo integer, TripNo integer, Trip tgeompoint(Sequence, Point, 3812) );
+TABLE POI ( POINo integer, Name text, Geo GEOMETRY(3812) );
+```
