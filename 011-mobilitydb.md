@@ -1175,3 +1175,19 @@ Spatio-temporal types tgeompoint and tgeogpoint which are based on the geometry 
 TABLE Bus ( LineNo integer, TripNo integer, Trip tgeompoint(Sequence, Point, 3812) );
 TABLE POI ( POINo integer, Name text, Geo GEOMETRY(3812) );
 ```
+
+List the bus lines that traverse Place Louise
+
+```sql
+SELECT TripNo
+FROM Bus B, (SELECT P.Geo FROM POI P WHERE P.Name = ‘Place Louise' LIMIT 1) T
+WHERE intersects(B.Trip, T.Geo)
+```
+
+The intersects function is index supported, i.e., it is defined as follows
+
+```sql
+'SELECT $1 OPERATOR(@extschema@.&&) $2 AND @extschema@._intersects($1,$2)'
+```
+
+The && operator performs a bounding box overlaps index filtering
