@@ -14,3 +14,9 @@ import pandas as pd
 import numpy as np
 ```
 
+A commonly-used type of weight is a queen contigutiy weight, which reflects adjacency relationships as a binary indicator variable denoting whether or not a polygon shares an edge or a vertex with another polygon. These weights are symmetric, in that when polygon `$A$` neighbors polygon $B$, both` $w{AB} = 1$` and `$w{BA} = 1$`.
+
+```
+qW = ps.queen_from_shapefile(shp_path)
+dataframe = ps.pdio.read_files(shp_path)
+``
