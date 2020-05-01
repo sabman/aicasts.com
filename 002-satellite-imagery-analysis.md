@@ -7,3 +7,4 @@
 - [ ] https://appsilon.com/satellite-imagery-generation-with-gans/
 - [ ] https://github.com/robmarkcole/satellite-image-deep-learning
 - [ ] Datasets https://github.com/chrieke/awesome-satellite-imagery-datasets
+- [ ] https://github.com/dronedeploy/dd-ml-segmentation-benchmark
