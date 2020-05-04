@@ -8,3 +8,8 @@
 - [ ] https://github.com/robmarkcole/satellite-image-deep-learning
 - [ ] Datasets https://github.com/chrieke/awesome-satellite-imagery-datasets
 - [ ] https://github.com/dronedeploy/dd-ml-segmentation-benchmark
+
+# wine plantations satellite imagery
+
+https://github.com/westnordost/StreetComplete/issues/368
+https://books.google.de/books?id=cP5azjPgdIQC&pg=PA244&lpg=PA244&dq=wine+plantations+satellite+imagery&source=bl&ots=FfWkRu8Vnn&sig=ACfU3U1esTbBE3uaXiHO_YVyOhPUXgq1dg&hl=en&sa=X&ved=2ahUKEwjv-uP0mJvpAhUSC-wKHWSEBAMQ6AEwEHoECAkQAQ#v=onepage&q=wine%20plantations%20satellite%20imagerywine&f=false
