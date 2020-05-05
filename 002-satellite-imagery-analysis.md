@@ -20,3 +20,34 @@ https://www.researchgate.net/publication/28231298_Vineyard_area_estimation_using
 
 https://appsilon.com/satellite-imagery-generation-with-gans/
 
+
+```r
+image_height <- 80 # Image height in pixels
+image_width <- 80 # Image width in pixels
+image_channels <- 3 # Number of color channels - here Red, Green and Blue
+noise_dim <- 80 # Length of gaussian noise vector for generator input
+
+# Setting generator input as gaussian noise vector
+generator_input <- layer_input(shape = c(noise_shape))
+
+# Setting generator output - 1d vector will be reshaped into an image array
+generator_output <- generator_input %>%
+  layer_dense(units = 64 * image_height / 4 * image_width / 4) %>%
+  layer_activation_leaky_relu() %>%
+  layer_reshape(target_shape = c(image_height / 4, image_width / 4, 64)) %>%
+  layer_conv_2d(filters = 128, kernel_size = 5, padding = "same") %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d_transpose(filters = 128, kernel_size = 4, strides = 2, padding = "same") %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d_transpose(filters = 256, kernel_size = 4, strides = 2, padding = "same") %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d(filters = 256, kernel_size = 5, padding = "same") %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d(filters = 256, kernel_size = 5, padding = "same") %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d(filters = image_channels, kernel_size = 7, activation = "tanh", padding = "same")
+
+# Setting up the model
+generator <- keras_model(generator_input, generator_output)
+
+```
