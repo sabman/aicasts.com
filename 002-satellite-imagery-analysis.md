@@ -51,3 +51,31 @@ generator_output <- generator_input %>%
 generator <- keras_model(generator_input, generator_output)
 
 ```
+
+```r
+# Setting discriminator input as an image array
+discriminator_input <- layer_input(shape = c(image_height, image_width, image_channels))
+
+# Setting discriminator output - the probability that image is real or not
+discriminator_output <- discriminator_input %>%
+  layer_conv_2d(filters = 256, kernel_size = 4) %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d(filters = 256, kernel_size = 2, strides = 2) %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d(filters = 128, kernel_size = 2, strides = 2) %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d(filters = 128, kernel_size = 2, strides = 2) %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d(filters = 128, kernel_size = 2, strides = 2) %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d(filters = 128, kernel_size = 2, strides = 2) %>%
+  layer_activation_leaky_relu() %>%
+  layer_conv_2d(filters = 128, kernel_size = 2, strides = 2) %>%
+  layer_activation_leaky_relu() %>%
+  layer_flatten() %>%
+  layer_dropout(rate = 0.3) %>%
+  layer_dense(units = 1, activation = "sigmoid")
+
+# Setting up the model
+discriminator <- keras_model(discriminator_input, discriminator_output)
+```
