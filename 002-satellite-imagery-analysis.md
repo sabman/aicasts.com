@@ -15,3 +15,8 @@ https://github.com/westnordost/StreetComplete/issues/368
 https://books.google.de/books?id=cP5azjPgdIQC&pg=PA244&lpg=PA244&dq=wine+plantations+satellite+imagery&source=bl&ots=FfWkRu8Vnn&sig=ACfU3U1esTbBE3uaXiHO_YVyOhPUXgq1dg&hl=en&sa=X&ved=2ahUKEwjv-uP0mJvpAhUSC-wKHWSEBAMQ6AEwEHoECAkQAQ#v=onepage&q=wine%20plantations%20satellite%20imagerywine&f=false
 
 https://www.researchgate.net/publication/28231298_Vineyard_area_estimation_using_medium_spatial_resolution_satellite_imagery
+
+# GANS for satellite imagery
+
+https://appsilon.com/satellite-imagery-generation-with-gans/
+
