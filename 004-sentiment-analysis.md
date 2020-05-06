@@ -1,6 +1,11 @@
 
 https://www.pythonforengineers.com/natural-language-processing-and-sentiment-analysis-with-python/
 https://github.com/huggingface/transformers
+https://huggingface.co/transformers/installation.html
+
+```
+pip install transformers
+```
 
 ```python
 from transformers import pipeline
