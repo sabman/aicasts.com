@@ -79,3 +79,16 @@ discriminator_output <- discriminator_input %>%
 # Setting up the model
 discriminator <- keras_model(discriminator_input, discriminator_output)
 ```
+
+define loss function
+
+```r
+discriminator %>% compile(
+  optimizer = optimizer_rmsprop(
+    lr = 0.0006,
+    clipvalue = 1.0,
+    decay = 1e-7
+  ),
+  loss = "binary_crossentropy"
+)
+```
