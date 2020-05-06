@@ -92,3 +92,24 @@ discriminator %>% compile(
   loss = "binary_crossentropy"
 )
 ```
+
+```r
+freeze_weights(discriminator)
+gan_input <- layer_input(shape = c(noise_shape))
+gan_output <- discriminator(generator(gan_input))
+gan <- keras_model(gan_input, gan_output) gan %>% compile(
+  optimizer = optimizer_rmsprop(
+    lr = 0.0003,
+    clipvalue = 1.0,
+    decay = 1e-7
+  ),
+  loss = "binary_crossentropy"
+)
+
+# Training the GAN doesn't follow the simplicity as we could experience while working with Convolutional Networks. In simplification, we have to train both networks separately in a loop.
+for(i in 1:1000) {
+  # TRAIN THE DISCRIMINATOR
+  # TRAIN THE GAN
+ # You can find full code of the training process for similar example in https://www.manning.com/books/deep-learning-with-r
+}
+```
