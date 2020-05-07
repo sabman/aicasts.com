@@ -7,12 +7,16 @@ https://huggingface.co/transformers/installation.html
 pip install transformers
 ```
 
-to reproduce OpenAI GPT paper
+To reproduce [OpenAI GPT paper](https://openai.com/blog/better-language-models/)
 
 ```
 pip install spacy ftfy==4.4.3
 python -m spacy download en
 ```
+
+For mobile:
+
+https://github.com/huggingface/swift-coreml-transformers
 
 ```python
 from transformers import pipeline
