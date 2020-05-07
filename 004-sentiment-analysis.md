@@ -14,9 +14,14 @@ pip install spacy ftfy==4.4.3
 python -m spacy download en
 ```
 
-For mobile:
+For ios CoreML:
 
 https://github.com/huggingface/swift-coreml-transformers
+
+
+# Quickstart
+
+https://huggingface.co/transformers/quickstart.html
 
 ```python
 from transformers import pipeline
