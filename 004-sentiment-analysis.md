@@ -31,6 +31,10 @@ from transformers import BertTokenizer, BertModel, BertForMaskedLM
 import logging
 logging.basicConfig(level=logging.INFO)
 
+# Load pre-trained model tokenizer (vocabulary)
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+
+
 
 ```
 
