@@ -24,20 +24,14 @@ https://github.com/huggingface/swift-coreml-transformers
 https://huggingface.co/transformers/quickstart.html
 
 ```python
-from transformers import pipeline
+import torch
+from transformers import BertTokenizer, BertModel, BertForMaskedLM
 
-# Allocate a pipeline for sentiment-analysis
-nlp = pipeline('sentiment-analysis')
-nlp('We are very happy to include pipeline into the transformers repository.')
->>> {'label': 'POSITIVE', 'score': 0.99893874}
+# OPTIONAL: if you want to have more information on what's happening under the hood, activate the logger as follows
+import logging
+logging.basicConfig(level=logging.INFO)
 
-# Allocate a pipeline for question-answering
-nlp = pipeline('question-answering')
-nlp({
-    'question': 'What is the name of the repository ?',
-    'context': 'Pipeline have been included in the huggingface/transformers repository'
-})
->>> {'score': 0.28756016668193496, 'start': 35, 'end': 59, 'answer': 'huggingface/transformers'}
+
 ```
 
 
