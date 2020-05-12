@@ -81,6 +81,31 @@ with torch.no_grad():
 assert tuple(encoded_layers.shape) == (1, len(indexed_tokens), model.config.hidden_size)
 ```
 
+And how to use `BertForMaskedLM` to predict a masked token:
+
+```python
+# Load pre-trained model (weights)
+model = BertForMaskedLM.from_pretrained('bert-base-uncased')
+model.eval()
+
+# If you have a GPU, put everything on cuda
+tokens_tensor = tokens_tensor.to('cuda')
+segments_tensors = segments_tensors.to('cuda')
+model.to('cuda')
+
+# Predict all tokens
+with torch.no_grad():
+    outputs = model(tokens_tensor, token_type_ids=segments_tensors)
+    predictions = outputs[0]
+
+# confirm we were able to predict 'henson'
+predicted_index = torch.argmax(predictions[0, masked_index]).item()
+predicted_token = tokenizer.convert_ids_to_tokens([predicted_index])[0]
+assert predicted_token == 'henson'
+```
+
+
+
 
 > In this tutorial I’ll show you how to use BERT with the huggingface PyTorch library to quickly and efficiently fine-tune a model to get near state of the art performance in sentence classification. More broadly, I describe the practical application of transfer learning in NLP to create high performance models with minimal effort on a range of NLP tasks.
 
