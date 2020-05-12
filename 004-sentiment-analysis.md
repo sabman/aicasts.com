@@ -54,6 +54,32 @@ segments_tensors = torch.tensor([segments_ids])
 
 ```
 
+Let’s see how we can use `BertModel` to encode our inputs in hidden-states:
+
+```python
+# Load pre-trained model (weights)
+model = BertModel.from_pretrained('bert-base-uncased')
+
+# Set the model in evaluation mode to deactivate the DropOut modules
+# This is IMPORTANT to have reproducible results during evaluation!
+model.eval()
+
+# If you have a GPU, put everything on cuda
+tokens_tensor = tokens_tensor.to('cuda')
+segments_tensors = segments_tensors.to('cuda')
+model.to('cuda')
+
+# Predict hidden states features for each layer
+with torch.no_grad():
+    # See the models docstrings for the detail of the inputs
+    outputs = model(tokens_tensor, token_type_ids=segments_tensors)
+    # Transformers models always output tuples.
+    # See the models docstrings for the detail of all the outputs
+    # In our case, the first element is the hidden state of the last layer of the Bert model
+    encoded_layers = outputs[0]
+# We have encoded our input sequence in a FloatTensor of shape (batch size, sequence length, model hidden dimension)
+assert tuple(encoded_layers.shape) == (1, len(indexed_tokens), model.config.hidden_size)
+```
 
 
 > In this tutorial I’ll show you how to use BERT with the huggingface PyTorch library to quickly and efficiently fine-tune a model to get near state of the art performance in sentence classification. More broadly, I describe the practical application of transfer learning in NLP to create high performance models with minimal effort on a range of NLP tasks.
