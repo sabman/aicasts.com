@@ -129,6 +129,31 @@ indexed_tokens = tokenizer.encode(text)
 tokens_tensor = torch.tensor([indexed_tokens])
 ```
 
+Let’s see how to use `GPT2LMHeadModel` to generate the next token following our text:
+
+```python
+# Load pre-trained model (weights)
+model = GPT2LMHeadModel.from_pretrained('gpt2')
+
+# Set the model in evaluation mode to deactivate the DropOut modules
+# This is IMPORTANT to have reproducible results during evaluation!
+model.eval()
+
+# If you have a GPU, put everything on cuda
+tokens_tensor = tokens_tensor.to('cuda')
+model.to('cuda')
+
+# Predict all tokens
+with torch.no_grad():
+    outputs = model(tokens_tensor)
+    predictions = outputs[0]
+
+# get the predicted next sub-word (in our case, the word 'man')
+predicted_index = torch.argmax(predictions[0, -1, :]).item()
+predicted_text = tokenizer.decode(indexed_tokens + [predicted_index])
+assert predicted_text == 'Who was Jim Henson? Jim Henson was a man'
+```
+
 
 
 > In this tutorial I’ll show you how to use BERT with the huggingface PyTorch library to quickly and efficiently fine-tune a model to get near state of the art performance in sentence classification. More broadly, I describe the practical application of transfer learning in NLP to create high performance models with minimal effort on a range of NLP tasks.
