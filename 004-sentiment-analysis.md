@@ -154,6 +154,39 @@ predicted_text = tokenizer.decode(indexed_tokens + [predicted_index])
 assert predicted_text == 'Who was Jim Henson? Jim Henson was a man'
 ```
 
+Examples for each model class of each model architecture (`Bert`, `GPT`, `GPT-2`, `Transformer-XL`, `XLNet` and `XLM`) can be found in the documentation.
+
+## Using the past
+
+`GPT-2`, as well as some other models (`GPT`, `XLNet`, `Transfo-XL`, `CTRL`), make use of a past or mems attribute which can be used to prevent re-computing the key/value pairs when using sequential decoding. It is useful when generating sequences as a big part of the attention mechanism benefits from previous computations.
+
+Here is a fully-working example using the past with `GPT2LMHeadModel` and `argmax` decoding (which should only be used as an example, as `argmax` decoding introduces a lot of repetition):
+
+
+```python
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+import torch
+
+tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+model = GPT2LMHeadModel.from_pretrained('gpt2')
+
+generated = tokenizer.encode("The Manhattan bridge")
+context = torch.tensor([generated])
+past = None
+
+for i in range(100):
+    print(i)
+    output, past = model(context, past=past)
+    token = torch.argmax(output[..., -1, :])
+
+    generated += [token.tolist()]
+    context = token.unsqueeze(0)
+
+sequence = tokenizer.decode(generated)
+
+print(sequence)
+```
+
 
 
 > In this tutorial I’ll show you how to use BERT with the huggingface PyTorch library to quickly and efficiently fine-tune a model to get near state of the art performance in sentence classification. More broadly, I describe the practical application of transfer learning in NLP to create high performance models with minimal effort on a range of NLP tasks.
