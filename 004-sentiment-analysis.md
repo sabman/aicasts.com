@@ -187,6 +187,8 @@ sequence = tokenizer.decode(generated)
 print(sequence)
 ```
 
+The model only requires a single token as input as all the previous tokens’ key/value pairs are contained in the `past`.
+
 
 
 > In this tutorial I’ll show you how to use BERT with the huggingface PyTorch library to quickly and efficiently fine-tune a model to get near state of the art performance in sentence classification. More broadly, I describe the practical application of transfer learning in NLP to create high performance models with minimal effort on a range of NLP tasks.
