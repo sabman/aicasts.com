@@ -34,5 +34,8 @@ RUN apt-get update && apt-get install -y curl gnupg && \
     echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list && \
     apt-get update && apt-get install -y bazel
 
+
 RUN git clone https://github.com/google/differential-privacy.git && \
     cd differential-privacy && bazel build differential_privacy
+
+RUN service postgresql start && createdb -U postgres test_differential_db && psql -c "CREATE EXTENSION anon_func;" -U postgres test_differential_db
