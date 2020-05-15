@@ -14,4 +14,5 @@ In this table, each row represents one fruit eaten. So if person 1 eats two appl
 ```sql
 SELECT fruit, COUNT(fruit)
 FROM FruitEaten
+GROUP BY fruit;
 ```
