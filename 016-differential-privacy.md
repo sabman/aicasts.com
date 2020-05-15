@@ -41,3 +41,13 @@ FROM (
 ) as result
 WHERE result.number_eaters > 50;
 ```
+
+As we can see, there are four SELECTS in the query. We will explain them from inner-most to outer-most. The following steps were taken to rewrite the query:
+
+* Construct the 1st and inner-most `SELECT`, aliased as `per_person_raw`.
+
+```sql
+SELECT fruit, uid, COUNT(fruit) as fruit_count
+FROM FruitEaten
+GROUP BY fruit, uid;
+```
