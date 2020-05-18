@@ -51,3 +51,18 @@ SELECT fruit, uid, COUNT(fruit) as fruit_count
 FROM FruitEaten
 GROUP BY fruit, uid;
 ```
+
+For each person, count how many of each fruit that person ate.
+
+Construct the 2nd `SELECT`, aliased as `per_person`.
+
+```sql
+SELECT *, ROW_NUMBER() OVER (
+  PARTITION BY uid
+  ORDER BY random()
+) as row_num
+FROM per_person_raw;
+```
+
+For each person, `per_person_raw` contains rows corresponding to the fruits they have eaten. We shuffle these rows and assign them a row number. This will allow us to effectively [reservoir sample](https://en.wikipedia.org/wiki/Reservoir_sampling) rows for each user by filtering by row number in the next step. This is similar to C_u thresholding in Wilson et al.
+
