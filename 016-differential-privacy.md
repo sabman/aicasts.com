@@ -66,3 +66,18 @@ FROM per_person_raw;
 
 For each person, `per_person_raw` contains rows corresponding to the fruits they have eaten. We shuffle these rows and assign them a row number. This will allow us to effectively [reservoir sample](https://en.wikipedia.org/wiki/Reservoir_sampling) rows for each user by filtering by row number in the next step. This is similar to C_u thresholding in Wilson et al.
 
+
+Construct the 3rd `SELECT`, aliased as result.
+
+```sql
+SELECT per_person.fruit,
+       ANON_SUM(per_person.fruit_count, LN(3)/2) as number_eaten,
+       ANON_COUNT(uid, LN(3)/2) as number_eaters
+FROM per_person
+WHERE per_person.row_num <= 5
+GROUP BY per_person.fruit;
+```
+
+First, for each person, we ensure that the person only contributed to 5 fruit groups by filtering on the **randomized row number** generated in the previous step. Then, for each fruit, we sum the number of the fruit that each person ate. We also count the number of people who ate that fruit. This will allow us to ensure we only release the sums which enough people contributed to.
+
+
