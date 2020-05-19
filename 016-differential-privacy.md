@@ -80,3 +80,15 @@ GROUP BY per_person.fruit;
 
 First, for each person, we ensure that the person only contributed to 5 fruit groups by filtering on the **randomized row number** generated in the previous step. Then, for each fruit, we sum the number of the fruit that each person ate. We also count the number of people who ate that fruit. This will allow us to ensure we only release the sums which enough people contributed to.
 
+In order to anonymously grab the sum and count, we replace the aggregates `SUM` and `COUNT` with `ANON_SUM` and `ANON_COUNT`, respectively. Note that since we are performing two anonymous aggregations, we split our privacy parameter between them, using `ε=ln(3)` for both.
+
+Construct the 4th and outer-most SELECT.
+
+```sql
+SELECT result.fruit, result.number_eaten
+FROM result
+WHERE result.number_eaters > 50;
+```
+
+For any fruit where the number of eaters was less than 50, discard the output result. This is similar to `τ-thresholding` in Wilson et al. In addition, we drop the `number_eaters` count, so that it does not display in the output. Dropping the count of unique users is not necessary for differential privacy.
+
