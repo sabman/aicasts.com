@@ -92,3 +92,19 @@ WHERE result.number_eaters > 50;
 
 For any fruit where the number of eaters was less than 50, discard the output result. This is similar to `τ-thresholding` in Wilson et al. In addition, we drop the `number_eaters` count, so that it does not display in the output. Dropping the count of unique users is not necessary for differential privacy.
 
+### Multiple Aggregations
+
+In our simple count example, we used a query containing a single anonymous function. For a query with N anonymous function calls, and with a desired total privacy parameter of `ε`, we need to use `ε/(N+1)` as the privacy parameter for each aggregation. This is for the N requested calls plus the additional anonymous unique-user count. For instance, consider the following dummy query:
+
+```sql
+SELECT COUNT(col1), SUM(col2)
+FROM Table;
+```
+
+Suppose we want to use the privacy parameter `ε=M`. In the rewritten query, we have to make the following replacements
+
+| Original    | Replacement           |
+| ----------- | --------------------- |
+| COUNT(col1) | ANON_COUNT(col1, M/3) |
+| SUM(col2)   | ANON_SUM(col2, M/3)   |
+
