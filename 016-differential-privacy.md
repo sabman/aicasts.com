@@ -144,3 +144,32 @@ SELECT color, COUNT(fruit)
 FROM FruitEaten f INNER JOIN Shirts s ON (f.uid = s.uid)
 GROUP BY color;
 ```
+
+
+We rewrite the query into its differentially private version:
+
+```sql
+SELECT result.color, result.number_eaten
+FROM (
+  SELECT per_person.color,
+    ANON_SUM(per_person.fruit_count, LN(3)/2) as number_eaten,
+    ANON_COUNT(uid, LN(3)/2) as number_eaters
+    FROM(
+      SELECT * , ROW_NUMBER() OVER (
+        PARTITION BY uid
+        ORDER BY random()
+      ) as row_num
+      FROM (
+        SELECT color, f.uid as uid, COUNT(fruit) as fruit_count
+        FROM FruitEaten f INNER JOIN Shirts s ON (f.uid = s.uid)
+        GROUP BY color, f.uid
+      ) as per_person_raw
+    ) as per_person
+  WHERE per_person.row_num <= 5
+  GROUP BY per_person.color
+) as result
+WHERE result.number_eaters > 50;
+```
+
+The restriction with this method of rewriting is that joins must not create any rows of **shared ownership**. In the example above, this is satisfied.
+
