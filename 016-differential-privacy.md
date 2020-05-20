@@ -109,11 +109,12 @@ Suppose we want to use the privacy parameter `ε=M`. In the rewritten query, we 
 | SUM(col2)   | ANON_SUM(col2, M/3)   |
 
 This is because we have **two** (`COUNT`, `SUM`) requested anonymous functions, and an additional **anonymous unique user count** required when we perform the rewrite.
-
+****
 ### Bounding User Contribution
 
-Consider again our fruit-eating example. Suppose we want to restrict the contribution of each person to the fruit-eaten counts by `5`. So if a person has eaten more than `5` fruit, we want to count it as that they have eaten `5` fruit. To do this, add lower and upper bounds on the anonymous functions:
+Consider again our fruit-eating example. Suppose we want to *restrict the contribution of each person to the fruit-eaten counts* by `5`. So if a person has eaten more than `5` fruit, we want to count it as that they have eaten `5` fruit. To do this, add lower and upper bounds on the anonymous functions:
 
 | Original                                    | Replacement                                       |
 | ------------------------------------------- | ------------------------------------------------- |
-| `ANON_SUM(per_person.fruit_count, LN(3)/2)` | `ANON_SUM(per_person.fruit_count, 0, 5, LN(3)/2)` |
+| `ANON_SUM(per_person.fruit_count, LN(3)/2)` | **`ANON_SUM**(per_person.fruit_count, 0, 5, LN(3)/2)` |
+
