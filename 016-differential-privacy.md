@@ -114,7 +114,33 @@ This is because we have **two** (`COUNT`, `SUM`) requested anonymous functions, 
 
 Consider again our fruit-eating example. Suppose we want to *restrict the contribution of each person to the fruit-eaten counts* by `5`. So if a person has eaten more than `5` fruit, we want to count it as that they have eaten `5` fruit. To do this, add lower and upper bounds on the anonymous functions:
 
-| Original                                    | Replacement                                       |
-| ------------------------------------------- | ------------------------------------------------- |
+| Original                                    | Replacement                                           |
+| ------------------------------------------- | ----------------------------------------------------- |
 | `ANON_SUM(per_person.fruit_count, LN(3)/2)` | **`ANON_SUM**(per_person.fruit_count, 0, 5, LN(3)/2)` |
 
+### Query With Joins
+
+In this section we will add a `join` to our query. In addition to the `FruitEaten` table, consider the following table, which we will call `Shirts`.
+
+| Column | Type        | Description                          |
+| ------ | ----------- | ------------------------------------ |
+| uid    | integer     | Uniquely identifies a person.        |
+| color  | varchar(20) | The name of the person's shirt color |
+
+Create the table and import the data provided by `shirts.csv`. Make sure to change the file path below to point to where you cloned the directory.
+
+```sql
+CREATE TABLE Shirts (
+  uid integer,
+  color character varying(20)
+);
+COPY shirts(uid, color) FROM 'shirts.csv' DELIMITER ',' CSV HEADER;
+```
+
+Let's say we want to find out, for each shirt color, how many fruit all the people wearing that shirt color ate, altogether.
+
+```sql
+SELECT color, COUNT(fruit)
+FROM FruitEaten f INNER JOIN Shirts s ON (f.uid = s.uid)
+GROUP BY color;
+```
