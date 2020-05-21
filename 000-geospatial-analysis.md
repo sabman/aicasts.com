@@ -17,7 +17,7 @@
 - https://github.com/dataArtisans/flink-streaming-demo
 - https://github.com/azavea/raster-vision
 - https://github.com/datapink/robosat.pink
-- https://github.com/juliohm/GeoStats.jl
+- https://github.com/juliohm/GeoStats.jlpti
 
 ## Kaggle
 - https://www.kaggle.com/learn/geospatial-analysis
