@@ -20,6 +20,7 @@
 - https://github.com/juliohm/GeoStats.jlpti
 - https://github.com/LinkedEOData/GeoTriples (Geospatial to RDF)
 - https://github.com/GoogleCloudPlatform/bigquery-geo-viz
+- https://github.com/hoshinolab/tadataka
 
 ## Kaggle
 - https://www.kaggle.com/learn/geospatial-analysis
