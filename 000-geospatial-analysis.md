@@ -18,6 +18,7 @@
 - https://github.com/azavea/raster-vision
 - https://github.com/datapink/robosat.pink
 - https://github.com/juliohm/GeoStats.jlpti
+- https://github.com/LinkedEOData/GeoTriples (Geospatial to RDF)
 
 ## Kaggle
 - https://www.kaggle.com/learn/geospatial-analysis
