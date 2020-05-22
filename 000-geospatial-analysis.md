@@ -19,6 +19,7 @@
 - https://github.com/datapink/robosat.pink
 - https://github.com/juliohm/GeoStats.jlpti
 - https://github.com/LinkedEOData/GeoTriples (Geospatial to RDF)
+- https://github.com/GoogleCloudPlatform/bigquery-geo-viz
 
 ## Kaggle
 - https://www.kaggle.com/learn/geospatial-analysis
