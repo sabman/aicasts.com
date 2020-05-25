@@ -1195,3 +1195,19 @@ The intersects function is index supported, i.e., it is defined as follows
 ```
 
 The && operator performs a bounding box overlaps index filtering
+
+# Chapter 1. Managing Ship Trajectories (AIS)
+
+AIS stands for Automatic Identification System. It is the location tracking system for sea vessels. This module illustrates how to load big AIS data sets into MobilityDB, and do basic exploration.
+
+The idea of this module is inspired from the tutorial of MovingPandas on ship data analysis by Anita Graser.
+
+**This Module Covers**
+
+- Loading large trajectory datasets into MobilityDB
+- Create proper indexes to speed up trajectory construction
+- Select trajectories by a spatial window
+- Join trajectories tables by proximity
+- Select certain parts inside individual trajectories
+- Manage the temporal speed and azimuth features of ships
+
