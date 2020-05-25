@@ -1245,3 +1245,43 @@ Size B	Length from GPS to the stern
 Size C	Length from GPS to starboard side
 Size D	Length from GPS to port side
 ```
+This module uses the data of one day April 1st 2018. The CSV file size is 1.9 GB, and it contains about 10 M rows.
+
+**Tools used**
+
+- MobilityDB, on top of PostgreSQL and PostGIS. Here I use the MobilityDB docker image.
+- QGIS
+
+## Preparing the Database
+
+```sql
+CREATE TABLE AISInput(
+	T	timestamp,
+	TypeOfMobile varchar(50),
+	MMSI integer, 
+	Latitude float,
+	Longitude float,
+	navigationalStatus varchar(50), 
+	ROT float, 
+	SOG float,
+	COG float,
+	Heading integer,
+	IMO varchar(50),
+	Callsign varchar(50),
+	Name varchar(100),
+	ShipType varchar(50),
+	CargoType varchar(100),
+	Width float,
+	Length float,
+	TypeOfPositionFixingDevice varchar(50),
+	Draught float,
+	Destination varchar(50),
+	ETA varchar(50),
+	DataSourceType varchar(50),
+	SizeA float,
+	SizeB float,
+	SizeC float,
+	SizeD float,
+	Geom geometry(Point, 4326)
+);
+```
