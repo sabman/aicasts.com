@@ -1311,3 +1311,12 @@ UPDATE AISInput SET
 		WHEN 'Undefined' THEN NULL END,
 	Geom = ST_SetSRID( ST_MakePoint( Longitude, Latitude ), 4326);
 ```
+
+This took about 5 minutes on my machine. Let's visualize the spatial points on QGIS.
+
+Clearly, there are noise points that are far away from Denmark or even outside earth. This module will not discuss a thorough data cleaning. However, we do some basic cleaning in order to be able to construct trajectories:
+
+Filter out points that are outside the window defined by bounds point(-16.1,40.18) and point(32.88, 84.17). This window is obtained from the specifications of the projection in https://epsg.io/25832.
+
+Filter out the rows that have the same identifier (MMSI, T)
+
