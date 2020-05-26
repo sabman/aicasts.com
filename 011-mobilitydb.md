@@ -1285,3 +1285,16 @@ CREATE TABLE AISInput(
 	Geom geometry(Point, 4326)
 );
 ```
+
+## Loading the Data
+
+For importing CSV data into a PostgreSQL database one can use the COPY command as follows:
+
+```sql
+COPY AISInput(T, TypeOfMobile, MMSI, Latitude, Longitude, NavigationalStatus,
+	ROT, SOG, COG, Heading, IMO, CallSign, Name, ShipType, CargoType, Width, Length,
+	TypeOfPositionFixingDevice, Draught, Destination, ETA, DataSourceType,
+	SizeA, SizeB, SizeC, SizeD)
+FROM '/home/mobilitydb/DanishAIS/aisdk_20180401.csv' DELIMITER  ',' CSV HEADER;
+```
+
