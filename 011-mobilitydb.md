@@ -1298,3 +1298,16 @@ COPY AISInput(T, TypeOfMobile, MMSI, Latitude, Longitude, NavigationalStatus,
 FROM '/home/mobilitydb/DanishAIS/aisdk_20180401.csv' DELIMITER  ',' CSV HEADER;
 ```
 
+This import took about 3 minutes on my machine, which is an average laptop. The CSV file has 10,619,212 rows, all of which were correctly imported. For bigger datasets, one could alternative could use the program pgloader.
+
+We clean up some of the fields in the table and create spatial points with the following command.
+
+```sql
+UPDATE AISInput SET
+	NavigationalStatus = CASE NavigationalStatus WHEN 'Unknown value' THEN NULL END,
+	IMO = CASE IMO WHEN 'Unknown' THEN NULL END,
+	ShipType = CASE ShipType WHEN 'Undefined' THEN NULL END,
+	TypeOfPositionFixingDevice = CASE TypeOfPositionFixingDevice
+		WHEN 'Undefined' THEN NULL END,
+	Geom = ST_SetSRID( ST_MakePoint( Longitude, Latitude ), 4326);
+```
