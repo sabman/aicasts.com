@@ -1329,3 +1329,21 @@ CREATE TABLE AISInputFiltered AS
 SELECT COUNT(*) FROM AISInputFiltered;
 --10357703		
 ```
+
+### Constructing Trajectories
+
+Now we are ready to construct ship trajectories out of their individual observations:
+
+```sql
+CREATE TABLE Ships(MMSI, Trip, SOG, COG) AS
+	SELECT MMSI,
+		tgeompointseq(array_agg(tgeompointinst( ST_Transform(Geom, 25832), T) ORDER BY T)),
+		tfloatseq(array_agg(tfloatinst(SOG, T) ORDER BY T) FILTER (WHERE SOG IS NOT NULL)),
+		tfloatseq(array_agg(tfloatinst(COG, T) ORDER BY T) FILTER (WHERE COG IS NOT NULL))
+	FROM AISInputFiltered
+	GROUP BY MMSI;
+-- Query returned successfully: 2995 rows affected, 01:16 minutes execution time.
+```
+
+This query constructs, per ship, its spatiotemporal trajectory Trip, and two temporal attributes `SOG` and `COG`. `Trip` is a `temporal geometry point`, and both `SOG` and `COG` are `temporal floats`. MobilityDB builds on the coordinate transformation feature of PostGIS. Here the `SRID 25832` (European Terrestrial Reference System 1989) is used, because it i`s the one advised by Danish Maritime Authority in the download page of this dataset. Now, let's visualize the constructed trajectories in QGIS.
+
