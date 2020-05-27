@@ -1347,3 +1347,9 @@ CREATE TABLE Ships(MMSI, Trip, SOG, COG) AS
 
 This query constructs, per ship, its spatiotemporal trajectory Trip, and two temporal attributes `SOG` and `COG`. `Trip` is a `temporal geometry point`, and both `SOG` and `COG` are `temporal floats`. MobilityDB builds on the coordinate transformation feature of PostGIS. Here the `SRID 25832` (European Terrestrial Reference System 1989) is used, because it i`s the one advised by Danish Maritime Authority in the download page of this dataset. Now, let's visualize the constructed trajectories in QGIS.
 
+
+```sql
+ALTER sTABLE Ships ADD COLUMN Traj geometry;
+UPDATE Ships SET Traj= trajectory(Trip);
+-- Query returned successfully: 2995 rows affected, 3.8 secs execution time.
+```
