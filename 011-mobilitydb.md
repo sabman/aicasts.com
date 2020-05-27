@@ -1320,3 +1320,12 @@ Filter out points that are outside the window defined by bounds point(-16.1,40.1
 
 Filter out the rows that have the same identifier (MMSI, T)
 
+```sql
+CREATE TABLE AISInputFiltered AS
+	SELECT DISTINCT ON(MMSI,T) *
+	FROM AISInput
+	WHERE Longitude BETWEEN -16.1 and 32.88 AND Latitude BETWEEN 40.18 AND 84.17;
+-- Query returned successfully: 10357703 rows affected, 01:14 minutes execution time.
+SELECT COUNT(*) FROM AISInputFiltered;
+--10357703		
+```
