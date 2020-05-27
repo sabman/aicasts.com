@@ -1349,7 +1349,16 @@ This query constructs, per ship, its spatiotemporal trajectory Trip, and two tem
 
 
 ```sql
-ALTER sTABLE Ships ADD COLUMN Traj geometry;
+ALTER TABLE Ships ADD COLUMN Traj geometry;
 UPDATE Ships SET Traj= trajectory(Trip);
 -- Query returned successfully: 2995 rows affected, 3.8 secs execution time.
+```
+
+### Basic Data Exploration
+
+The total distance traveled by all ships:
+
+```sql
+SELECT SUM( length( Trip ) ) FROM Ships;
+--500433519.121321
 ```
