@@ -1362,3 +1362,35 @@ The total distance traveled by all ships:
 SELECT SUM( length( Trip ) ) FROM Ships;
 --500433519.121321
 ```
+
+This query uses the length function to compute per trip the sailing distance in meters. We then aggregate over all trips and calculate the sum. Let's have a more detailed look, and generate a histogram of trip lengths:
+
+```sql
+WITH buckets (bucketNo, RangeKM) AS (
+	SELECT 1, floatrange '[0, 0]' UNION
+	SELECT 2, floatrange '(0, 50)' UNION
+	SELECT 3, floatrange '[50, 100)' UNION
+	SELECT 4, floatrange '[100, 200)' UNION
+	SELECT 5, floatrange '[200, 500)' UNION
+	SELECT 6, floatrange '[500, 1500)' UNION
+	SELECT 7, floatrange '[1500, 10000)' ),
+histogram AS (
+	SELECT bucketNo, RangeKM, count(MMSI) as freq
+	FROM buckets left outer join Ships on (length(Trip)/1000) <@ RangeKM
+	GROUP BY bucketNo, RangeKM
+	ORDER BY bucketNo, RangeKM
+)
+SELECT bucketNo, RangeKM, freq,
+	repeat('▪', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
+FROM histogram;
+--Total query runtime: 5.6 secs
+
+bucketNo,   bucketRange,        freq	   bar
+1;          "[0,0]";            303;       ▪▪▪▪▪
+2;          "(0,50)";           1693;      ▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪
+3;          "[50,100)";         267;       ▪▪▪▪▪
+4;          "[100,200)";        276;       ▪▪▪▪▪
+5;          "[200,500)";        361;       ▪▪▪▪▪▪
+6;          "[500,1500)";       86;        ▪▪
+7;          "[1500,10000)";     6;
+```
