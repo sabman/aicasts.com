@@ -1402,3 +1402,43 @@ DELETE FROM Ships
 WHERE length(Trip) = 0 OR length(Trip) >= 1500000;
 -- Query returned successfully in 7 secs 304 msec.
 ```
+
+Let's have a look at the speed of the ships. There are two speed values in the data; the speed calculated from the spatiotemporal trajectory speed(Trip), and the SOG attribute. Optimally, the two will be the same. A small variance would still be OK, because of sensor errors. Note that both are temporal floats. In the next query, we compare the averages of the two speed values for every ship:
+
+```sql
+SELECT ABS(twavg(SOG) * 1.852 - twavg(speed(Trip))* 3.6 ) SpeedDifference
+FROM Ships
+ORDER BY SpeedDifference DESC;
+--Total query runtime: 8.2 secs
+--990 rows retrieved.
+
+SpeedDifference
+NULL
+NULL
+NULL
+NULL
+NULL
+107.861100067879
+57.1590253627668
+42.4207839833568
+39.5819188407125
+33.6182789410313
+30.9078594633161
+26.514042447366
+22.1312646226031
+20.5389022294181
+19.8500569368283
+19.4134688682774
+18.180139457754
+17.4859077178001
+17.3155991287105
+17.1739822139821
+12.9571603234404
+12.6195380496344
+12.2714437568609
+10.9619033557275
+10.4164745930929
+10.3306155308426
+9.46457823214455
+...
+```
