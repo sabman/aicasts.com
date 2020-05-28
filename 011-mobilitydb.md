@@ -1394,3 +1394,11 @@ bucketNo,   bucketRange,        freq	   bar
 6;          "[500,1500)";       86;        ▪▪
 7;          "[1500,10000)";     6;
 ```
+
+Surprisingly there are trips with zero length. These are clearly noise that can be deleted. Also there are very many short trips, that are less than 50 km long. On the other hand, there are few long trips that are more than 1,500 km long. Let's visualize these last two cases in Figure 1.3, “Visualizing trips with abnormal lengths”. They look like noise. Normally one should validate more, but to simplify this module, we consider them as noise, and delete them.
+
+```sql
+DELETE FROM Ships
+WHERE length(Trip) = 0 OR length(Trip) >= 1500000;
+-- Query returned successfully in 7 secs 304 msec.
+```
