@@ -1442,6 +1442,7 @@ NULL
 9.46457823214455
 ...
 ```
+
 The `twavg` computes a **time-weighted average of a temporal float**. It basically computes the area under the curve, then divides it by the time duration of the temporal float. By doing so, the speed values that remain for longer durations affect the average more than those that remain for shorter durations. Note that SOG is in knot, and Speed(Trip) is in m/s. The query converts both to km/h.
 
 The query shows that 26 out of the 990 ship trajectories in the table have a difference of more than 10 km/h or NULL. These trajectories are shown in Figure 1.5, “Ship trajectories with big difference between speed(Trip) and SOG”. Again they look like noise, so we remove them.
@@ -1452,3 +1453,37 @@ Figure 1.5. Ship trajectories with big difference between speed(Trip) and SOG
 
 Now we do a similar comparison between the calculated azimuth from the spatiotemporal trajectory, and the attribute COG:
 
+```sql
+SELECT ABS(twavg(COG) - twavg(azimuth(Trip)) * 180.0/pi() ) AzimuthDifference
+FROM Ships
+ORDER BY AzimuthDifference DESC;
+--Total query runtime: 4.0 secs
+--964 rows retrieved.
+
+264.838740787458
+220.958372832234
+180.867071483688
+178.774337481463
+154.239639388087
+139.633953692907
+137.347542674865
+128.239459879571
+121.107566199195
+119.843262642657
+116.685117326047
+116.010477588934
+109.830338231363
+106.94301191915
+106.890186229337
+106.55297972109
+103.20192549283
+102.585009756697
+...
+
+```
+
+Here we see that the COG is not as accurate as the SOG attribute. More than 100 trajectories have an azimuth difference bigger than 45 degrees. Figure 1.6, “Ship trajectories with big difference between `azimuth(Trip)` and COG” visualizes them. Some of them look like noise, but some look fine. For simplicity, we keep them all.
+
+Figure 1.6. Ship trajectories with big difference between azimuth(Trip) and COG
+
+![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/trajsWrongAzimuth.png)
