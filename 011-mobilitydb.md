@@ -1487,3 +1487,26 @@ Here we see that the COG is not as accurate as the SOG attribute. More than 100 
 Figure 1.6. Ship trajectories with big difference between azimuth(Trip) and COG
 
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/trajsWrongAzimuth.png)
+
+### Analyzing the Trajectories
+
+Now we dive into MobilityDB and explore more of its functions. In Figure 1.7, “A sample ship trajectory between Rødby and Puttgarden”, we notice trajectories that keep going between Rødby and Puttgarden. Most probably, these are the ferries between the two ports. The task is simply to spot which Ships do so, and to count how many one way trips they did in this day. This is expressed in the following query:
+
+```sql
+CREATE INDEX Ships_Trip_Idx ON Ships USING GiST(Trip);
+
+EXPLAIN
+WITH Ports(Rodby, Puttgarden) AS
+(
+	SELECT ST_MakeEnvelope(651135, 6058230, 651422, 6058548, 25832), 
+		ST_MakeEnvelope(644339, 6042108, 644896, 6042487, 25832)
+)
+SELECT S.*, Rodby, Puttgarden
+FROM Ports P, Ships S
+WHERE intersects(S.Trip, P.Rodby) AND intersects(S.Trip, P.Puttgarden)
+--Total query runtime: 462 msec
+--4 rows retrieved.
+```
+
+Figure 1.7. A sample ship trajectory between Rødby and Puttgarden
+
