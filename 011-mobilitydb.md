@@ -1510,3 +1510,11 @@ WHERE intersects(S.Trip, P.Rodby) AND intersects(S.Trip, P.Puttgarden)
 
 Figure 1.7. A sample ship trajectory between Rødby and Puttgarden
 
+![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/trajFerry.png)
+
+Figure 1.8. All ferries between Rødby and Puttgarden
+
+![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/trajFerries.png)
+
+This query creates two envelope geometries that represent the locations of the two ports, then intersects them with the spatiotemporal trajectories of the ships. The intersects function checks whether a temporal point has ever intersects a geometry. To speed up the query, a spatiotemporal GiST index is first built on the Trip attribute. The query identified four Ships that commuted between the two ports, Figure 1.8, “All ferries between Rødby and Puttgarden”. To count how many one way trips each of them did, we extend the previous query as follows:
+
