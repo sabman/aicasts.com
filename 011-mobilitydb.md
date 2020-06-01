@@ -1518,3 +1518,21 @@ Figure 1.8. All ferries between Rødby and Puttgarden
 
 This query creates two envelope geometries that represent the locations of the two ports, then intersects them with the spatiotemporal trajectories of the ships. The intersects function checks whether a temporal point has ever intersects a geometry. To speed up the query, a spatiotemporal GiST index is first built on the Trip attribute. The query identified four Ships that commuted between the two ports, Figure 1.8, “All ferries between Rødby and Puttgarden”. To count how many one way trips each of them did, we extend the previous query as follows:
 
+```sql
+WITH Ports(Rodby, Puttgarden) AS
+(
+	SELECT ST_MakeEnvelope(651135, 6058230, 651422, 6058548, 25832), 
+		ST_MakeEnvelope(644339, 6042108, 644896, 6042487, 25832)
+)
+SELECT MMSI, (numSequences(atGeometry(S.Trip, P.Rodby)) +
+	numSequences(atGeometry(S.Trip, P.Puttgarden)))/2.0 AS NumTrips
+FROM Ports P, Ships S
+WHERE intersects(S.Trip, P.Rodby) AND intersects(S.Trip, P.Puttgarden)
+--Total query runtime: 1.1 secs
+
+MMSI		NumTrips
+219000429;  24.0
+211188000;  24.0
+211190000;  25.0
+219000431;  16.0
+```
