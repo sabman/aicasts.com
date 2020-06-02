@@ -572,7 +572,7 @@ GROUP BY CarId, TripId;
 
 insert into trips(carid,tripid,trip)
 select carid, tripid, tgeompointseq(array_agg(tgeompointinst(
-	st_transform(st_setsrid(st_makepoint(lon,lat), 4326), 5676), t) order by t)) trip
+  st_transform(st_setsrid(st_makepoint(lon,lat), 4326), 5676), t) order by t)) trip
 from tripsinput
 group by carid, tripid
 
@@ -635,38 +635,38 @@ PostgreSQL provides partitioning mechanisms so that large tables can be split in
 
 ```sql
 CREATE OR REPLACE FUNCTION create_partitions_by_date(TableName TEXT, StartDate DATE,
-	EndDate DATE)
+  EndDate DATE)
 RETURNS void AS $$
 DECLARE
-	d DATE;
-	PartitionName TEXT;
+  d DATE;
+  PartitionName TEXT;
 BEGIN
-	IF NOT EXISTS
-		(SELECT 1
-		 FROM information_schema.tables 
-		 WHERE table_name = lower(TableName)) 
-	THEN
-		RAISE EXCEPTION 'Table % does not exist', TableName;
-	END IF;
-	IF StartDate >= EndDate THEN
-		RAISE EXCEPTION 'The start date % must be before the end date %', StartDate, EndDate;
-	END IF;
-	d = StartDate;
-	WHILE d <= EndDate 
-	LOOP
-		PartitionName = TableName || '_' || to_char(d, 'YYYY_MM_DD');
-		IF NOT EXISTS
-			(SELECT 1
-			 FROM information_schema.tables 
-			 WHERE  table_name = lower(PartitionName))
-		THEN
-			EXECUTE format('CREATE TABLE %s PARTITION OF %s FOR VALUES IN (''%s'');', 
-				PartitionName, TableName, to_char(d, 'YYYY-MM-DD'));
-			RAISE NOTICE 'Partition % has been created', PartitionName;
-		END IF;
-		d = d + '1 day'::interval;
-	END LOOP;
-	RETURN;
+  IF NOT EXISTS
+    (SELECT 1
+     FROM information_schema.tables 
+     WHERE table_name = lower(TableName)) 
+  THEN
+    RAISE EXCEPTION 'Table % does not exist', TableName;
+  END IF;
+  IF StartDate >= EndDate THEN
+    RAISE EXCEPTION 'The start date % must be before the end date %', StartDate, EndDate;
+  END IF;
+  d = StartDate;
+  WHILE d <= EndDate 
+  LOOP
+    PartitionName = TableName || '_' || to_char(d, 'YYYY_MM_DD');
+    IF NOT EXISTS
+      (SELECT 1
+       FROM information_schema.tables 
+       WHERE  table_name = lower(PartitionName))
+    THEN
+      EXECUTE format('CREATE TABLE %s PARTITION OF %s FOR VALUES IN (''%s'');', 
+        PartitionName, TableName, to_char(d, 'YYYY-MM-DD'));
+      RAISE NOTICE 'Partition % has been created', PartitionName;
+    END IF;
+    d = d + '1 day'::interval;
+  END LOOP;
+  RETURN;
 END
 $$ LANGUAGE plpgsql;
 
@@ -680,7 +680,7 @@ ALTER TABLE TripsInput ADD COLUMN TripDate DATE;
 UPDATE TripsInput T1
 SET TripDate = T2.TripDate
 FROM (SELECT DISTINCT TripId, date_trunc('day', MIN(T) OVER (PARTITION BY TripId))
-	AS TripDate FROM TripsInput) T2
+  AS TripDate FROM TripsInput) T2
 WHERE T1.TripId = T2.TripId;
 ```
 
@@ -689,17 +689,17 @@ The following statements create table `Trips` partitioned by date and the associ
 ```sql
 CREATE TABLE Trips
 (
-	CarId integer NOT NULL,
-	TripId integer NOT NULL,
-	TripDate date,
-	Trip tgeompoint,
-	Traj geometry,
-	PRIMARY KEY (CarId, TripId, TripDate),
-	FOREIGN KEY (CarId) REFERENCES Cars (CarId) 
+  CarId integer NOT NULL,
+  TripId integer NOT NULL,
+  TripDate date,
+  Trip tgeompoint,
+  Traj geometry,
+  PRIMARY KEY (CarId, TripId, TripDate),
+  FOREIGN KEY (CarId) REFERENCES Cars (CarId) 
 ) PARTITION BY LIST(TripDate);
 
 SELECT create_partitions_by_date('Trips', (SELECT MIN(TripDate) FROM TripsInput), 
-	(SELECT MAX(TripDate) FROM TripsInput));
+  (SELECT MAX(TripDate) FROM TripsInput));
 ```
 To see the partitions that have been created automatically we can use the following statement.
 
@@ -714,7 +714,7 @@ We modify the query that loads table Trips from the data in table TripsInput as 
 ```sql
 INSERT INTO Trips
 SELECT CarId, TripId, TripDate, tgeompointseq(array_agg(tgeompointinst(
-	ST_Transform(ST_SetSRID(ST_MakePoint(Lon,Lat), 4326), 5676), T) ORDER BY T))
+  ST_Transform(ST_SetSRID(ST_MakePoint(Lon,Lat), 4326), 5676), T) ORDER BY T))
 FROM TripsInput
 GROUP BY CarId, TripId, TripDate;
 ```
@@ -771,7 +771,7 @@ We can also determine the spatiotemporal extent of the data using the following 
 ```sql
 SELECT extent(Trip) from Trips
 -- "STBOX T((2983189.5, 5831006.5,2007-05-27 00:00:00+02),
-	(3021179.8, 5860883,2007-05-31 00:00:00+02))"
+  (3021179.8, 5860883,2007-05-31 00:00:00+02))"
 ```
 
 ## Figure 8.2. Visualization of the trajectories of the trips in QGIS.
@@ -820,23 +820,23 @@ The following query produces a histogram of trip length.
 
 ```sql
 WITH buckets (bucketNo, bucketRange) AS (
-	SELECT 1, floatrange '[0, 0]' UNION
-	SELECT 2, floatrange '(0, 100)' UNION
-	SELECT 3, floatrange '[100, 1000)' UNION
-	SELECT 4, floatrange '[1000, 5000)' UNION
-	SELECT 5, floatrange '[5000, 10000)' UNION
-	SELECT 6, floatrange '[10000, 50000)' UNION
-	SELECT 7, floatrange '[50000, 100000)' ),
+  SELECT 1, floatrange '[0, 0]' UNION
+  SELECT 2, floatrange '(0, 100)' UNION
+  SELECT 3, floatrange '[100, 1000)' UNION
+  SELECT 4, floatrange '[1000, 5000)' UNION
+  SELECT 5, floatrange '[5000, 10000)' UNION
+  SELECT 6, floatrange '[10000, 50000)' UNION
+  SELECT 7, floatrange '[50000, 100000)' ),
 histogram AS (
-	SELECT bucketNo, bucketRange, count(TripId) as freq
-	FROM buckets left outer join trips on length(trip) <@ bucketRange
-	GROUP BY bucketNo, bucketRange
-	ORDER BY bucketNo, bucketRange
+  SELECT bucketNo, bucketRange, count(TripId) as freq
+  FROM buckets left outer join trips on length(trip) <@ bucketRange
+  GROUP BY bucketNo, bucketRange
+  ORDER BY bucketNo, bucketRange
 )
 SELECT bucketNo, bucketRange, freq,
-	repeat('■', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
+  repeat('■', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
 FROM histogram;
-				
+        
 ```
 
 ## Querying the Data
@@ -864,7 +864,7 @@ This is a spatial range query. The query verifies that the trajectory of the car
 SELECT R.RegionId, P.PeriodId, T.CarId
 FROM Trips T, Regions R, Periods P
 WHERE T.Trip && stbox(R.Geom, P.Period) AND -- bbox 
-	_intersects(atPeriod(T.Trip, P.Period), R.Geom) -- location and time interesect
+  _intersects(atPeriod(T.Trip, P.Period), R.Geom) -- location and time interesect
 ORDER BY R.RegionId, P.PeriodId, T.CarId;
 ```
 
@@ -943,9 +943,9 @@ This is a window temporal aggregate query. Suppose that we are computing polluti
 
 ```sql
 WITH TimeSplit(Period) AS (
-	SELECT period(H, H + interval '1 hour')
-	FROM generate_series(timestamptz '2007-05-29 00:00:00', 
-		timestamptz '2007-05-29 23:00:00', interval '1 hour') AS H )
+  SELECT period(H, H + interval '1 hour')
+  FROM generate_series(timestamptz '2007-05-29 00:00:00', 
+    timestamptz '2007-05-29 23:00:00', interval '1 hour') AS H )
 SELECT Period, COUNT(*)
 FROM TimeSplit S, Trips T
 WHERE S.Period && T.Trip AND atPeriod(Trip, Period) IS NOT NULL
@@ -1004,9 +1004,9 @@ The query selects two trips `T1` and `T2` from distinct cars that were both trav
 
 ```sql
 SELECT T1.CarId AS Car1Id, T1.TripId AS Trip1Id, T2.CarId AS Car2Id, 
-	T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
-	NearestApproachDistance(T1.Trip, T2.Trip) AS Distance, 
-	ShortestLine(T1.Trip, T2.Trip) AS Line
+  T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
+  NearestApproachDistance(T1.Trip, T2.Trip) AS Distance, 
+  ShortestLine(T1.Trip, T2.Trip) AS Line
 FROM Trips1 T1, Trips1 T
 WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
 ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
@@ -1019,11 +1019,11 @@ This query shows similar functionality as that provided by the PostGIS functions
 
 ```sql
 SELECT T1.CarId AS CarId1, T2.CarId AS CarId2, atPeriodSet(T1.Trip,
-	period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) AS Position
+  period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) AS Position
 FROM Trips T1, Trips T
 WHERE T1.CarId < T2.CarId AND T1.Trip && expandSpatial(T2.Trip, 10) AND
-	atPeriodSet(T1.Trip, period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) 
-	IS NOT NULL
+  atPeriodSet(T1.Trip, period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) 
+  IS NOT NULL
 ORDER BY T1.CarId, T2.CarId, Position;
 ```
 
@@ -1045,7 +1045,7 @@ The above types of queries are generalized to temporal points. However, the comp
 
 ```sql
 WITH TripsTraj AS (
-	SELECT *, trajectory(Trip) AS Trajectory FROM Trips )
+  SELECT *, trajectory(Trip) AS Trajectory FROM Trips )
 SELECT T.CarId, P1.PointId, P1.Distance
 FROM TripsTraj T CROSS JOIN LATERAL (
 SELECT P.PointId, T.Trajectory <-> P.Geom AS Distance
@@ -1077,13 +1077,13 @@ TThis is a nearest-neighbor query where both the reference and the candidate obj
 
 ```sql
 WITH TripsTraj AS (
-	SELECT *, trajectory(Trip) AS Trajectory FROM Trips ),
+  SELECT *, trajectory(Trip) AS Trajectory FROM Trips ),
 PointTrips AS (
-	SELECT P.PointId, T2.CarId, T2.TripId, T2.Distance
-	FROM Points P CROSS JOIN LATERAL (
-	SELECT T1.CarId, T1.TripId, P.Geom <-> T1.Trajectory AS Distance
-	FROM TripsTraj T
-	ORDER BY Distance LIMIT 3 ) AS T2 )
+  SELECT P.PointId, T2.CarId, T2.TripId, T2.Distance
+  FROM Points P CROSS JOIN LATERAL (
+  SELECT T1.CarId, T1.TripId, P.Geom <-> T1.Trajectory AS Distance
+  FROM TripsTraj T
+  ORDER BY Distance LIMIT 3 ) AS T2 )
 SELECT T.CarId, T.TripId, P.PointId, PT.Distance
 FROM Trips T CROSS JOIN Points P JOIN PointTrips PT
 ON T.CarId = PT.CarId AND T.TripId = PT.TripId AND P.PointId = PT.PointId
@@ -1097,17 +1097,17 @@ This is a reverse nearest-neighbor query with moving reference objects and stati
 
 ```sql
 WITH TripDistances AS (
-	SELECT T1.CarId AS CarId1, T1.TripId AS TripId1, T3.CarId AS CarId2, 
-		T3.TripId AS TripId2, T3.Distance
-	FROM Trips T1 CROSS JOIN LATERAL (
-	SELECT T2.CarId, T2.TripId, minValue(T1.Trip <-> T2.Trip) AS Distance
-	FROM Trips T
-	WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
-	ORDER BY Distance LIMIT 3 ) AS T3 )
+  SELECT T1.CarId AS CarId1, T1.TripId AS TripId1, T3.CarId AS CarId2, 
+    T3.TripId AS TripId2, T3.Distance
+  FROM Trips T1 CROSS JOIN LATERAL (
+  SELECT T2.CarId, T2.TripId, minValue(T1.Trip <-> T2.Trip) AS Distance
+  FROM Trips T
+  WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
+  ORDER BY Distance LIMIT 3 ) AS T3 )
 SELECT T1.CarId, T1.TripId, T2.CarId, T2.TripId, TD.Distance
 FROM Trips T1 JOIN Trips T2 ON T1.CarId < T2.CarId
-	JOIN TripDistances TD ON T1.CarId = TD.CarId1 AND T1.TripId = TD.TripId1 AND
-	T2.CarId = TD.CarId2 AND T2.TripId = TD.TripId
+  JOIN TripDistances TD ON T1.CarId = TD.CarId1 AND T1.TripId = TD.TripId1 AND
+  T2.CarId = TD.CarId2 AND T2.TripId = TD.TripId
 ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
 ```
 
@@ -1118,21 +1118,21 @@ This is a reverse nearest-neighbor query where both the reference and the candid
 
 ```sql
 WITH Groups AS (
-	SELECT ((ROW_NUMBER() OVER (ORDER BY C.CarId))-1)/10 + 1 AS GroupId, C.CarId
-	FROM Cars C ),
+  SELECT ((ROW_NUMBER() OVER (ORDER BY C.CarId))-1)/10 + 1 AS GroupId, C.CarId
+  FROM Cars C ),
 SumDistances AS (
-	SELECT G.GroupId, P.PointId,
-		SUM(ST_Distance(trajectory(T.Trip), P.Geom)) AS SumDist
-	FROM Groups G, Points P, Trips T
-	WHERE T.CarId = G.CarId
-	GROUP BY G.GroupId, P.PointId )
+  SELECT G.GroupId, P.PointId,
+    SUM(ST_Distance(trajectory(T.Trip), P.Geom)) AS SumDist
+  FROM Groups G, Points P, Trips T
+  WHERE T.CarId = G.CarId
+  GROUP BY G.GroupId, P.PointId )
 SELECT S1.GroupId, S1.PointId, S1.SumDist
 FROM SumDistances S
 WHERE S1.SumDist <= ALL (
-	SELECT SumDist
-	FROM SumDistances S
-	WHERE S1.GroupId = S2.GroupId )
-	ORDER BY S1.GroupId, S1.PointId;
+  SELECT SumDist
+  FROM SumDistances S
+  WHERE S1.GroupId = S2.GroupId )
+  ORDER BY S1.GroupId, S1.PointId;
 ```
 
 This is an aggregate nearest-neighbor query. The temporary table `Groups` splits the cars in groups where the `GroupId` column takes the values from 1 to total number of groups. The temporary table `SumDistances` computes for each group G and point P the sum of the distances between a trip of a car in the group and the point. The main query then selects for each group in table `SumDistances` the points(s) that have the minimum aggregated distance.
@@ -1218,32 +1218,32 @@ The Danish Maritime Authority publishes about 3 TB of AIS routes here, in CSV fo
 Table 1.1. AIS columns
 
 ```
-Timestamp	Timestamp from the AIS base station, format: 31/12/2015 23:59:59
-Type of mobile	Describes what type of target this message is received from (class A AIS Vessel, Class B AIS vessel, etc)
-MMSI	MMSI number of vessel
-Latitude	Latitude of message report (e.g. 57,8794)
-Longitude	Longitude of message report (e.g. 17,9125)
-Navigational status	Navigational status from AIS message if available, e.g.: 'Engaged in fishing', 'Under way using engine', mv.
-ROT	Rot of turn from AIS message if available
-SOG	Speed over ground from AIS message if available
-COG	Course over ground from AIS message if available
-Heading	Heading from AIS message if available
-IMO	IMO number of the vessel
-Callsign	Callsign of the vessel
-Name	Name of the vessel
-Ship type	Describes the AIS ship type of this vessel
-Cargo type	Type of cargo from the AIS message
-Width	Width of the vessel
-Length	Lenght of the vessel
-Type of position fixing device	Type of positional fixing device from the AIS message
-Draught	Draugth field from AIS message
-Destination	Destination from AIS message
-ETA	Estimated Time of Arrival, if available
-Data source type	Data source type, e.g. AIS
-Size A	Length from GPS to the bow
-Size B	Length from GPS to the stern
-Size C	Length from GPS to starboard side
-Size D	Length from GPS to port side
+Timestamp  Timestamp from the AIS base station, format: 31/12/2015 23:59:59
+Type of mobile  Describes what type of target this message is received from (class A AIS Vessel, Class B AIS vessel, etc)
+MMSI  MMSI number of vessel
+Latitude  Latitude of message report (e.g. 57,8794)
+Longitude  Longitude of message report (e.g. 17,9125)
+Navigational status  Navigational status from AIS message if available, e.g.: 'Engaged in fishing', 'Under way using engine', mv.
+ROT  Rot of turn from AIS message if available
+SOG  Speed over ground from AIS message if available
+COG  Course over ground from AIS message if available
+Heading  Heading from AIS message if available
+IMO  IMO number of the vessel
+Callsign  Callsign of the vessel
+Name  Name of the vessel
+Ship type  Describes the AIS ship type of this vessel
+Cargo type  Type of cargo from the AIS message
+Width  Width of the vessel
+Length  Lenght of the vessel
+Type of position fixing device  Type of positional fixing device from the AIS message
+Draught  Draugth field from AIS message
+Destination  Destination from AIS message
+ETA  Estimated Time of Arrival, if available
+Data source type  Data source type, e.g. AIS
+Size A  Length from GPS to the bow
+Size B  Length from GPS to the stern
+Size C  Length from GPS to starboard side
+Size D  Length from GPS to port side
 ```
 This module uses the data of one day April 1st 2018. The CSV file size is 1.9 GB, and it contains about 10 M rows.
 
@@ -1256,33 +1256,33 @@ This module uses the data of one day April 1st 2018. The CSV file size is 1.9 GB
 
 ```sql
 CREATE TABLE AISInput(
-	T	timestamp,
-	TypeOfMobile varchar(50),
-	MMSI integer, 
-	Latitude float,
-	Longitude float,
-	navigationalStatus varchar(50), 
-	ROT float, 
-	SOG float,
-	COG float,
-	Heading integer,
-	IMO varchar(50),
-	Callsign varchar(50),
-	Name varchar(100),
-	ShipType varchar(50),
-	CargoType varchar(100),
-	Width float,
-	Length float,
-	TypeOfPositionFixingDevice varchar(50),
-	Draught float,
-	Destination varchar(50),
-	ETA varchar(50),
-	DataSourceType varchar(50),
-	SizeA float,
-	SizeB float,
-	SizeC float,
-	SizeD float,
-	Geom geometry(Point, 4326)
+  T  timestamp,
+  TypeOfMobile varchar(50),
+  MMSI integer, 
+  Latitude float,
+  Longitude float,
+  navigationalStatus varchar(50), 
+  ROT float, 
+  SOG float,
+  COG float,
+  Heading integer,
+  IMO varchar(50),
+  Callsign varchar(50),
+  Name varchar(100),
+  ShipType varchar(50),
+  CargoType varchar(100),
+  Width float,
+  Length float,
+  TypeOfPositionFixingDevice varchar(50),
+  Draught float,
+  Destination varchar(50),
+  ETA varchar(50),
+  DataSourceType varchar(50),
+  SizeA float,
+  SizeB float,
+  SizeC float,
+  SizeD float,
+  Geom geometry(Point, 4326)
 );
 ```
 
@@ -1292,9 +1292,9 @@ For importing CSV data into a PostgreSQL database one can use the COPY command a
 
 ```sql
 COPY AISInput(T, TypeOfMobile, MMSI, Latitude, Longitude, NavigationalStatus,
-	ROT, SOG, COG, Heading, IMO, CallSign, Name, ShipType, CargoType, Width, Length,
-	TypeOfPositionFixingDevice, Draught, Destination, ETA, DataSourceType,
-	SizeA, SizeB, SizeC, SizeD)
+  ROT, SOG, COG, Heading, IMO, CallSign, Name, ShipType, CargoType, Width, Length,
+  TypeOfPositionFixingDevice, Draught, Destination, ETA, DataSourceType,
+  SizeA, SizeB, SizeC, SizeD)
 FROM '/home/mobilitydb/DanishAIS/aisdk_20180401.csv' DELIMITER  ',' CSV HEADER;
 ```
 
@@ -1304,12 +1304,12 @@ We clean up some of the fields in the table and create spatial points with the f
 
 ```sql
 UPDATE AISInput SET
-	NavigationalStatus = CASE NavigationalStatus WHEN 'Unknown value' THEN NULL END,
-	IMO = CASE IMO WHEN 'Unknown' THEN NULL END,
-	ShipType = CASE ShipType WHEN 'Undefined' THEN NULL END,
-	TypeOfPositionFixingDevice = CASE TypeOfPositionFixingDevice
-		WHEN 'Undefined' THEN NULL END,
-	Geom = ST_SetSRID( ST_MakePoint( Longitude, Latitude ), 4326);
+  NavigationalStatus = CASE NavigationalStatus WHEN 'Unknown value' THEN NULL END,
+  IMO = CASE IMO WHEN 'Unknown' THEN NULL END,
+  ShipType = CASE ShipType WHEN 'Undefined' THEN NULL END,
+  TypeOfPositionFixingDevice = CASE TypeOfPositionFixingDevice
+    WHEN 'Undefined' THEN NULL END,
+  Geom = ST_SetSRID( ST_MakePoint( Longitude, Latitude ), 4326);
 ```
 
 This took about 5 minutes on my machine. Let's visualize the spatial points on QGIS.
@@ -1322,12 +1322,12 @@ Filter out the rows that have the same identifier (MMSI, T)
 
 ```sql
 CREATE TABLE AISInputFiltered AS
-	SELECT DISTINCT ON(MMSI,T) *
-	FROM AISInput
-	WHERE Longitude BETWEEN -16.1 and 32.88 AND Latitude BETWEEN 40.18 AND 84.17;
+  SELECT DISTINCT ON(MMSI,T) *
+  FROM AISInput
+  WHERE Longitude BETWEEN -16.1 and 32.88 AND Latitude BETWEEN 40.18 AND 84.17;
 -- Query returned successfully: 10357703 rows affected, 01:14 minutes execution time.
 SELECT COUNT(*) FROM AISInputFiltered;
---10357703		
+--10357703    
 ```
 
 ### Constructing Trajectories
@@ -1336,12 +1336,12 @@ Now we are ready to construct ship trajectories out of their individual observat
 
 ```sql
 CREATE TABLE Ships(MMSI, Trip, SOG, COG) AS
-	SELECT MMSI,
-		tgeompointseq(array_agg(tgeompointinst( ST_Transform(Geom, 25832), T) ORDER BY T)),
-		tfloatseq(array_agg(tfloatinst(SOG, T) ORDER BY T) FILTER (WHERE SOG IS NOT NULL)),
-		tfloatseq(array_agg(tfloatinst(COG, T) ORDER BY T) FILTER (WHERE COG IS NOT NULL))
-	FROM AISInputFiltered
-	GROUP BY MMSI;
+  SELECT MMSI,
+    tgeompointseq(array_agg(tgeompointinst( ST_Transform(Geom, 25832), T) ORDER BY T)),
+    tfloatseq(array_agg(tfloatinst(SOG, T) ORDER BY T) FILTER (WHERE SOG IS NOT NULL)),
+    tfloatseq(array_agg(tfloatinst(COG, T) ORDER BY T) FILTER (WHERE COG IS NOT NULL))
+  FROM AISInputFiltered
+  GROUP BY MMSI;
 -- Query returned successfully: 2995 rows affected, 01:16 minutes execution time.
 ```
 
@@ -1367,25 +1367,25 @@ This query uses the length function to compute per trip the sailing distance in 
 
 ```sql
 WITH buckets (bucketNo, RangeKM) AS (
-	SELECT 1, floatrange '[0, 0]' UNION
-	SELECT 2, floatrange '(0, 50)' UNION
-	SELECT 3, floatrange '[50, 100)' UNION
-	SELECT 4, floatrange '[100, 200)' UNION
-	SELECT 5, floatrange '[200, 500)' UNION
-	SELECT 6, floatrange '[500, 1500)' UNION
-	SELECT 7, floatrange '[1500, 10000)' ),
+  SELECT 1, floatrange '[0, 0]' UNION
+  SELECT 2, floatrange '(0, 50)' UNION
+  SELECT 3, floatrange '[50, 100)' UNION
+  SELECT 4, floatrange '[100, 200)' UNION
+  SELECT 5, floatrange '[200, 500)' UNION
+  SELECT 6, floatrange '[500, 1500)' UNION
+  SELECT 7, floatrange '[1500, 10000)' ),
 histogram AS (
-	SELECT bucketNo, RangeKM, count(MMSI) as freq
-	FROM buckets left outer join Ships on (length(Trip)/1000) <@ RangeKM
-	GROUP BY bucketNo, RangeKM
-	ORDER BY bucketNo, RangeKM
+  SELECT bucketNo, RangeKM, count(MMSI) as freq
+  FROM buckets left outer join Ships on (length(Trip)/1000) <@ RangeKM
+  GROUP BY bucketNo, RangeKM
+  ORDER BY bucketNo, RangeKM
 )
 SELECT bucketNo, RangeKM, freq,
-	repeat('▪', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
+  repeat('▪', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
 FROM histogram;
 --Total query runtime: 5.6 secs
 
-bucketNo,   bucketRange,        freq	   bar
+bucketNo,   bucketRange,        freq     bar
 1;          "[0,0]";            303;       ▪▪▪▪▪
 2;          "(0,50)";           1693;      ▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪
 3;          "[50,100)";         267;       ▪▪▪▪▪
@@ -1521,16 +1521,16 @@ This query creates two envelope geometries that represent the locations of the t
 ```sql
 WITH Ports(Rodby, Puttgarden) AS
 (
-	SELECT ST_MakeEnvelope(651135, 6058230, 651422, 6058548, 25832), 
-		ST_MakeEnvelope(644339, 6042108, 644896, 6042487, 25832)
+  SELECT ST_MakeEnvelope(651135, 6058230, 651422, 6058548, 25832), 
+    ST_MakeEnvelope(644339, 6042108, 644896, 6042487, 25832)
 )
 SELECT MMSI, (numSequences(atGeometry(S.Trip, P.Rodby)) +
-	numSequences(atGeometry(S.Trip, P.Puttgarden)))/2.0 AS NumTrips
+  numSequences(atGeometry(S.Trip, P.Puttgarden)))/2.0 AS NumTrips
 FROM Ports P, Ships S
 WHERE intersects(S.Trip, P.Rodby) AND intersects(S.Trip, P.Puttgarden)
 --Total query runtime: 1.1 secs
 
-MMSI		NumTrips
+MMSI NumTrips
 219000429;  24.0
 211188000;  24.0
 211190000;  25.0
