@@ -1536,3 +1536,27 @@ MMSI NumTrips
 211190000;  25.0
 219000431;  16.0
 ```
+
+The function atGeometry restricts the temporal point to the parts where it is inside the given geometry. The result is thus a temporal point that consists of multiple pieces (sequences), with temporal gaps in between. The function numSequences counts the number of these pieces.
+
+With this high number of ferry trips, one wonders whether there are collision risks with ships that traverse this belt (the green trips in Figure 1.7, “A sample ship trajectory between Rødby and Puttgarden”). To check this, we query whether a pair of ship come very close to one another as follows:
+
+```sql
+WITH B(Belt) AS
+(
+  SELECT ST_MakeEnvelope(640730, 6058230, 654100, 6042487, 25832)
+), BeltShips AS (
+  SELECT MMSI, atGeometry(S.TripETRS, B.Belt) AS TripETRS, 
+    trajectory(atGeometry(S.TripETRS, B.Belt)) AS Traj
+  FROM Ships S, B
+  WHERE intersects(S.TripETRS, B.Belt) 
+)
+SELECT S1.MMSI, S2.MMSI, S1.Traj, S2.Traj, shortestLine(S1.tripETRS, S2.tripETRS) Approach
+FROM BeltShips S1, BeltShips S2
+WHERE S1.MMSI > S2.MMSI AND 
+  dwithin(S1.tripETRS, S2.tripETRS, 300) 
+--Total query runtime: 28.5 secs
+--7 rows retrieved.
+```
+
+
