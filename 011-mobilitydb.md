@@ -1559,4 +1559,8 @@ WHERE S1.MMSI > S2.MMSI AND
 --7 rows retrieved.
 ```
 
+The query first defines the area of interest as an envelope, the red dashed line in Figure 1.9, “Ship that come closer than 300 meters to one another”). It then restricts/crops the trajectories to only this envelope using the atGeometry function. The main query then find pairs of different trajectories that ever came within a distance of 300 meters to one another (the dwithin). For these trajectories, it computes the spatial line that connects the two instants where the two trajectories were closest to one another (the shortestLine function). Figure 1.9, “Ship that come closer than 300 meters to one another” shows the green trajectories that came close to the blue trajectories, and their shortest connecting line in solid red. Most of the approaches occur at the entrance of the Rødby port, which looks normal. But we also see two interesting approaches, that may indicate danger of collision away from the port. They are shown with more zoom in Figure 1.10, “A zoom-in on a dangerous approach” and Figure 1.11, “Another dangerous approach”
+
+
+Figure 1.9. Ship that come closer than 300 meters to one another
 
