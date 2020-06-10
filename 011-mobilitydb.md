@@ -35,9 +35,9 @@ instant set, and sequence set.
 
 ```sql
 -- Do the operands ever intersect?
-SELECT tintersects(tgeompointseq '[Point(0 1),@2001-01-01, Point(3 1)@2001-01-04)', 
+SELECT tintersects(tgeompointseq '[Point(0 1),@2001-01-01, Point(3 1)@2001-01-04)',
   geometry 'Polygon((1 0,1 2,2 2,2 0,1 0))')) &= true;
-  
+
 -- Does the operands always intersect?
 SELECT tintersects(tgeompointseq '[Point(0 1)@2001-01-01, Point(3 1)@2001-01-04)',
   geometry 'Polygon((0 0,0 2,4 2,4 0,0 0))') @= true;
@@ -98,7 +98,7 @@ The queries in this category restrict Trips with respect to a spatial, temporal,
 
 1. List the cars that have passed at a region from Regions.
 
-```sql 
+```sql
 SELECT DISTINCT R.RegionId, T.CarId
 FROM Trips T, Regions R
 WHERE ST_Intersects(trajectory(T.Trip), R.Geom)
@@ -200,13 +200,13 @@ ORDER BY T.CarId, P.PointId;
 
 > The query projects the trip to the spatial dimension with the trajectory function and computes the traditional distance between the trajectory of the trip and the point. The traditional minimum function is then applied for computing the minimum distance between all trips of the car and the point.
 
- 
+
  10. List the minimum temporal distance between each pair of cars.
- 
+
 ```sql
-SELECT 
-  T1.CarId AS Car1Id, 
-  T2.CarId AS Car2Id, 
+SELECT
+  T1.CarId AS Car1Id,
+  T2.CarId AS Car2Id,
   MIN(T1.Trip <-> T2.Trip) AS MinDistance
 FROM Trips T1, Trips T
 WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
@@ -217,7 +217,7 @@ ORDER BY T1.CarId, T2.CarId;
 The query selects two trips T1 and T2 from distinct cars that were both traveling during a common period of time, computes the temporal distance between the trips, and then computes the temporal minimum distance between all trips of the two cars. The query uses the spatio-temporal index to filter the pairs of trips that were both traveling during a common period of time.
 
  11. List the nearest approach time, distance, and shortest line between each pair of trips.
- 
+
  ```sql
  SELECT T1.CarId AS Car1Id, T1.TripId AS Trip1Id, T2.CarId AS Car2Id,
   T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
@@ -227,7 +227,7 @@ FROM Trips1 T1, Trips1 T
 WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
 ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
  ```
- 
+
 This query shows similar functionality as that provided by the PostGIS functions `ST_ClosestPointOfApproach` and `ST_DistanceCPA`. The query selects two trips T1 and T2 from distinct cars that were both traveling during a common period of time and computes the required results.
 
 12. List the nearest approach time, distance, and shortest line between each pair of trips.
@@ -257,7 +257,7 @@ SELECT T.CarId, P1.PointId, P1.Distance
 FROM TripsTraj T CROSS JOIN LATERAL (
   SELECT P.PointId, T.Trajectory <-> P.Geom AS Distance
   FROM Points P
-  ORDER BY Distance LIMIT 3 
+  ORDER BY Distance LIMIT 3
 ) AS P1
 ORDER BY T.TripId, T.CarId, P1.Distance;
 ```
@@ -293,7 +293,7 @@ FROM Trips T CROSS JOIN Points P JOIN PointTrips PT
 ON T.CarId = PT.CarId AND T.TripId = PT.TripId AND P.PointId = PT.PointId
 ORDER BY T.CarId, T.TripId, P.PointId;
  ```
- 
+
 This is a reverse nearest-neighbor query with moving reference objects and static candidate objects. The query starts by computing the corresponding nearest-neighbor query in the temporary table PointTrips as it is done in Query 13. Then, in the main query it verifies for each trip T and point P that both belong to the PointTrips table.
 
 16. For each trip from Trips, list the cars having the car of the trip among the three nearest neighbors.
@@ -316,7 +316,7 @@ ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
 This is a reverse nearest-neighbor query where both the reference and the candidate objects are moving. The query starts by computing the corresponding nearest-neighbor query in the temporary table TripDistances as it is done in Query 14. Then, in the main query it verifies for each pair of trips T1 and T2 that both belong to the TripDistances table.
 
 17. Foreachgroupoftendisjointcars,listthepoint(s)fromPoints,havingtheminimumaggregateddistancefromthegiven group of ten cars during the given period.
- 
+
 # Installation
 
 ```
@@ -389,7 +389,7 @@ CREATE TABLE TripsInput (
   Lat float,
   T timestamptz,
   PRIMARY KEY (CarId, TripId, T)
-);  
+);
 
 ALTER TABLE tripsinput ADD COLUMN carid INTEGER;
 ALTER TABLE tripsinput ALTER COLUMN carid TYPE INTEGER
@@ -520,8 +520,8 @@ COPY RegionsInput(RegionId, SegNo, XStart, YStart, XEnd, YEnd) FROM
 ```sql
 Alter table points add column geom(Geometry)
 
-UPDATE points 
-SET geom = 
+UPDATE points
+SET geom =
 ST_Transform(ST_SetSRID(ST_MakePoint(posx, posy), 4326), 5676);
 
 
@@ -554,7 +554,7 @@ with regionssegs as
     st_makepoint(xend, yend)), 4326) as the_geom
   from regionsinput
 )
-select regionid, 
+select regionid,
     st_polygon(st_linemerge(st_union(geom order by segno)), 5676) as geom,
     st_polygon(st_linemerge(st_union(the_geom order by segno)), 4326) as the_geom
 from regionssegs
@@ -643,8 +643,8 @@ DECLARE
 BEGIN
   IF NOT EXISTS
     (SELECT 1
-     FROM information_schema.tables 
-     WHERE table_name = lower(TableName)) 
+     FROM information_schema.tables
+     WHERE table_name = lower(TableName))
   THEN
     RAISE EXCEPTION 'Table % does not exist', TableName;
   END IF;
@@ -652,15 +652,15 @@ BEGIN
     RAISE EXCEPTION 'The start date % must be before the end date %', StartDate, EndDate;
   END IF;
   d = StartDate;
-  WHILE d <= EndDate 
+  WHILE d <= EndDate
   LOOP
     PartitionName = TableName || '_' || to_char(d, 'YYYY_MM_DD');
     IF NOT EXISTS
       (SELECT 1
-       FROM information_schema.tables 
+       FROM information_schema.tables
        WHERE  table_name = lower(PartitionName))
     THEN
-      EXECUTE format('CREATE TABLE %s PARTITION OF %s FOR VALUES IN (''%s'');', 
+      EXECUTE format('CREATE TABLE %s PARTITION OF %s FOR VALUES IN (''%s'');',
         PartitionName, TableName, to_char(d, 'YYYY-MM-DD'));
       RAISE NOTICE 'Partition % has been created', PartitionName;
     END IF;
@@ -695,10 +695,10 @@ CREATE TABLE Trips
   Trip tgeompoint,
   Traj geometry,
   PRIMARY KEY (CarId, TripId, TripDate),
-  FOREIGN KEY (CarId) REFERENCES Cars (CarId) 
+  FOREIGN KEY (CarId) REFERENCES Cars (CarId)
 ) PARTITION BY LIST(TripDate);
 
-SELECT create_partitions_by_date('Trips', (SELECT MIN(TripDate) FROM TripsInput), 
+SELECT create_partitions_by_date('Trips', (SELECT MIN(TripDate) FROM TripsInput),
   (SELECT MAX(TripDate) FROM TripsInput));
 ```
 To see the partitions that have been created automatically we can use the following statement.
@@ -836,7 +836,7 @@ histogram AS (
 SELECT bucketNo, bucketRange, freq,
   repeat('■', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
 FROM histogram;
-        
+
 ```
 
 ## Querying the Data
@@ -863,7 +863,7 @@ This is a spatial range query. The query verifies that the trajectory of the car
 ```sql
 SELECT R.RegionId, P.PeriodId, T.CarId
 FROM Trips T, Regions R, Periods P
-WHERE T.Trip && stbox(R.Geom, P.Period) AND -- bbox 
+WHERE T.Trip && stbox(R.Geom, P.Period) AND -- bbox
   _intersects(atPeriod(T.Trip, P.Period), R.Geom) -- location and time interesect
 ORDER BY R.RegionId, P.PeriodId, T.CarId;
 ```
@@ -890,7 +890,7 @@ This is a **spatio-temporal range join query**. The query selects two trips of d
 
 ```sql
 
-SELECT 
+SELECT
   T.CarId,
   P.PointId,
   MIN(
@@ -944,7 +944,7 @@ This is a window temporal aggregate query. Suppose that we are computing polluti
 ```sql
 WITH TimeSplit(Period) AS (
   SELECT period(H, H + interval '1 hour')
-  FROM generate_series(timestamptz '2007-05-29 00:00:00', 
+  FROM generate_series(timestamptz '2007-05-29 00:00:00',
     timestamptz '2007-05-29 23:00:00', interval '1 hour') AS H )
 SELECT Period, COUNT(*)
 FROM TimeSplit S, Trips T
@@ -1003,9 +1003,9 @@ The query selects two trips `T1` and `T2` from distinct cars that were both trav
 11. List the nearest approach time, distance, and shortest line between each pair of trips.
 
 ```sql
-SELECT T1.CarId AS Car1Id, T1.TripId AS Trip1Id, T2.CarId AS Car2Id, 
+SELECT T1.CarId AS Car1Id, T1.TripId AS Trip1Id, T2.CarId AS Car2Id,
   T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
-  NearestApproachDistance(T1.Trip, T2.Trip) AS Distance, 
+  NearestApproachDistance(T1.Trip, T2.Trip) AS Distance,
   ShortestLine(T1.Trip, T2.Trip) AS Line
 FROM Trips1 T1, Trips1 T
 WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
@@ -1022,7 +1022,7 @@ SELECT T1.CarId AS CarId1, T2.CarId AS CarId2, atPeriodSet(T1.Trip,
   period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) AS Position
 FROM Trips T1, Trips T
 WHERE T1.CarId < T2.CarId AND T1.Trip && expandSpatial(T2.Trip, 10) AND
-  atPeriodSet(T1.Trip, period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) 
+  atPeriodSet(T1.Trip, period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE)))
   IS NOT NULL
 ORDER BY T1.CarId, T2.CarId, Position;
 ```
@@ -1097,7 +1097,7 @@ This is a reverse nearest-neighbor query with moving reference objects and stati
 
 ```sql
 WITH TripDistances AS (
-  SELECT T1.CarId AS CarId1, T1.TripId AS TripId1, T3.CarId AS CarId2, 
+  SELECT T1.CarId AS CarId1, T1.TripId AS TripId1, T3.CarId AS CarId2,
     T3.TripId AS TripId2, T3.Distance
   FROM Trips T1 CROSS JOIN LATERAL (
   SELECT T2.CarId, T2.TripId, minValue(T1.Trip <-> T2.Trip) AS Distance
@@ -1258,11 +1258,11 @@ This module uses the data of one day April 1st 2018. The CSV file size is 1.9 GB
 CREATE TABLE AISInput(
   T  timestamp,
   TypeOfMobile varchar(50),
-  MMSI integer, 
+  MMSI integer,
   Latitude float,
   Longitude float,
-  navigationalStatus varchar(50), 
-  ROT float, 
+  navigationalStatus varchar(50),
+  ROT float,
   SOG float,
   COG float,
   Heading integer,
@@ -1327,7 +1327,7 @@ CREATE TABLE AISInputFiltered AS
   WHERE Longitude BETWEEN -16.1 and 32.88 AND Latitude BETWEEN 40.18 AND 84.17;
 -- Query returned successfully: 10357703 rows affected, 01:14 minutes execution time.
 SELECT COUNT(*) FROM AISInputFiltered;
---10357703    
+--10357703
 ```
 
 ### Constructing Trajectories
@@ -1521,7 +1521,7 @@ This query creates two envelope geometries that represent the locations of the t
 ```sql
 WITH Ports(Rodby, Puttgarden) AS
 (
-  SELECT ST_MakeEnvelope(651135, 6058230, 651422, 6058548, 25832), 
+  SELECT ST_MakeEnvelope(651135, 6058230, 651422, 6058548, 25832),
     ST_MakeEnvelope(644339, 6042108, 644896, 6042487, 25832)
 )
 SELECT MMSI, (numSequences(atGeometry(S.Trip, P.Rodby)) +
@@ -1546,33 +1546,46 @@ WITH B(Belt) AS
 (
   SELECT ST_MakeEnvelope(640730, 6058230, 654100, 6042487, 25832)
 ), BeltShips AS (
-  SELECT MMSI, atGeometry(S.TripETRS, B.Belt) AS TripETRS, 
+  SELECT MMSI, atGeometry(S.TripETRS, B.Belt) AS TripETRS,
     trajectory(atGeometry(S.TripETRS, B.Belt)) AS Traj
   FROM Ships S, B
-  WHERE intersects(S.TripETRS, B.Belt) 
+  WHERE intersects(S.TripETRS, B.Belt)
 )
-SELECT S1.MMSI, S2.MMSI, S1.Traj, S2.Traj, shortestLine(S1.tripETRS, S2.tripETRS) Approach
-FROM BeltShips S1, BeltShips S2
-WHERE S1.MMSI > S2.MMSI AND 
-  dwithin(S1.tripETRS, S2.tripETRS, 300) 
+SELECT S1.MMSI,
+       S2.MMSI,
+       S1.Traj,
+       S2.Traj,
+       shortestLine(S1.tripETRS, S2.tripETRS) Approach
+FROM BeltShips S1,
+     BeltShips S2
+WHERE S1.MMSI > S2.MMSI AND
+      dwithin(S1.tripETRS, S2.tripETRS, 300)
+
 --Total query runtime: 28.5 secs
 --7 rows retrieved.
 ```
 
-The query first defines the area of interest as an envelope `ST_MakeEnvelope(640730, 6058230, 654100, 6042487, 25832)`, the red dashed line in Figure 1.9, “Ship that come closer than 300 meters to one another”). 
+The query first defines the area of interest as an envelope `ST_MakeEnvelope(640730, 6058230, 654100, 6042487, 25832)`, the red dashed line in Figure 1.9, “Ship that come closer than 300 meters to one another”).
 
-It then *restricts/crops the trajectories to only this envelope* using the `atGeometry` function. 
+It then *restricts/crops the trajectories to only this envelope* using the `atGeometry` function.
 
 ```sql
 atGeometry(S.TripETRS, B.Belt)
 -- where B.Belt is the AoI
 ```
 
- The **main query** then *find pairs of different trajectories* that ever came within a distance of `300 meters` `dwithin(S1.tripETRS, S2.tripETRS, 300)` to one another (the `dwithin`). 
- 
- For these trajectories, it computes the spatial line that connects the two instants where the two trajectories were closest to one another (the shortestLine function). Figure 1.9, “Ship that come closer than 300 meters to one another” shows the green trajectories that came close to the blue trajectories, and their shortest connecting line in solid red. Most of the approaches occur at the entrance of the Rødby port, which looks normal. But we also see two interesting approaches, that may indicate danger of collision away from the port. They are shown with more zoom in Figure 1.10, “A zoom-in on a dangerous approach” and Figure 1.11, “Another dangerous approach”
+ The **main query** then *find pairs of different trajectories* that ever came within a distance of `300 meters` `dwithin(S1.tripETRS, S2.tripETRS, 300)` to one another (the `dwithin`).
 
+ For these trajectories, it computes the *spatial line that connects the two instants where the two trajectories were closest to one another* (the `shortestLine` function).
+
+ ```sql
+ shortestLine(S1.tripETRS, S2.tripETRS) Approach
+ ```
+
+ Figure 1.9, “Ship that come closer than 300 meters to one another” shows the green trajectories that came close to the blue trajectories, and their shortest connecting line in solid red. Most of the approaches occur at the entrance of the Rødby port, which looks normal. But we also see two interesting approaches, that may indicate danger of collision away from the port. They are shown with more zoom in Figure 1.10, “A zoom-in on a dangerous approach” and Figure 1.11, “Another dangerous approach”
 
 Figure 1.9. Ship that come closer than 300 meters to one another
 
 ![](https://docs.mobilitydb.com/nightly/workshop/workshopimages/trajApproach.png)
+![](https://docs.mobilitydb.com/nightly/workshop/workshopimages/approach1.png)
+![](https://docs.mobilitydb.com/nightly/workshop/workshopimages/approach2.png)
