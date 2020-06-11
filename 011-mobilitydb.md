@@ -1598,3 +1598,34 @@ In this chapter, we illustrate how to load GTFS data in MobilityDB. For this, we
 
 Several tools can be used to import GTFS data into PostgreSQL. For example, one publicly available in Github can be found [here](https://github.com/fitnr/gtfs-sql-importer). These tools load GTFS data into PostgreSQL tables, allowing one to perform multiple imports of data provided by the same agency covering different time frames, perform various complex tasks including data validation, and take into account variations of the format provided by different agencies, updates of route information among multiple imports, etc. For the purpose of this tutorial we do a simple import and transformation using only SQL. This is enough for loading the data set we are using but a much more robust solution should be used in an operational environment, if only for coping with the considerable size of typical GTFS data, which would require parallelization of this task.
 
+
+## Loading GTFS Data in PostgreSQL
+
+The [ZIP](https://docs.mobilitydb.com/data/gtfs_data.zip) file with the data for this tutorial contains a set of CSV files (with extension .txt) as follows:
+
+* agency.txt contains the description of the transportation agencies provinding the services (a single one in our case).
+
+* calendar.txt contains service patterns that operate recurrently such as, for example, every weekday.
+
+* calendar_dates.txt define exceptions to the default service patterns defined in calendar.txt. There are two types of exceptions: 1 means that the service has been added for the specified date, and 2 means that the service has been removed for the specified date.
+
+* route_types.txt contains transportation types used on routes, such as bus, metro, tramway, etc.
+
+* routes.txt contains transit routes. A route is a group of trips that are displayed to riders as a single service.
+
+* shapes.txt contains the vehicle travel paths, which are used to generate the corresponding geometry.
+
+* stop_times.txt contains times at which a vehicle arrives at and departs from stops for each trip.
+
+* translations.txt contains the translation of the route information in French and Dutch. This file is not used in this tutorial.
+
+* trips.txt contains trips for each route. A trip is a sequence of two or more stops that occur during a specific time period.
+
+We decompress the file with the data into a directory. This can be done using the command.
+
+`unzip gtfs_data.zip`
+
+We suppose in the following that the directory used is as follows /home/gtfs_tutorial/.
+
+We create the tables to be loaded with the data in the CSV files as follows.
+
