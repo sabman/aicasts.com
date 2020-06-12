@@ -1654,4 +1654,17 @@ CREATE TABLE calendar (
   CONSTRAINT calendar_pkey PRIMARY KEY (service_id)
 );
 CREATE INDEX calendar_service_id ON calendar (service_id);
+
+CREATE TABLE exception_types (
+  exception_type int PRIMARY KEY,
+  description text
+);
+
+CREATE TABLE calendar_dates (
+  service_id text,
+  date date NOT NULL,
+  exception_type int REFERENCES exception_types(exception_type)
+);
+CREATE INDEX calendar_dates_dateidx ON calendar_dates (date);
+
 ```
