@@ -1629,3 +1629,14 @@ We suppose in the following that the directory used is as follows /home/gtfs_tut
 
 We create the tables to be loaded with the data in the CSV files as follows.
 
+```sql
+CREATE TABLE agency (
+  agency_id text DEFAULT '',
+  agency_name text DEFAULT NULL,
+  agency_url text DEFAULT NULL,
+  agency_timezone text DEFAULT NULL,
+  agency_lang text DEFAULT NULL,
+  agency_phone text DEFAULT NULL,
+  CONSTRAINT agency_pkey PRIMARY KEY (agency_id)
+);
+```
