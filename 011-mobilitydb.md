@@ -1639,4 +1639,19 @@ CREATE TABLE agency (
   agency_phone text DEFAULT NULL,
   CONSTRAINT agency_pkey PRIMARY KEY (agency_id)
 );
+
+CREATE TABLE calendar (
+  service_id text,
+  monday int NOT NULL,
+  tuesday int NOT NULL,
+  wednesday int NOT NULL,
+  thursday int NOT NULL,
+  friday int NOT NULL,
+  saturday int NOT NULL,
+  sunday int NOT NULL,
+  start_date date NOT NULL,
+  end_date date NOT NULL,
+  CONSTRAINT calendar_pkey PRIMARY KEY (service_id)
+);
+CREATE INDEX calendar_service_id ON calendar (service_id);
 ```
