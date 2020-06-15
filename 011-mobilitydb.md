@@ -1698,3 +1698,13 @@ CREATE TABLE shapes (
 );
 CREATE INDEX shapes_shape_key ON shapes (shape_id);
 ```
+
+```sql
+-- Create a table to store the shape geometries
+CREATE TABLE shape_geoms (
+  shape_id text NOT NULL,
+  shape_geom geometry('LINESTRING', 4326),
+  CONSTRAINT shape_geom_pkey PRIMARY KEY (shape_id)
+);
+CREATE INDEX shape_geoms_key ON shapes (shape_id);
+```
