@@ -1688,3 +1688,13 @@ CREATE TABLE routes (
   CONSTRAINT routes_pkey PRIMARY KEY (route_id)
 );
 ```
+
+```sql
+CREATE TABLE shapes (
+  shape_id text NOT NULL,
+  shape_pt_lat double precision NOT NULL,
+  shape_pt_lon double precision NOT NULL,
+  shape_pt_sequence int NOT NULL
+);
+CREATE INDEX shapes_shape_key ON shapes (shape_id);
+```
