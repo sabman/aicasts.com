@@ -1668,3 +1668,23 @@ CREATE TABLE calendar_dates (
 CREATE INDEX calendar_dates_dateidx ON calendar_dates (date);
 
 ```
+
+
+```sql
+CREATE TABLE route_types (
+  route_type int PRIMARY KEY,
+  description text
+);
+
+CREATE TABLE routes (
+  route_id text,
+  route_short_name text DEFAULT '',
+  route_long_name text DEFAULT '',
+  route_desc text DEFAULT '',
+  route_type int REFERENCES route_types(route_type),
+  route_url text,
+  route_color text,
+  route_text_color text,
+  CONSTRAINT routes_pkey PRIMARY KEY (route_id)
+);
+```
