@@ -1708,3 +1708,31 @@ CREATE TABLE shape_geoms (
 );
 CREATE INDEX shape_geoms_key ON shapes (shape_id);
 ```
+
+```sql
+CREATE TABLE location_types (
+  location_type int PRIMARY KEY,
+  description text
+);
+
+CREATE TABLE stops (
+  stop_id text,
+  stop_code text,
+  stop_name text DEFAULT NULL,
+  stop_desc text DEFAULT NULL,
+  stop_lat double precision,
+  stop_lon double precision,
+  zone_id text,
+  stop_url text,
+  location_type integer  REFERENCES location_types(location_type),
+  parent_station integer,
+  stop_geom geometry('POINT', 4326),
+  platform_code text DEFAULT NULL,
+  CONSTRAINT stops_pkey PRIMARY KEY (stop_id)
+);
+
+CREATE TABLE pickup_dropoff_types (
+  type_id int PRIMARY KEY,
+  description text
+);
+```
