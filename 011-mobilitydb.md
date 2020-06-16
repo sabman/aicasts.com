@@ -1753,3 +1753,17 @@ CREATE INDEX stop_times_key ON stop_times (trip_id, stop_id);
 CREATE INDEX arr_time_index ON stop_times (arrival_time);
 CREATE INDEX dep_time_index ON stop_times (departure_time);
 ```
+
+```sql
+CREATE TABLE trips (
+  route_id text NOT NULL,
+  service_id text NOT NULL,
+  trip_id text NOT NULL,
+  trip_headsign text,
+  direction_id int,
+  block_id text,
+  shape_id text,
+  CONSTRAINT trips_pkey PRIMARY KEY (trip_id)
+);
+CREATE INDEX trips_trip_id ON trips (trip_id);
+```
