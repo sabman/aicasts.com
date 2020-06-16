@@ -1736,3 +1736,20 @@ CREATE TABLE pickup_dropoff_types (
   description text
 );
 ```
+
+```sql
+CREATE TABLE stop_times (
+  trip_id text NOT NULL,
+  -- Check that casting to time interval works.
+  arrival_time interval CHECK (arrival_time::interval = arrival_time::interval),
+  departure_time interval CHECK (departure_time::interval = departure_time::interval),
+  stop_id text,
+  stop_sequence int NOT NULL,
+  pickup_type int REFERENCES pickup_dropoff_types(type_id),
+  drop_off_type int REFERENCES pickup_dropoff_types(type_id),
+  CONSTRAINT stop_times_pkey PRIMARY KEY (trip_id, stop_sequence)
+);
+CREATE INDEX stop_times_key ON stop_times (trip_id, stop_id);
+CREATE INDEX arr_time_index ON stop_times (arrival_time);
+CREATE INDEX dep_time_index ON stop_times (departure_time);
+```
