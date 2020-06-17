@@ -1767,3 +1767,21 @@ CREATE TABLE trips (
 );
 CREATE INDEX trips_trip_id ON trips (trip_id);
 ```
+
+```sql
+INSERT INTO exception_types (exception_type, description) VALUES
+  (1, 'service has been added'),
+  (2, 'service has been removed');
+
+INSERT INTO location_types(location_type, description) VALUES
+  (0,'stop'),
+  (1,'station'),
+  (2,'station entrance');
+
+INSERT INTO pickup_dropoff_types (type_id, description) VALUES
+  (0,'Regularly Scheduled'),
+  (1,'Not available'),
+  (2,'Phone arrangement only'),
+  (3,'Driver arrangement only');
+```
+
