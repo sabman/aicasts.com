@@ -1785,3 +1785,5 @@ INSERT INTO pickup_dropoff_types (type_id, description) VALUES
   (3,'Driver arrangement only');
 ```
 
+We created one table for each CSV file. In addition, we created a table `shape_geoms` in order to assemble all segments composing a route into a single `geometry` and auxiliary tables `exception_types`, `location_types`, and `pickup_dropoff_types` containing acceptable values for some columns in the CSV files.
+
