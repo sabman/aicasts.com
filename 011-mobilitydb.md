@@ -1826,3 +1826,8 @@ UPDATE stops
 SET stop_geom = ST_SetSRID(ST_MakePoint(stop_lon, stop_lat),4326);
 ```
 
+The visualization of the routes and stops in QGIS is given in Figure 2.1, “Visualization of the routes and stops for the GTFS data from Brussels.”. In the figure, red lines correspond to the trajectories of vehicles, while orange points correspond to the location of stops.
+
+Figure 2.1. Visualization of the routes and stops for the GTFS data from Brussels.
+
+![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/stib.png)
