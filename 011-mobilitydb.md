@@ -1897,3 +1897,44 @@ WHERE t.shape_id = g.shape_id AND t.stop_id = s.stop_id;
 
 We perform a join between `trips` and `stop_times` and determine the number of stops in a trip. Then, we compute the relative location of a stop within a trip using the function `ST_LineLocatePoint`.
 
+We now create a table `trip_segs` that defines the segments between two consecutive stops of a trip.
+
+```sql
+DROP TABLE IF EXISTS trip_segs;
+CREATE TABLE trip_segs (
+	trip_id text,
+	route_id text,
+	service_id text,
+	stop1_sequence integer,
+	stop2_sequence integer,
+	no_stops integer,
+	shape_id text,
+	stop1_arrival_time interval,
+	stop2_arrival_time interval,
+	perc1 float,
+	perc2 float,
+	seg_geom geometry,
+	seg_length float,
+	no_points integer,
+	PRIMARY KEY (trip_id, stop1_sequence)
+);
+
+INSERT INTO trip_segs (trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
+	no_stops, shape_id, stop1_arrival_time, stop2_arrival_time, perc1, perc2)
+WITH temp AS (
+	SELECT trip_id, route_id, service_id, stop_sequence,
+		LEAD(stop_sequence) OVER w AS stop_sequence2,
+		MAX(stop_sequence) OVER (PARTITION BY trip_id),
+		shape_id, arrival_time, LEAD(arrival_time) OVER w, perc, LEAD(perc) OVER w
+	FROM trip_stops WINDOW w AS (PARTITION BY trip_id ORDER BY stop_sequence)
+)
+SELECT * FROM temp WHERE stop_sequence2 IS NOT null;
+
+UPDATE trip_segs t
+SET seg_geom = ST_LineSubstring(g.the_geom, perc1, perc2)
+FROM shape_geoms g
+WHERE t.shape_id = g.shape_id;
+
+UPDATE trip_segs
+SET seg_length = ST_Length(seg_geom), no_points = ST_NumPoints(seg_geom);
+```
