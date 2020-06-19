@@ -1894,3 +1894,6 @@ END
 FROM shape_geoms g, stops s
 WHERE t.shape_id = g.shape_id AND t.stop_id = s.stop_id;
 ```
+
+We perform a join between `trips` and `stop_times` and determine the number of stops in a trip. Then, we compute the relative location of a stop within a trip using the function `ST_LineLocatePoint`.
+
