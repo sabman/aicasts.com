@@ -1858,3 +1858,39 @@ CREATE TABLE service_dates AS (
 	FROM calendar c JOIN calendar_dates d ON c.service_id = d.service_id
 	WHERE exception_type = 1 AND start_date <= date AND date <= end_date
 );
+```
+
+This table transforms the service patterns in the calendar table valid between a `start_date` and an end_date taking into account the week days, and then remove the exceptions of type 2 and add the exceptions of type 1 that are specified in table `calendar_dates`.
+
+We now create a table `trip_stops` that determines the stops for each trip.
+
+```sql
+DROP TABLE IF EXISTS trip_stops;
+CREATE TABLE trip_stops
+(
+  trip_id text,
+  stop_sequence integer,
+  no_stops integer,
+  route_id text,
+  service_id text,
+  shape_id text,
+  stop_id text,
+  arrival_time interval,
+  perc float
+);
+
+INSERT INTO trip_stops (trip_id, stop_sequence, no_stops, route_id, service_id,
+	shape_id, stop_id, arrival_time)
+SELECT t.trip_id, stop_sequence, MAX(stop_sequence) OVER (PARTITION BY t.trip_id),
+	route_id, service_id, shape_id, stop_id, arrival_time
+FROM trips t JOIN stop_times s ON t.trip_id = s.trip_id;
+
+UPDATE trip_stops t
+SET perc = CASE
+	WHEN stop_sequence =  1 then 0.0
+	WHEN stop_sequence =  no_stops then 1.0
+	ELSE ST_LineLocatePoint(g.the_geom, s.the_geom)
+END
+FROM shape_geoms g, stops s
+WHERE t.shape_id = g.shape_id AND t.stop_id = s.stop_id;
+```
