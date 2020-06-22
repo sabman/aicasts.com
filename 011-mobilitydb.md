@@ -1940,3 +1940,10 @@ SET seg_length = ST_Length(seg_geom), no_points = ST_NumPoints(seg_geom);
 ```
 
 We use twice the LEAD window function for obtaning the next stop and the next percentage of a given stop and the MAX window function for obtaining the total number of stops in a trip. 
+
+```sql
+LEAD(stop_sequence) OVER w AS stop_sequence2,
+MAX(stop_sequence) OVER (PARTITION BY trip_id),
+```
+
+
