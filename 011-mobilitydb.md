@@ -1948,4 +1948,4 @@ MAX(stop_sequence) OVER (PARTITION BY trip_id),
 
 Then, we generate the `geometry` of the segment betwen two stops using the function `ST_LineSubstring` and compute the length and the number of points in the segment with functions `ST_Length` and `ST_NumPoints`.
 
-The geometry of a segment is a linestring containing multiple points. From the previous table we know at which time the trip arrived at the first point and at the last point of the segment. 
+The geometry of a segment is a linestring containing multiple points. From the previous table we know at which time the trip arrived at the first point and at the last point of the segment. To determine at which time the trip arrived at the intermediate points of the segments, we create a table trip_points that contains all the points composing the geometry of a segment.
