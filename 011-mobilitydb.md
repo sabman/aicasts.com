@@ -1985,5 +1985,11 @@ temp3 AS (
 	FROM temp2 WINDOW w AS (PARTITION BY trip_id, service_id, stop1_sequence
 		ORDER BY point_sequence)
 )
-
+SELECT trip_id, route_id, service_id, stop1_sequence, point_sequence, point_geom,
+	CASE
+	WHEN point_sequence = 1 then stop1_arrival_time
+	WHEN point_sequence = no_points then stop2_arrival_time
+	ELSE stop1_arrival_time + ((stop2_arrival_time - stop1_arrival_time) * perc)
+	END AS point_arrival_time
+FROM temp3;
 ```
