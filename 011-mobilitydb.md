@@ -1963,4 +1963,27 @@ CREATE TABLE trip_points (
 	point_arrival_time interval,
 	PRIMARY KEY (trip_id, stop1_sequence, point_sequence)
 );
+
+INSERT INTO trip_points (trip_id, route_id, service_id, stop1_sequence,
+	point_sequence, point_geom, point_arrival_time)
+WITH temp1 AS (
+	SELECT trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
+		no_stops, stop1_arrival_time, stop2_arrival_time, seg_length,
+		(dp).path[1] AS point_sequence, no_points, (dp).geom as point_geom
+	FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
+),
+temp2 AS (
+	SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
+		stop2_arrival_time, seg_length, point_sequence, no_points, point_geom
+	FROM temp1
+	WHERE point_sequence <> no_points OR stop2_sequence = no_stops
+),
+temp3 AS (
+	SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
+		stop2_arrival_time, point_sequence, no_points, point_geom,
+		ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perc
+	FROM temp2 WINDOW w AS (PARTITION BY trip_id, service_id, stop1_sequence
+		ORDER BY point_sequence)
+)
+
 ```
