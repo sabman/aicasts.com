@@ -1994,4 +1994,22 @@ SELECT trip_id, route_id, service_id, stop1_sequence, point_sequence, point_geom
 FROM temp3;
 ```
 
-In the temporary table `temp1` we use the function `ST_DumpPoints` to obtain the points composing the geometry of a segment. Nevertheless, this table contains duplicate points, that is, the last point of a segment is equal to the first point of the next one. In the temporary table temp2 we filter out the last point of a segment unless it is the last segment of the trip. In the temporary table temp3 we compute in the attribute perc the relative position of a point within a trip segment with window functions. For this we use the function `ST_MakeLine` to construct the subsegment from the first point of the segment to the current one, determine the length of the subsegment with function `ST_Length` and divide this length by the overall segment length. Finally, in the outer query we use the computed percentage to determine the arrival time to that point.
+In the temporary table `temp1` we use the function `ST_DumpPoints` to obtain the points composing the geometry of a segment. Nevertheless, this table contains *duplicate* points, that is, the last point of a segment is equal to the first point of the next one.
+
+```sql
+SELECT trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
+		no_stops, stop1_arrival_time, stop2_arrival_time, seg_length,
+		(dp).path[1] AS point_sequence, no_points, (dp).geom as point_geom
+	FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
+```
+
+In the temporary table `temp2` we filter out the last point of a segment unless it is the last segment of the trip. 
+
+```sql
+SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
+		stop2_arrival_time, seg_length, point_sequence, no_points, point_geom
+	FROM temp1
+	WHERE point_sequence <> no_points OR stop2_sequence = no_stops
+```
+
+In the temporary table `temp3` we compute in the attribute perc the relative position of a point within a trip segment with window functions. For this we use the function `ST_MakeLine` to construct the subsegment from the first point of the segment to the current one, determine the length of the subsegment with function `ST_Length` and divide this length by the overall segment length. Finally, in the outer query we use the computed percentage to determine the arrival time to that point.
