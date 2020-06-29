@@ -2037,3 +2037,5 @@ SELECT trip_id, route_id, service_id, stop1_sequence, point_sequence, point_geom
 	END AS point_arrival_time
 FROM temp3;
 ```
+
+Our last temporary table `trips_input` contains the data in the format that can be used for creating the MobilityDB trips.
