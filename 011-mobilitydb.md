@@ -2039,3 +2039,21 @@ FROM temp3;
 ```
 
 Our last temporary table `trips_input` contains the data in the format that can be used for creating the MobilityDB trips.
+
+```sql
+DROP TABLE IF EXISTS trips_input;
+CREATE TABLE trips_input (
+	trip_id text,
+	route_id text,
+	service_id text,
+	date date,
+	point_geom geometry,
+	t timestamptz
+);
+
+INSERT INTO trips_input
+SELECT trip_id, route_id, t.service_id, date, point_geom, date + point_arrival_time AS t
+FROM trip_points t JOIN
+	( SELECT service_id, MIN(date) AS date FROM service_dates GROUP BY service_id) s
+	ON t.service_id = s.service_id;
+```
