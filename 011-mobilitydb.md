@@ -2024,7 +2024,7 @@ SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
 
 For this we use the function `ST_MakeLine` to construct the subsegment from the first point of the segment to the current one, determine the length of the subsegment with function `ST_Length` and divide this length by the overall *segment length*.
 
-`ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perc`
+`ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perg c`
 
 Finally, in the outer query we use the computed percentage to determine the arrival time to that point.
 
