@@ -2058,5 +2058,5 @@ FROM trip_points t JOIN
 	ON t.service_id = s.service_id;
 ```
 
-In the inner query of the INSERT statement, we select the first date of a service in the service_dates table and then we join the resulting table with the trip_points table to compute the arrival time at each point composing the trips. Notice that we filter the first date of each trip for optimization purposes because in the next step below we use the shift function to compute the trips to all other dates. Alternatively, we could join the two tables but this will be considerably slower for big GTFS files.
+In the inner query of the `INSERT` statement, we select the first date of a service in the `service_dates` table and then we join the resulting table with the `trip_points` table to compute the arrival time at each point composing the trips. Notice that we filter the first date of each trip for optimization purposes because in the next step below we use the shift function to compute the trips to all other dates. Alternatively, we could join the two tables but this will be considerably slower for big GTFS files.
 
