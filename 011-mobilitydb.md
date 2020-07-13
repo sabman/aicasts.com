@@ -1791,26 +1791,26 @@ We can load the CSV files into the corresponding tables as follows.
 
 ```sql
 COPY calendar(service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,
-	start_date,end_date) FROM '/home/gtfs_tutorial/calendar.txt' DELIMITER ',' CSV HEADER;
+  start_date,end_date) FROM '/home/gtfs_tutorial/calendar.txt' DELIMITER ',' CSV HEADER;
 COPY calendar_dates(service_id,date,exception_type)
-	FROM '/home/gtfs_tutorial/calendar_dates.txt' DELIMITER ',' CSV HEADER;
+  FROM '/home/gtfs_tutorial/calendar_dates.txt' DELIMITER ',' CSV HEADER;
 COPY stop_times(trip_id,arrival_time,departure_time,stop_id,stop_sequence,
-	pickup_type,drop_off_type) FROM '/home/gtfs_tutorial/stop_times.txt' DELIMITER ','
-	CSV HEADER;
+  pickup_type,drop_off_type) FROM '/home/gtfs_tutorial/stop_times.txt' DELIMITER ','
+  CSV HEADER;
 COPY trips(route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id)
-	FROM '/home/gtfs_tutorial/trips.txt' DELIMITER ',' CSV HEADER;
+  FROM '/home/gtfs_tutorial/trips.txt' DELIMITER ',' CSV HEADER;
 COPY agency(agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone)
-	FROM '/home/gtfs_tutorial/agency.txt' DELIMITER ',' CSV HEADER;
+  FROM '/home/gtfs_tutorial/agency.txt' DELIMITER ',' CSV HEADER;
 COPY route_types(route_type,description)
-	FROM '/home/gtfs_tutorial/route_types.txt' DELIMITER ',' CSV HEADER;
+  FROM '/home/gtfs_tutorial/route_types.txt' DELIMITER ',' CSV HEADER;
 COPY routes(route_id,route_short_name,route_long_name,route_desc,route_type,route_url,
-	route_color,route_text_color) FROM '/home/gtfs_tutorial/routes.txt' DELIMITER ','
-	CSV HEADER;
+  route_color,route_text_color) FROM '/home/gtfs_tutorial/routes.txt' DELIMITER ','
+  CSV HEADER;
 COPY shapes(shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence)
-	FROM '/home/gtfs_tutorial/shapes.txt' DELIMITER ',' CSV HEADER;
+  FROM '/home/gtfs_tutorial/shapes.txt' DELIMITER ',' CSV HEADER;
 COPY stops(stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,
-	location_type,parent_station) FROM '/home/gtfs_tutorial/stops.txt' DELIMITER ','
-	CSV HEADER;
+  location_type,parent_station) FROM '/home/gtfs_tutorial/stops.txt' DELIMITER ','
+  CSV HEADER;
 ```
 
 Finally, we create the geometries for routes and stops as follows.
@@ -1818,7 +1818,7 @@ Finally, we create the geometries for routes and stops as follows.
 ```sql
 INSERT INTO shape_geoms
 SELECT shape_id, ST_MakeLine(array_agg(
-	ST_SetSRID(ST_MakePoint(shape_pt_lon, shape_pt_lat),4326) ORDER BY shape_pt_sequence))
+  ST_SetSRID(ST_MakePoint(shape_pt_lon, shape_pt_lat),4326) ORDER BY shape_pt_sequence))
 FROM shapes
 GROUP BY shape_id;
 
@@ -1839,24 +1839,24 @@ We start by creating a table that contains couples of `service_id` and `date` de
 ```sql
 DROP TABLE IF EXISTS service_dates;
 CREATE TABLE service_dates AS (
-	SELECT service_id, date_trunc('day', d)::date AS date
-	FROM calendar c, generate_series(start_date, end_date, '1 day'::interval) AS d
-	WHERE (
-		(monday = 1 AND extract(isodow FROM d) = 1) OR
-		(tuesday = 1 AND extract(isodow FROM d) = 2) OR
-		(wednesday = 1 AND extract(isodow FROM d) = 3) OR
-		(thursday = 1 AND extract(isodow FROM d) = 4) OR
-		(friday = 1 AND extract(isodow FROM d) = 5) OR
-		(saturday = 1 AND extract(isodow FROM d) = 6) OR
-		(sunday = 1 AND extract(isodow FROM d) = 7)
-	)
-	EXCEPT
-	SELECT service_id, date
-	FROM calendar_dates WHERE exception_type = 2
-	UNION
-	SELECT c.service_id, date
-	FROM calendar c JOIN calendar_dates d ON c.service_id = d.service_id
-	WHERE exception_type = 1 AND start_date <= date AND date <= end_date
+  SELECT service_id, date_trunc('day', d)::date AS date
+  FROM calendar c, generate_series(start_date, end_date, '1 day'::interval) AS d
+  WHERE (
+    (monday = 1 AND extract(isodow FROM d) = 1) OR
+    (tuesday = 1 AND extract(isodow FROM d) = 2) OR
+    (wednesday = 1 AND extract(isodow FROM d) = 3) OR
+    (thursday = 1 AND extract(isodow FROM d) = 4) OR
+    (friday = 1 AND extract(isodow FROM d) = 5) OR
+    (saturday = 1 AND extract(isodow FROM d) = 6) OR
+    (sunday = 1 AND extract(isodow FROM d) = 7)
+  )
+  EXCEPT
+  SELECT service_id, date
+  FROM calendar_dates WHERE exception_type = 2
+  UNION
+  SELECT c.service_id, date
+  FROM calendar c JOIN calendar_dates d ON c.service_id = d.service_id
+  WHERE exception_type = 1 AND start_date <= date AND date <= end_date
 );
 ```
 
@@ -1880,16 +1880,16 @@ CREATE TABLE trip_stops
 );
 
 INSERT INTO trip_stops (trip_id, stop_sequence, no_stops, route_id, service_id,
-	shape_id, stop_id, arrival_time)
+  shape_id, stop_id, arrival_time)
 SELECT t.trip_id, stop_sequence, MAX(stop_sequence) OVER (PARTITION BY t.trip_id),
-	route_id, service_id, shape_id, stop_id, arrival_time
+  route_id, service_id, shape_id, stop_id, arrival_time
 FROM trips t JOIN stop_times s ON t.trip_id = s.trip_id;
 
 UPDATE trip_stops t
 SET perc = CASE
-	WHEN stop_sequence =  1 then 0.0
-	WHEN stop_sequence =  no_stops then 1.0
-	ELSE ST_LineLocatePoint(g.the_geom, s.the_geom)
+  WHEN stop_sequence =  1 then 0.0
+  WHEN stop_sequence =  no_stops then 1.0
+  ELSE ST_LineLocatePoint(g.the_geom, s.the_geom)
 END
 FROM shape_geoms g, stops s
 WHERE t.shape_id = g.shape_id AND t.stop_id = s.stop_id;
@@ -1902,31 +1902,31 @@ We now create a table `trip_segs` that defines the segments between two consecut
 ```sql
 DROP TABLE IF EXISTS trip_segs;
 CREATE TABLE trip_segs (
-	trip_id text,
-	route_id text,
-	service_id text,
-	stop1_sequence integer,
-	stop2_sequence integer,
-	no_stops integer,
-	shape_id text,
-	stop1_arrival_time interval,
-	stop2_arrival_time interval,
-	perc1 float,
-	perc2 float,
-	seg_geom geometry,
-	seg_length float,
-	no_points integer,
-	PRIMARY KEY (trip_id, stop1_sequence)
+  trip_id text,
+  route_id text,
+  service_id text,
+  stop1_sequence integer,
+  stop2_sequence integer,
+  no_stops integer,
+  shape_id text,
+  stop1_arrival_time interval,
+  stop2_arrival_time interval,
+  perc1 float,
+  perc2 float,
+  seg_geom geometry,
+  seg_length float,
+  no_points integer,
+  PRIMARY KEY (trip_id, stop1_sequence)
 );
 
 INSERT INTO trip_segs (trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
-	no_stops, shape_id, stop1_arrival_time, stop2_arrival_time, perc1, perc2)
+  no_stops, shape_id, stop1_arrival_time, stop2_arrival_time, perc1, perc2)
 WITH temp AS (
-	SELECT trip_id, route_id, service_id, stop_sequence,
-		LEAD(stop_sequence) OVER w AS stop_sequence2,
-		MAX(stop_sequence) OVER (PARTITION BY trip_id),
-		shape_id, arrival_time, LEAD(arrival_time) OVER w, perc, LEAD(perc) OVER w
-	FROM trip_stops WINDOW w AS (PARTITION BY trip_id ORDER BY stop_sequence)
+  SELECT trip_id, route_id, service_id, stop_sequence,
+    LEAD(stop_sequence) OVER w AS stop_sequence2,
+    MAX(stop_sequence) OVER (PARTITION BY trip_id),
+    shape_id, arrival_time, LEAD(arrival_time) OVER w, perc, LEAD(perc) OVER w
+  FROM trip_stops WINDOW w AS (PARTITION BY trip_id ORDER BY stop_sequence)
 )
 SELECT * FROM temp WHERE stop_sequence2 IS NOT null;
 
@@ -1954,43 +1954,43 @@ The geometry of a segment is a linestring containing multiple points. From the p
 ```sql
 DROP TABLE IF EXISTS trip_points;
 CREATE TABLE trip_points (
-	trip_id text,
-	route_id text,
-	service_id text,
-	stop1_sequence integer,
-	point_sequence integer,
-	point_geom geometry,
-	point_arrival_time interval,
-	PRIMARY KEY (trip_id, stop1_sequence, point_sequence)
+  trip_id text,
+  route_id text,
+  service_id text,
+  stop1_sequence integer,
+  point_sequence integer,
+  point_geom geometry,
+  point_arrival_time interval,
+  PRIMARY KEY (trip_id, stop1_sequence, point_sequence)
 );
 
 INSERT INTO trip_points (trip_id, route_id, service_id, stop1_sequence,
-	point_sequence, point_geom, point_arrival_time)
+  point_sequence, point_geom, point_arrival_time)
 WITH temp1 AS (
-	SELECT trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
-		no_stops, stop1_arrival_time, stop2_arrival_time, seg_length,
-		(dp).path[1] AS point_sequence, no_points, (dp).geom as point_geom
-	FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
+  SELECT trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
+    no_stops, stop1_arrival_time, stop2_arrival_time, seg_length,
+    (dp).path[1] AS point_sequence, no_points, (dp).geom as point_geom
+  FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
 ),
 temp2 AS (
-	SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
-		stop2_arrival_time, seg_length, point_sequence, no_points, point_geom
-	FROM temp1
-	WHERE point_sequence <> no_points OR stop2_sequence = no_stops
+  SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
+    stop2_arrival_time, seg_length, point_sequence, no_points, point_geom
+  FROM temp1
+  WHERE point_sequence <> no_points OR stop2_sequence = no_stops
 ),
 temp3 AS (
-	SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
-		stop2_arrival_time, point_sequence, no_points, point_geom,
-		ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perc
-	FROM temp2 WINDOW w AS (PARTITION BY trip_id, service_id, stop1_sequence
-		ORDER BY point_sequence)
+  SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
+    stop2_arrival_time, point_sequence, no_points, point_geom,
+    ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perc
+  FROM temp2 WINDOW w AS (PARTITION BY trip_id, service_id, stop1_sequence
+    ORDER BY point_sequence)
 )
 SELECT trip_id, route_id, service_id, stop1_sequence, point_sequence, point_geom,
-	CASE
-	WHEN point_sequence = 1 then stop1_arrival_time
-	WHEN point_sequence = no_points then stop2_arrival_time
-	ELSE stop1_arrival_time + ((stop2_arrival_time - stop1_arrival_time) * perc)
-	END AS point_arrival_time
+  CASE
+  WHEN point_sequence = 1 then stop1_arrival_time
+  WHEN point_sequence = no_points then stop2_arrival_time
+  ELSE stop1_arrival_time + ((stop2_arrival_time - stop1_arrival_time) * perc)
+  END AS point_arrival_time
 FROM temp3;
 ```
 
@@ -1998,28 +1998,28 @@ In the temporary table `temp1` we use the function `ST_DumpPoints` to obtain the
 
 ```sql
 SELECT trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
-		no_stops, stop1_arrival_time, stop2_arrival_time, seg_length,
-		(dp).path[1] AS point_sequence, no_points, (dp).geom as point_geom
-	FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
+    no_stops, stop1_arrival_time, stop2_arrival_time, seg_length,
+    (dp).path[1] AS point_sequence, no_points, (dp).geom as point_geom
+  FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
 ```
 
 In the temporary table `temp2` we filter out the last point of a segment unless it is the last segment of the trip. 
 
 ```sql
 SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
-		stop2_arrival_time, seg_length, point_sequence, no_points, point_geom
-	FROM temp1
-	WHERE point_sequence <> no_points OR stop2_sequence = no_stops
+    stop2_arrival_time, seg_length, point_sequence, no_points, point_geom
+  FROM temp1
+  WHERE point_sequence <> no_points OR stop2_sequence = no_stops
 ```
 
 In the temporary table `temp3` we compute in the attribute `perc` the relative position of a point within a `trip` segment with window functions.
 
 ```sql
 SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
-		stop2_arrival_time, point_sequence, no_points, point_geom,
-		ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perc
-	FROM temp2 WINDOW w AS (PARTITION BY trip_id, service_id, stop1_sequence
-		ORDER BY point_sequence)
+    stop2_arrival_time, point_sequence, no_points, point_geom,
+    ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perc
+  FROM temp2 WINDOW w AS (PARTITION BY trip_id, service_id, stop1_sequence
+    ORDER BY point_sequence)
 ```
 
 For this we use the function `ST_MakeLine` to construct the subsegment from the first point of the segment to the current one, determine the length of the subsegment with function `ST_Length` and divide this length by the overall *segment length*.
@@ -2030,11 +2030,11 @@ Finally, in the outer query we use the computed percentage to determine the arri
 
 ```sql
 SELECT trip_id, route_id, service_id, stop1_sequence, point_sequence, point_geom,
-	CASE
-	WHEN point_sequence = 1 then stop1_arrival_time
-	WHEN point_sequence = no_points then stop2_arrival_time
-	ELSE stop1_arrival_time + ((stop2_arrival_time - stop1_arrival_time) * perc)
-	END AS point_arrival_time
+  CASE
+  WHEN point_sequence = 1 then stop1_arrival_time
+  WHEN point_sequence = no_points then stop2_arrival_time
+  ELSE stop1_arrival_time + ((stop2_arrival_time - stop1_arrival_time) * perc)
+  END AS point_arrival_time
 FROM temp3;
 ```
 
@@ -2043,19 +2043,19 @@ Our last temporary table `trips_input` contains the data in the format that can 
 ```sql
 DROP TABLE IF EXISTS trips_input;
 CREATE TABLE trips_input (
-	trip_id text,
-	route_id text,
-	service_id text,
-	date date,
-	point_geom geometry,
-	t timestamptz
+  trip_id text,
+  route_id text,
+  service_id text,
+  date date,
+  point_geom geometry,
+  t timestamptz
 );
 
 INSERT INTO trips_input
 SELECT trip_id, route_id, t.service_id, date, point_geom, date + point_arrival_time AS t
-FROM trip_points t JOIN
-	( SELECT service_id, MIN(date) AS date FROM service_dates GROUP BY service_id) s
-	ON t.service_id = s.service_id;
+FROM trip_points t JOIN 
+  ( SELECT service_id, MIN(date) AS date FROM service_dates GROUP BY service_id) s
+  ON t.service_id = s.service_id;
 ```
 
 In the inner query of the `INSERT` statement, we *select* the first date of a service (`date + point_arrival_time`) in the `service_dates` table and then we `join` the resulting table with the `trip_points` table to compute the *arrival time* at each point composing the `trips`.
@@ -2067,23 +2067,25 @@ Finally, table `trips_mdb` contains the MobilityDB trips.
 ```sql
 DROP TABLE IF EXISTS trips_mdb;
 CREATE TABLE trips_mdb (
-	trip_id text NOT NULL,
-	route_id text NOT NULL,
-	date date NOT NULL,
-	trip tgeompoint,
-	PRIMARY KEY (trip_id, date)
+  trip_id text NOT NULL,
+  route_id text NOT NULL,
+  date date NOT NULL,
+  trip tgeompoint,
+  PRIMARY KEY (trip_id, date)
 );
 
 INSERT INTO trips_mdb(trip_id, route_id, date, trip)
 SELECT trip_id, route_id, date, tgeompointseq(array_agg(tgeompointinst(point_geom, t)
-	ORDER BY T))
+  ORDER BY T))
 FROM trips_input
 GROUP BY trip_id, route_id, date;
 
 INSERT INTO trips_mdb(trip_id, service_id, route_id, date, trip)
 SELECT trip_id, route_id, t.service_id, d.date,
-	shift(trip, make_interval(days => d.date - t.date))
+  shift(trip, make_interval(days => d.date - t.date))
 FROM trips_mdb t JOIN service_dates d ON t.service_id = d.service_id AND t.date <> d.date;
 ```
 
-In the first `INSERT` statement we group the rows in the `trips_input` table by `trip_id` and `date` while keeping the `route_id` atribute, use the `array_agg` function to construct an array containing the temporal points composing the trip ordered by time, and compute the trip from this array using the function tgeompointseq. As explained above, table `trips_input` only contains the first date of a trip. In the second `INSERT` statement we add the trips for all the other dates with the function shift.
+In the first `INSERT` statement we group the rows in the `trips_input` table by `trip_id` and `date` while keeping the `route_id` atribute, use the `array_agg` function to construct an array containing the temporal points composing the `trip` ordered by time, and compute the `trip` from this array using the function `tgeompointseq`. 
+
+As explained above, table `trips_input` only contains the first date of a trip. In the second `INSERT` statement we add the `trips` for all the other dates with the function `shift`.
