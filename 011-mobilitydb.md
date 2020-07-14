@@ -2097,3 +2097,30 @@ As explained above, table `trips_input` only contains the first date of a trip. 
 
 By activating the Location History in your Google account, you let Google track where you go with every mobile device. You can view and manage your Location History information through Google Maps Timeline. The data is provided in JSON format. An example of such a file is as follows.
 
+
+```json
+{
+  "locations" : [ {
+    "timestampMs" : "1525373187756",
+    "latitudeE7" : 508402936,
+    "longitudeE7" : 43413790,
+    "accuracy" : 26,
+    "activity" : [ {
+      "timestampMs" : "1525373185830",
+      "activity" : [ {
+        "type" : "STILL",
+        "confidence" : 44
+      }, {
+        "type" : "IN_VEHICLE",
+        "confidence" : 16
+      }, {
+        "type" : "IN_ROAD_VEHICLE",
+        "confidence" : 16
+      }, {
+        "type" : "UNKNOWN",
+        "confidence" : 12
+      }, {
+        "type" : "IN_RAIL_VEHICLE",
+        "confidence" : 12
+...
+```
