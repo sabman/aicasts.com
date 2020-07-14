@@ -2124,3 +2124,6 @@ By activating the Location History in your Google account, you let Google track 
         "confidence" : 12
 ...
 ```
+
+If we want to load location information into MobilityDB we only need the fields longitudeE7, latitudeE7, and timestampMs. To convert the original JSON file into a CSV file containing only these fields we can use jq, a command-line JSON processor. The following command
+
