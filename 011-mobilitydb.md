@@ -2089,3 +2089,11 @@ FROM trips_mdb t JOIN service_dates d ON t.service_id = d.service_id AND t.date 
 In the first `INSERT` statement we group the rows in the `trips_input` table by `trip_id` and `date` while keeping the `route_id` atribute, use the `array_agg` function to construct an array containing the temporal points composing the `trip` ordered by time, and compute the `trip` from this array using the function `tgeompointseq`. 
 
 As explained above, table `trips_input` only contains the first date of a trip. In the second `INSERT` statement we add the `trips` for all the other dates with the function `shift`.
+
+
+# Chapter 3. Managing Google Location History
+
+## Loading Google Location History Data
+
+By activating the Location History in your Google account, you let Google track where you go with every mobile device. You can view and manage your Location History information through Google Maps Timeline. The data is provided in JSON format. An example of such a file is as follows.
+
