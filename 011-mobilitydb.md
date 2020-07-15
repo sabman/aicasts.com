@@ -2131,3 +2131,14 @@ If we want to load location information into MobilityDB we only need the fields 
 cat location_history.json | jq -r ".locations[] | {latitudeE7, longitudeE7, timestampMs}
 | [.latitudeE7, .longitudeE7, .timestampMs] | @csv" > location_history.csv
 ```
+
+produces a CSV file of the following format
+```
+508402936,43413790,"1525373187756"
+508402171,43413455,"1525373176729"
+508399229,43413304,"1525373143463"
+508377525,43411499,"1525373113741"
+508374906,43412597,"1525373082542"
+508370337,43418136,"1525373052593"
+...
+```
