@@ -2142,3 +2142,24 @@ produces a CSV file of the following format
 508370337,43418136,"1525373052593"
 ...
 ```
+
+The above command works well for files of moderate size since by default jq loads the whole input text in memory. For very large files you may consider the --stream option of jq, which parses input texts in a streaming fashion.
+
+Now we can import the generated CSV file into PostgreSQL as follows.
+
+```sql
+DROP TABLE IF EXISTS location_history;
+CREATE TABLE location_history (
+	latitudeE7 float,
+	longitudeE7 float,
+	timestampMs bigint,
+	date date
+);
+
+COPY location_history(latitudeE7, longitudeE7, timestampMs) FROM
+	'/home/location_history/location_history.csv' DELIMITER ',' CSV;
+
+UPDATE location_history
+SET date = date(to_timestamp(timestampMs / 1000.0)::timestamptz);
+				
+```
