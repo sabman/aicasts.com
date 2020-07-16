@@ -2163,3 +2163,4 @@ UPDATE location_history
 SET date = date(to_timestamp(timestampMs / 1000.0)::timestamptz);
 				
 ```
+Notice that we added an attribute `date` to the table so we can split the full location history, which can comprise data for several years, by date. Since the `timestamps` are encoded in milliseconds since 1/1/1970, we divide them by 1,000 and apply the functions `to_timestamp` and `date` to obtain corresponding date.
