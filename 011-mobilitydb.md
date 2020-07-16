@@ -2187,4 +2187,8 @@ UPDATE locations_mdb
 SET trajectory = trajectory(trip);
 ```
 
+We convert the `longitude` and `latitude` values into standard coordinates values by dividing them by `10^7`. These can be converted into PostGIS points in the `WGS84` coordinate system with the functions `ST_Point` and `ST_SetSRID`. Also, we convert the timestamp values in miliseconds to `timestamptz` values. We can now apply the function `tgeompointinst` to create a `tgeompoint` of instant duration from the `point` and the `timestamp`, collect all temporal points of a day into an array with the function `array_agg`, and finally, create a temporal point containing all the locations of a day using function `tgeompointseq`. We added to the table a `trajectory` attribute to visualize the location history in `QGIS` is given in Figure 3.1, “Visualization of the Google location history loaded into MobilityDB.”.
 
+Figure 3.1. Visualization of the Google location history loaded into MobilityDB.
+
+![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/location_history.png)
