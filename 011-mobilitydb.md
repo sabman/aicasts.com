@@ -2150,17 +2150,41 @@ Now we can import the generated CSV file into PostgreSQL as follows.
 ```sql
 DROP TABLE IF EXISTS location_history;
 CREATE TABLE location_history (
-	latitudeE7 float,
-	longitudeE7 float,
-	timestampMs bigint,
-	date date
+  latitudeE7 float,
+  longitudeE7 float,
+  timestampMs bigint,
+  date date
 );
 
 COPY location_history(latitudeE7, longitudeE7, timestampMs) FROM
-	'/home/location_history/location_history.csv' DELIMITER ',' CSV;
+  '/home/location_history/location_history.csv' DELIMITER ',' CSV;
 
 UPDATE location_history
 SET date = date(to_timestamp(timestampMs / 1000.0)::timestamptz);
-				
+        
 ```
 Notice that we added an attribute `date` to the table so we can split the full location history, which can comprise data for several years, by date. Since the `timestamps` are encoded in milliseconds since 1/1/1970, we divide them by 1,000 and apply the functions `to_timestamp` and `date` to obtain corresponding date.
+
+We can now transform this data into MobilityDB trips as follows.
+
+```sql
+DROP TABLE IF EXISTS locations_mdb;
+CREATE TABLE locations_mdb (
+  date date NOT NULL,
+  trip tgeompoint,
+  trajectory geometry,
+  PRIMARY KEY (date)
+);
+
+INSERT INTO locations_mdb(date, trip)
+SELECT date, tgeompointseq(array_agg(tgeompointinst(
+  ST_SetSRID(ST_Point(longitudeE7/1e7, latitudeE7/1e7),4326),
+  to_timestamp(timestampMs / 1000.0)::timestamptz) ORDER BY timestampMs))
+FROM location_history
+GROUP BY date;
+
+UPDATE locations_mdb
+SET trajectory = trajectory(trip);
+```
+
+
