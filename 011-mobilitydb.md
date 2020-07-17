@@ -2241,3 +2241,33 @@ GPX, or GPS Exchange Format, is an XML data format for GPS data. Location data (
 	[...]
 <gpx>
 ```
+
+The following Python program called `gpx_to_csv.py` uses expat, a stream-oriented XML parser library, to convert the above GPX file in CSV format.
+
+```python
+import sys
+import xml.parsers.expat
+
+stack = []
+def start_element(name, attrs):
+	stack.append(name)
+	if name == 'gpx' :
+		print("lon,lat,time")
+	if name == 'trkpt' :
+		print("{},{},".format(attrs['lon'], attrs['lat']), end="")
+
+def end_element(name):
+	stack.pop()
+
+def char_data(data):
+	if stack[-1] == "time" and stack[-2] == "trkpt" :
+		print(data)
+
+p = xml.parsers.expat.ParserCreate()
+
+p.StartElementHandler = start_element
+p.EndElementHandler = end_element
+p.CharacterDataHandler = char_data
+
+p.ParseFile(sys.stdin.buffer)
+```
