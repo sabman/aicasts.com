@@ -2199,3 +2199,45 @@ Figure 3.1. Visualization of the Google location history loaded into MobilityDB.
 
 GPX, or GPS Exchange Format, is an XML data format for GPS data. Location data (and optionally elevation, time, and other information) is stored in tags and can be interchanged between GPS devices and software. Conceptually, a GPX file contains tracks, which are a record of where a moving object has been, and routes, which are suggestions about where it might go in the future. Furthermore, both tracks and routes and composed by points. The following is a truncated (for brevity) example GPX file.
 
+```xml
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<gpx version="1.1"
+	xmlns="http://www.topografix.com/GPX/1/1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.topografix.com/GPX/1/1
+	http://www.topografix.com/GPX/1/1/gpx.xsd"
+	creator="Example creator">
+ 	<metadata>
+		<name>Dec 14, 2014 4:32:04 PM</name>
+		<author>Example creator</author>
+		<link href="https://..." />
+		<time>2014-12-14T14:32:04.650Z</time>
+	</metadata>
+	<trk>
+		<name>Dec 14, 2014 4:32:04 PM</name>
+		<trkseg>
+			<trkpt lat="30.16398" lon="31.467701">
+				<ele>76</ele>
+				<time>2014-12-14T14:32:10.339Z</time>
+			</trkpt>
+			<trkpt lat="30.16394" lon="31.467333">
+				<ele>73</ele>
+				<time>2014-12-14T14:32:16.00Z</time>
+			</trkpt>
+			<trkpt lat="30.16408" lon="31.467218">
+				<ele>74</ele>
+				<time>2014-12-14T14:32:19.00Z</time>
+			</trkpt>
+			[...]
+		</trkseg>
+		<trkseg>
+			[...]
+		</trkseg>
+		[...]
+	</trk>
+	<trk>
+		[...]
+	</trk>
+	[...]
+<gpx>
+```
