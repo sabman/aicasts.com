@@ -2192,3 +2192,10 @@ We convert the `longitude` and `latitude` values into standard coordinates value
 Figure 3.1. Visualization of the Google location history loaded into MobilityDB.
 
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/location_history.png)
+
+# Chapter 4. Managing GPX Data
+
+## Loading GPX Data
+
+GPX, or GPS Exchange Format, is an XML data format for GPS data. Location data (and optionally elevation, time, and other information) is stored in tags and can be interchanged between GPS devices and software. Conceptually, a GPX file contains tracks, which are a record of where a moving object has been, and routes, which are suggestions about where it might go in the future. Furthermore, both tracks and routes and composed by points. The following is a truncated (for brevity) example GPX file.
+
