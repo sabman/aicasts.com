@@ -2271,3 +2271,22 @@ p.CharacterDataHandler = char_data
 
 p.ParseFile(sys.stdin.buffer)
 ```
+
+This Python program can be executed as follows.
+
+```bash
+python3 gpx_to_csv.py < example.gpx > example.csv
+
+```
+
+```csv
+lon,lat,time
+31.46032,30.037502,2015-02-09T08:10:16.00Z
+31.460901,30.039026,2015-02-09T08:10:31.00Z
+31.461981,30.039816,2015-02-09T08:10:57.00Z
+31.461996,30.039801,2015-02-09T08:10:58.00Z
+...
+```
+
+The above CSV file can be loaded into MobilityDB as follows.
+
