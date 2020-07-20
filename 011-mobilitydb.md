@@ -2322,3 +2322,20 @@ GROUP BY date;
 UPDATE trips_mdb
 SET trajectory = trajectory(trip);
 ```
+
+# Chapter 5. Generating Realistic Trajectory Datasets
+
+Do you need an arbitrarily large trajectory dataset to tests your ideas? The workshop module on Managing GTFS Data Chapter 2, Managing GTFS Data has already illustrated how to generate public transport trajectories as per the schedule. This chapter continues and illustrates how to generate car trips in a city. It implements the BerlinMOD benchmark data generator that is described in:
+
+Düntgen, C., Behr, T. and Güting, R.H. BerlinMOD: a benchmark for moving object databases. The VLDB Journal 18, 1335 (2009). https://doi.org/10.1007/s00778-009-0142-5
+
+The data generator can be configured by setting the number of simulated cars and the number of simulation days. It models people trips using their cars to and from work during the week as well as some additional trips at evenings or weekends. The simulation uses multiple ideas to be close to reality, including:
+
+- The home locations are sampled with respect to the population statistics of the different administrative areas in the city
+- Similarly the work locations are sampled with respect to employment statistics
+- Drivers will try to accelerate to the maximum allowed speed of a road
+- Random events will force drivers to slow down or even stop to simulate obstacles, traffic lights, etc
+- Drives will slow down in curves
+
+The generator is written in PL/pgSQL, so that it will be easy to insert or adapt simulation rules to reflect other scenarios. It uses MobilityDB types and operations. The generated trajectories are also MobilityDB types. It is controlled by a single parameter, scale factor, that determines the size of the generated dataset. Additionally, many other parameters can be used to fine-tune the generation process to reflect various real-world simulation scenarios.
+
