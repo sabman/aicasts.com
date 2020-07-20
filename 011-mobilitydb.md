@@ -2202,43 +2202,43 @@ GPX, or GPS Exchange Format, is an XML data format for GPS data. Location data (
 ```xml
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <gpx version="1.1"
-	xmlns="http://www.topografix.com/GPX/1/1"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.topografix.com/GPX/1/1
-	http://www.topografix.com/GPX/1/1/gpx.xsd"
-	creator="Example creator">
- 	<metadata>
-		<name>Dec 14, 2014 4:32:04 PM</name>
-		<author>Example creator</author>
-		<link href="https://..." />
-		<time>2014-12-14T14:32:04.650Z</time>
-	</metadata>
-	<trk>
-		<name>Dec 14, 2014 4:32:04 PM</name>
-		<trkseg>
-			<trkpt lat="30.16398" lon="31.467701">
-				<ele>76</ele>
-				<time>2014-12-14T14:32:10.339Z</time>
-			</trkpt>
-			<trkpt lat="30.16394" lon="31.467333">
-				<ele>73</ele>
-				<time>2014-12-14T14:32:16.00Z</time>
-			</trkpt>
-			<trkpt lat="30.16408" lon="31.467218">
-				<ele>74</ele>
-				<time>2014-12-14T14:32:19.00Z</time>
-			</trkpt>
-			[...]
-		</trkseg>
-		<trkseg>
-			[...]
-		</trkseg>
-		[...]
-	</trk>
-	<trk>
-		[...]
-	</trk>
-	[...]
+  xmlns="http://www.topografix.com/GPX/1/1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.topografix.com/GPX/1/1
+  http://www.topografix.com/GPX/1/1/gpx.xsd"
+  creator="Example creator">
+   <metadata>
+    <name>Dec 14, 2014 4:32:04 PM</name>
+    <author>Example creator</author>
+    <link href="https://..." />
+    <time>2014-12-14T14:32:04.650Z</time>
+  </metadata>
+  <trk>
+    <name>Dec 14, 2014 4:32:04 PM</name>
+    <trkseg>
+      <trkpt lat="30.16398" lon="31.467701">
+        <ele>76</ele>
+        <time>2014-12-14T14:32:10.339Z</time>
+      </trkpt>
+      <trkpt lat="30.16394" lon="31.467333">
+        <ele>73</ele>
+        <time>2014-12-14T14:32:16.00Z</time>
+      </trkpt>
+      <trkpt lat="30.16408" lon="31.467218">
+        <ele>74</ele>
+        <time>2014-12-14T14:32:19.00Z</time>
+      </trkpt>
+      [...]
+    </trkseg>
+    <trkseg>
+      [...]
+    </trkseg>
+    [...]
+  </trk>
+  <trk>
+    [...]
+  </trk>
+  [...]
 <gpx>
 ```
 
@@ -2250,18 +2250,18 @@ import xml.parsers.expat
 
 stack = []
 def start_element(name, attrs):
-	stack.append(name)
-	if name == 'gpx' :
-		print("lon,lat,time")
-	if name == 'trkpt' :
-		print("{},{},".format(attrs['lon'], attrs['lat']), end="")
+  stack.append(name)
+  if name == 'gpx' :
+    print("lon,lat,time")
+  if name == 'trkpt' :
+    print("{},{},".format(attrs['lon'], attrs['lat']), end="")
 
 def end_element(name):
-	stack.pop()
+  stack.pop()
 
 def char_data(data):
-	if stack[-1] == "time" and stack[-2] == "trkpt" :
-		print(data)
+  if stack[-1] == "time" and stack[-2] == "trkpt" :
+    print(data)
 
 p = xml.parsers.expat.ParserCreate()
 
@@ -2290,3 +2290,35 @@ lon,lat,time
 
 The above CSV file can be loaded into MobilityDB as follows.
 
+```sql
+DROP TABLE IF EXISTS trips_input;
+CREATE TABLE trips_input (
+  date date,
+  lon float,
+  lat float,
+  time timestamptz
+);
+
+COPY trips_input(lon, lat, time) FROM
+  '/home/gpx_data/example.csv' DELIMITER ',' CSV HEADER;
+
+UPDATE trips_input
+SET date = date(time);
+
+DROP TABLE IF EXISTS trips_mdb;
+CREATE TABLE trips_mdb (
+  date date NOT NULL,
+  trip tgeompoint,
+  trajectory geometry,
+  PRIMARY KEY (date)
+);
+
+INSERT INTO trips_mdb(date, trip)
+SELECT date, tgeompointseq(array_agg(tgeompointinst(
+  ST_SetSRID(ST_Point(lon, lat),4326), time) ORDER BY time))
+FROM trips_input
+GROUP BY date;
+
+UPDATE trips_mdb
+SET trajectory = trajectory(trip);
+```
