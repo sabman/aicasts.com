@@ -2381,3 +2381,13 @@ psql -h localhost -p 5432 -U dbowner -d brussels -f brussels_preparedata.sql
 -- samples home and work nodes, transforms data to SRID 3857, does further data preparation
 ```
 
+Finally, run the generator.
+
+```sql
+psql -h localhost -p 5432 -U dbowner -d brussels -f berlinmod_datagenerator_batch.sql
+-- adds the pgplsql functions of the simulation to the database
+
+psql -h localhost -p 5432 -U dbowner -d brussels \
+	-c 'select berlinmod_generate(scaleFactor := 0.005)'
+-- calls the main pgplsql function to start the simulation
+```
