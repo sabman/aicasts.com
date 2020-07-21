@@ -2358,3 +2358,15 @@ psql -h localhost -p 5432 -U dbowner -d brussels -c 'CREATE EXTENSION MobilityDB
 psql -h localhost -p 5432 -U dbowner -d brussels -c 'CREATE EXTENSION pgRouting'
 -- adds the pgRouting extension
 ```
+
+For the moment, we will use the OSM map of Brussels. It is given in the data section of this workshop in the two files: `brussels.osm`, `mapconfig_brussels.xml`. In the next sections, we will explain how to use other maps. It has been downloaded using the Overpass API, hence it is by default in Spherical Mercator (SRID 3857), which is good for calculating distances. Next load the map and convert it into a routable network topology format suitable for pgRouting.
+
+```sql
+-- in a console, go to the generatorHome then:
+osm2pgrouting -h localhost -p 5432 -U dbowner -f brussels.osm --dbname brussels \
+	-c mapconfig_brussels.xml
+```
+
+The configuration file `mapconfig_brussels.xml` tells osm2pgrouting which are the roads that will be selected to build the road network as well as the speed limits of the different road types. During the conversion, osm2pgrouting transforms the data into WGS84 (SRID 4326), so we will need later to convert it back to SRID 3857.
+
+
