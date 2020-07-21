@@ -2369,4 +2369,15 @@ osm2pgrouting -h localhost -p 5432 -U dbowner -f brussels.osm --dbname brussels 
 
 The configuration file `mapconfig_brussels.xml` tells osm2pgrouting which are the roads that will be selected to build the road network as well as the speed limits of the different road types. During the conversion, osm2pgrouting transforms the data into WGS84 (SRID 4326), so we will need later to convert it back to SRID 3857.
 
+Secondly, prepare the base data for the simulation. Now, the street network is ready in the database. The simulation scenario requires to sample home and work locations. To make it realistic, we want to load a map of the administrative regions of Brussels (called communes) and feed the simulator with real population and employment statistics in every commune.
+
+Load the administrative regions from the downloaded `brussels.osm` file, then run the `brussels_generatedata.sql` script using your PostgreSQL client, for example:
+
+```sql
+osm2pgsql -c -H localhost -P 5432 -U dbowner -d brussels brussels.osm
+-- loads all layers in the osm file, including the adminstrative regions 
+
+psql -h localhost -p 5432 -U dbowner -d brussels -f brussels_preparedata.sql
+-- samples home and work nodes, transforms data to SRID 3857, does further data preparation
+```
 
