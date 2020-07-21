@@ -2339,3 +2339,22 @@ The data generator can be configured by setting the number of simulated cars and
 
 The generator is written in PL/pgSQL, so that it will be easy to insert or adapt simulation rules to reflect other scenarios. It uses MobilityDB types and operations. The generated trajectories are also MobilityDB types. It is controlled by a single parameter, scale factor, that determines the size of the generated dataset. Additionally, many other parameters can be used to fine-tune the generation process to reflect various real-world simulation scenarios.
 
+
+## Quick Start
+
+Running the generator is done in three steps:
+
+Firstly, load the street network. Create a new database brussels, then add both PostGIS, MobilityDB, and pgRouting to it.
+
+```sql
+-- in a console:
+createdb -h localhost -p 5432 -U dbowner brussels
+-- replace localhost with your database host, 5432 with your port, 
+-- and dbowner with your database user 
+
+psql -h localhost -p 5432 -U dbowner -d brussels -c 'CREATE EXTENSION MobilityDB CASCADE'
+-- adds the PostGIS and the MobilityDB extensions to the database
+
+psql -h localhost -p 5432 -U dbowner -d brussels -c 'CREATE EXTENSION pgRouting'
+-- adds the pgRouting extension
+```
