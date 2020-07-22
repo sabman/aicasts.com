@@ -2364,7 +2364,7 @@ For the moment, we will use the OSM map of Brussels. It is given in the data sec
 ```sql
 -- in a console, go to the generatorHome then:
 osm2pgrouting -h localhost -p 5432 -U dbowner -f brussels.osm --dbname brussels \
-	-c mapconfig_brussels.xml
+  -c mapconfig_brussels.xml
 ```
 
 The configuration file `mapconfig_brussels.xml` tells osm2pgrouting which are the roads that will be selected to build the road network as well as the speed limits of the different road types. During the conversion, osm2pgrouting transforms the data into WGS84 (SRID 4326), so we will need later to convert it back to SRID 3857.
@@ -2388,7 +2388,7 @@ psql -h localhost -p 5432 -U dbowner -d brussels -f berlinmod_datagenerator_batc
 -- adds the pgplsql functions of the simulation to the database
 
 psql -h localhost -p 5432 -U dbowner -d brussels \
-	-c 'select berlinmod_generate(scaleFactor := 0.005)'
+  -c 'select berlinmod_generate(scaleFactor := 0.005)'
 -- calls the main pgplsql function to start the simulation
 ```
 
@@ -2411,8 +2411,8 @@ The generator will take about one minute. It will generate trajectories, accordi
 
 ```sql
 psql -h localhost -p 5432 -U dbowner -d brussels -c \
-	"select berlinmod_generate(scaleFactor := 0.005, messages := 'medium')" 2>&1 | \
-	tee trace.txt
+  "select berlinmod_generate(scaleFactor := 0.005, messages := 'medium')" 2>&1 | \
+  tee trace.txt
 ```
 
 
@@ -2438,4 +2438,32 @@ FROM Trips;
 1686	"618:34:23.478239"	20546.31859281626
 ```
 
+We continue by further analyzing the duration of all the trips
 
+```sql
+SELECT MIN(timespan(Trip)), MAX(timespan(Trip)), AVG(timespan(Trip))
+FROM Trips;
+
+"00:00:29.091033"	"01:13:21.225514"	"00:22:02.365486"
+```
+
+or the duration of the trips by trip type.
+
+```sql
+SELECT
+  CASE
+    WHEN T.source = V.home AND date_part('dow', T.day) BETWEEN 1 AND 5 AND
+      date_part('hour', startTimestamp(trip)) < 12 THEN 'home_work'
+    WHEN T.source = V.work AND date_part('dow', T.day) BETWEEN 1 AND 5 AND
+      date_part('hour', startTimestamp(trip)) > 12  THEN 'work_home'
+    WHEN date_part('dow', T.day) BETWEEN 1 AND 5 THEN 'leisure_weekday'
+    ELSE 'leisure_weekend'
+  END AS TripType, COUNT(*), MIN(timespan(Trip)), MAX(timespan(Trip)), AVG(timespan(Trip))
+FROM Trips T, Vehicle V
+WHERE T.vehicle = V.id
+GROUP BY TripType;
+
+"leisure_weekday"		558		"00:00:29.091033"	"00:57:30.195709"	"00:10:59.118318"
+"work_home"					564		"00:02:04.159342"	"01:13:21.225514"	"00:27:33.424924"
+"home_work"					564		"00:01:57.456419"	"01:11:44.551344"	"00:27:25.145454"
+```
