@@ -2391,3 +2391,36 @@ psql -h localhost -p 5432 -U dbowner -d brussels \
 	-c 'select berlinmod_generate(scaleFactor := 0.005)'
 -- calls the main pgplsql function to start the simulation
 ```
+
+If everything is correct, you should see an output like that starts with this:
+
+
+```
+INFO:  ------------------------------------------------------------------
+INFO:  Starting the BerlinMOD data generator with scale factor 0.005
+INFO:  ------------------------------------------------------------------
+INFO:  Parameters:
+INFO:  ------------
+INFO:  No. of vehicles = 141, No. of days = 4, Start day = 2020-06-01
+INFO:  Path mode = Fastest Path, Disturb data = f
+INFO:  Verbosity = minimal, Trip generation = C
+...
+```
+
+The generator will take about one minute. It will generate trajectories, according to the default parameters, for 141 cars over 4 days starting from Monday, June 1st 2020. As you may have guessed, it is possible to generate more or less data by respectively passing a bigger or a smaller scale factor value. If you want to save the messages produced by the generator in a file you can use a command such as the following one.
+
+```sql
+psql -h localhost -p 5432 -U dbowner -d brussels -c \
+	"select berlinmod_generate(scaleFactor := 0.005, messages := 'medium')" 2>&1 | \
+	tee trace.txt
+```
+
+
+You can show more messages describing the generation process by setting the optional parameter messages with one of the values 'minimal' (the default), 'medium', 'verbose', or 'debug'.
+
+Figure 5.1, “Visualization of the trips generated. The edges of the network are shown in blue, the edges traversed by the trips are shown in black, the home nodes in black and the work nodes in red.” shows a visualization of the trips generated.
+
+Figure 5.1. Visualization of the trips generated. The edges of the network are shown in blue, the edges traversed by the trips are shown in black, the home nodes in black and the work nodes in red.
+
+
+![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/berlinmod1.png)
