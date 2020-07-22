@@ -2424,3 +2424,18 @@ Figure 5.1. Visualization of the trips generated. The edges of the network are s
 
 
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/berlinmod1.png)
+
+
+## Exploring the Generated Data
+
+Now use a PostgreSQL client such as psql or pgAdmin to explore the properties of the generated trajecotries. We start by obtaining some statistics about the number, the total duration, and the total length in Km of the trips.
+
+
+```sql
+SELECT COUNT(*), SUM(timespan(Trip)), SUM(length(Trip)) / 1e3
+FROM Trips;
+
+1686	"618:34:23.478239"	20546.31859281626
+```
+
+
