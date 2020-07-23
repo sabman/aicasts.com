@@ -2507,3 +2507,30 @@ FROM Trips;
 
 14.211962789552468	53.31779380411017	31.32438581663778
 ```
+
+A possible visualization that we could envision is to use gradients to show how the edges of the network are used by the trips. We start by determining how many trips traversed each of the edges of the network as follows.
+
+```sql
+CREATE TABLE HeatMap AS
+  SELECT  E.id, E.geom, count(*)
+  FROM Edges E, Trips T
+  WHERE st_intersects(E.geom, T.trajectory)
+GROUP BY E.id, E.geom;
+```
+
+This is an expensive query since it took **42 min in my laptop**. In order to display unused edges in our visualization we need to add them to the table with a count of 0.
+
+```sql
+INSERT INTO HeatMap
+  SELECT E.id, E.geom, 0 FROM Edges E
+  WHERE E.id NOT IN (SELECT id FROM HeatMap );
+```
+
+We need some basic statistics about the attribute count in order to define the gradients.
+
+```sql
+SELECT min(count), max(count), round(avg(count),3), round(stddev(count),3)
+FROM HeatMap;
+
+-- 0 204 4.856 12.994
+```
