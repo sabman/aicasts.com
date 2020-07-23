@@ -2467,3 +2467,25 @@ GROUP BY TripType;
 "work_home"					564		"00:02:04.159342"	"01:13:21.225514"	"00:27:33.424924"
 "home_work"					564		"00:01:57.456419"	"01:11:44.551344"	"00:27:25.145454"
 ```
+
+As can be seen, no weekend leisure trips have been generated, which is normal since the data generated covers four days starting on Monday, June 1st 2020.
+
+We can analyze further the length in Km of the trips as follows.
+
+```sql
+SELECT MIN(length(Trip)) / 1e3, MAX(length(Trip)) / 1e3, AVG(length(Trip)) / 1e3
+FROM Trips;
+
+0.2731400585134866	53.76566616928331	12.200901777206806
+```
+
+As can be seen the longest trip is more than 56 Km long. Let's visualize one of these long trips.
+
+```sql
+SELECT vehicle, seq, source, target, round(length(Trip)::numeric / 1e3, 3),
+	startTimestamp(Trip), timespan(Trip)
+FROM Trips
+WHERE  length(Trip) > 50000 LIMIT 1;
+
+90	1	23078	11985	53.766	"2020-06-01 08:46:55.487+02"	"01:10:10.549413"
+```
