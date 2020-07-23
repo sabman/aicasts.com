@@ -1939,7 +1939,7 @@ UPDATE trip_segs
 SET seg_length = ST_Length(seg_geom), no_points = ST_NumPoints(seg_geom);
 ```
 
-We use twice the LEAD window function for obtaning the next stop and the next percentage of a given stop and the MAX window function for obtaining the total number of stops in a trip. 
+We use twice the LEAD window function for obtaning the next stop and the next percentage of a given stop and the MAX window function for obtaining the total number of stops in a trip.
 
 ```sql
 LEAD(stop_sequence) OVER w AS stop_sequence2,
@@ -2003,7 +2003,7 @@ SELECT trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
   FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
 ```
 
-In the temporary table `temp2` we filter out the last point of a segment unless it is the last segment of the trip. 
+In the temporary table `temp2` we filter out the last point of a segment unless it is the last segment of the trip.
 
 ```sql
 SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
@@ -2053,7 +2053,7 @@ CREATE TABLE trips_input (
 
 INSERT INTO trips_input
 SELECT trip_id, route_id, t.service_id, date, point_geom, date + point_arrival_time AS t
-FROM trip_points t JOIN 
+FROM trip_points t JOIN
   ( SELECT service_id, MIN(date) AS date FROM service_dates GROUP BY service_id) s
   ON t.service_id = s.service_id;
 ```
@@ -2086,7 +2086,7 @@ SELECT trip_id, route_id, t.service_id, d.date,
 FROM trips_mdb t JOIN service_dates d ON t.service_id = d.service_id AND t.date <> d.date;
 ```
 
-In the first `INSERT` statement we group the rows in the `trips_input` table by `trip_id` and `date` while keeping the `route_id` atribute, use the `array_agg` function to construct an array containing the temporal points composing the `trip` ordered by time, and compute the `trip` from this array using the function `tgeompointseq`. 
+In the first `INSERT` statement we group the rows in the `trips_input` table by `trip_id` and `date` while keeping the `route_id` atribute, use the `array_agg` function to construct an array containing the temporal points composing the `trip` ordered by time, and compute the `trip` from this array using the function `tgeompointseq`.
 
 As explained above, table `trips_input` only contains the first date of a trip. In the second `INSERT` statement we add the `trips` for all the other dates with the function `shift`.
 
@@ -2161,7 +2161,7 @@ COPY location_history(latitudeE7, longitudeE7, timestampMs) FROM
 
 UPDATE location_history
 SET date = date(to_timestamp(timestampMs / 1000.0)::timestamptz);
-        
+
 ```
 Notice that we added an attribute `date` to the table so we can split the full location history, which can comprise data for several years, by date. Since the `timestamps` are encoded in milliseconds since 1/1/1970, we divide them by 1,000 and apply the functions `to_timestamp` and `date` to obtain corresponding date.
 
@@ -2349,8 +2349,8 @@ Firstly, load the street network. Create a new database brussels, then add both 
 ```sql
 -- in a console:
 createdb -h localhost -p 5432 -U dbowner brussels
--- replace localhost with your database host, 5432 with your port, 
--- and dbowner with your database user 
+-- replace localhost with your database host, 5432 with your port,
+-- and dbowner with your database user
 
 psql -h localhost -p 5432 -U dbowner -d brussels -c 'CREATE EXTENSION MobilityDB CASCADE'
 -- adds the PostGIS and the MobilityDB extensions to the database
@@ -2375,7 +2375,7 @@ Load the administrative regions from the downloaded `brussels.osm` file, then ru
 
 ```sql
 osm2pgsql -c -H localhost -P 5432 -U dbowner -d brussels brussels.osm
--- loads all layers in the osm file, including the adminstrative regions 
+-- loads all layers in the osm file, including the adminstrative regions
 
 psql -h localhost -p 5432 -U dbowner -d brussels -f brussels_preparedata.sql
 -- samples home and work nodes, transforms data to SRID 3857, does further data preparation
@@ -2483,9 +2483,27 @@ As can be seen the longest trip is more than 56 Km long. Let's visualize one of 
 
 ```sql
 SELECT vehicle, seq, source, target, round(length(Trip)::numeric / 1e3, 3),
-	startTimestamp(Trip), timespan(Trip)
+  startTimestamp(Trip), timespan(Trip)
 FROM Trips
 WHERE  length(Trip) > 50000 LIMIT 1;
 
 90	1	23078	11985	53.766	"2020-06-01 08:46:55.487+02"	"01:10:10.549413"
+```
+
+We can then visualize this trip in PostGIS. As can be seen, in Figure 5.2, “Visualization of a long trip.”, the home and the work nodes of the vehicle are located at two extremities in Brussels.
+
+Figure 5.2. Visualization of a long trip.
+
+![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/longest.png)
+
+We can obtain some statistics about the average speed in Km/h of all the trips as follows.
+
+```sql
+SELECT
+  MIN(twavg(speed(Trip))) * 3.6,
+  MAX(twavg(speed(Trip))) * 3.6,
+  AVG(twavg(speed(Trip))) * 3.6
+FROM Trips;
+
+14.211962789552468	53.31779380411017	31.32438581663778
 ```
