@@ -2546,3 +2546,32 @@ ramp_color('RdGy', scale_linear(count, 0, 10, 0, 1))
 The `scale_linear` function transforms the value of the attribute `count` into a value in [0,1], as stated by the last two parameters. As stated by the two other parameters 0 and 10, which define the range of values to transform, we decided to assign a full red color to an edge as soon as there are at least 10 trips that traverse the edge. The ramp_color function states the gradient to be used for the display, in our case from blue to red. The usage of this expression in QGIS is shown in Figure 5.3, “Assigning in QGIS a gradient color from blue to red according to the value of the attribute count.” and the resulting visualization is shown in Figure 5.4, “Visualization of the edges of the graph according to the number of trips that traversed the edges.”.
 
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/heatmap1.png)
+
+Another possible visualization is to use gradients to show the speed used by the trips to traverse the edges of the network. As the maximum speed of edges varies from 20 to 120 Km/h, what would be interesting to compare is the speed of the trips at an edge with respect to the maximum speed of the edge. For this we issue the following query.
+
+```sql
+DROP TABLE IF EXISTS EdgeSpeed;
+
+CREATE TABLE EdgeSpeed AS
+  SELECT
+    P.edge,
+    twavg(speed(atGeometry(T.trip, ST_Buffer(P.geom, 0.1)))) * 3.6 AS twavg
+  FROM Trips T, Paths P
+  WHERE
+    T.source = P.start_vid
+    AND T.target = P.end_vid
+    AND P.edge > 0
+  ORDER BY P.edge;
+```
+
+This is an even more expensive query than the previous one since it took more than 2 hours in my laptop. Given a trip and an edge, the query restricts the trip to the geometry of the edge and computes the time-weighted average of the speed. Notice that the ST_Buffer is used to cope with the floating-point precision. After that we can compute the speed map as follows.
+
+```sql
+CREATE TABLE SpeedMap AS
+WITH Temp AS (
+	SELECT edge, avg(twavg) FROM EdgeSpeed GROUP BY edge
+)
+SELECT id, maxspeed_forward AS maxspeed, geom, avg, avg / maxspeed_forward AS perc
+FROM Edges E, Temp T
+WHERE E.id = T.edge;
+```
