@@ -2545,3 +2545,4 @@ ramp_color('RdGy', scale_linear(count, 0, 10, 0, 1))
 
 The `scale_linear` function transforms the value of the attribute `count` into a value in [0,1], as stated by the last two parameters. As stated by the two other parameters 0 and 10, which define the range of values to transform, we decided to assign a full red color to an edge as soon as there are at least 10 trips that traverse the edge. The ramp_color function states the gradient to be used for the display, in our case from blue to red. The usage of this expression in QGIS is shown in Figure 5.3, “Assigning in QGIS a gradient color from blue to red according to the value of the attribute count.” and the resulting visualization is shown in Figure 5.4, “Visualization of the edges of the graph according to the number of trips that traversed the edges.”.
 
+![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/heatmap1.png)
