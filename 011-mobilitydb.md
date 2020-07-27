@@ -2581,3 +2581,9 @@ Figure 5.5, “Visualization of the edges of the graph according to the speed of
 
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/speedmap1.png)
 
+# Understanding the Generation Process
+
+We describe next the main steps in the generation of the BerlinMOD scenario. The generator uses multiple parameters that can be set to customize the generation process. We explain in detail these parameters in the section called “Tuning the Generator Parameters”. It is worth noting that the procedures explained in this section have been slightly simplified with respect to the actual procedures by removing ancillary details concerning the generation of tracing messages at various verbosity levels.
+
+We start by creating a first set of tables for containing the generated data as follows.
+
