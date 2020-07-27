@@ -2575,3 +2575,9 @@ SELECT id, maxspeed_forward AS maxspeed, geom, avg, avg / maxspeed_forward AS pe
 FROM Edges E, Temp T
 WHERE E.id = T.edge;
 ```
+
+
+Figure 5.5, “Visualization of the edges of the graph according to the speed of trips that traversed the edges.” shows the visualization of the speed map without and with the base map.
+
+![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/speedmap1.png)
+
