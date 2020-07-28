@@ -2658,3 +2658,11 @@ FOR i IN 1..noVehicles LOOP
   FROM Temp;
 END LOOP;
 ```
+
+```sql
+CREATE UNIQUE INDEX Vehicle_id_idx ON Vehicle USING BTREE(id);
+CREATE UNIQUE INDEX Neighbourhood_pkey_idx ON Neighbourhood USING BTREE(vehicle, seq);
+
+UPDATE Vehicle V
+SET noNeighbours = (SELECT COUNT(*) FROM Neighbourhood N WHERE N.vehicle = V.id);
+```
