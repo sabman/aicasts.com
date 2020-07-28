@@ -2617,3 +2617,44 @@ CREATE TABLE Neighbourhood(
   PRIMARY KEY (vehicle, seq)
 );
 ```
+
+```sql
+-- Get the number of nodes
+SELECT COUNT(*) INTO noNodes FROM Nodes;
+
+FOR i IN 1..noVehicles LOOP
+  -- Fill the Vehicles table
+  IF nodeChoice = 'Network Based' THEN
+    homeNode = random_int(1, noNodes);
+    workNode = random_int(1, noNodes);
+  ELSE
+    homeNode = berlinmod_selectHomeNode();
+    workNode = berlinmod_selectWorkNode();
+  END IF;
+  IF homeNode IS NULL OR workNode IS NULL THEN
+    RAISE EXCEPTION '    The home and the work nodes cannot be NULL';
+  END IF;
+  INSERT INTO Vehicle VALUES (i, homeNode, workNode);
+
+  -- Fill the Destinations table
+  INSERT INTO Destinations(vehicle, source, target) VALUES
+    (i, homeNode, workNode), (i, workNode, homeNode);
+
+  -- Fill the Licences table
+  licence = berlinmod_createLicence(i);
+  type = berlinmod_vehicleType();
+  model = berlinmod_vehicleModel();
+  INSERT INTO Licences VALUES (i, licence, type, model);
+
+  -- Fill the Neighbourhood table
+  INSERT INTO Neighbourhood
+  WITH Temp AS (
+    SELECT i AS vehicle, N2.id AS node
+    FROM Nodes N1, Nodes N2
+    WHERE N1.id = homeNode AND N1.id <> N2.id AND
+      ST_DWithin(N1.geom, N2.geom, P_NEIGHBOURHOOD_RADIUS)
+  )
+  SELECT i, ROW_NUMBER() OVER () as seq, node
+  FROM Temp;
+END LOOP;
+```
