@@ -2569,7 +2569,7 @@ This is an even more expensive query than the previous one since it took more th
 ```sql
 CREATE TABLE SpeedMap AS
 WITH Temp AS (
-	SELECT edge, avg(twavg) FROM EdgeSpeed GROUP BY edge
+  SELECT edge, avg(twavg) FROM EdgeSpeed GROUP BY edge
 )
 SELECT id, maxspeed_forward AS maxspeed, geom, avg, avg / maxspeed_forward AS perc
 FROM Edges E, Temp T
@@ -2587,3 +2587,33 @@ We describe next the main steps in the generation of the BerlinMOD scenario. The
 
 We start by creating a first set of tables for containing the generated data as follows.
 
+
+```sql
+CREATE TABLE Vehicle(
+  id int PRIMARY KEY,
+  home bigint NOT NULL,
+  work bigint NOT NULL,
+  noNeighbours int
+);
+
+CREATE TABLE Destinations(
+  vehicle int,
+  source bigint,
+  target bigint,
+  PRIMARY KEY (vehicle, source, target)
+);
+
+CREATE TABLE Licences(
+  vehicle int PRIMARY KEY,
+  licence text,
+  type text,
+  model text
+);
+
+CREATE TABLE Neighbourhood(
+  vehicle int,
+  seq int,
+  node bigint NOT NULL,
+  PRIMARY KEY (vehicle, seq)
+);
+```
