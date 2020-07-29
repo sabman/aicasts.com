@@ -2668,3 +2668,45 @@ SET noNeighbours = (SELECT COUNT(*) FROM Neighbourhood N WHERE N.vehicle = V.id)
 ```
 
 We start by storing in the `Vehicles` table the *home* and the *work* node of each vehicle. Depending on the value of the variable `nodeChoice`, we chose these nodes either with a *uniform distribution among all nodes in the network or we call specific functions that take into account population and employment statistics in the area covered by the generation.* We then keep track in the `Destinations` table of the *two trips to and from work* and we store in the `Licences` table information describing the vehicle. Finally, we compute in the `Neighbourhood` table the set of nodes that are within a given distance of the home node of every vehicle. This distance is stated by the parameter `P_NEIGHBOURHOOD_RADIUS`, which is set by default to 3 Km.
+
+We create now *auxiliary tables* containing *benchmarking data*. The number of rows these tables is determined by the parameter `P_SAMPLE_SIZE`, which is set by default to 100. These tables are used by the BerlinMOD benchmark to assess the performance of various types of queries.
+
+```sql
+CREATE TABLE QueryPoints(id int PRIMARY KEY, geom geometry(Point));
+INSERT INTO QueryPoints
+WITH Temp AS (
+  SELECT id, random_int(1, noNodes) AS node
+  FROM generate_series(1, P_SAMPLE_SIZE) id
+)
+SELECT T.id, N.geom
+FROM Temp T, Nodes N
+WHERE T.node = N.id;
+
+CREATE TABLE QueryRegions(id int PRIMARY KEY, geom geometry(Polygon));
+INSERT INTO QueryRegions
+WITH Temp AS (
+  SELECT id, random_int(1, noNodes) AS node
+  FROM generate_series(1, P_SAMPLE_SIZE) id
+)
+SELECT T.id, ST_Buffer(N.geom, random_int(1, 997) + 3.0, random_int(0, 25)) AS geom
+FROM Temp T, Nodes N
+WHERE T.node = N.id;
+
+CREATE TABLE QueryInstants(id int PRIMARY KEY, instant timestamptz);
+INSERT INTO QueryInstants
+SELECT id, startDay + (random() * noDays) * interval '1 day' AS instant
+FROM generate_series(1, P_SAMPLE_SIZE) id;
+
+CREATE TABLE QueryPeriods(id int PRIMARY KEY, period period);
+INSERT INTO QueryPeriods
+WITH Instants AS (
+  SELECT id, startDay + (random() * noDays) * interval '1 day' AS instant
+  FROM generate_series(1, P_SAMPLE_SIZE) id
+)
+SELECT id, Period(instant, instant + abs(random_gauss()) * interval '1 day',
+  true, true) AS period
+FROM Instants;
+```
+
+We generate now the leisure trips. There is at most one leisure trip in the evening of a week day and at most two leisure trips each day of the weekend, one in the morning and another one in the afternoon. Each leisure trip is composed of 1 to 3 destinations. The leisure trip starts and ends at the home node and visits successively these destinations. In our implementation, the various subtrips from a source to a destination node of a leisure trip are encoded independently, contrary to what is done in Secondo where a leisure trip is encoded as a single trip and stops are added between successive destinations.
+
