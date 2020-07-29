@@ -2710,3 +2710,58 @@ FROM Instants;
 
 We generate now the leisure trips. There is at most one leisure trip in the evening of a week day and at most two leisure trips each day of the weekend, one in the morning and another one in the afternoon. Each leisure trip is composed of 1 to 3 destinations. The leisure trip starts and ends at the home node and visits successively these destinations. In our implementation, the various subtrips from a source to a destination node of a leisure trip are encoded independently, contrary to what is done in Secondo where a leisure trip is encoded as a single trip and stops are added between successive destinations.
 
+```sql
+CREATE TABLE LeisureTrip(vehicle int, day date, tripNo int, seq int, source bigint,
+  target bigint, PRIMARY KEY (vehicle, day, tripNo, seq));
+-- Loop for every vehicle
+FOR i IN 1..noVehicles LOOP
+  -- Get home node and number of neighbour nodes
+  SELECT home, noNeighbours INTO homeNode, noNeigh
+  FROM Vehicle V WHERE V.id = i;
+  day = startDay;
+  -- Loop for every generation day
+  FOR j IN 1..noDays LOOP
+    weekday = date_part('dow', day);
+    -- Generate leisure trips (if any)
+    -- 1: Monday, 5: Friday
+    IF weekday BETWEEN 1 AND 5 THEN
+      noLeisTrips = 1;
+    ELSE
+      noLeisTrips = 2;
+    END IF;
+    -- Loop for every leisure trip in a day (1 or 2)
+    FOR k IN 1..noLeisTrips LOOP
+      -- Generate a leisure trip with a 40% probability
+      IF random() <= 0.4 THEN
+        -- Select a number of destinations between 1 and 3
+        IF random() < 0.8 THEN
+          noDest = 1;
+        ELSIF random() < 0.5 THEN
+          noDest = 2;
+        ELSE
+          noDest = 3;
+        END IF;
+        sourceNode = homeNode;
+        FOR m IN 1..noDest + 1 LOOP
+          IF m <= noDest THEN
+            targetNode = berlinmod_selectDestNode(i, noNeigh, noNodes);
+          ELSE
+            targetNode = homeNode;
+          END IF;
+          IF targetNode IS NULL THEN
+            RAISE EXCEPTION '    Destination node cannot be NULL';
+          END IF;
+          INSERT INTO LeisureTrip VALUES
+            (i, day, k, m, sourceNode, targetNode);
+          INSERT INTO Destinations(vehicle, source, target) VALUES
+            (i, sourceNode, targetNode) ON CONFLICT DO NOTHING;
+          sourceNode = targetNode;
+        END LOOP;
+      END IF;
+    END LOOP;
+    day = day + 1 * interval '1 day';
+  END LOOP;
+END LOOP;
+
+CREATE INDEX Destinations_vehicle_idx ON Destinations USING BTREE(vehicle);
+```
