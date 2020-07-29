@@ -2666,3 +2666,5 @@ CREATE UNIQUE INDEX Neighbourhood_pkey_idx ON Neighbourhood USING BTREE(vehicle,
 UPDATE Vehicle V
 SET noNeighbours = (SELECT COUNT(*) FROM Neighbourhood N WHERE N.vehicle = V.id);
 ```
+
+We start by storing in the `Vehicles` table the *home* and the *work* node of each vehicle. Depending on the value of the variable `nodeChoice`, we chose these nodes either with a *uniform distribution among all nodes in the network or we call specific functions that take into account population and employment statistics in the area covered by the generation.* We then keep track in the `Destinations` table of the *two trips to and from work* and we store in the `Licences` table information describing the vehicle. Finally, we compute in the `Neighbourhood` table the set of nodes that are within a given distance of the home node of every vehicle. This distance is stated by the parameter `P_NEIGHBOURHOOD_RADIUS`, which is set by default to 3 Km.
