@@ -2767,3 +2767,6 @@ CREATE INDEX Destinations_vehicle_idx ON Destinations USING BTREE(vehicle);
 ```
 
 For each vehicle and *each day*, we determine the number of potential leisure trips depending on whether it is a week or weekend day. A leisure trip is generated with a *probability of 40%* and is composed of 1 to 3 destinations. These destinations are chosen so that *80% of the destinations are from the neighbourhood of the vehicle and 20% are from the complete graph*. The information about the composition of the leisure trips is then added to the LeisureTrip and Destinations tables.
+
+We then call pgRouting to generate the path for each source and destination nodes in the Destinations table.
+
