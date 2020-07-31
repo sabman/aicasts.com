@@ -2711,8 +2711,15 @@ FROM Instants;
 We generate now the leisure trips. There is at most one leisure trip in the evening of a week day and at most two leisure trips each day of the weekend, one in the morning and another one in the afternoon. Each leisure trip is composed of 1 to 3 destinations. The leisure trip starts and ends at the home node and visits successively these destinations. In our implementation, the various subtrips from a source to a destination node of a leisure trip are encoded independently, contrary to what is done in Secondo where a leisure trip is encoded as a single trip and stops are added between successive destinations.
 
 ```sql
-CREATE TABLE LeisureTrip(vehicle int, day date, tripNo int, seq int, source bigint,
-  target bigint, PRIMARY KEY (vehicle, day, tripNo, seq));
+CREATE TABLE LeisureTrip(
+  vehicle int,
+  day date,
+  tripNo int,
+  seq int,
+  source bigint,
+  target bigint,
+  PRIMARY KEY (vehicle, day, tripNo, seq)
+);
 -- Loop for every vehicle
 FOR i IN 1..noVehicles LOOP
   -- Get home node and number of neighbour nodes
@@ -2829,8 +2836,8 @@ DROP TYPE IF EXISTS step CASCADE;
 CREATE TYPE step as (linestring geometry, maxspeed float, category int);
 
 CREATE FUNCTION berlinmod_createTrips(
-  noVehicles int, 
-  noDays int, 
+  noVehicles int,
+  noDays int,
   startDay date,
   disturbData boolean
 )
@@ -2840,25 +2847,29 @@ DECLARE
 BEGIN
   DROP TABLE IF EXISTS Trips;
   CREATE TABLE Trips(
-    vehicle int, 
-    day date, 
-    seq int, 
-    source bigint, 
+    vehicle int,
+    day date,
+    seq int,
+    source bigint,
     target bigint,
-    trip tgeompoint, 
-    trajectory geometry, 
+    trip tgeompoint,
+    trajectory geometry,
     PRIMARY KEY (vehicle, day, seq)
   );
   -- Loop for each vehicle
   FOR i IN 1..noVehicles LOOP
     -- Get home -> work and work -> home paths
     SELECT home, work INTO homeNode, workNode
-    FROM Vehicle V WHERE V.id = i;
+      FROM Vehicle V WHERE V.id = i;
+
     SELECT array_agg((geom, speed, category)::step ORDER BY seq) INTO homework
-    FROM Paths WHERE vehicle = i AND start_vid = homeNode AND end_vid = workNode;
+      FROM Paths WHERE vehicle = i AND start_vid = homeNode AND end_vid = workNode;
+
     SELECT array_agg((geom, speed, category)::step ORDER BY seq) INTO workhome
-    FROM Paths WHERE vehicle = i AND start_vid = workNode AND end_vid = homeNode;
+      FROM Paths WHERE vehicle = i AND start_vid = workNode AND end_vid = homeNode;
+
     d = startDay;
+
     -- Loop for each generation day
     FOR j IN 1..noDays LOOP
       weekday = date_part('dow', d);
