@@ -36,11 +36,11 @@ instant set, and sequence set.
 ```sql
 -- Do the operands ever intersect?
 SELECT tintersects(tgeompointseq '[Point(0 1),@2001-01-01, Point(3 1)@2001-01-04)',
-  geometry 'Polygon((1 0,1 2,2 2,2 0,1 0))')) &= true;
+	geometry 'Polygon((1 0,1 2,2 2,2 0,1 0))')) &= true;
 
 -- Does the operands always intersect?
 SELECT tintersects(tgeompointseq '[Point(0 1)@2001-01-01, Point(3 1)@2001-01-04)',
-  geometry 'Polygon((0 0,0 2,4 2,4 0,0 0))') @= true;
+	geometry 'Polygon((0 0,0 2,4 2,4 0,0 0))') @= true;
 -- true
 ```
 
@@ -83,12 +83,12 @@ ORDER BY R.RegionId, T.CarId;
 
 ```sql
 SELECT intersects(geometry 'Polygon((0 0,0 1,1 1,1 0,0 0))',
-  tgeompoint '[Point(0 1)@2012-01-01, Point(1 1)@2012-01-03)');
+	tgeompoint '[Point(0 1)@2012-01-01, Point(1 1)@2012-01-03)');
 ```
 
 ```
 SELECT ST_Intersects(geometry 'Polygon((0 0,0 1,1 1,1 0,0 0))',
-  geometry 'Linestring(0 1,1 1)');
+	geometry 'Linestring(0 1,1 1)');
 ```
 
 ## Range Queries
@@ -113,7 +113,7 @@ This is a spatial range query. The query verifies that the trajectory of the car
 SELECT R.RegionId, P.PeriodId, T.CarId
 FROM Trips T, Regions R, Periods P
 WHERE T.Trip && stbox(R.Geom, P.Period) AND
-  _intersects(atPeriod(T.Trip, P.Period), R.Geom)
+	_intersects(atPeriod(T.Trip, P.Period), R.Geom)
 ORDER BY R.RegionId, P.PeriodId, T.CarId;
 ```
 
@@ -125,9 +125,9 @@ This is a spatio-temporal range query. The query performs a bounding box compari
 SELECT DISTINCT T1.CarId AS CarId1, T2.CarId AS CarId2, R.RegionId, P.PeriodId
 FROM Trips T1, Trips T2, Regions R, Periods P
 WHERE T1.CarId < T2.CarId AND T1.Trip && stbox(R.Geom, P.Period) AND
-  T2.Trip && stbox(R.Geom, P.Period) AND
-  _intersects(atPeriod(T1.Trip, P.Period), R.Geom) AND
-  _intersects(atPeriod(T2.Trip, P.Period), R.Geom)
+	T2.Trip && stbox(R.Geom, P.Period) AND
+	_intersects(atPeriod(T1.Trip, P.Period), R.Geom) AND
+	_intersects(atPeriod(T2.Trip, P.Period), R.Geom)
 ORDER BY T1.CarId, T2.CarId, R.RegionId, P.PeriodId;
 ```
 
@@ -165,9 +165,9 @@ ORDER BY R.RegionID;
 
 ```sql
 WITH TimeSplit(Period) AS (
-  SELECT period(H, H + interval ’1 hour’)
-  FROM generate_series(timestamptz ’2007-05-29 00:00:00’,
-    timestamptz ’2007-05-29 23:00:00’, interval ’1 hour’) AS H )
+	SELECT period(H, H + interval ’1 hour’)
+	FROM generate_series(timestamptz ’2007-05-29 00:00:00’,
+		timestamptz ’2007-05-29 23:00:00’, interval ’1 hour’) AS H )
 SELECT Period, COUNT(*)
 FROM TimeSplit S, Trips T
 WHERE S.Period && T.Trip AND atPeriod(Trip, Period) IS NOT NULL
@@ -179,7 +179,7 @@ ORDER BY S.Period;
 
 ```sql
 SELECT T.CarId, P.PeriodId, P.Period,
-  SUM(length(atPeriod(T.Trip, P.Period))) AS Distance
+	SUM(length(atPeriod(T.Trip, P.Period))) AS Distance
 FROM Trips T, Periods P
 WHERE T.Trip && P.Period
 GROUP BY T.CarId, P.PeriodId, P.Period
@@ -205,9 +205,9 @@ ORDER BY T.CarId, P.PointId;
 
 ```sql
 SELECT
-  T1.CarId AS Car1Id,
-  T2.CarId AS Car2Id,
-  MIN(T1.Trip <-> T2.Trip) AS MinDistance
+	T1.CarId AS Car1Id,
+	T2.CarId AS Car2Id,
+	MIN(T1.Trip <-> T2.Trip) AS MinDistance
 FROM Trips T1, Trips T
 WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
 GROUP BY T1.CarId, T2.CarId
@@ -220,9 +220,9 @@ The query selects two trips T1 and T2 from distinct cars that were both travelin
 
  ```sql
  SELECT T1.CarId AS Car1Id, T1.TripId AS Trip1Id, T2.CarId AS Car2Id,
-  T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
-  NearestApproachDistance(T1.Trip, T2.Trip) AS Distance,
-  ShortestLine(T1.Trip, T2.Trip) AS Line
+	T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
+	NearestApproachDistance(T1.Trip, T2.Trip) AS Distance,
+	ShortestLine(T1.Trip, T2.Trip) AS Line
 FROM Trips1 T1, Trips1 T
 WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
 ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
@@ -234,11 +234,11 @@ This query shows similar functionality as that provided by the PostGIS functions
 
 ```sql
 SELECT T1.CarId AS CarId1, T2.CarId AS CarId2, atPeriodSet(T1.Trip,
-  period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) AS Position
+	period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) AS Position
 FROM Trips T1, Trips T
 WHERE T1.CarId < T2.CarId AND T1.Trip && expandSpatial(T2.Trip, 10) AND
-  atPeriodSet(T1.Trip, period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE)))
-  IS NOT NULL
+	atPeriodSet(T1.Trip, period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE)))
+	IS NOT NULL
 ORDER BY T1.CarId, T2.CarId, Position;
 ```
 
@@ -252,12 +252,12 @@ The query performs for each pair of trips T1 and T2 of distinct cars a bounding 
 
 ```sql
 WITH TripsTraj AS (
-  SELECT *, trajectory(Trip) AS Trajectory FROM Trips )
+	SELECT *, trajectory(Trip) AS Trajectory FROM Trips )
 SELECT T.CarId, P1.PointId, P1.Distance
 FROM TripsTraj T CROSS JOIN LATERAL (
-  SELECT P.PointId, T.Trajectory <-> P.Geom AS Distance
-  FROM Points P
-  ORDER BY Distance LIMIT 3
+	SELECT P.PointId, T.Trajectory <-> P.Geom AS Distance
+	FROM Points P
+	ORDER BY Distance LIMIT 3
 ) AS P1
 ORDER BY T.TripId, T.CarId, P1.Distance;
 ```
@@ -281,13 +281,13 @@ ORDER BY T1.CarId, C2.CarId;
 
 ```sql
 WITH TripsTraj AS (
-  SELECT *, trajectory(Trip) AS Trajectory FROM Trips ),
+	SELECT *, trajectory(Trip) AS Trajectory FROM Trips ),
 PointTrips AS (
-  SELECT P.PointId, T2.CarId, T2.TripId, T2.Distance
-  FROM Points P CROSS JOIN LATERAL (
-  SELECT T1.CarId, T1.TripId, P.Geom <-> T1.Trajectory AS Distance
-  FROM TripsTraj T
-  ORDER BY Distance LIMIT 3 ) AS T2 )
+	SELECT P.PointId, T2.CarId, T2.TripId, T2.Distance
+	FROM Points P CROSS JOIN LATERAL (
+	SELECT T1.CarId, T1.TripId, P.Geom <-> T1.Trajectory AS Distance
+	FROM TripsTraj T
+	ORDER BY Distance LIMIT 3 ) AS T2 )
 SELECT T.CarId, T.TripId, P.PointId, PT.Distance
 FROM Trips T CROSS JOIN Points P JOIN PointTrips PT
 ON T.CarId = PT.CarId AND T.TripId = PT.TripId AND P.PointId = PT.PointId
@@ -300,17 +300,17 @@ This is a reverse nearest-neighbor query with moving reference objects and stati
 
 ```sql
 WITH TripDistances AS (
-  SELECT T1.CarId AS CarId1, T1.TripId AS TripId1, T3.CarId AS CarId2,
-    T3.TripId AS TripId2, T3.Distance
-  FROM Trips T1 CROSS JOIN LATERAL (
-  SELECT T2.CarId, T2.TripId, minValue(T1.Trip <-> T2.Trip) AS Distance
-  FROM Trips T
-  WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
-  ORDER BY Distance LIMIT 3 ) AS T3 )
+	SELECT T1.CarId AS CarId1, T1.TripId AS TripId1, T3.CarId AS CarId2,
+		T3.TripId AS TripId2, T3.Distance
+	FROM Trips T1 CROSS JOIN LATERAL (
+	SELECT T2.CarId, T2.TripId, minValue(T1.Trip <-> T2.Trip) AS Distance
+	FROM Trips T
+	WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
+	ORDER BY Distance LIMIT 3 ) AS T3 )
 SELECT T1.CarId, T1.TripId, T2.CarId, T2.TripId, TD.Distance
 FROM Trips T1 JOIN Trips T2 ON T1.CarId < T2.CarId
-  JOIN TripDistances TD ON T1.CarId = TD.CarId1 AND T1.TripId = TD.TripId1 AND
-  T2.CarId = TD.CarId2 AND T2.TripId = TD.TripId
+	JOIN TripDistances TD ON T1.CarId = TD.CarId1 AND T1.TripId = TD.TripId1 AND
+	T2.CarId = TD.CarId2 AND T2.TripId = TD.TripId
 ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
 ```
 This is a reverse nearest-neighbor query where both the reference and the candidate objects are moving. The query starts by computing the corresponding nearest-neighbor query in the temporary table TripDistances as it is done in Query 14. Then, in the main query it verifies for each pair of trips T1 and T2 that both belong to the TripDistances table.
@@ -358,19 +358,19 @@ By using `CASCADE` we load the required "PostGIS" extension prior to loading Mob
 
 ```sql
 CREATE TABLE Cars (
-  CarId integer PRIMARY KEY,
-  Licence varchar(32),
-  Type varchar(32),
-  Model varchar(32)
+	CarId integer PRIMARY KEY,
+	Licence varchar(32),
+	Type varchar(32),
+	Model varchar(32)
 )
 ```
 
 ```sql
 CREATE TABLE Cars (
-  CarId integer NOT NULL UNIQUE,
-  Licence varchar(32),
-  Type varchar(32),
-  Model varchar(32)
+	CarId integer NOT NULL UNIQUE,
+	Licence varchar(32),
+	Type varchar(32),
+	Model varchar(32)
 )
 
 Alter table cars ADD UNIQUE(carid);
@@ -383,12 +383,12 @@ Alter table cars ALTER COLUMN carid SET NOT NULL;
 
 ```sql
 CREATE TABLE TripsInput (
-  CarId integer REFERENCES Cars,
-  TripId integer,
-  Lon float,
-  Lat float,
-  T timestamptz,
-  PRIMARY KEY (CarId, TripId, T)
+	CarId integer REFERENCES Cars,
+	TripId integer,
+	Lon float,
+	Lat float,
+	T timestamptz,
+	PRIMARY KEY (CarId, TripId, T)
 );
 
 ALTER TABLE tripsinput ADD COLUMN carid INTEGER;
@@ -400,12 +400,12 @@ Alter TABLE tripsinput ADD CONSTRAINT fkcars FOREIGN KEY (carid) REFERENCES cars
 
 ```bash
 https://localhost.lan/user/rasul/api/v2/sql?q=CREATE TABLE TripsInput (
-  CarId integer REFERENCES Cars,
-  TripId integer,
-  Lon float,
-  Lat float,
-  T timestamptz,
-  PRIMARY KEY (CarId, TripId, T)
+	CarId integer REFERENCES Cars,
+	TripId integer,
+	Lon float,
+	Lat float,
+	T timestamptz,
+	PRIMARY KEY (CarId, TripId, T)
 )&api_key=b5ea4fd859ec55a4ff965bb1a2b382487130967c
 ```
 
@@ -416,8 +416,8 @@ https://localhost.lan/user/rasul/api/v2/sql?q=CREATE TABLE TripsInput (
 
 ```sql
 CREATE TABLE Instants (
-  InstantId integer PRIMARY KEY,
-  Instant timestamptz
+	InstantId integer PRIMARY KEY,
+	Instant timestamptz
 );
 
 SELECT cdb_cartodbfytable('rasul','TripsInput')
@@ -427,20 +427,20 @@ ALTER TABLE instants ADD COLUMN instantid INTEGER UNIQUE NOT NULL
 -- ----------
 
 CREATE TABLE Periods (
-  PeriodId integer PRIMARY KEY,
-  Tstart TimestampTz,
-  Tend TimestampTz,
-  Period period
+	PeriodId integer PRIMARY KEY,
+	Tstart TimestampTz,
+	Tend TimestampTz,
+	Period period
 );
 
 SELECT cdb_cartodbfytable('rasul','Periods')
 ALTER TABLE periods ADD COLUMN periodid INTEGER UNIQUE NOT NULL
 
 CREATE TABLE Points (
-  PointId integer PRIMARY KEY,
-  PosX double precision,
-  PosY double precision,
-  Geom Geometry(Point)
+	PointId integer PRIMARY KEY,
+	PosX double precision,
+	PosY double precision,
+	Geom Geometry(Point)
 );
 
 ALTER TABLE points ADD COLUMN pointid INTEGER UNIQUE NOT NULL
@@ -449,13 +449,13 @@ SELECT cdb_cartodbfytable('rasul','Points')
 
 CREATE TABLE RegionsInput
 (
-  RegionId integer,
-  SegNo integer,
-  XStart double precision,
-  YStart double precision,
-  XEnd double precision,
-  YEnd double precision,
-  PRIMARY KEY (RegionId, SegNo)
+	RegionId integer,
+	SegNo integer,
+	XStart double precision,
+	YStart double precision,
+	XEnd double precision,
+	YEnd double precision,
+	PRIMARY KEY (RegionId, SegNo)
 );
 
 SELECT cdb_cartodbfytable('rasul','RegionsInput')
@@ -464,8 +464,8 @@ Alter TABLE regionsinput ADD COLUMN regionid int
 Alter TABLE regionsinput ADD UNIQUE (regionid, segno)
 
 CREATE TABLE Regions (
-  RegionId integer PRIMARY KEY,
-  Geom Geometry(Polygon)
+	RegionId integer PRIMARY KEY,
+	Geom Geometry(Polygon)
 )
 
 Alter TABLE regions ADD COLUMN regionid integer UNIQUE NOT NULL
@@ -476,11 +476,11 @@ SELECT cdb_cartodbfytable('rasul','Regions')
 ```sql
 CREATE TABLE Trips
 (
-  CarId integer NOT NULL,
-  TripId integer NOT NULL,
-  Trip tgeompoint,
-  PRIMARY KEY (CarId, TripId),
-  FOREIGN KEY (CarId) REFERENCES Cars (CarId)
+	CarId integer NOT NULL,
+	TripId integer NOT NULL,
+	Trip tgeompoint,
+	PRIMARY KEY (CarId, TripId),
+	FOREIGN KEY (CarId) REFERENCES Cars (CarId)
 );
 
 SELECT cdb_cartodbfytable('rasul','Trips')
@@ -497,24 +497,24 @@ Loading the data is as follows:
 
 ```sql
 COPY Cars(CarId, Licence, Type, Model) FROM ’/home/mobilitydb/data/datamcar.csv’
-  DELIMITER  ’,’ CSV HEADER;
+	DELIMITER  ’,’ CSV HEADER;
 COPY TripsInput(CarId, TripId, Lon, Lat, T) FROM ’/home/mobilitydb/data/trips.csv’
-  DELIMITER  ’,’ CSV HEADER;
+	DELIMITER  ’,’ CSV HEADER;
 COPY Instants(InstantId, Instant) FROM ’/home/mobilitydb/data/queryinstants.csv’
-  DELIMITER  ’,’ CSV HEADER;
+	DELIMITER  ’,’ CSV HEADER;
 COPY Periods(PeriodId, Tstart, Tend) FROM ’/home/mobilitydb/data/queryperiods.csv’
-  DELIMITER  ’,’ CSV HEADER;
+	DELIMITER  ’,’ CSV HEADER;
 UPDATE Periods
 SET Period = period(Tstart, Tend);
 ```
 
 ```sql
 COPY Points(PointId, PosX, PosY) FROM ’/home/mobilitydb/data/querypoints.csv’
-  DELIMITER  ’,’ CSV HEADER;
+	DELIMITER  ’,’ CSV HEADER;
 UPDATE Points
 SET Geom = ST_Transform(ST_SetSRID(ST_MakePoint(PosX, PosY), 4326), 5676);
 COPY RegionsInput(RegionId, SegNo, XStart, YStart, XEnd, YEnd) FROM
-  ’/home/mobilitydb/data/queryregions.csv’ DELIMITER  ’,’ CSV HEADER;
+	’/home/mobilitydb/data/queryregions.csv’ DELIMITER  ’,’ CSV HEADER;
 ```
 
 ```sql
@@ -533,10 +533,10 @@ The following query is used to load table Regions from the data in table Regions
 INSERT INTO Regions (RegionId, Geom)
 WITH RegionsSegs AS
 (
-  SELECT RegionId, SegNo,
-    ST_Transform(ST_SetSRID(St_MakeLine(ST_MakePoint(XStart, YStart),
-    ST_MakePoint(XEnd, YEnd)), 4326), 5676) AS Geom
-  FROM RegionsInput
+	SELECT RegionId, SegNo,
+		ST_Transform(ST_SetSRID(St_MakeLine(ST_MakePoint(XStart, YStart),
+		ST_MakePoint(XEnd, YEnd)), 4326), 5676) AS Geom
+	FROM RegionsInput
 )
 SELECT RegionId, ST_Polygon(ST_LineMerge(ST_Union(Geom ORDER BY SegNo)), 5676) AS Geom
 FROM RegionsSegs
@@ -547,16 +547,16 @@ INSERT INTO regions (regionid, geom, the_geom)
 
 with regionssegs as
 (
-  select regionid, segno,
-    st_transform(st_setsrid(st_makeline(st_makepoint(xstart, ystart),
-    st_makepoint(xend, yend)), 4326), 5676) as geom,
-    st_setsrid(st_makeline(st_makepoint(xstart, ystart),
-    st_makepoint(xend, yend)), 4326) as the_geom
-  from regionsinput
+	select regionid, segno,
+		st_transform(st_setsrid(st_makeline(st_makepoint(xstart, ystart),
+		st_makepoint(xend, yend)), 4326), 5676) as geom,
+		st_setsrid(st_makeline(st_makepoint(xstart, ystart),
+		st_makepoint(xend, yend)), 4326) as the_geom
+	from regionsinput
 )
 select regionid,
-    st_polygon(st_linemerge(st_union(geom order by segno)), 5676) as geom,
-    st_polygon(st_linemerge(st_union(the_geom order by segno)), 4326) as the_geom
+		st_polygon(st_linemerge(st_union(geom order by segno)), 5676) as geom,
+		st_polygon(st_linemerge(st_union(the_geom order by segno)), 4326) as the_geom
 from regionssegs
 group by regionid
 ```
@@ -566,13 +566,13 @@ The following query is used to load table Trips from the data in table TripsInpu
 ```sql
 INSERT INTO Trips
 SELECT CarId, TripId, tgeompointseq(array_agg(tgeompointinst(
-  ST_Transform(ST_SetSRID(ST_MakePoint(Lon,Lat), 4326), 5676), T) ORDER BY T))
+	ST_Transform(ST_SetSRID(ST_MakePoint(Lon,Lat), 4326), 5676), T) ORDER BY T))
 FROM TripsInput
 GROUP BY CarId, TripId;
 
 insert into trips(carid,tripid,trip)
 select carid, tripid, tgeompointseq(array_agg(tgeompointinst(
-  st_transform(st_setsrid(st_makepoint(lon,lat), 4326), 5676), t) order by t)) trip
+	st_transform(st_setsrid(st_makepoint(lon,lat), 4326), 5676), t) order by t)) trip
 from tripsinput
 group by carid, tripid
 
@@ -635,38 +635,38 @@ PostgreSQL provides partitioning mechanisms so that large tables can be split in
 
 ```sql
 CREATE OR REPLACE FUNCTION create_partitions_by_date(TableName TEXT, StartDate DATE,
-  EndDate DATE)
+	EndDate DATE)
 RETURNS void AS $$
 DECLARE
-  d DATE;
-  PartitionName TEXT;
+	d DATE;
+	PartitionName TEXT;
 BEGIN
-  IF NOT EXISTS
-    (SELECT 1
-     FROM information_schema.tables
-     WHERE table_name = lower(TableName))
-  THEN
-    RAISE EXCEPTION 'Table % does not exist', TableName;
-  END IF;
-  IF StartDate >= EndDate THEN
-    RAISE EXCEPTION 'The start date % must be before the end date %', StartDate, EndDate;
-  END IF;
-  d = StartDate;
-  WHILE d <= EndDate
-  LOOP
-    PartitionName = TableName || '_' || to_char(d, 'YYYY_MM_DD');
-    IF NOT EXISTS
-      (SELECT 1
-       FROM information_schema.tables
-       WHERE  table_name = lower(PartitionName))
-    THEN
-      EXECUTE format('CREATE TABLE %s PARTITION OF %s FOR VALUES IN (''%s'');',
-        PartitionName, TableName, to_char(d, 'YYYY-MM-DD'));
-      RAISE NOTICE 'Partition % has been created', PartitionName;
-    END IF;
-    d = d + '1 day'::interval;
-  END LOOP;
-  RETURN;
+	IF NOT EXISTS
+		(SELECT 1
+		 FROM information_schema.tables
+		 WHERE table_name = lower(TableName))
+	THEN
+		RAISE EXCEPTION 'Table % does not exist', TableName;
+	END IF;
+	IF StartDate >= EndDate THEN
+		RAISE EXCEPTION 'The start date % must be before the end date %', StartDate, EndDate;
+	END IF;
+	d = StartDate;
+	WHILE d <= EndDate
+	LOOP
+		PartitionName = TableName || '_' || to_char(d, 'YYYY_MM_DD');
+		IF NOT EXISTS
+			(SELECT 1
+			 FROM information_schema.tables
+			 WHERE  table_name = lower(PartitionName))
+		THEN
+			EXECUTE format('CREATE TABLE %s PARTITION OF %s FOR VALUES IN (''%s'');',
+				PartitionName, TableName, to_char(d, 'YYYY-MM-DD'));
+			RAISE NOTICE 'Partition % has been created', PartitionName;
+		END IF;
+		d = d + '1 day'::interval;
+	END LOOP;
+	RETURN;
 END
 $$ LANGUAGE plpgsql;
 
@@ -680,7 +680,7 @@ ALTER TABLE TripsInput ADD COLUMN TripDate DATE;
 UPDATE TripsInput T1
 SET TripDate = T2.TripDate
 FROM (SELECT DISTINCT TripId, date_trunc('day', MIN(T) OVER (PARTITION BY TripId))
-  AS TripDate FROM TripsInput) T2
+	AS TripDate FROM TripsInput) T2
 WHERE T1.TripId = T2.TripId;
 ```
 
@@ -689,17 +689,17 @@ The following statements create table `Trips` partitioned by date and the associ
 ```sql
 CREATE TABLE Trips
 (
-  CarId integer NOT NULL,
-  TripId integer NOT NULL,
-  TripDate date,
-  Trip tgeompoint,
-  Traj geometry,
-  PRIMARY KEY (CarId, TripId, TripDate),
-  FOREIGN KEY (CarId) REFERENCES Cars (CarId)
+	CarId integer NOT NULL,
+	TripId integer NOT NULL,
+	TripDate date,
+	Trip tgeompoint,
+	Traj geometry,
+	PRIMARY KEY (CarId, TripId, TripDate),
+	FOREIGN KEY (CarId) REFERENCES Cars (CarId)
 ) PARTITION BY LIST(TripDate);
 
 SELECT create_partitions_by_date('Trips', (SELECT MIN(TripDate) FROM TripsInput),
-  (SELECT MAX(TripDate) FROM TripsInput));
+	(SELECT MAX(TripDate) FROM TripsInput));
 ```
 To see the partitions that have been created automatically we can use the following statement.
 
@@ -714,7 +714,7 @@ We modify the query that loads table Trips from the data in table TripsInput as 
 ```sql
 INSERT INTO Trips
 SELECT CarId, TripId, TripDate, tgeompointseq(array_agg(tgeompointinst(
-  ST_Transform(ST_SetSRID(ST_MakePoint(Lon,Lat), 4326), 5676), T) ORDER BY T))
+	ST_Transform(ST_SetSRID(ST_MakePoint(Lon,Lat), 4326), 5676), T) ORDER BY T))
 FROM TripsInput
 GROUP BY CarId, TripId, TripDate;
 ```
@@ -771,7 +771,7 @@ We can also determine the spatiotemporal extent of the data using the following 
 ```sql
 SELECT extent(Trip) from Trips
 -- "STBOX T((2983189.5, 5831006.5,2007-05-27 00:00:00+02),
-  (3021179.8, 5860883,2007-05-31 00:00:00+02))"
+	(3021179.8, 5860883,2007-05-31 00:00:00+02))"
 ```
 
 ## Figure 8.2. Visualization of the trajectories of the trips in QGIS.
@@ -820,21 +820,21 @@ The following query produces a histogram of trip length.
 
 ```sql
 WITH buckets (bucketNo, bucketRange) AS (
-  SELECT 1, floatrange '[0, 0]' UNION
-  SELECT 2, floatrange '(0, 100)' UNION
-  SELECT 3, floatrange '[100, 1000)' UNION
-  SELECT 4, floatrange '[1000, 5000)' UNION
-  SELECT 5, floatrange '[5000, 10000)' UNION
-  SELECT 6, floatrange '[10000, 50000)' UNION
-  SELECT 7, floatrange '[50000, 100000)' ),
+	SELECT 1, floatrange '[0, 0]' UNION
+	SELECT 2, floatrange '(0, 100)' UNION
+	SELECT 3, floatrange '[100, 1000)' UNION
+	SELECT 4, floatrange '[1000, 5000)' UNION
+	SELECT 5, floatrange '[5000, 10000)' UNION
+	SELECT 6, floatrange '[10000, 50000)' UNION
+	SELECT 7, floatrange '[50000, 100000)' ),
 histogram AS (
-  SELECT bucketNo, bucketRange, count(TripId) as freq
-  FROM buckets left outer join trips on length(trip) <@ bucketRange
-  GROUP BY bucketNo, bucketRange
-  ORDER BY bucketNo, bucketRange
+	SELECT bucketNo, bucketRange, count(TripId) as freq
+	FROM buckets left outer join trips on length(trip) <@ bucketRange
+	GROUP BY bucketNo, bucketRange
+	ORDER BY bucketNo, bucketRange
 )
 SELECT bucketNo, bucketRange, freq,
-  repeat('■', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
+	repeat('■', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
 FROM histogram;
 
 ```
@@ -864,7 +864,7 @@ This is a spatial range query. The query verifies that the trajectory of the car
 SELECT R.RegionId, P.PeriodId, T.CarId
 FROM Trips T, Regions R, Periods P
 WHERE T.Trip && stbox(R.Geom, P.Period) AND -- bbox
-  _intersects(atPeriod(T.Trip, P.Period), R.Geom) -- location and time interesect
+	_intersects(atPeriod(T.Trip, P.Period), R.Geom) -- location and time interesect
 ORDER BY R.RegionId, P.PeriodId, T.CarId;
 ```
 
@@ -876,9 +876,9 @@ This is a spatio-temporal range query. The query performs a bounding box compari
 SELECT DISTINCT T1.CarId AS CarId1, T2.CarId AS CarId2, R.RegionId, P.PeriodId
 FROM Trips T1, Trips T2, Regions R, Periods P
 WHERE T1.CarId < T2.CarId AND T1.Trip && stbox(R.Geom, P.Period) AND
-  T2.Trip && stbox(R.Geom, P.Period) AND
-  _intersects(atPeriod(T1.Trip, P.Period), R.Geom) AND
-  _intersects(atPeriod(T2.Trip, P.Period), R.Geom)
+	T2.Trip && stbox(R.Geom, P.Period) AND
+	_intersects(atPeriod(T1.Trip, P.Period), R.Geom) AND
+	_intersects(atPeriod(T2.Trip, P.Period), R.Geom)
 ORDER BY T1.CarId, T2.CarId, R.RegionId, P.PeriodId;
 
 ```
@@ -891,11 +891,11 @@ This is a **spatio-temporal range join query**. The query selects two trips of d
 ```sql
 
 SELECT
-  T.CarId,
-  P.PointId,
-  MIN(
-    startTimestamp( -- startTimestamp: get the first `timestamp` of the projected trip
-      atValue(T.Trip,P.Geom))) AS Instant -- atValue function projects the trip
+	T.CarId,
+	P.PointId,
+	MIN(
+		startTimestamp( -- startTimestamp: get the first `timestamp` of the projected trip
+			atValue(T.Trip,P.Geom))) AS Instant -- atValue function projects the trip
 FROM Trips T, Points P
 -- verifies that the car passed by the point
 WHERE ST_Contains(trajectory(T.Trip), P.Geom) -- testing that the trajectory contains the point
@@ -943,9 +943,9 @@ This is a window temporal aggregate query. Suppose that we are computing polluti
 
 ```sql
 WITH TimeSplit(Period) AS (
-  SELECT period(H, H + interval '1 hour')
-  FROM generate_series(timestamptz '2007-05-29 00:00:00',
-    timestamptz '2007-05-29 23:00:00', interval '1 hour') AS H )
+	SELECT period(H, H + interval '1 hour')
+	FROM generate_series(timestamptz '2007-05-29 00:00:00',
+		timestamptz '2007-05-29 23:00:00', interval '1 hour') AS H )
 SELECT Period, COUNT(*)
 FROM TimeSplit S, Trips T
 WHERE S.Period && T.Trip AND atPeriod(Trip, Period) IS NOT NULL
@@ -964,9 +964,9 @@ The queries in this category deal with either the distance travelled by a single
 
 ```sql
 SELECT T.CarId, P.PeriodId, P.Period,
-  SUM(
-    length(atPeriod(T.Trip, P.Period)) -- length of projected trip
-  ) AS Distance
+	SUM(
+		length(atPeriod(T.Trip, P.Period)) -- length of projected trip
+	) AS Distance
 FROM Trips T, Periods P
 WHERE T.Trip && P.Period -- && bounding box commparison uses spatio-temporal index
 GROUP BY T.CarId, P.PeriodId, P.Period
@@ -1004,9 +1004,9 @@ The query selects two trips `T1` and `T2` from distinct cars that were both trav
 
 ```sql
 SELECT T1.CarId AS Car1Id, T1.TripId AS Trip1Id, T2.CarId AS Car2Id,
-  T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
-  NearestApproachDistance(T1.Trip, T2.Trip) AS Distance,
-  ShortestLine(T1.Trip, T2.Trip) AS Line
+	T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
+	NearestApproachDistance(T1.Trip, T2.Trip) AS Distance,
+	ShortestLine(T1.Trip, T2.Trip) AS Line
 FROM Trips1 T1, Trips1 T
 WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
 ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
@@ -1019,11 +1019,11 @@ This query shows similar functionality as that provided by the PostGIS functions
 
 ```sql
 SELECT T1.CarId AS CarId1, T2.CarId AS CarId2, atPeriodSet(T1.Trip,
-  period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) AS Position
+	period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) AS Position
 FROM Trips T1, Trips T
 WHERE T1.CarId < T2.CarId AND T1.Trip && expandSpatial(T2.Trip, 10) AND
-  atPeriodSet(T1.Trip, period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE)))
-  IS NOT NULL
+	atPeriodSet(T1.Trip, period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE)))
+	IS NOT NULL
 ORDER BY T1.CarId, T2.CarId, Position;
 ```
 
@@ -1045,7 +1045,7 @@ The above types of queries are generalized to temporal points. However, the comp
 
 ```sql
 WITH TripsTraj AS (
-  SELECT *, trajectory(Trip) AS Trajectory FROM Trips )
+	SELECT *, trajectory(Trip) AS Trajectory FROM Trips )
 SELECT T.CarId, P1.PointId, P1.Distance
 FROM TripsTraj T CROSS JOIN LATERAL (
 SELECT P.PointId, T.Trajectory <-> P.Geom AS Distance
@@ -1077,13 +1077,13 @@ TThis is a nearest-neighbor query where both the reference and the candidate obj
 
 ```sql
 WITH TripsTraj AS (
-  SELECT *, trajectory(Trip) AS Trajectory FROM Trips ),
+	SELECT *, trajectory(Trip) AS Trajectory FROM Trips ),
 PointTrips AS (
-  SELECT P.PointId, T2.CarId, T2.TripId, T2.Distance
-  FROM Points P CROSS JOIN LATERAL (
-  SELECT T1.CarId, T1.TripId, P.Geom <-> T1.Trajectory AS Distance
-  FROM TripsTraj T
-  ORDER BY Distance LIMIT 3 ) AS T2 )
+	SELECT P.PointId, T2.CarId, T2.TripId, T2.Distance
+	FROM Points P CROSS JOIN LATERAL (
+	SELECT T1.CarId, T1.TripId, P.Geom <-> T1.Trajectory AS Distance
+	FROM TripsTraj T
+	ORDER BY Distance LIMIT 3 ) AS T2 )
 SELECT T.CarId, T.TripId, P.PointId, PT.Distance
 FROM Trips T CROSS JOIN Points P JOIN PointTrips PT
 ON T.CarId = PT.CarId AND T.TripId = PT.TripId AND P.PointId = PT.PointId
@@ -1097,17 +1097,17 @@ This is a reverse nearest-neighbor query with moving reference objects and stati
 
 ```sql
 WITH TripDistances AS (
-  SELECT T1.CarId AS CarId1, T1.TripId AS TripId1, T3.CarId AS CarId2,
-    T3.TripId AS TripId2, T3.Distance
-  FROM Trips T1 CROSS JOIN LATERAL (
-  SELECT T2.CarId, T2.TripId, minValue(T1.Trip <-> T2.Trip) AS Distance
-  FROM Trips T
-  WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
-  ORDER BY Distance LIMIT 3 ) AS T3 )
+	SELECT T1.CarId AS CarId1, T1.TripId AS TripId1, T3.CarId AS CarId2,
+		T3.TripId AS TripId2, T3.Distance
+	FROM Trips T1 CROSS JOIN LATERAL (
+	SELECT T2.CarId, T2.TripId, minValue(T1.Trip <-> T2.Trip) AS Distance
+	FROM Trips T
+	WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
+	ORDER BY Distance LIMIT 3 ) AS T3 )
 SELECT T1.CarId, T1.TripId, T2.CarId, T2.TripId, TD.Distance
 FROM Trips T1 JOIN Trips T2 ON T1.CarId < T2.CarId
-  JOIN TripDistances TD ON T1.CarId = TD.CarId1 AND T1.TripId = TD.TripId1 AND
-  T2.CarId = TD.CarId2 AND T2.TripId = TD.TripId
+	JOIN TripDistances TD ON T1.CarId = TD.CarId1 AND T1.TripId = TD.TripId1 AND
+	T2.CarId = TD.CarId2 AND T2.TripId = TD.TripId
 ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
 ```
 
@@ -1118,21 +1118,21 @@ This is a reverse nearest-neighbor query where both the reference and the candid
 
 ```sql
 WITH Groups AS (
-  SELECT ((ROW_NUMBER() OVER (ORDER BY C.CarId))-1)/10 + 1 AS GroupId, C.CarId
-  FROM Cars C ),
+	SELECT ((ROW_NUMBER() OVER (ORDER BY C.CarId))-1)/10 + 1 AS GroupId, C.CarId
+	FROM Cars C ),
 SumDistances AS (
-  SELECT G.GroupId, P.PointId,
-    SUM(ST_Distance(trajectory(T.Trip), P.Geom)) AS SumDist
-  FROM Groups G, Points P, Trips T
-  WHERE T.CarId = G.CarId
-  GROUP BY G.GroupId, P.PointId )
+	SELECT G.GroupId, P.PointId,
+		SUM(ST_Distance(trajectory(T.Trip), P.Geom)) AS SumDist
+	FROM Groups G, Points P, Trips T
+	WHERE T.CarId = G.CarId
+	GROUP BY G.GroupId, P.PointId )
 SELECT S1.GroupId, S1.PointId, S1.SumDist
 FROM SumDistances S
 WHERE S1.SumDist <= ALL (
-  SELECT SumDist
-  FROM SumDistances S
-  WHERE S1.GroupId = S2.GroupId )
-  ORDER BY S1.GroupId, S1.PointId;
+	SELECT SumDist
+	FROM SumDistances S
+	WHERE S1.GroupId = S2.GroupId )
+	ORDER BY S1.GroupId, S1.PointId;
 ```
 
 This is an aggregate nearest-neighbor query. The temporary table `Groups` splits the cars in groups where the `GroupId` column takes the values from 1 to total number of groups. The temporary table `SumDistances` computes for each group G and point P the sum of the distances between a trip of a car in the group and the point. The main query then selects for each group in table `SumDistances` the points(s) that have the minimum aggregated distance.
@@ -1256,33 +1256,33 @@ This module uses the data of one day April 1st 2018. The CSV file size is 1.9 GB
 
 ```sql
 CREATE TABLE AISInput(
-  T  timestamp,
-  TypeOfMobile varchar(50),
-  MMSI integer,
-  Latitude float,
-  Longitude float,
-  navigationalStatus varchar(50),
-  ROT float,
-  SOG float,
-  COG float,
-  Heading integer,
-  IMO varchar(50),
-  Callsign varchar(50),
-  Name varchar(100),
-  ShipType varchar(50),
-  CargoType varchar(100),
-  Width float,
-  Length float,
-  TypeOfPositionFixingDevice varchar(50),
-  Draught float,
-  Destination varchar(50),
-  ETA varchar(50),
-  DataSourceType varchar(50),
-  SizeA float,
-  SizeB float,
-  SizeC float,
-  SizeD float,
-  Geom geometry(Point, 4326)
+	T  timestamp,
+	TypeOfMobile varchar(50),
+	MMSI integer,
+	Latitude float,
+	Longitude float,
+	navigationalStatus varchar(50),
+	ROT float,
+	SOG float,
+	COG float,
+	Heading integer,
+	IMO varchar(50),
+	Callsign varchar(50),
+	Name varchar(100),
+	ShipType varchar(50),
+	CargoType varchar(100),
+	Width float,
+	Length float,
+	TypeOfPositionFixingDevice varchar(50),
+	Draught float,
+	Destination varchar(50),
+	ETA varchar(50),
+	DataSourceType varchar(50),
+	SizeA float,
+	SizeB float,
+	SizeC float,
+	SizeD float,
+	Geom geometry(Point, 4326)
 );
 ```
 
@@ -1292,9 +1292,9 @@ For importing CSV data into a PostgreSQL database one can use the COPY command a
 
 ```sql
 COPY AISInput(T, TypeOfMobile, MMSI, Latitude, Longitude, NavigationalStatus,
-  ROT, SOG, COG, Heading, IMO, CallSign, Name, ShipType, CargoType, Width, Length,
-  TypeOfPositionFixingDevice, Draught, Destination, ETA, DataSourceType,
-  SizeA, SizeB, SizeC, SizeD)
+	ROT, SOG, COG, Heading, IMO, CallSign, Name, ShipType, CargoType, Width, Length,
+	TypeOfPositionFixingDevice, Draught, Destination, ETA, DataSourceType,
+	SizeA, SizeB, SizeC, SizeD)
 FROM '/home/mobilitydb/DanishAIS/aisdk_20180401.csv' DELIMITER  ',' CSV HEADER;
 ```
 
@@ -1304,12 +1304,12 @@ We clean up some of the fields in the table and create spatial points with the f
 
 ```sql
 UPDATE AISInput SET
-  NavigationalStatus = CASE NavigationalStatus WHEN 'Unknown value' THEN NULL END,
-  IMO = CASE IMO WHEN 'Unknown' THEN NULL END,
-  ShipType = CASE ShipType WHEN 'Undefined' THEN NULL END,
-  TypeOfPositionFixingDevice = CASE TypeOfPositionFixingDevice
-    WHEN 'Undefined' THEN NULL END,
-  Geom = ST_SetSRID( ST_MakePoint( Longitude, Latitude ), 4326);
+	NavigationalStatus = CASE NavigationalStatus WHEN 'Unknown value' THEN NULL END,
+	IMO = CASE IMO WHEN 'Unknown' THEN NULL END,
+	ShipType = CASE ShipType WHEN 'Undefined' THEN NULL END,
+	TypeOfPositionFixingDevice = CASE TypeOfPositionFixingDevice
+		WHEN 'Undefined' THEN NULL END,
+	Geom = ST_SetSRID( ST_MakePoint( Longitude, Latitude ), 4326);
 ```
 
 This took about 5 minutes on my machine. Let's visualize the spatial points on QGIS.
@@ -1322,9 +1322,9 @@ Filter out the rows that have the same identifier (MMSI, T)
 
 ```sql
 CREATE TABLE AISInputFiltered AS
-  SELECT DISTINCT ON(MMSI,T) *
-  FROM AISInput
-  WHERE Longitude BETWEEN -16.1 and 32.88 AND Latitude BETWEEN 40.18 AND 84.17;
+	SELECT DISTINCT ON(MMSI,T) *
+	FROM AISInput
+	WHERE Longitude BETWEEN -16.1 and 32.88 AND Latitude BETWEEN 40.18 AND 84.17;
 -- Query returned successfully: 10357703 rows affected, 01:14 minutes execution time.
 SELECT COUNT(*) FROM AISInputFiltered;
 --10357703
@@ -1336,12 +1336,12 @@ Now we are ready to construct ship trajectories out of their individual observat
 
 ```sql
 CREATE TABLE Ships(MMSI, Trip, SOG, COG) AS
-  SELECT MMSI,
-    tgeompointseq(array_agg(tgeompointinst( ST_Transform(Geom, 25832), T) ORDER BY T)),
-    tfloatseq(array_agg(tfloatinst(SOG, T) ORDER BY T) FILTER (WHERE SOG IS NOT NULL)),
-    tfloatseq(array_agg(tfloatinst(COG, T) ORDER BY T) FILTER (WHERE COG IS NOT NULL))
-  FROM AISInputFiltered
-  GROUP BY MMSI;
+	SELECT MMSI,
+		tgeompointseq(array_agg(tgeompointinst( ST_Transform(Geom, 25832), T) ORDER BY T)),
+		tfloatseq(array_agg(tfloatinst(SOG, T) ORDER BY T) FILTER (WHERE SOG IS NOT NULL)),
+		tfloatseq(array_agg(tfloatinst(COG, T) ORDER BY T) FILTER (WHERE COG IS NOT NULL))
+	FROM AISInputFiltered
+	GROUP BY MMSI;
 -- Query returned successfully: 2995 rows affected, 01:16 minutes execution time.
 ```
 
@@ -1367,21 +1367,21 @@ This query uses the length function to compute per trip the sailing distance in 
 
 ```sql
 WITH buckets (bucketNo, RangeKM) AS (
-  SELECT 1, floatrange '[0, 0]' UNION
-  SELECT 2, floatrange '(0, 50)' UNION
-  SELECT 3, floatrange '[50, 100)' UNION
-  SELECT 4, floatrange '[100, 200)' UNION
-  SELECT 5, floatrange '[200, 500)' UNION
-  SELECT 6, floatrange '[500, 1500)' UNION
-  SELECT 7, floatrange '[1500, 10000)' ),
+	SELECT 1, floatrange '[0, 0]' UNION
+	SELECT 2, floatrange '(0, 50)' UNION
+	SELECT 3, floatrange '[50, 100)' UNION
+	SELECT 4, floatrange '[100, 200)' UNION
+	SELECT 5, floatrange '[200, 500)' UNION
+	SELECT 6, floatrange '[500, 1500)' UNION
+	SELECT 7, floatrange '[1500, 10000)' ),
 histogram AS (
-  SELECT bucketNo, RangeKM, count(MMSI) as freq
-  FROM buckets left outer join Ships on (length(Trip)/1000) <@ RangeKM
-  GROUP BY bucketNo, RangeKM
-  ORDER BY bucketNo, RangeKM
+	SELECT bucketNo, RangeKM, count(MMSI) as freq
+	FROM buckets left outer join Ships on (length(Trip)/1000) <@ RangeKM
+	GROUP BY bucketNo, RangeKM
+	ORDER BY bucketNo, RangeKM
 )
 SELECT bucketNo, RangeKM, freq,
-  repeat('▪', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
+	repeat('▪', ( freq::float / max(freq) OVER () * 30 )::int ) AS bar
 FROM histogram;
 --Total query runtime: 5.6 secs
 
@@ -1499,7 +1499,7 @@ EXPLAIN
 WITH Ports(Rodby, Puttgarden) AS
 (
  SELECT ST_MakeEnvelope(651135, 6058230, 651422, 6058548, 25832),
-  ST_MakeEnvelope(644339, 6042108, 644896, 6042487, 25832)
+	ST_MakeEnvelope(644339, 6042108, 644896, 6042487, 25832)
 )
 SELECT S.*, Rodby, Puttgarden
 FROM Ports P, Ships S
@@ -1521,11 +1521,11 @@ This query creates two envelope geometries that represent the locations of the t
 ```sql
 WITH Ports(Rodby, Puttgarden) AS
 (
-  SELECT ST_MakeEnvelope(651135, 6058230, 651422, 6058548, 25832),
-    ST_MakeEnvelope(644339, 6042108, 644896, 6042487, 25832)
+	SELECT ST_MakeEnvelope(651135, 6058230, 651422, 6058548, 25832),
+		ST_MakeEnvelope(644339, 6042108, 644896, 6042487, 25832)
 )
 SELECT MMSI, (numSequences(atGeometry(S.Trip, P.Rodby)) +
-  numSequences(atGeometry(S.Trip, P.Puttgarden)))/2.0 AS NumTrips
+	numSequences(atGeometry(S.Trip, P.Puttgarden)))/2.0 AS NumTrips
 FROM Ports P, Ships S
 WHERE intersects(S.Trip, P.Rodby) AND intersects(S.Trip, P.Puttgarden)
 --Total query runtime: 1.1 secs
@@ -1544,22 +1544,22 @@ With this high number of ferry trips, one wonders whether there are collision ri
 ```sql
 WITH B(Belt) AS
 (
-  SELECT ST_MakeEnvelope(640730, 6058230, 654100, 6042487, 25832)
+	SELECT ST_MakeEnvelope(640730, 6058230, 654100, 6042487, 25832)
 ), BeltShips AS (
-  SELECT MMSI, atGeometry(S.TripETRS, B.Belt) AS TripETRS,
-    trajectory(atGeometry(S.TripETRS, B.Belt)) AS Traj
-  FROM Ships S, B
-  WHERE intersects(S.TripETRS, B.Belt)
+	SELECT MMSI, atGeometry(S.TripETRS, B.Belt) AS TripETRS,
+		trajectory(atGeometry(S.TripETRS, B.Belt)) AS Traj
+	FROM Ships S, B
+	WHERE intersects(S.TripETRS, B.Belt)
 )
 SELECT S1.MMSI,
-       S2.MMSI,
-       S1.Traj,
-       S2.Traj,
-       shortestLine(S1.tripETRS, S2.tripETRS) Approach
+			 S2.MMSI,
+			 S1.Traj,
+			 S2.Traj,
+			 shortestLine(S1.tripETRS, S2.tripETRS) Approach
 FROM BeltShips S1,
-     BeltShips S2
+		 BeltShips S2
 WHERE S1.MMSI > S2.MMSI AND
-      dwithin(S1.tripETRS, S2.tripETRS, 300)
+			dwithin(S1.tripETRS, S2.tripETRS, 300)
 
 --Total query runtime: 28.5 secs
 --7 rows retrieved.
@@ -1631,39 +1631,39 @@ We create the tables to be loaded with the data in the CSV files as follows.
 
 ```sql
 CREATE TABLE agency (
-  agency_id text DEFAULT '',
-  agency_name text DEFAULT NULL,
-  agency_url text DEFAULT NULL,
-  agency_timezone text DEFAULT NULL,
-  agency_lang text DEFAULT NULL,
-  agency_phone text DEFAULT NULL,
-  CONSTRAINT agency_pkey PRIMARY KEY (agency_id)
+	agency_id text DEFAULT '',
+	agency_name text DEFAULT NULL,
+	agency_url text DEFAULT NULL,
+	agency_timezone text DEFAULT NULL,
+	agency_lang text DEFAULT NULL,
+	agency_phone text DEFAULT NULL,
+	CONSTRAINT agency_pkey PRIMARY KEY (agency_id)
 );
 
 CREATE TABLE calendar (
-  service_id text,
-  monday int NOT NULL,
-  tuesday int NOT NULL,
-  wednesday int NOT NULL,
-  thursday int NOT NULL,
-  friday int NOT NULL,
-  saturday int NOT NULL,
-  sunday int NOT NULL,
-  start_date date NOT NULL,
-  end_date date NOT NULL,
-  CONSTRAINT calendar_pkey PRIMARY KEY (service_id)
+	service_id text,
+	monday int NOT NULL,
+	tuesday int NOT NULL,
+	wednesday int NOT NULL,
+	thursday int NOT NULL,
+	friday int NOT NULL,
+	saturday int NOT NULL,
+	sunday int NOT NULL,
+	start_date date NOT NULL,
+	end_date date NOT NULL,
+	CONSTRAINT calendar_pkey PRIMARY KEY (service_id)
 );
 CREATE INDEX calendar_service_id ON calendar (service_id);
 
 CREATE TABLE exception_types (
-  exception_type int PRIMARY KEY,
-  description text
+	exception_type int PRIMARY KEY,
+	description text
 );
 
 CREATE TABLE calendar_dates (
-  service_id text,
-  date date NOT NULL,
-  exception_type int REFERENCES exception_types(exception_type)
+	service_id text,
+	date date NOT NULL,
+	exception_type int REFERENCES exception_types(exception_type)
 );
 CREATE INDEX calendar_dates_dateidx ON calendar_dates (date);
 
@@ -1672,29 +1672,29 @@ CREATE INDEX calendar_dates_dateidx ON calendar_dates (date);
 
 ```sql
 CREATE TABLE route_types (
-  route_type int PRIMARY KEY,
-  description text
+	route_type int PRIMARY KEY,
+	description text
 );
 
 CREATE TABLE routes (
-  route_id text,
-  route_short_name text DEFAULT '',
-  route_long_name text DEFAULT '',
-  route_desc text DEFAULT '',
-  route_type int REFERENCES route_types(route_type),
-  route_url text,
-  route_color text,
-  route_text_color text,
-  CONSTRAINT routes_pkey PRIMARY KEY (route_id)
+	route_id text,
+	route_short_name text DEFAULT '',
+	route_long_name text DEFAULT '',
+	route_desc text DEFAULT '',
+	route_type int REFERENCES route_types(route_type),
+	route_url text,
+	route_color text,
+	route_text_color text,
+	CONSTRAINT routes_pkey PRIMARY KEY (route_id)
 );
 ```
 
 ```sql
 CREATE TABLE shapes (
-  shape_id text NOT NULL,
-  shape_pt_lat double precision NOT NULL,
-  shape_pt_lon double precision NOT NULL,
-  shape_pt_sequence int NOT NULL
+	shape_id text NOT NULL,
+	shape_pt_lat double precision NOT NULL,
+	shape_pt_lon double precision NOT NULL,
+	shape_pt_sequence int NOT NULL
 );
 CREATE INDEX shapes_shape_key ON shapes (shape_id);
 ```
@@ -1702,52 +1702,52 @@ CREATE INDEX shapes_shape_key ON shapes (shape_id);
 ```sql
 -- Create a table to store the shape geometries
 CREATE TABLE shape_geoms (
-  shape_id text NOT NULL,
-  shape_geom geometry('LINESTRING', 4326),
-  CONSTRAINT shape_geom_pkey PRIMARY KEY (shape_id)
+	shape_id text NOT NULL,
+	shape_geom geometry('LINESTRING', 4326),
+	CONSTRAINT shape_geom_pkey PRIMARY KEY (shape_id)
 );
 CREATE INDEX shape_geoms_key ON shapes (shape_id);
 ```
 
 ```sql
 CREATE TABLE location_types (
-  location_type int PRIMARY KEY,
-  description text
+	location_type int PRIMARY KEY,
+	description text
 );
 
 CREATE TABLE stops (
-  stop_id text,
-  stop_code text,
-  stop_name text DEFAULT NULL,
-  stop_desc text DEFAULT NULL,
-  stop_lat double precision,
-  stop_lon double precision,
-  zone_id text,
-  stop_url text,
-  location_type integer  REFERENCES location_types(location_type),
-  parent_station integer,
-  stop_geom geometry('POINT', 4326),
-  platform_code text DEFAULT NULL,
-  CONSTRAINT stops_pkey PRIMARY KEY (stop_id)
+	stop_id text,
+	stop_code text,
+	stop_name text DEFAULT NULL,
+	stop_desc text DEFAULT NULL,
+	stop_lat double precision,
+	stop_lon double precision,
+	zone_id text,
+	stop_url text,
+	location_type integer  REFERENCES location_types(location_type),
+	parent_station integer,
+	stop_geom geometry('POINT', 4326),
+	platform_code text DEFAULT NULL,
+	CONSTRAINT stops_pkey PRIMARY KEY (stop_id)
 );
 
 CREATE TABLE pickup_dropoff_types (
-  type_id int PRIMARY KEY,
-  description text
+	type_id int PRIMARY KEY,
+	description text
 );
 ```
 
 ```sql
 CREATE TABLE stop_times (
-  trip_id text NOT NULL,
-  -- Check that casting to time interval works.
-  arrival_time interval CHECK (arrival_time::interval = arrival_time::interval),
-  departure_time interval CHECK (departure_time::interval = departure_time::interval),
-  stop_id text,
-  stop_sequence int NOT NULL,
-  pickup_type int REFERENCES pickup_dropoff_types(type_id),
-  drop_off_type int REFERENCES pickup_dropoff_types(type_id),
-  CONSTRAINT stop_times_pkey PRIMARY KEY (trip_id, stop_sequence)
+	trip_id text NOT NULL,
+	-- Check that casting to time interval works.
+	arrival_time interval CHECK (arrival_time::interval = arrival_time::interval),
+	departure_time interval CHECK (departure_time::interval = departure_time::interval),
+	stop_id text,
+	stop_sequence int NOT NULL,
+	pickup_type int REFERENCES pickup_dropoff_types(type_id),
+	drop_off_type int REFERENCES pickup_dropoff_types(type_id),
+	CONSTRAINT stop_times_pkey PRIMARY KEY (trip_id, stop_sequence)
 );
 CREATE INDEX stop_times_key ON stop_times (trip_id, stop_id);
 CREATE INDEX arr_time_index ON stop_times (arrival_time);
@@ -1756,33 +1756,33 @@ CREATE INDEX dep_time_index ON stop_times (departure_time);
 
 ```sql
 CREATE TABLE trips (
-  route_id text NOT NULL,
-  service_id text NOT NULL,
-  trip_id text NOT NULL,
-  trip_headsign text,
-  direction_id int,
-  block_id text,
-  shape_id text,
-  CONSTRAINT trips_pkey PRIMARY KEY (trip_id)
+	route_id text NOT NULL,
+	service_id text NOT NULL,
+	trip_id text NOT NULL,
+	trip_headsign text,
+	direction_id int,
+	block_id text,
+	shape_id text,
+	CONSTRAINT trips_pkey PRIMARY KEY (trip_id)
 );
 CREATE INDEX trips_trip_id ON trips (trip_id);
 ```
 
 ```sql
 INSERT INTO exception_types (exception_type, description) VALUES
-  (1, 'service has been added'),
-  (2, 'service has been removed');
+	(1, 'service has been added'),
+	(2, 'service has been removed');
 
 INSERT INTO location_types(location_type, description) VALUES
-  (0,'stop'),
-  (1,'station'),
-  (2,'station entrance');
+	(0,'stop'),
+	(1,'station'),
+	(2,'station entrance');
 
 INSERT INTO pickup_dropoff_types (type_id, description) VALUES
-  (0,'Regularly Scheduled'),
-  (1,'Not available'),
-  (2,'Phone arrangement only'),
-  (3,'Driver arrangement only');
+	(0,'Regularly Scheduled'),
+	(1,'Not available'),
+	(2,'Phone arrangement only'),
+	(3,'Driver arrangement only');
 ```
 
 We created one table for each CSV file. In addition, we created a table `shape_geoms` in order to assemble all segments composing a route into a single `geometry` and auxiliary tables `exception_types`, `location_types`, and `pickup_dropoff_types` containing acceptable values for some columns in the CSV files.
@@ -1791,26 +1791,26 @@ We can load the CSV files into the corresponding tables as follows.
 
 ```sql
 COPY calendar(service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,
-  start_date,end_date) FROM '/home/gtfs_tutorial/calendar.txt' DELIMITER ',' CSV HEADER;
+	start_date,end_date) FROM '/home/gtfs_tutorial/calendar.txt' DELIMITER ',' CSV HEADER;
 COPY calendar_dates(service_id,date,exception_type)
-  FROM '/home/gtfs_tutorial/calendar_dates.txt' DELIMITER ',' CSV HEADER;
+	FROM '/home/gtfs_tutorial/calendar_dates.txt' DELIMITER ',' CSV HEADER;
 COPY stop_times(trip_id,arrival_time,departure_time,stop_id,stop_sequence,
-  pickup_type,drop_off_type) FROM '/home/gtfs_tutorial/stop_times.txt' DELIMITER ','
-  CSV HEADER;
+	pickup_type,drop_off_type) FROM '/home/gtfs_tutorial/stop_times.txt' DELIMITER ','
+	CSV HEADER;
 COPY trips(route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id)
-  FROM '/home/gtfs_tutorial/trips.txt' DELIMITER ',' CSV HEADER;
+	FROM '/home/gtfs_tutorial/trips.txt' DELIMITER ',' CSV HEADER;
 COPY agency(agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone)
-  FROM '/home/gtfs_tutorial/agency.txt' DELIMITER ',' CSV HEADER;
+	FROM '/home/gtfs_tutorial/agency.txt' DELIMITER ',' CSV HEADER;
 COPY route_types(route_type,description)
-  FROM '/home/gtfs_tutorial/route_types.txt' DELIMITER ',' CSV HEADER;
+	FROM '/home/gtfs_tutorial/route_types.txt' DELIMITER ',' CSV HEADER;
 COPY routes(route_id,route_short_name,route_long_name,route_desc,route_type,route_url,
-  route_color,route_text_color) FROM '/home/gtfs_tutorial/routes.txt' DELIMITER ','
-  CSV HEADER;
+	route_color,route_text_color) FROM '/home/gtfs_tutorial/routes.txt' DELIMITER ','
+	CSV HEADER;
 COPY shapes(shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence)
-  FROM '/home/gtfs_tutorial/shapes.txt' DELIMITER ',' CSV HEADER;
+	FROM '/home/gtfs_tutorial/shapes.txt' DELIMITER ',' CSV HEADER;
 COPY stops(stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,
-  location_type,parent_station) FROM '/home/gtfs_tutorial/stops.txt' DELIMITER ','
-  CSV HEADER;
+	location_type,parent_station) FROM '/home/gtfs_tutorial/stops.txt' DELIMITER ','
+	CSV HEADER;
 ```
 
 Finally, we create the geometries for routes and stops as follows.
@@ -1818,7 +1818,7 @@ Finally, we create the geometries for routes and stops as follows.
 ```sql
 INSERT INTO shape_geoms
 SELECT shape_id, ST_MakeLine(array_agg(
-  ST_SetSRID(ST_MakePoint(shape_pt_lon, shape_pt_lat),4326) ORDER BY shape_pt_sequence))
+	ST_SetSRID(ST_MakePoint(shape_pt_lon, shape_pt_lat),4326) ORDER BY shape_pt_sequence))
 FROM shapes
 GROUP BY shape_id;
 
@@ -1839,24 +1839,24 @@ We start by creating a table that contains couples of `service_id` and `date` de
 ```sql
 DROP TABLE IF EXISTS service_dates;
 CREATE TABLE service_dates AS (
-  SELECT service_id, date_trunc('day', d)::date AS date
-  FROM calendar c, generate_series(start_date, end_date, '1 day'::interval) AS d
-  WHERE (
-    (monday = 1 AND extract(isodow FROM d) = 1) OR
-    (tuesday = 1 AND extract(isodow FROM d) = 2) OR
-    (wednesday = 1 AND extract(isodow FROM d) = 3) OR
-    (thursday = 1 AND extract(isodow FROM d) = 4) OR
-    (friday = 1 AND extract(isodow FROM d) = 5) OR
-    (saturday = 1 AND extract(isodow FROM d) = 6) OR
-    (sunday = 1 AND extract(isodow FROM d) = 7)
-  )
-  EXCEPT
-  SELECT service_id, date
-  FROM calendar_dates WHERE exception_type = 2
-  UNION
-  SELECT c.service_id, date
-  FROM calendar c JOIN calendar_dates d ON c.service_id = d.service_id
-  WHERE exception_type = 1 AND start_date <= date AND date <= end_date
+	SELECT service_id, date_trunc('day', d)::date AS date
+	FROM calendar c, generate_series(start_date, end_date, '1 day'::interval) AS d
+	WHERE (
+		(monday = 1 AND extract(isodow FROM d) = 1) OR
+		(tuesday = 1 AND extract(isodow FROM d) = 2) OR
+		(wednesday = 1 AND extract(isodow FROM d) = 3) OR
+		(thursday = 1 AND extract(isodow FROM d) = 4) OR
+		(friday = 1 AND extract(isodow FROM d) = 5) OR
+		(saturday = 1 AND extract(isodow FROM d) = 6) OR
+		(sunday = 1 AND extract(isodow FROM d) = 7)
+	)
+	EXCEPT
+	SELECT service_id, date
+	FROM calendar_dates WHERE exception_type = 2
+	UNION
+	SELECT c.service_id, date
+	FROM calendar c JOIN calendar_dates d ON c.service_id = d.service_id
+	WHERE exception_type = 1 AND start_date <= date AND date <= end_date
 );
 ```
 
@@ -1868,28 +1868,28 @@ We now create a table `trip_stops` that determines the stops for each trip.
 DROP TABLE IF EXISTS trip_stops;
 CREATE TABLE trip_stops
 (
-  trip_id text,
-  stop_sequence integer,
-  no_stops integer,
-  route_id text,
-  service_id text,
-  shape_id text,
-  stop_id text,
-  arrival_time interval,
-  perc float
+	trip_id text,
+	stop_sequence integer,
+	no_stops integer,
+	route_id text,
+	service_id text,
+	shape_id text,
+	stop_id text,
+	arrival_time interval,
+	perc float
 );
 
 INSERT INTO trip_stops (trip_id, stop_sequence, no_stops, route_id, service_id,
-  shape_id, stop_id, arrival_time)
+	shape_id, stop_id, arrival_time)
 SELECT t.trip_id, stop_sequence, MAX(stop_sequence) OVER (PARTITION BY t.trip_id),
-  route_id, service_id, shape_id, stop_id, arrival_time
+	route_id, service_id, shape_id, stop_id, arrival_time
 FROM trips t JOIN stop_times s ON t.trip_id = s.trip_id;
 
 UPDATE trip_stops t
 SET perc = CASE
-  WHEN stop_sequence =  1 then 0.0
-  WHEN stop_sequence =  no_stops then 1.0
-  ELSE ST_LineLocatePoint(g.the_geom, s.the_geom)
+	WHEN stop_sequence =  1 then 0.0
+	WHEN stop_sequence =  no_stops then 1.0
+	ELSE ST_LineLocatePoint(g.the_geom, s.the_geom)
 END
 FROM shape_geoms g, stops s
 WHERE t.shape_id = g.shape_id AND t.stop_id = s.stop_id;
@@ -1902,31 +1902,31 @@ We now create a table `trip_segs` that defines the segments between two consecut
 ```sql
 DROP TABLE IF EXISTS trip_segs;
 CREATE TABLE trip_segs (
-  trip_id text,
-  route_id text,
-  service_id text,
-  stop1_sequence integer,
-  stop2_sequence integer,
-  no_stops integer,
-  shape_id text,
-  stop1_arrival_time interval,
-  stop2_arrival_time interval,
-  perc1 float,
-  perc2 float,
-  seg_geom geometry,
-  seg_length float,
-  no_points integer,
-  PRIMARY KEY (trip_id, stop1_sequence)
+	trip_id text,
+	route_id text,
+	service_id text,
+	stop1_sequence integer,
+	stop2_sequence integer,
+	no_stops integer,
+	shape_id text,
+	stop1_arrival_time interval,
+	stop2_arrival_time interval,
+	perc1 float,
+	perc2 float,
+	seg_geom geometry,
+	seg_length float,
+	no_points integer,
+	PRIMARY KEY (trip_id, stop1_sequence)
 );
 
 INSERT INTO trip_segs (trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
-  no_stops, shape_id, stop1_arrival_time, stop2_arrival_time, perc1, perc2)
+	no_stops, shape_id, stop1_arrival_time, stop2_arrival_time, perc1, perc2)
 WITH temp AS (
-  SELECT trip_id, route_id, service_id, stop_sequence,
-    LEAD(stop_sequence) OVER w AS stop_sequence2,
-    MAX(stop_sequence) OVER (PARTITION BY trip_id),
-    shape_id, arrival_time, LEAD(arrival_time) OVER w, perc, LEAD(perc) OVER w
-  FROM trip_stops WINDOW w AS (PARTITION BY trip_id ORDER BY stop_sequence)
+	SELECT trip_id, route_id, service_id, stop_sequence,
+		LEAD(stop_sequence) OVER w AS stop_sequence2,
+		MAX(stop_sequence) OVER (PARTITION BY trip_id),
+		shape_id, arrival_time, LEAD(arrival_time) OVER w, perc, LEAD(perc) OVER w
+	FROM trip_stops WINDOW w AS (PARTITION BY trip_id ORDER BY stop_sequence)
 )
 SELECT * FROM temp WHERE stop_sequence2 IS NOT null;
 
@@ -1954,43 +1954,43 @@ The geometry of a segment is a linestring containing multiple points. From the p
 ```sql
 DROP TABLE IF EXISTS trip_points;
 CREATE TABLE trip_points (
-  trip_id text,
-  route_id text,
-  service_id text,
-  stop1_sequence integer,
-  point_sequence integer,
-  point_geom geometry,
-  point_arrival_time interval,
-  PRIMARY KEY (trip_id, stop1_sequence, point_sequence)
+	trip_id text,
+	route_id text,
+	service_id text,
+	stop1_sequence integer,
+	point_sequence integer,
+	point_geom geometry,
+	point_arrival_time interval,
+	PRIMARY KEY (trip_id, stop1_sequence, point_sequence)
 );
 
 INSERT INTO trip_points (trip_id, route_id, service_id, stop1_sequence,
-  point_sequence, point_geom, point_arrival_time)
+	point_sequence, point_geom, point_arrival_time)
 WITH temp1 AS (
-  SELECT trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
-    no_stops, stop1_arrival_time, stop2_arrival_time, seg_length,
-    (dp).path[1] AS point_sequence, no_points, (dp).geom as point_geom
-  FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
+	SELECT trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
+		no_stops, stop1_arrival_time, stop2_arrival_time, seg_length,
+		(dp).path[1] AS point_sequence, no_points, (dp).geom as point_geom
+	FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
 ),
 temp2 AS (
-  SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
-    stop2_arrival_time, seg_length, point_sequence, no_points, point_geom
-  FROM temp1
-  WHERE point_sequence <> no_points OR stop2_sequence = no_stops
+	SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
+		stop2_arrival_time, seg_length, point_sequence, no_points, point_geom
+	FROM temp1
+	WHERE point_sequence <> no_points OR stop2_sequence = no_stops
 ),
 temp3 AS (
-  SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
-    stop2_arrival_time, point_sequence, no_points, point_geom,
-    ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perc
-  FROM temp2 WINDOW w AS (PARTITION BY trip_id, service_id, stop1_sequence
-    ORDER BY point_sequence)
+	SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
+		stop2_arrival_time, point_sequence, no_points, point_geom,
+		ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perc
+	FROM temp2 WINDOW w AS (PARTITION BY trip_id, service_id, stop1_sequence
+		ORDER BY point_sequence)
 )
 SELECT trip_id, route_id, service_id, stop1_sequence, point_sequence, point_geom,
-  CASE
-  WHEN point_sequence = 1 then stop1_arrival_time
-  WHEN point_sequence = no_points then stop2_arrival_time
-  ELSE stop1_arrival_time + ((stop2_arrival_time - stop1_arrival_time) * perc)
-  END AS point_arrival_time
+	CASE
+	WHEN point_sequence = 1 then stop1_arrival_time
+	WHEN point_sequence = no_points then stop2_arrival_time
+	ELSE stop1_arrival_time + ((stop2_arrival_time - stop1_arrival_time) * perc)
+	END AS point_arrival_time
 FROM temp3;
 ```
 
@@ -1998,28 +1998,28 @@ In the temporary table `temp1` we use the function `ST_DumpPoints` to obtain the
 
 ```sql
 SELECT trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
-    no_stops, stop1_arrival_time, stop2_arrival_time, seg_length,
-    (dp).path[1] AS point_sequence, no_points, (dp).geom as point_geom
-  FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
+		no_stops, stop1_arrival_time, stop2_arrival_time, seg_length,
+		(dp).path[1] AS point_sequence, no_points, (dp).geom as point_geom
+	FROM trip_segs, ST_DumpPoints(seg_geom) AS dp
 ```
 
 In the temporary table `temp2` we filter out the last point of a segment unless it is the last segment of the trip.
 
 ```sql
 SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
-    stop2_arrival_time, seg_length, point_sequence, no_points, point_geom
-  FROM temp1
-  WHERE point_sequence <> no_points OR stop2_sequence = no_stops
+		stop2_arrival_time, seg_length, point_sequence, no_points, point_geom
+	FROM temp1
+	WHERE point_sequence <> no_points OR stop2_sequence = no_stops
 ```
 
 In the temporary table `temp3` we compute in the attribute `perc` the relative position of a point within a `trip` segment with window functions.
 
 ```sql
 SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
-    stop2_arrival_time, point_sequence, no_points, point_geom,
-    ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perc
-  FROM temp2 WINDOW w AS (PARTITION BY trip_id, service_id, stop1_sequence
-    ORDER BY point_sequence)
+		stop2_arrival_time, point_sequence, no_points, point_geom,
+		ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perc
+	FROM temp2 WINDOW w AS (PARTITION BY trip_id, service_id, stop1_sequence
+		ORDER BY point_sequence)
 ```
 
 For this we use the function `ST_MakeLine` to construct the subsegment from the first point of the segment to the current one, determine the length of the subsegment with function `ST_Length` and divide this length by the overall *segment length*.
@@ -2030,11 +2030,11 @@ Finally, in the outer query we use the computed percentage to determine the arri
 
 ```sql
 SELECT trip_id, route_id, service_id, stop1_sequence, point_sequence, point_geom,
-  CASE
-  WHEN point_sequence = 1 then stop1_arrival_time
-  WHEN point_sequence = no_points then stop2_arrival_time
-  ELSE stop1_arrival_time + ((stop2_arrival_time - stop1_arrival_time) * perc)
-  END AS point_arrival_time
+	CASE
+	WHEN point_sequence = 1 then stop1_arrival_time
+	WHEN point_sequence = no_points then stop2_arrival_time
+	ELSE stop1_arrival_time + ((stop2_arrival_time - stop1_arrival_time) * perc)
+	END AS point_arrival_time
 FROM temp3;
 ```
 
@@ -2043,19 +2043,19 @@ Our last temporary table `trips_input` contains the data in the format that can 
 ```sql
 DROP TABLE IF EXISTS trips_input;
 CREATE TABLE trips_input (
-  trip_id text,
-  route_id text,
-  service_id text,
-  date date,
-  point_geom geometry,
-  t timestamptz
+	trip_id text,
+	route_id text,
+	service_id text,
+	date date,
+	point_geom geometry,
+	t timestamptz
 );
 
 INSERT INTO trips_input
 SELECT trip_id, route_id, t.service_id, date, point_geom, date + point_arrival_time AS t
 FROM trip_points t JOIN
-  ( SELECT service_id, MIN(date) AS date FROM service_dates GROUP BY service_id) s
-  ON t.service_id = s.service_id;
+	( SELECT service_id, MIN(date) AS date FROM service_dates GROUP BY service_id) s
+	ON t.service_id = s.service_id;
 ```
 
 In the inner query of the `INSERT` statement, we *select* the first date of a service (`date + point_arrival_time`) in the `service_dates` table and then we `join` the resulting table with the `trip_points` table to compute the *arrival time* at each point composing the `trips`.
@@ -2067,22 +2067,22 @@ Finally, table `trips_mdb` contains the MobilityDB trips.
 ```sql
 DROP TABLE IF EXISTS trips_mdb;
 CREATE TABLE trips_mdb (
-  trip_id text NOT NULL,
-  route_id text NOT NULL,
-  date date NOT NULL,
-  trip tgeompoint,
-  PRIMARY KEY (trip_id, date)
+	trip_id text NOT NULL,
+	route_id text NOT NULL,
+	date date NOT NULL,
+	trip tgeompoint,
+	PRIMARY KEY (trip_id, date)
 );
 
 INSERT INTO trips_mdb(trip_id, route_id, date, trip)
 SELECT trip_id, route_id, date, tgeompointseq(array_agg(tgeompointinst(point_geom, t)
-  ORDER BY T))
+	ORDER BY T))
 FROM trips_input
 GROUP BY trip_id, route_id, date;
 
 INSERT INTO trips_mdb(trip_id, service_id, route_id, date, trip)
 SELECT trip_id, route_id, t.service_id, d.date,
-  shift(trip, make_interval(days => d.date - t.date))
+	shift(trip, make_interval(days => d.date - t.date))
 FROM trips_mdb t JOIN service_dates d ON t.service_id = d.service_id AND t.date <> d.date;
 ```
 
@@ -2100,28 +2100,28 @@ By activating the Location History in your Google account, you let Google track 
 
 ```json
 {
-  "locations" : [ {
-    "timestampMs" : "1525373187756",
-    "latitudeE7" : 508402936,
-    "longitudeE7" : 43413790,
-    "accuracy" : 26,
-    "activity" : [ {
-      "timestampMs" : "1525373185830",
-      "activity" : [ {
-        "type" : "STILL",
-        "confidence" : 44
-      }, {
-        "type" : "IN_VEHICLE",
-        "confidence" : 16
-      }, {
-        "type" : "IN_ROAD_VEHICLE",
-        "confidence" : 16
-      }, {
-        "type" : "UNKNOWN",
-        "confidence" : 12
-      }, {
-        "type" : "IN_RAIL_VEHICLE",
-        "confidence" : 12
+	"locations" : [ {
+		"timestampMs" : "1525373187756",
+		"latitudeE7" : 508402936,
+		"longitudeE7" : 43413790,
+		"accuracy" : 26,
+		"activity" : [ {
+			"timestampMs" : "1525373185830",
+			"activity" : [ {
+				"type" : "STILL",
+				"confidence" : 44
+			}, {
+				"type" : "IN_VEHICLE",
+				"confidence" : 16
+			}, {
+				"type" : "IN_ROAD_VEHICLE",
+				"confidence" : 16
+			}, {
+				"type" : "UNKNOWN",
+				"confidence" : 12
+			}, {
+				"type" : "IN_RAIL_VEHICLE",
+				"confidence" : 12
 ...
 ```
 
@@ -2150,14 +2150,14 @@ Now we can import the generated CSV file into PostgreSQL as follows.
 ```sql
 DROP TABLE IF EXISTS location_history;
 CREATE TABLE location_history (
-  latitudeE7 float,
-  longitudeE7 float,
-  timestampMs bigint,
-  date date
+	latitudeE7 float,
+	longitudeE7 float,
+	timestampMs bigint,
+	date date
 );
 
 COPY location_history(latitudeE7, longitudeE7, timestampMs) FROM
-  '/home/location_history/location_history.csv' DELIMITER ',' CSV;
+	'/home/location_history/location_history.csv' DELIMITER ',' CSV;
 
 UPDATE location_history
 SET date = date(to_timestamp(timestampMs / 1000.0)::timestamptz);
@@ -2170,16 +2170,16 @@ We can now transform this data into MobilityDB trips as follows.
 ```sql
 DROP TABLE IF EXISTS locations_mdb;
 CREATE TABLE locations_mdb (
-  date date NOT NULL,
-  trip tgeompoint,
-  trajectory geometry,
-  PRIMARY KEY (date)
+	date date NOT NULL,
+	trip tgeompoint,
+	trajectory geometry,
+	PRIMARY KEY (date)
 );
 
 INSERT INTO locations_mdb(date, trip)
 SELECT date, tgeompointseq(array_agg(tgeompointinst(
-  ST_SetSRID(ST_Point(longitudeE7/1e7, latitudeE7/1e7),4326),
-  to_timestamp(timestampMs / 1000.0)::timestamptz) ORDER BY timestampMs))
+	ST_SetSRID(ST_Point(longitudeE7/1e7, latitudeE7/1e7),4326),
+	to_timestamp(timestampMs / 1000.0)::timestamptz) ORDER BY timestampMs))
 FROM location_history
 GROUP BY date;
 
@@ -2202,43 +2202,43 @@ GPX, or GPS Exchange Format, is an XML data format for GPS data. Location data (
 ```xml
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <gpx version="1.1"
-  xmlns="http://www.topografix.com/GPX/1/1"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.topografix.com/GPX/1/1
-  http://www.topografix.com/GPX/1/1/gpx.xsd"
-  creator="Example creator">
-   <metadata>
-    <name>Dec 14, 2014 4:32:04 PM</name>
-    <author>Example creator</author>
-    <link href="https://..." />
-    <time>2014-12-14T14:32:04.650Z</time>
-  </metadata>
-  <trk>
-    <name>Dec 14, 2014 4:32:04 PM</name>
-    <trkseg>
-      <trkpt lat="30.16398" lon="31.467701">
-        <ele>76</ele>
-        <time>2014-12-14T14:32:10.339Z</time>
-      </trkpt>
-      <trkpt lat="30.16394" lon="31.467333">
-        <ele>73</ele>
-        <time>2014-12-14T14:32:16.00Z</time>
-      </trkpt>
-      <trkpt lat="30.16408" lon="31.467218">
-        <ele>74</ele>
-        <time>2014-12-14T14:32:19.00Z</time>
-      </trkpt>
-      [...]
-    </trkseg>
-    <trkseg>
-      [...]
-    </trkseg>
-    [...]
-  </trk>
-  <trk>
-    [...]
-  </trk>
-  [...]
+	xmlns="http://www.topografix.com/GPX/1/1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.topografix.com/GPX/1/1
+	http://www.topografix.com/GPX/1/1/gpx.xsd"
+	creator="Example creator">
+	 <metadata>
+		<name>Dec 14, 2014 4:32:04 PM</name>
+		<author>Example creator</author>
+		<link href="https://..." />
+		<time>2014-12-14T14:32:04.650Z</time>
+	</metadata>
+	<trk>
+		<name>Dec 14, 2014 4:32:04 PM</name>
+		<trkseg>
+			<trkpt lat="30.16398" lon="31.467701">
+				<ele>76</ele>
+				<time>2014-12-14T14:32:10.339Z</time>
+			</trkpt>
+			<trkpt lat="30.16394" lon="31.467333">
+				<ele>73</ele>
+				<time>2014-12-14T14:32:16.00Z</time>
+			</trkpt>
+			<trkpt lat="30.16408" lon="31.467218">
+				<ele>74</ele>
+				<time>2014-12-14T14:32:19.00Z</time>
+			</trkpt>
+			[...]
+		</trkseg>
+		<trkseg>
+			[...]
+		</trkseg>
+		[...]
+	</trk>
+	<trk>
+		[...]
+	</trk>
+	[...]
 <gpx>
 ```
 
@@ -2250,18 +2250,18 @@ import xml.parsers.expat
 
 stack = []
 def start_element(name, attrs):
-  stack.append(name)
-  if name == 'gpx' :
-    print("lon,lat,time")
-  if name == 'trkpt' :
-    print("{},{},".format(attrs['lon'], attrs['lat']), end="")
+	stack.append(name)
+	if name == 'gpx' :
+		print("lon,lat,time")
+	if name == 'trkpt' :
+		print("{},{},".format(attrs['lon'], attrs['lat']), end="")
 
 def end_element(name):
-  stack.pop()
+	stack.pop()
 
 def char_data(data):
-  if stack[-1] == "time" and stack[-2] == "trkpt" :
-    print(data)
+	if stack[-1] == "time" and stack[-2] == "trkpt" :
+		print(data)
 
 p = xml.parsers.expat.ParserCreate()
 
@@ -2293,29 +2293,29 @@ The above CSV file can be loaded into MobilityDB as follows.
 ```sql
 DROP TABLE IF EXISTS trips_input;
 CREATE TABLE trips_input (
-  date date,
-  lon float,
-  lat float,
-  time timestamptz
+	date date,
+	lon float,
+	lat float,
+	time timestamptz
 );
 
 COPY trips_input(lon, lat, time) FROM
-  '/home/gpx_data/example.csv' DELIMITER ',' CSV HEADER;
+	'/home/gpx_data/example.csv' DELIMITER ',' CSV HEADER;
 
 UPDATE trips_input
 SET date = date(time);
 
 DROP TABLE IF EXISTS trips_mdb;
 CREATE TABLE trips_mdb (
-  date date NOT NULL,
-  trip tgeompoint,
-  trajectory geometry,
-  PRIMARY KEY (date)
+	date date NOT NULL,
+	trip tgeompoint,
+	trajectory geometry,
+	PRIMARY KEY (date)
 );
 
 INSERT INTO trips_mdb(date, trip)
 SELECT date, tgeompointseq(array_agg(tgeompointinst(
-  ST_SetSRID(ST_Point(lon, lat),4326), time) ORDER BY time))
+	ST_SetSRID(ST_Point(lon, lat),4326), time) ORDER BY time))
 FROM trips_input
 GROUP BY date;
 
@@ -2364,7 +2364,7 @@ For the moment, we will use the OSM map of Brussels. It is given in the data sec
 ```sql
 -- in a console, go to the generatorHome then:
 osm2pgrouting -h localhost -p 5432 -U dbowner -f brussels.osm --dbname brussels \
-  -c mapconfig_brussels.xml
+	-c mapconfig_brussels.xml
 ```
 
 The configuration file `mapconfig_brussels.xml` tells osm2pgrouting which are the roads that will be selected to build the road network as well as the speed limits of the different road types. During the conversion, osm2pgrouting transforms the data into WGS84 (SRID 4326), so we will need later to convert it back to SRID 3857.
@@ -2388,7 +2388,7 @@ psql -h localhost -p 5432 -U dbowner -d brussels -f berlinmod_datagenerator_batc
 -- adds the pgplsql functions of the simulation to the database
 
 psql -h localhost -p 5432 -U dbowner -d brussels \
-  -c 'select berlinmod_generate(scaleFactor := 0.005)'
+	-c 'select berlinmod_generate(scaleFactor := 0.005)'
 -- calls the main pgplsql function to start the simulation
 ```
 
@@ -2411,8 +2411,8 @@ The generator will take about one minute. It will generate trajectories, accordi
 
 ```sql
 psql -h localhost -p 5432 -U dbowner -d brussels -c \
-  "select berlinmod_generate(scaleFactor := 0.005, messages := 'medium')" 2>&1 | \
-  tee trace.txt
+	"select berlinmod_generate(scaleFactor := 0.005, messages := 'medium')" 2>&1 | \
+	tee trace.txt
 ```
 
 
@@ -2451,14 +2451,14 @@ or the duration of the trips by trip type.
 
 ```sql
 SELECT
-  CASE
-    WHEN T.source = V.home AND date_part('dow', T.day) BETWEEN 1 AND 5 AND
-      date_part('hour', startTimestamp(trip)) < 12 THEN 'home_work'
-    WHEN T.source = V.work AND date_part('dow', T.day) BETWEEN 1 AND 5 AND
-      date_part('hour', startTimestamp(trip)) > 12  THEN 'work_home'
-    WHEN date_part('dow', T.day) BETWEEN 1 AND 5 THEN 'leisure_weekday'
-    ELSE 'leisure_weekend'
-  END AS TripType, COUNT(*), MIN(timespan(Trip)), MAX(timespan(Trip)), AVG(timespan(Trip))
+	CASE
+		WHEN T.source = V.home AND date_part('dow', T.day) BETWEEN 1 AND 5 AND
+			date_part('hour', startTimestamp(trip)) < 12 THEN 'home_work'
+		WHEN T.source = V.work AND date_part('dow', T.day) BETWEEN 1 AND 5 AND
+			date_part('hour', startTimestamp(trip)) > 12  THEN 'work_home'
+		WHEN date_part('dow', T.day) BETWEEN 1 AND 5 THEN 'leisure_weekday'
+		ELSE 'leisure_weekend'
+	END AS TripType, COUNT(*), MIN(timespan(Trip)), MAX(timespan(Trip)), AVG(timespan(Trip))
 FROM Trips T, Vehicle V
 WHERE T.vehicle = V.id
 GROUP BY TripType;
@@ -2483,7 +2483,7 @@ As can be seen the longest trip is more than 56 Km long. Let's visualize one of 
 
 ```sql
 SELECT vehicle, seq, source, target, round(length(Trip)::numeric / 1e3, 3),
-  startTimestamp(Trip), timespan(Trip)
+	startTimestamp(Trip), timespan(Trip)
 FROM Trips
 WHERE  length(Trip) > 50000 LIMIT 1;
 
@@ -2500,9 +2500,9 @@ We can obtain some statistics about the average speed in Km/h of all the trips a
 
 ```sql
 SELECT
-  MIN(twavg(speed(Trip))) * 3.6,
-  MAX(twavg(speed(Trip))) * 3.6,
-  AVG(twavg(speed(Trip))) * 3.6
+	MIN(twavg(speed(Trip))) * 3.6,
+	MAX(twavg(speed(Trip))) * 3.6,
+	AVG(twavg(speed(Trip))) * 3.6
 FROM Trips;
 
 14.211962789552468	53.31779380411017	31.32438581663778
@@ -2512,9 +2512,9 @@ A possible visualization that we could envision is to use gradients to show how 
 
 ```sql
 CREATE TABLE HeatMap AS
-  SELECT  E.id, E.geom, count(*)
-  FROM Edges E, Trips T
-  WHERE st_intersects(E.geom, T.trajectory)
+	SELECT  E.id, E.geom, count(*)
+	FROM Edges E, Trips T
+	WHERE st_intersects(E.geom, T.trajectory)
 GROUP BY E.id, E.geom;
 ```
 
@@ -2522,8 +2522,8 @@ This is an expensive query since it took **42 min in my laptop**. In order to di
 
 ```sql
 INSERT INTO HeatMap
-  SELECT E.id, E.geom, 0 FROM Edges E
-  WHERE E.id NOT IN (SELECT id FROM HeatMap );
+	SELECT E.id, E.geom, 0 FROM Edges E
+	WHERE E.id NOT IN (SELECT id FROM HeatMap );
 ```
 
 We need some basic statistics about the attribute count in order to define the gradients.
@@ -2553,15 +2553,15 @@ Another possible visualization is to use gradients to show the speed used by the
 DROP TABLE IF EXISTS EdgeSpeed;
 
 CREATE TABLE EdgeSpeed AS
-  SELECT
-    P.edge,
-    twavg(speed(atGeometry(T.trip, ST_Buffer(P.geom, 0.1)))) * 3.6 AS twavg
-  FROM Trips T, Paths P
-  WHERE
-    T.source = P.start_vid
-    AND T.target = P.end_vid
-    AND P.edge > 0
-  ORDER BY P.edge;
+	SELECT
+		P.edge,
+		twavg(speed(atGeometry(T.trip, ST_Buffer(P.geom, 0.1)))) * 3.6 AS twavg
+	FROM Trips T, Paths P
+	WHERE
+		T.source = P.start_vid
+		AND T.target = P.end_vid
+		AND P.edge > 0
+	ORDER BY P.edge;
 ```
 
 This is an even more expensive query than the previous one since it took more than 2 hours in my laptop. Given a trip and an edge, the query restricts the trip to the geometry of the edge and computes the time-weighted average of the speed. Notice that the ST_Buffer is used to cope with the floating-point precision. After that we can compute the speed map as follows.
@@ -2569,7 +2569,7 @@ This is an even more expensive query than the previous one since it took more th
 ```sql
 CREATE TABLE SpeedMap AS
 WITH Temp AS (
-  SELECT edge, avg(twavg) FROM EdgeSpeed GROUP BY edge
+	SELECT edge, avg(twavg) FROM EdgeSpeed GROUP BY edge
 )
 SELECT id, maxspeed_forward AS maxspeed, geom, avg, avg / maxspeed_forward AS perc
 FROM Edges E, Temp T
@@ -2590,31 +2590,31 @@ We start by creating a first set of tables for containing the generated data as 
 
 ```sql
 CREATE TABLE Vehicle(
-  id int PRIMARY KEY,
-  home bigint NOT NULL,
-  work bigint NOT NULL,
-  noNeighbours int
+	id int PRIMARY KEY,
+	home bigint NOT NULL,
+	work bigint NOT NULL,
+	noNeighbours int
 );
 
 CREATE TABLE Destinations(
-  vehicle int,
-  source bigint,
-  target bigint,
-  PRIMARY KEY (vehicle, source, target)
+	vehicle int,
+	source bigint,
+	target bigint,
+	PRIMARY KEY (vehicle, source, target)
 );
 
 CREATE TABLE Licences(
-  vehicle int PRIMARY KEY,
-  licence text,
-  type text,
-  model text
+	vehicle int PRIMARY KEY,
+	licence text,
+	type text,
+	model text
 );
 
 CREATE TABLE Neighbourhood(
-  vehicle int,
-  seq int,
-  node bigint NOT NULL,
-  PRIMARY KEY (vehicle, seq)
+	vehicle int,
+	seq int,
+	node bigint NOT NULL,
+	PRIMARY KEY (vehicle, seq)
 );
 ```
 
@@ -2623,39 +2623,39 @@ CREATE TABLE Neighbourhood(
 SELECT COUNT(*) INTO noNodes FROM Nodes;
 
 FOR i IN 1..noVehicles LOOP
-  -- Fill the Vehicles table
-  IF nodeChoice = 'Network Based' THEN
-    homeNode = random_int(1, noNodes);
-    workNode = random_int(1, noNodes);
-  ELSE
-    homeNode = berlinmod_selectHomeNode();
-    workNode = berlinmod_selectWorkNode();
-  END IF;
-  IF homeNode IS NULL OR workNode IS NULL THEN
-    RAISE EXCEPTION '    The home and the work nodes cannot be NULL';
-  END IF;
-  INSERT INTO Vehicle VALUES (i, homeNode, workNode);
+	-- Fill the Vehicles table
+	IF nodeChoice = 'Network Based' THEN
+		homeNode = random_int(1, noNodes);
+		workNode = random_int(1, noNodes);
+	ELSE
+		homeNode = berlinmod_selectHomeNode();
+		workNode = berlinmod_selectWorkNode();
+	END IF;
+	IF homeNode IS NULL OR workNode IS NULL THEN
+		RAISE EXCEPTION '    The home and the work nodes cannot be NULL';
+	END IF;
+	INSERT INTO Vehicle VALUES (i, homeNode, workNode);
 
-  -- Fill the Destinations table
-  INSERT INTO Destinations(vehicle, source, target) VALUES
-    (i, homeNode, workNode), (i, workNode, homeNode);
+	-- Fill the Destinations table
+	INSERT INTO Destinations(vehicle, source, target) VALUES
+		(i, homeNode, workNode), (i, workNode, homeNode);
 
-  -- Fill the Licences table
-  licence = berlinmod_createLicence(i);
-  type = berlinmod_vehicleType();
-  model = berlinmod_vehicleModel();
-  INSERT INTO Licences VALUES (i, licence, type, model);
+	-- Fill the Licences table
+	licence = berlinmod_createLicence(i);
+	type = berlinmod_vehicleType();
+	model = berlinmod_vehicleModel();
+	INSERT INTO Licences VALUES (i, licence, type, model);
 
-  -- Fill the Neighbourhood table
-  INSERT INTO Neighbourhood
-  WITH Temp AS (
-    SELECT i AS vehicle, N2.id AS node
-    FROM Nodes N1, Nodes N2
-    WHERE N1.id = homeNode AND N1.id <> N2.id AND
-      ST_DWithin(N1.geom, N2.geom, P_NEIGHBOURHOOD_RADIUS)
-  )
-  SELECT i, ROW_NUMBER() OVER () as seq, node
-  FROM Temp;
+	-- Fill the Neighbourhood table
+	INSERT INTO Neighbourhood
+	WITH Temp AS (
+		SELECT i AS vehicle, N2.id AS node
+		FROM Nodes N1, Nodes N2
+		WHERE N1.id = homeNode AND N1.id <> N2.id AND
+			ST_DWithin(N1.geom, N2.geom, P_NEIGHBOURHOOD_RADIUS)
+	)
+	SELECT i, ROW_NUMBER() OVER () as seq, node
+	FROM Temp;
 END LOOP;
 ```
 
@@ -2675,8 +2675,8 @@ We create now *auxiliary tables* containing *benchmarking data*. The number of r
 CREATE TABLE QueryPoints(id int PRIMARY KEY, geom geometry(Point));
 INSERT INTO QueryPoints
 WITH Temp AS (
-  SELECT id, random_int(1, noNodes) AS node
-  FROM generate_series(1, P_SAMPLE_SIZE) id
+	SELECT id, random_int(1, noNodes) AS node
+	FROM generate_series(1, P_SAMPLE_SIZE) id
 )
 SELECT T.id, N.geom
 FROM Temp T, Nodes N
@@ -2685,8 +2685,8 @@ WHERE T.node = N.id;
 CREATE TABLE QueryRegions(id int PRIMARY KEY, geom geometry(Polygon));
 INSERT INTO QueryRegions
 WITH Temp AS (
-  SELECT id, random_int(1, noNodes) AS node
-  FROM generate_series(1, P_SAMPLE_SIZE) id
+	SELECT id, random_int(1, noNodes) AS node
+	FROM generate_series(1, P_SAMPLE_SIZE) id
 )
 SELECT T.id, ST_Buffer(N.geom, random_int(1, 997) + 3.0, random_int(0, 25)) AS geom
 FROM Temp T, Nodes N
@@ -2700,11 +2700,11 @@ FROM generate_series(1, P_SAMPLE_SIZE) id;
 CREATE TABLE QueryPeriods(id int PRIMARY KEY, period period);
 INSERT INTO QueryPeriods
 WITH Instants AS (
-  SELECT id, startDay + (random() * noDays) * interval '1 day' AS instant
-  FROM generate_series(1, P_SAMPLE_SIZE) id
+	SELECT id, startDay + (random() * noDays) * interval '1 day' AS instant
+	FROM generate_series(1, P_SAMPLE_SIZE) id
 )
 SELECT id, Period(instant, instant + abs(random_gauss()) * interval '1 day',
-  true, true) AS period
+	true, true) AS period
 FROM Instants;
 ```
 
@@ -2712,55 +2712,55 @@ We generate now the leisure trips. There is at most one leisure trip in the even
 
 ```sql
 CREATE TABLE LeisureTrip(vehicle int, day date, tripNo int, seq int, source bigint,
-  target bigint, PRIMARY KEY (vehicle, day, tripNo, seq));
+	target bigint, PRIMARY KEY (vehicle, day, tripNo, seq));
 -- Loop for every vehicle
 FOR i IN 1..noVehicles LOOP
-  -- Get home node and number of neighbour nodes
-  SELECT home, noNeighbours INTO homeNode, noNeigh
-  FROM Vehicle V WHERE V.id = i;
-  day = startDay;
-  -- Loop for every generation day
-  FOR j IN 1..noDays LOOP
-    weekday = date_part('dow', day);
-    -- Generate leisure trips (if any)
-    -- 1: Monday, 5: Friday
-    IF weekday BETWEEN 1 AND 5 THEN
-      noLeisTrips = 1;
-    ELSE
-      noLeisTrips = 2;
-    END IF;
-    -- Loop for every leisure trip in a day (1 or 2)
-    FOR k IN 1..noLeisTrips LOOP
-      -- Generate a leisure trip with a 40% probability
-      IF random() <= 0.4 THEN
-        -- Select a number of destinations between 1 and 3
-        IF random() < 0.8 THEN
-          noDest = 1;
-        ELSIF random() < 0.5 THEN
-          noDest = 2;
-        ELSE
-          noDest = 3;
-        END IF;
-        sourceNode = homeNode;
-        FOR m IN 1..noDest + 1 LOOP
-          IF m <= noDest THEN
-            targetNode = berlinmod_selectDestNode(i, noNeigh, noNodes);
-          ELSE
-            targetNode = homeNode;
-          END IF;
-          IF targetNode IS NULL THEN
-            RAISE EXCEPTION '    Destination node cannot be NULL';
-          END IF;
-          INSERT INTO LeisureTrip VALUES
-            (i, day, k, m, sourceNode, targetNode);
-          INSERT INTO Destinations(vehicle, source, target) VALUES
-            (i, sourceNode, targetNode) ON CONFLICT DO NOTHING;
-          sourceNode = targetNode;
-        END LOOP;
-      END IF;
-    END LOOP;
-    day = day + 1 * interval '1 day';
-  END LOOP;
+	-- Get home node and number of neighbour nodes
+	SELECT home, noNeighbours INTO homeNode, noNeigh
+	FROM Vehicle V WHERE V.id = i;
+	day = startDay;
+	-- Loop for every generation day
+	FOR j IN 1..noDays LOOP
+		weekday = date_part('dow', day);
+		-- Generate leisure trips (if any)
+		-- 1: Monday, 5: Friday
+		IF weekday BETWEEN 1 AND 5 THEN
+			noLeisTrips = 1;
+		ELSE
+			noLeisTrips = 2;
+		END IF;
+		-- Loop for every leisure trip in a day (1 or 2)
+		FOR k IN 1..noLeisTrips LOOP
+			-- Generate a leisure trip with a 40% probability
+			IF random() <= 0.4 THEN
+				-- Select a number of destinations between 1 and 3
+				IF random() < 0.8 THEN
+					noDest = 1;
+				ELSIF random() < 0.5 THEN
+					noDest = 2;
+				ELSE
+					noDest = 3;
+				END IF;
+				sourceNode = homeNode;
+				FOR m IN 1..noDest + 1 LOOP
+					IF m <= noDest THEN
+						targetNode = berlinmod_selectDestNode(i, noNeigh, noNodes);
+					ELSE
+						targetNode = homeNode;
+					END IF;
+					IF targetNode IS NULL THEN
+						RAISE EXCEPTION '    Destination node cannot be NULL';
+					END IF;
+					INSERT INTO LeisureTrip VALUES
+						(i, day, k, m, sourceNode, targetNode);
+					INSERT INTO Destinations(vehicle, source, target) VALUES
+						(i, sourceNode, targetNode) ON CONFLICT DO NOTHING;
+					sourceNode = targetNode;
+				END LOOP;
+			END IF;
+		END LOOP;
+		day = day + 1 * interval '1 day';
+	END LOOP;
 END LOOP;
 
 CREATE INDEX Destinations_vehicle_idx ON Destinations USING BTREE(vehicle);
@@ -2772,50 +2772,50 @@ We then call pgRouting to generate the path for each source and destination node
 
 ```sql
 CREATE TABLE Paths(
-  -- This attribute is needed for partitioning the table for big scale factors
-  vehicle int,
-  -- The following attributes are generated by pgRouting
-  start_vid bigint, end_vid bigint, seq int, node bigint, edge bigint,
-  -- The following attributes are filled from the Edges table
-  geom geometry NOT NULL, speed float NOT NULL, category int NOT NULL,
-  PRIMARY KEY (vehicle, start_vid, end_vid, seq)
+	-- This attribute is needed for partitioning the table for big scale factors
+	vehicle int,
+	-- The following attributes are generated by pgRouting
+	start_vid bigint, end_vid bigint, seq int, node bigint, edge bigint,
+	-- The following attributes are filled from the Edges table
+	geom geometry NOT NULL, speed float NOT NULL, category int NOT NULL,
+	PRIMARY KEY (vehicle, start_vid, end_vid, seq)
 );
 
 -- Select query sent to pgRouting
 IF pathMode = 'Fastest Path' THEN
-  query1_pgr = 'SELECT id, source, target, cost_s AS cost,'
-    'reverse_cost_s as reverse_cost FROM edges';
+	query1_pgr = 'SELECT id, source, target, cost_s AS cost,'
+		'reverse_cost_s as reverse_cost FROM edges';
 ELSE
-  query1_pgr = 'SELECT id, source, target, length_m AS cost,'
-    'length_m * sign(reverse_cost_s) as reverse_cost FROM edges';
+	query1_pgr = 'SELECT id, source, target, length_m AS cost,'
+		'length_m * sign(reverse_cost_s) as reverse_cost FROM edges';
 END IF;
 -- Get the total number of paths and number of calls to pgRouting
 SELECT COUNT(*) INTO noPaths FROM (SELECT DISTINCT source, target FROM Destinations) AS T;
 noCalls = ceiling(noPaths / P_PGROUTING_BATCH_SIZE::float);
 
 FOR i IN 1..noCalls LOOP
-  query2_pgr = format('SELECT DISTINCT source, target FROM Destinations '
-    'ORDER BY source, target LIMIT %s OFFSET %s',
-    P_PGROUTING_BATCH_SIZE, (i - 1) * P_PGROUTING_BATCH_SIZE);
-  INSERT INTO Paths(vehicle, start_vid, end_vid, seq, node, edge, geom, speed, category)
-  WITH Temp AS (
-    SELECT start_vid, end_vid, path_seq, node, edge
-    FROM pgr_dijkstra(query1_pgr, query2_pgr, true)
-    WHERE edge > 0
-  )
-  SELECT D.vehicle, start_vid, end_vid, path_seq, node, edge,
-    -- adjusting direction of the edge traversed
-    CASE
-      WHEN T.node = E.source THEN E.geom
-      ELSE ST_Reverse(E.geom)
-    END AS geom, E.maxspeed_forward AS speed,
-    berlinmod_roadCategory(E.tag_id) AS category
-  FROM Destinations D, Temp T, Edges E
-  WHERE D.source = T.start_vid AND D.target = T.end_vid AND E.id = T.edge;
+	query2_pgr = format('SELECT DISTINCT source, target FROM Destinations '
+		'ORDER BY source, target LIMIT %s OFFSET %s',
+		P_PGROUTING_BATCH_SIZE, (i - 1) * P_PGROUTING_BATCH_SIZE);
+	INSERT INTO Paths(vehicle, start_vid, end_vid, seq, node, edge, geom, speed, category)
+	WITH Temp AS (
+		SELECT start_vid, end_vid, path_seq, node, edge
+		FROM pgr_dijkstra(query1_pgr, query2_pgr, true)
+		WHERE edge > 0
+	)
+	SELECT D.vehicle, start_vid, end_vid, path_seq, node, edge,
+		-- adjusting direction of the edge traversed
+		CASE
+			WHEN T.node = E.source THEN E.geom
+			ELSE ST_Reverse(E.geom)
+		END AS geom, E.maxspeed_forward AS speed,
+		berlinmod_roadCategory(E.tag_id) AS category
+	FROM Destinations D, Temp T, Edges E
+	WHERE D.source = T.start_vid AND D.target = T.end_vid AND E.id = T.edge;
 END LOOP;
 
 CREATE INDEX Paths_vehicle_start_vid_end_vid_idx ON Paths USING
-  BTREE(vehicle, start_vid, end_vid);
+	BTREE(vehicle, start_vid, end_vid);
 ```
 
 
@@ -2823,3 +2823,92 @@ The variable `pathMode` determines whether pgRouting computes either the fastest
 
 We are now ready to generate the trips.
 
+
+```sql
+DROP TYPE IF EXISTS step CASCADE;
+CREATE TYPE step as (linestring geometry, maxspeed float, category int);
+
+CREATE FUNCTION berlinmod_createTrips(noVehicles int, noDays int, startDay date,
+	disturbData boolean)
+RETURNS void LANGUAGE plpgsql STRICT AS $$
+DECLARE
+	/* Declaration of variables and parameters ... */
+BEGIN
+	DROP TABLE IF EXISTS Trips;
+	CREATE TABLE Trips(vehicle int, day date, seq int, source bigint, target bigint,
+		trip tgeompoint, trajectory geometry, PRIMARY KEY (vehicle, day, seq));
+	-- Loop for each vehicle
+	FOR i IN 1..noVehicles LOOP
+		-- Get home -> work and work -> home paths
+		SELECT home, work INTO homeNode, workNode
+		FROM Vehicle V WHERE V.id = i;
+		SELECT array_agg((geom, speed, category)::step ORDER BY seq) INTO homework
+		FROM Paths WHERE vehicle = i AND start_vid = homeNode AND end_vid = workNode;
+		SELECT array_agg((geom, speed, category)::step ORDER BY seq) INTO workhome
+		FROM Paths WHERE vehicle = i AND start_vid = workNode AND end_vid = homeNode;
+		d = startDay;
+		-- Loop for each generation day
+		FOR j IN 1..noDays LOOP
+			weekday = date_part('dow', d);
+			-- 1: Monday, 5: Friday
+			IF weekday BETWEEN 1 AND 5 THEN
+				-- Crete trips home -> work and work -> home
+				t = d + time '08:00:00' + CreatePauseN(120);
+				createTrip(homework, t, disturbData);
+				INSERT INTO Trips VALUES (i, d, 1, homeNode, workNode, trip, trajectory(trip));
+				t = d + time '16:00:00' + CreatePauseN(120);
+				trip = createTrip(workhome, t, disturbData);
+				INSERT INTO Trips VALUES (i, d, 2, workNode, homeNode, trip, trajectory(trip));
+				tripSeq = 2;
+			END IF;
+			-- Get the number of leisure trips
+			SELECT COUNT(DISTINCT tripNo) INTO noLeisTrip
+			FROM LeisureTrip L
+			WHERE L.vehicle = i AND L.day = d;
+			-- Loop for each leisure trip (0, 1, or 2)
+			FOR k IN 1..noLeisTrip LOOP
+				IF weekday BETWEEN 1 AND 5 THEN
+					t = d + time '20:00:00' + CreatePauseN(90);
+					leisNo = 1;
+				ELSE
+					-- Determine whether it is a morning/afternoon (1/2) trip
+					IF noLeisTrip = 2 THEN
+						leisNo = k;
+					ELSE
+						SELECT tripNo INTO leisNo FROM LeisureTrip L
+						WHERE L.vehicle = i AND L.day = d LIMIT 1;
+					END IF;
+					-- Determine the start time
+					IF leisNo = 1 THEN
+						t = d + time '09:00:00' + CreatePauseN(120);
+					ELSE
+						t = d + time '17:00:00' + CreatePauseN(120);
+					END IF;
+				END IF;
+				-- Get the number of subtrips (number of destinations + 1)
+				SELECT count(*) INTO noSubtrips
+				FROM LeisureTrip L
+				WHERE L.vehicle = i AND L.tripNo = leisNo AND L.day = d;
+				FOR m IN 1..noSubtrips LOOP
+					-- Get the source and destination nodes of the subtrip
+					SELECT source, target INTO sourceNode, targetNode
+					FROM LeisureTrip L
+					WHERE L.vehicle = i AND L.day = d AND L.tripNo = leisNo AND L.seq = m;
+					-- Get the path
+					SELECT array_agg((geom, speed, category)::step ORDER BY seq) INTO path
+					FROM Paths P
+					WHERE vehicle = i AND start_vid = sourceNode AND end_vid = targetNode;
+					trip = createTrip(path, t, disturbData);
+					tripSeq = tripSeq + 1;
+					INSERT INTO Trips VALUES
+						(i, d, tripSeq, sourceNode, targetNode, trip, trajectory(trip));
+					-- Add a delay time in [0, 120] min using a bounded Gaussian distribution
+					t = endTimestamp(trip) + createPause();
+				END LOOP;
+			END LOOP;
+			d = d + 1 * interval '1 day';
+		END LOOP;
+	END LOOP;
+	RETURN;
+END; $$
+```
