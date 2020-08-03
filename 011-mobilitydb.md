@@ -2936,3 +2936,147 @@ BEGIN
 END; $$
 ```
 We create a `type` step which is a record composed of the geometry, the maximum speed, and the category of an edge. The procedure loops for each vehicle and each day and calls the procedure `createTrip` for creating the trips. If the day is a weekday, we generate the trips from home to work and from work to home starting, respectively, at 8 am and 4 pm plus a random non-zero duration of 120 minutes using a uniform distribution. We then generate the leisure trips. During the week days, the possible evening leisure trip starts at 8 pm plus a random random non-zero duration of 90 minutes, while during the weekend days, the two possible morning and afternoon trips start, respectively, at 9 am and 5 pm plus a random non-zero duration of 120 minutes. Between the multiple destinations of a leisure trip we add a delay time of maximum 120 minutes using a bounded Gaussian distribution.
+
+Finally, we explain the procedure that create a trip.
+
+```sql
+CREATE OR REPLACE FUNCTION createTrip(edges step[], startTime timestamptz,
+  disturbData boolean)
+RETURNS tgeompoint LANGUAGE plpgsql STRICT AS $$
+DECLARE
+  /* Declaration of variables and parameters ... */
+BEGIN
+  srid = ST_SRID((edges[1]).linestring);
+  p1 = ST_PointN((edges[1]).linestring, 1); x1 = ST_X(p1); y1 = ST_Y(p1);
+  curPos = p1; t = startTime;
+  instants[1] = tgeompointinst(p1, t);
+  curSpeed = 0; l = 2; noEdges = array_length(edges, 1);
+  -- Loop for every edge
+  FOR i IN 1..noEdges LOOP
+    -- Get the information about the current edge
+    linestring = (edges[i]).linestring; maxSpeedEdge = (edges[i]).maxSpeed;
+    category = (edges[i]).category;
+    -- Determine the number of segments
+    SELECT array_agg(geom ORDER BY path) INTO points
+    FROM ST_DumpPoints(linestring);
+    noSegs = array_length(points, 1) - 1;
+    -- Loop for every segment
+    FOR j IN 1..noSegs LOOP
+      p2 = points[j + 1]; x2 = ST_X(p2); y2 = ST_Y(p2);
+      -- If there is a segment ahead in the current edge compute the angle of the turn
+      -- and the maximum speed at the turn depending on this angle
+      IF j < noSegs THEN
+        p3 = points[j + 2];
+        alpha = degrees(ST_Angle(p1, p2, p3));
+        IF abs(mod(alpha::numeric, 360.0)) < P_EPSILON THEN
+          maxSpeedTurn = maxSpeedEdge;
+        ELSE
+          maxSpeedTurn = mod(abs(alpha - 180.0)::numeric, 180.0) / 180.0 * maxSpeedEdge;
+        END IF;
+      END IF;
+      -- Determine the number of fractions
+      segLength = ST_Distance(p1, p2);
+      IF segLength < P_EPSILON THEN
+        RAISE EXCEPTION 'Segment % of edge % has zero length', j, i;
+      END IF;
+      fraction = P_EVENT_LENGTH / segLength;
+      noFracs = ceiling(segLength / P_EVENT_LENGTH);
+      -- Loop for every fraction
+      k = 1;
+      WHILE k < noFracs LOOP
+        -- If the current speed is zero, apply an acceleration event
+        IF curSpeed <= P_EPSILON_SPEED THEN
+          -- If we are not approaching a turn
+          IF k < noFracs THEN
+            curSpeed = least(P_EVENT_ACC, maxSpeedEdge);
+          ELSE
+            curSpeed = least(P_EVENT_ACC, maxSpeedTurn);
+          END IF;
+        ELSE
+          -- If the current speed is not zero, apply a deceleration or a stop event
+          -- with a probability proportional to the maximun speed
+          IF random() <= P_EVENT_C / maxSpeedEdge THEN
+            IF random() <= P_EVENT_P THEN
+              -- Apply a stop event
+              curSpeed = 0.0;
+            ELSE
+              -- Apply a deceleration event
+              curSpeed = curSpeed * random_binomial(20, 0.5) / 20.0;
+            END IF;
+          ELSE
+            -- Otherwise, apply an acceleration event
+            IF k = noFracs AND j < noSegs THEN
+              maxSpeed = maxSpeedTurn;
+            ELSE
+              maxSpeed = maxSpeedEdge;
+            END IF;
+            curSpeed = least(curSpeed + P_EVENT_ACC, maxSpeed);
+          END IF;
+        END IF;
+        -- If speed is zero add a wait time
+        IF curSpeed < P_EPSILON_SPEED THEN
+          waitTime = random_exp(P_DEST_EXPMU);
+          IF waitTime < P_EPSILON THEN
+            waitTime = P_DEST_EXPMU;
+          END IF;
+          t = t + waitTime * interval '1 sec';
+        ELSE
+          -- Otherwise, move current position towards the end of the segment
+          IF k < noFracs THEN
+            x = x1 + ((x2 - x1) * fraction * k);
+            y = y1 + ((y2 - y1) * fraction * k);
+            IF disturbData THEN
+              dx = (2 * P_GPS_STEPMAXERR * rand()) - P_GPS_STEPMAXERR;
+              dy = (2 * P_GPS_STEPMAXERR * rand()) - P_GPS_STEPMAXERR;
+              errx = errx + dx; erry = erry + dy;
+              IF errx > P_GPS_TOTALMAXERR THEN
+                errx = P_GPS_TOTALMAXERR;
+              END IF;
+              IF errx < - 1 * P_GPS_TOTALMAXERR THEN
+                errx = -1 * P_GPS_TOTALMAXERR;
+              END IF;
+              IF erry > P_GPS_TOTALMAXERR THEN
+                erry = P_GPS_TOTALMAXERR;
+              END IF;
+              IF erry < -1 * P_GPS_TOTALMAXERR THEN
+                erry = -1 * P_GPS_TOTALMAXERR;
+              END IF;
+              x = x + dx; y = y + dy;
+            END IF;
+            curPos = ST_SetSRID(ST_Point(x, y), srid);
+            curDist = P_EVENT_LENGTH;
+          ELSE
+            curPos = p2;
+            curDist = segLength - (segLength * fraction * (k - 1));
+          END IF;
+          travelTime = (curDist / (curSpeed / 3.6));
+          IF travelTime < P_EPSILON THEN
+            travelTime = P_DEST_EXPMU;
+          END IF;
+          t = t + travelTime * interval '1 sec';
+          k = k + 1;
+        END IF;
+        instants[l] = tgeompointinst(curPos, t);
+        l = l + 1;
+      END LOOP;
+      p1 = p2; x1 = x2; y1 = y2;
+    END LOOP;
+    -- If we are not already in a stop, apply a stop event with a probability
+    -- depending on the category of the current edge and the next one (if any)
+    IF curSpeed > P_EPSILON_SPEED AND i < noEdges THEN
+      nextCategory = (edges[i + 1]).category;
+      IF random() <= P_DEST_STOPPROB[category][nextCategory] THEN
+        curSpeed = 0;
+        waitTime = random_exp(P_DEST_EXPMU);
+        IF waitTime < P_EPSILON THEN
+          waitTime = P_DEST_EXPMU;
+        END IF;
+        t = t + waitTime * interval '1 sec';
+        instants[l] = tgeompointinst(curPos, t);
+        l = l + 1;
+      END IF;
+    END IF;
+  END LOOP;
+  RETURN tgeompointseq(instants, true, true, true);
+END; $$
+```
