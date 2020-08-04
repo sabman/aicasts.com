@@ -3091,3 +3091,27 @@ The procedure receives as first argument a path from a source to a destination n
 
 Each segment is divided in fractions of length `P_EVENT_LENGTH`, which is by default 5 meters. We then loop for each fraction and choose to add one event that can be an acceleration, a deceleration, or a stop event. If the speed of the vehicle is zero, only an accelation event can happen. For this, we increase the current speed with the value of `P_EVENT_ACC`, which is by default 12 Km/h, and verify that the speed is not greater than the maximum speed of either the edge or the next turn for the last fraction. Otherwise, if the current speed is not zero, we apply a deceleration or a stop event with a probability proportional to the maximum speed of the edge, otherwise we apply an acceleration event. After applying the event, if the speed is zero we add a waiting time with a random exponential distribution with mean `P_DEST_EXPMU`, which is by default 1 second. Otherwise, we move the current position towards the end of the segment and, depending on the variable `disturbData`, we disturbe the new position to simulate GPS errors. The timestamp at which the vehicle reaches the new position is determined by dividing the distance traversed by the current speed. Finally, at the end of each segment, if the current speed is not zero, we add a stop event depending on the categories of the current segment and the next one. This is determined by a transition matrix given by the parameter `P_DEST_STOPPROB`.
 
+
+## Customizing the Generator to Your City
+
+In order to customize the generator to a particular city the only thing we need is to define a bounding box that will be used to download the data from OSM. There are many ways to obtain such a bounding box, and a typical way to proceed is to use one of the multiple online services that allows one to visually define a bounding box over a map. Figure 5.6, “Defining the bounding box for obtaining OSM data from Barcelona.” shows how we can define the bounding box around Barcelona using the web site bboxfinder.
+
+After obtaining the bounding box, we can proceed as we stated in the section called “Quick Start”. We create a new database barcelona, then add both PostGIS, MobilityDB, and pgRouting to it.
+
+```sql
+CREATE EXTENSION mobilitydb CASCADE;
+CREATE EXTENSION pgRouting;
+```
+
+```
+CITY="barcelona"
+BBOX="2.042084,41.267743,2.258720,41.445043"
+wget --progress=dot:mega -O "$CITY.osm"
+  "http://www.overpass-api.de/api/xapi?*[bbox=${BBOX}][@meta]"
+
+
+CITY="berlin"
+BBOX=13.08835,52.33826,13.76116,52.67551  
+wget --progress=dot:mega -O "$CITY.osm"
+  "http://www.overpass-api.de/api/xapi?*[bbox=${BBOX}][@meta]"
+```
