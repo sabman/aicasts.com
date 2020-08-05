@@ -3123,3 +3123,8 @@ sed -r "s/version=\"[0-9]+\" timestamp=\"[^\"]+\" changeset=\"[0-9]+\" uid=\"[0-
 	user=\"[^\"]+\"//g" barcelona.osm -i.org	
 ```
 
+Finally, we load the map and convert it into a routable format suitable for pgRouting as follows.
+
+```
+osm2pgrouting -f barcelona.osm --dbname barcelona -c mapconfig_brussels.xml
+```
