@@ -3128,3 +3128,10 @@ Finally, we load the map and convert it into a routable format suitable for pgRo
 ```
 osm2pgrouting -f barcelona.osm --dbname barcelona -c mapconfig_brussels.xml
 ```
+
+## Tuning the Generator Parameters
+
+Multiple parameters can be used to tune the generator according to your needs. We describe next these parameters.
+
+A first set of primary parameters determine the global behaviour of the generator. These parameters can also be set by a corresponding optional argument when calling the function `berlinmod_generate`.
+
