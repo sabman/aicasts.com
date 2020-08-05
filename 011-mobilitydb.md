@@ -3115,3 +3115,11 @@ BBOX=13.08835,52.33826,13.76116,52.67551
 wget --progress=dot:mega -O "$CITY.osm"
   "http://www.overpass-api.de/api/xapi?*[bbox=${BBOX}][@meta]"
 ```
+
+We can optionally reduce the size of the OSM file as follows
+
+```
+sed -r "s/version=\"[0-9]+\" timestamp=\"[^\"]+\" changeset=\"[0-9]+\" uid=\"[0-9]+\" 
+	user=\"[^\"]+\"//g" barcelona.osm -i.org	
+```
+
