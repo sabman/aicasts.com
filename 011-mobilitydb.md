@@ -3144,5 +3144,6 @@ noDays int = round((sqrt(P_SCALE_FACTOR) * 28)::numeric, 0)::int;
 
 For example, for a scale factor of 1.0, the number of vehicles and the number of days will be, respectively, 2000 and 28. Alternatively, you can manually set the number of vehicles or the number of days using the optional arguments noVehicles and noDays, which are both integers.
 
-`P_START_DAY`: date: The day the observation starts. Default value: Monday 2020-01-06. Corresponding optional argument: `startDay`.
+`P_START_DAY: date`: The day the observation starts. Default value: Monday 2020-01-06. Corresponding optional argument: `startDay`.
 
+`P_PATH_MODE: text`: Method for selecting a path between source and target nodes. Possible values are `'Fastest Path'` (default) and `'Shortest Path'`. Corresponding optional argument: `pathMode`.
