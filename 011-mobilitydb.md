@@ -3135,3 +3135,12 @@ Multiple parameters can be used to tune the generator according to your needs. W
 
 A first set of primary parameters determine the global behaviour of the generator. These parameters can also be set by a corresponding optional argument when calling the function `berlinmod_generate`.
 
+`P_SCALE_FACTOR: float`: Main parameter that determines the size of the data generated. Default value: 0.005. Corresponding optional argument: `scaleFactor`. By default, the scale factor determine the number of vehicles and the number of days they are observed as follows:
+
+```sql
+noVehicles int = round((2000 * sqrt(P_SCALE_FACTOR))::numeric, 0)::int;
+noDays int = round((sqrt(P_SCALE_FACTOR) * 28)::numeric, 0)::int;
+```
+
+For example, for a scale factor of 1.0, the number of vehicles and the number of days will be, respectively, 2000 and 28. Alternatively, you can manually set the number of vehicles or the number of days using the optional arguments noVehicles and noDays, which are both integers.
+
