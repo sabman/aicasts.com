@@ -3150,3 +3150,4 @@ For example, for a scale factor of 1.0, the number of vehicles and the number of
 
 `P_NODE_CHOICE: text`: Method for selecting home and work nodes. Possible values are 'Network Based' for chosing the nodes with a uniform distribution among all nodes (default) and 'Region Based' to use the population and number of enterprises statistics in the Regions tables. Corresponding optional argument: nodeChoice.
 
+`P_DISTURB_DATA: boolean`: Determine whether imprecision is added to the data generated. Possible values are false (no imprecision, default) and true (disturbed data). Corresponding optional argument: disturbData.
