@@ -3111,7 +3111,7 @@ wget --progress=dot:mega -O "$CITY.osm"
 
 
 CITY="berlin"
-BBOX=13.08835,52.33826,13.76116,52.67551  
+BBOX=13.08835,52.33826,13.76116,52.67551
 wget --progress=dot:mega -O "$CITY.osm"
   "http://www.overpass-api.de/api/xapi?*[bbox=${BBOX}][@meta]"
 ```
@@ -3119,8 +3119,8 @@ wget --progress=dot:mega -O "$CITY.osm"
 We can optionally reduce the size of the OSM file as follows
 
 ```
-sed -r "s/version=\"[0-9]+\" timestamp=\"[^\"]+\" changeset=\"[0-9]+\" uid=\"[0-9]+\" 
-	user=\"[^\"]+\"//g" barcelona.osm -i.org	
+sed -r "s/version=\"[0-9]+\" timestamp=\"[^\"]+\" changeset=\"[0-9]+\" uid=\"[0-9]+\"
+  user=\"[^\"]+\"//g" barcelona.osm -i.org
 ```
 
 Finally, we load the map and convert it into a routable format suitable for pgRouting as follows.
@@ -3151,3 +3151,5 @@ For example, for a scale factor of 1.0, the number of vehicles and the number of
 `P_NODE_CHOICE: text`: Method for selecting home and work nodes. Possible values are 'Network Based' for chosing the nodes with a uniform distribution among all nodes (default) and 'Region Based' to use the population and number of enterprises statistics in the Regions tables. Corresponding optional argument: nodeChoice.
 
 `P_DISTURB_DATA: boolean`: Determine whether imprecision is added to the data generated. Possible values are false (no imprecision, default) and true (disturbed data). Corresponding optional argument: disturbData.
+
+`P_MESSAGES: text`: Quantity of messages shown describing the generation process. Possible values are 'minimal', 'mediummmm', 'verbose', and 'debug'. Corresponding optional argument: messages.
