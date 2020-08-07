@@ -3147,3 +3147,6 @@ For example, for a scale factor of 1.0, the number of vehicles and the number of
 `P_START_DAY: date`: The day the observation starts. Default value: Monday 2020-01-06. Corresponding optional argument: `startDay`.
 
 `P_PATH_MODE: text`: Method for selecting a path between source and target nodes. Possible values are `'Fastest Path'` (default) and `'Shortest Path'`. Corresponding optional argument: `pathMode`.
+
+`P_NODE_CHOICE: text`: Method for selecting home and work nodes. Possible values are 'Network Based' for chosing the nodes with a uniform distribution among all nodes (default) and 'Region Based' to use the population and number of enterprises statistics in the Regions tables. Corresponding optional argument: nodeChoice.
+
