@@ -3166,3 +3166,8 @@ SELECT berlinmod_generate(scaleFactor := 2.0);
 -- Set the number of vehicles and number of days
 SELECT berlinmod_generate(noVehicles := 10, noDays := 10);
 ```
+
+Another set of parameters determining the global behaviour of the generator are given next.
+
+`P_RANDOM_SEED: float`: Seed for the random generator used to ensure deterministic results. Default value: 0.5.
+
