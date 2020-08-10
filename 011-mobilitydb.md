@@ -3156,3 +3156,13 @@ For example, for a scale factor of 1.0, the number of vehicles and the number of
 
 `P_TRIP_GENERATION: text`: Determine the language used to generate the trips. Possible values are 'C' (default) and 'SQL'. Corresponding optional argument: tripGeneration.
 
+For example, possible calls of the berlinmod_generate function setting values for the parameters are as follows.
+
+```sql
+-- Use all default values
+SELECT berlinmod_generate();
+-- Set the scale factor and use all other default values
+SELECT berlinmod_generate(scaleFactor := 2.0);
+-- Set the number of vehicles and number of days
+SELECT berlinmod_generate(noVehicles := 10, noDays := 10);
+```
