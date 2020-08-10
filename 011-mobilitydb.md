@@ -3153,3 +3153,6 @@ For example, for a scale factor of 1.0, the number of vehicles and the number of
 `P_DISTURB_DATA: boolean`: Determine whether imprecision is added to the data generated. Possible values are false (no imprecision, default) and true (disturbed data). Corresponding optional argument: disturbData.
 
 `P_MESSAGES: text`: Quantity of messages shown describing the generation process. Possible values are 'minimal', 'mediummmm', 'verbose', and 'debug'. Corresponding optional argument: messages.
+
+`P_TRIP_GENERATION: text`: Determine the language used to generate the trips. Possible values are 'C' (default) and 'SQL'. Corresponding optional argument: tripGeneration.
+
