@@ -3180,3 +3180,8 @@ Another set of parameters determining the global behaviour of the generator are 
 `P_VEHICLE_TYPES: text[]`: Set of vehicle types. Default value: {"passenger", "bus", "truck"}.
 
 `P_VEHICLE_MODELS: text[]`: Set of vehicle models. Default value:
+
+```json
+{"Mercedes-Benz", "Volkswagen", "Maybach", "Porsche", "Opel", "BMW", "Audi", "Acabion",
+"Borgward", "Wartburg", "Sachsenring", "Multicar"}
+```
