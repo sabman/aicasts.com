@@ -3171,3 +3171,7 @@ Another set of parameters determining the global behaviour of the generator are 
 
 `P_RANDOM_SEED: float`: Seed for the random generator used to ensure deterministic results. Default value: 0.5.
 
+`P_NEIGHBOURHOOD_RADIUS: float`: Radius in meters defining a node neigbourhood. Default value: 3000.0.
+
+`P_SAMPLE_SIZE: int`: Size for sample relations. Default value: 100.
+
