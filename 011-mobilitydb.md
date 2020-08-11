@@ -3185,3 +3185,6 @@ Another set of parameters determining the global behaviour of the generator are 
 {"Mercedes-Benz", "Volkswagen", "Maybach", "Porsche", "Opel", "BMW", "Audi", "Acabion",
 "Borgward", "Wartburg", "Sachsenring", "Multicar"}
 ```
+
+`P_PGROUTING_BATCH_SIZE: int`: Number of paths sent in a batch to pgRouting. Default value: 1e5 .
+
