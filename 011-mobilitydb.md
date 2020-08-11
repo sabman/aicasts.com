@@ -3188,3 +3188,7 @@ Another set of parameters determining the global behaviour of the generator are 
 
 `P_PGROUTING_BATCH_SIZE: int`: Number of paths sent in a batch to pgRouting. Default value: 1e5 .
 
+Another set of paramaters determine how the trips are created out of the paths.
+
+`P_EPSILON_SPEED: float`: Minimum speed in Km/h that is considered as a stop and thus only an accelaration event can be applied. Default value: 1.0.
+
