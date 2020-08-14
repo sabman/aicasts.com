@@ -3201,3 +3201,9 @@ Another set of paramaters determine how the trips are created out of the paths.
 `P_EVENT_LENGTH: float`: Sampling distance in meters at which an acceleration, deceleration, or stop event may be generated. Default value: 5.0.
 
 `P_EVENT_ACC: float`: Constant speed in Km/h that is added to the current speed in an acceleration event. Default value: 12.0.
+
+`P_DEST_STOPPROB: float`: Probabilities for forced stops at crossings depending on the road type. It is defined by a transition matrix where lines and columns are ordered by *side road (S), main road (M), freeway (F)*. The OSM highway types must be mapped to one of these categories in the function `berlinmod_roadCategory`. Default value:
+
+```
+{{0.33, 0.66, 1.00}, {0.33, 0.50, 0.66}, {0.10, 0.33, 0.05}}
+```
