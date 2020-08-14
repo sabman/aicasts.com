@@ -3192,3 +3192,12 @@ Another set of paramaters determine how the trips are created out of the paths.
 
 `P_EPSILON_SPEED: float`: Minimum speed in Km/h that is considered as a stop and thus only an accelaration event can be applied. Default value: 1.0.
 
+`P_EPSILON: float`: Minimum distance in the units of the coordinate system that is considered as zero. Default value: 0.0001.
+
+`P_EVENT_C: float`: The probability of a stop or a deceleration event is proportional to `P_EVENT_C / maxspeed`. Default value: 1.0
+
+`P_EVENT_P: float`: The probability for an event to be a stop. The complement `1.0 - P_EVENT_P` is the probability for an event to be a deceleration. Default value: 0.1
+
+`P_EVENT_LENGTH: float`: Sampling distance in meters at which an acceleration, deceleration, or stop event may be generated. Default value: 5.0.
+
+`P_EVENT_ACC: float`: Constant speed in Km/h that is added to the current speed in an acceleration event. Default value: 12.0.
