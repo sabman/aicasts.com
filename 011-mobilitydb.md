@@ -3219,3 +3219,18 @@ In this workshop, we have used until now the BerlinMOD scenario, which models th
 Each day of the week excepted Sundays, deliveries of appliances from the warehouses to the customers are organized as follows. Each warehouse has several vehicles that make the deliveries. To each vehicle is assigned a list of customers that must be delivered during a day. A trip for a vehicle starts and ends at the warehouse and make the deliveries to the customers in the order of the list. Notice that in a real-world situation, the scheduling of the deliveries to clients by the vehicles requires to take into account the availability of the customers in a time slot of a day and the time needed to make the delivery of the previous customers in the list.
 
 
+We describe next the main steps in the generation of the deliveries scenario.
+
+We start by generating the Warehouse table. Each warehouse is located at a random node of the network.
+
+```sql
+  DROP TABLE IF EXISTS Warehouse;
+  CREATE TABLE Warehouse(warehouseId int, nodeId bigint, geom geometry(Point));
+
+  FOR i IN 1..noWarehouses LOOP
+    INSERT INTO Warehouse(warehouseId, nodeId, geom)
+    SELECT i, id, geom
+    FROM Nodes N
+    ORDER BY id LIMIT 1 OFFSET random_int(1, noNodes);
+  END LOOP;
+```
