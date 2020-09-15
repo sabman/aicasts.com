@@ -3240,12 +3240,28 @@ We create a relation `Vehicle` with all vehicles and the associated warehouse. W
 ```sql
   DROP TABLE IF EXISTS Vehicle;
   CREATE TABLE Vehicle(
-    vehicleId int, 
-    warehouseId int, 
+    vehicleId int,
+    warehouseId int,
     noNeighbours int
   );
 
   INSERT INTO Vehicle(vehicleId, warehouseId)
   SELECT id, 1 + ((id - 1) % noWarehouses)
   FROM generate_series(1, noVehicles) id;
+```
+
+We then create a relation `Neighbourhood` containing for each vehicle the nodes with a distance less than the parameter `P_NEIGHBOURHOOD_RADIUS` to its `warehouse` node.
+
+```sql
+  DROP TABLE IF EXISTS Neighbourhood;
+  CREATE TABLE Neighbourhood AS
+  SELECT ROW_NUMBER() OVER () AS id, V.vehicleId, N2.id AS Node
+  FROM Vehicle V, Nodes N1, Nodes N2
+  WHERE V.warehouseId = N1.id AND ST_DWithin(N1.Geom, N2.geom, P_NEIGHBOURHOOD_RADIUS);
+
+  CREATE UNIQUE INDEX Neighbourhood_id_idx ON Neighbourhood USING BTREE(id);
+  CREATE INDEX Neighbourhood_vehicleId_idx ON Neighbourhood USING BTREE(VehicleId);
+
+  UPDATE Vehicle V SET
+    noNeighbours = (SELECT COUNT(*) FROM Neighbourhood N WHERE N.vehicleId = V.vehicleId);
 ```
