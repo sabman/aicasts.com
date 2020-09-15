@@ -3234,3 +3234,18 @@ We start by generating the Warehouse table. Each warehouse is located at a rando
     ORDER BY id LIMIT 1 OFFSET random_int(1, noNodes);
   END LOOP;
 ```
+
+We create a relation `Vehicle` with all vehicles and the associated warehouse. Warehouses are associated to vehicles in a round-robin way.
+
+```sql
+  DROP TABLE IF EXISTS Vehicle;
+  CREATE TABLE Vehicle(
+    vehicleId int, 
+    warehouseId int, 
+    noNeighbours int
+  );
+
+  INSERT INTO Vehicle(vehicleId, warehouseId)
+  SELECT id, 1 + ((id - 1) % noWarehouses)
+  FROM generate_series(1, noVehicles) id;
+```
