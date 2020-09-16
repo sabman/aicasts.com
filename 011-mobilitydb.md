@@ -3298,7 +3298,12 @@ FOR i IN 1..noVehicles LOOP
   FOR j IN 1..noDays LOOP
     -- Generate delivery trips excepted on Sunday
     IF date_part('dow', day) <> 0 THEN
-      -- Update DeliveryTrip and Destinations
+      -- Select a number of destinations between 3 and 7
+      SELECT random_int(3, 7) INTO noDest;
+      -- initially sset sourceNode to warehouse
+      sourceNode = warehouseNode;
+
+      -- TODO: Update DeliveryTrip and Destinations
     END IF;
 
     -- update day
