@@ -3315,6 +3315,12 @@ FOR i IN 1..noVehicles LOOP
         IF targetNode IS NULL THEN
           RAISE EXCEPTION '    Destination node cannot be NULL';
         END IF;
+
+        -- Update DeliveryTrip and Destinations
+        -- Keep the start and end nodes of each subtrip
+        INSERT INTO DeliveryTrip VALUES (i, day, k, sourceNode, targetNode);
+        INSERT INTO Destinations(source, target) VALUES (sourceNode, targetNode);
+        sourceNode = targetNode;
       END LOOP;
 
     END IF;
