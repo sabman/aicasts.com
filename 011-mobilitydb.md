@@ -3300,11 +3300,16 @@ FOR i IN 1..noVehicles LOOP
     IF date_part('dow', day) <> 0 THEN
       -- Select a number of destinations between 3 and 7
       SELECT random_int(3, 7) INTO noDest;
-      -- initially sset sourceNode to warehouse
+      -- initially set sourceNode to warehouse
       sourceNode = warehouseNode;
 
       FOR k IN 1..noDest + 1 LOOP
-        -- TODO: Update DeliveryTrip and Destinations
+        -- Pick random target/destination Node unless we are at final destination
+        IF k <= noDest THEN
+          targetNode = berlinmod_selectDestNode(i, noNeigh, noNodes);
+        ELSE
+          targetNode = warehouseNode;
+        END IF;
       END LOOP;
 
     END IF;
