@@ -3265,3 +3265,34 @@ We then create a relation `Neighbourhood` containing for each vehicle the nodes 
   UPDATE Vehicle V SET
     noNeighbours = (SELECT COUNT(*) FROM Neighbourhood N WHERE N.vehicleId = V.vehicleId);
 ```
+
+We create next the `DeliveryTrip` and `Destinations` tables that contain, respectively, the list of source and destination nodes composing the delivery `trip` of a `vehicle` for a day, and the list of `source` and `destination` nodes for all vehicles.
+
+```sql
+DROP TABLE IF EXISTS DeliveryTrip;
+
+CREATE TABLE DeliveryTrip(
+  vehicle int,
+  day date,
+  seq int,
+  source bigint,
+  target bigint,
+  PRIMARY KEY (vehicle, day, seq)
+);
+
+DROP TABLE IF EXISTS Destinations;
+
+CREATE TABLE Destinations(
+  id serial,
+  source bigint,
+  target bigint
+);
+
+-- Loop for every vehicle
+FOR i IN 1..noVehicles LOOP
+  -- Get the warehouse node and the number of neighbour nodes
+  SELECT W.node, V.noNeighbours INTO warehouseNode, noNeigh
+  FROM Vehicle V, Warehouse W WHERE V.id = i AND V.warehouse = W.id;
+  day = startDay;
+END LOOP;
+```
