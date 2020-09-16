@@ -3310,6 +3310,11 @@ FOR i IN 1..noVehicles LOOP
         ELSE
           targetNode = warehouseNode;
         END IF;
+
+        -- Error checking (Not sure why this is needed)
+        IF targetNode IS NULL THEN
+          RAISE EXCEPTION '    Destination node cannot be NULL';
+        END IF;
       END LOOP;
 
     END IF;
