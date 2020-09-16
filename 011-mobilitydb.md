@@ -3303,7 +3303,10 @@ FOR i IN 1..noVehicles LOOP
       -- initially sset sourceNode to warehouse
       sourceNode = warehouseNode;
 
-      -- TODO: Update DeliveryTrip and Destinations
+      FOR k IN 1..noDest + 1 LOOP
+        -- TODO: Update DeliveryTrip and Destinations
+      END LOOP;
+
     END IF;
 
     -- update day
