@@ -3294,5 +3294,9 @@ FOR i IN 1..noVehicles LOOP
   SELECT W.node, V.noNeighbours INTO warehouseNode, noNeigh
   FROM Vehicle V, Warehouse W WHERE V.id = i AND V.warehouse = W.id;
   day = startDay;
+    -- Loop for every generation day
+  FOR j IN 1..noDays LOOP
+    --- TODO: -- Generate delivery trips excepted on Sunday
+  END LOOP;
 END LOOP;
 ```
