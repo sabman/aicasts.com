@@ -3296,7 +3296,10 @@ FOR i IN 1..noVehicles LOOP
   day = startDay;
     -- Loop for every generation day
   FOR j IN 1..noDays LOOP
-    --- TODO: -- Generate delivery trips excepted on Sunday
+    -- Generate delivery trips excepted on Sunday
+    IF date_part('dow', day) <> 0 THEN
+      -- Update DeliveryTrip and Destinations
+    END IF;
 
     -- update day
     day = day + 1 * interval '1 day';
