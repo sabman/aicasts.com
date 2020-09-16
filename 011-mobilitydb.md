@@ -3297,6 +3297,9 @@ FOR i IN 1..noVehicles LOOP
     -- Loop for every generation day
   FOR j IN 1..noDays LOOP
     --- TODO: -- Generate delivery trips excepted on Sunday
+
+    -- update day
+    day = day + 1 * interval '1 day';
   END LOOP;
 END LOOP;
 ```
