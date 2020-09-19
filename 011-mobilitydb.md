@@ -3330,3 +3330,8 @@ FOR i IN 1..noVehicles LOOP
   END LOOP;
 END LOOP;
 ```
+
+
+For every vehicle and every day which is not Sunday we proceed as follows. We randomly chose a number between 3 and 7 destinations and call the function berlinmod_selectDestNode we have seen in previous sections for determining these destinations. This function choses either one node in the neighbourhood of the warehouse of the vehicle with 80% probability or a node from the complete graph with 20% probability. Then, the sequence of source and destination couples starting in the warehouse, visiting sequentially the clients to deliver and returning to the warehouse are added to the tables DeliveryTrip and Destinations.
+
+
