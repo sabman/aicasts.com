@@ -3351,4 +3351,14 @@ CREATE TABLE Paths(
   -- These attributes are filled in the subsequent update
   geom geometry, speed float, category int
 );
+
+-- Select query sent to pgRouting
+IF pathMode = 'Fastest Path' THEN
+  query1_pgr = 'SELECT id, source, target, cost_s AS cost, '
+    'reverse_cost_s as reverse_cost FROM edges';
+ELSE
+  -- shortest path
+  query1_pgr = 'SELECT id, source, target, length_m AS cost, '
+    'length_m * sign(reverse_cost_s) as reverse_cost FROM edges';
+END IF;
 ```
