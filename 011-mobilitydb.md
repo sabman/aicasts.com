@@ -3361,4 +3361,17 @@ ELSE
   query1_pgr = 'SELECT id, source, target, length_m AS cost, '
     'length_m * sign(reverse_cost_s) as reverse_cost FROM edges';
 END IF;
+
+-- Get the total number of paths and number of calls to pgRouting
+SELECT COUNT(*) INTO noPaths FROM (SELECT DISTINCT source, target FROM Destinations) AS T;
+noCalls = ceiling(noPaths / P_PGROUTING_BATCH_SIZE::float);
+
+FOR i IN 1..noCalls LOOP
+  query2_pgr = format('SELECT DISTINCT source, target FROM Destinations '
+    'ORDER BY source, target LIMIT %s OFFSET %s',
+    P_PGROUTING_BATCH_SIZE, (i - 1) * P_PGROUTING_BATCH_SIZE);
+  INSERT INTO Paths(seq, path_seq, start_vid, end_vid, node, edge, cost, agg_cost)
+  SELECT * FROM pgr_dijkstra(query1_pgr, query2_pgr, true);
+END LOOP;
+
 ```
