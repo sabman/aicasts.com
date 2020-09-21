@@ -3364,7 +3364,7 @@ END IF;
 
 -- Get the total number of paths and number of calls to pgRouting
 SELECT COUNT(*) INTO noPaths FROM (SELECT DISTINCT source, target FROM Destinations) AS T;
-noCalls = ceiling(noPaths / P_PGROUTING_BATCH_SIZE::float);
+noCalls = ceiling(noPaths / P_PGROUTING_BATCH_SIZE::float); -- P_PGROUTING_BATCH_SIZE 10,000 by default
 
 FOR i IN 1..noCalls LOOP
   query2_pgr = format('SELECT DISTINCT source, target FROM Destinations '
