@@ -3373,4 +3373,16 @@ FOR i IN 1..noCalls LOOP
   INSERT INTO Paths(seq, path_seq, start_vid, end_vid, node, edge, cost, agg_cost)
   SELECT * FROM pgr_dijkstra(query1_pgr, query2_pgr, true);
 END LOOP;
+
+UPDATE Paths SET geom =
+    -- adjusting directionality
+    CASE
+      WHEN node = E.source THEN E.geom
+      ELSE ST_Reverse(E.geom)
+    END,
+    speed = maxspeed_forward,
+    category = berlinmod_roadCategory(tag_id)
+  FROM Edges E WHERE E.id = edge;
+
+CREATE INDEX Paths_start_vid_end_vid_idx ON Paths USING BTREE(start_vid, end_vid);
 ```
