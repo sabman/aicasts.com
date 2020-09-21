@@ -3373,5 +3373,4 @@ FOR i IN 1..noCalls LOOP
   INSERT INTO Paths(seq, path_seq, start_vid, end_vid, node, edge, cost, agg_cost)
   SELECT * FROM pgr_dijkstra(query1_pgr, query2_pgr, true);
 END LOOP;
-
 ```
