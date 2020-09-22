@@ -3386,3 +3386,5 @@ UPDATE Paths SET geom =
 
 CREATE INDEX Paths_start_vid_end_vid_idx ON Paths USING BTREE(start_vid, end_vid);
 ```
+
+After creating the `Paths` table, we set the query to be sent to `pgRouting` depending on whether we have want to compute the fastest or the shortest paths between two nodes.
