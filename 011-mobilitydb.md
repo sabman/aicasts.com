@@ -3388,3 +3388,11 @@ CREATE INDEX Paths_start_vid_end_vid_idx ON Paths USING BTREE(start_vid, end_vid
 ```
 
 After creating the `Paths` table, we set the query to be sent to `pgRouting` depending on whether we have want to compute the fastest or the shortest paths between two nodes. The generator uses the parameter `P_PGROUTING_BATCH_SIZE` to determine the maximum number of paths we compute in a single call to `pgRouting`. This parameter is set to 10,000 by default. Indeed, there is limit in the number of paths that `pgRouting` can compute in a single call and this depends in the available **memory** of the computer. Therefore, we need to determine the number of calls to `pgRouting` and compute the paths by calling the function `pgr_dijkstra`. Finally, we need to adjust the directionality of the geometry of the edges depending on which direction a trip traverses the edges, and set the *speed* and the *category* of the edges.
+
+The following procedure generates the trips for a number of vehicles and a number of days starting at a given day. The last argument correspond to the Boolean parameter `P_DISTURB_DATA` that determines whether simulated GPS errors are added to the trips.
+
+```sql
+DROP FUNCTION IF EXISTS deliveries_createTrips;
+CREATE FUNCTION deliveries_createTrips(noVehicles int, noDays int, startDay Date,
+	disturbData boolean)
+```
