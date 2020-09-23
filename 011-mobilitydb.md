@@ -3394,5 +3394,5 @@ The following procedure generates the trips for a number of vehicles and a numbe
 ```sql
 DROP FUNCTION IF EXISTS deliveries_createTrips;
 CREATE FUNCTION deliveries_createTrips(noVehicles int, noDays int, startDay Date,
-	disturbData boolean)
+  disturbData boolean)
 ```
