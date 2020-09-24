@@ -3421,7 +3421,7 @@ BEGIN
     trajectory geometry, sourceGeom geometry,
     PRIMARY KEY (vehicle, day, seq)
   );
-  
+
   day = startDay;
   FOR i IN 1..noDays LOOP
     SELECT date_part('dow', day) into weekday;
@@ -3437,4 +3437,12 @@ BEGIN
   UPDATE Trips SET sourceGeom = (SELECT geom FROM Nodes WHERE id = source);
   RETURN;
 END; $$
+```
+
+As can be seen, this procedure simply loops for each day (excepted Sundays) and for each vehicle and calls the function `deliveries_createDay` which is given next.
+
+```sql
+DROP FUNCTION IF EXISTS deliveries_createDay;
+CREATE FUNCTION deliveries_createDay(vehicId int, aDay date, disturbData boolean)
+RETURNS void LANGUAGE plpgsql STRICT AS $$
 ```
