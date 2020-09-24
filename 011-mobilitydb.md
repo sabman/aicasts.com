@@ -3399,4 +3399,42 @@ CREATE FUNCTION deliveries_createTrips(
   startDay Date,
   disturbData boolean
 )
+
+RETURNS void LANGUAGE plpgsql STRICT AS $$
+DECLARE
+  -- Loops over the days for which we generate the data
+  day date;
+  -- 0 (Sunday) to 6 (Saturday)
+  weekday int;
+  -- Loop variables
+  i int; j int;
+BEGIN
+  DROP TABLE IF EXISTS Trips;
+  CREATE TABLE Trips(
+    vehicle int,
+    day date,
+    seq int,
+    source bigint,
+    target bigint,
+    trip tgeompoint,
+    -- These columns are used for visualization purposes
+    trajectory geometry, sourceGeom geometry,
+    PRIMARY KEY (vehicle, day, seq)
+  );
+  
+  day = startDay;
+  FOR i IN 1..noDays LOOP
+    SELECT date_part('dow', day) into weekday;
+    -- 6: saturday, 0: sunday
+    IF weekday <> 0 THEN
+      FOR j IN 1..noVehicles LOOP
+        PERFORM deliveries_createDay(j, day, disturbData);
+      END LOOP;
+    END IF;
+    day = day + 1 * interval '1 day';
+  END LOOP;
+  -- Add geometry attributes for visualizing the results
+  UPDATE Trips SET sourceGeom = (SELECT geom FROM Nodes WHERE id = source);
+  RETURN;
+END; $$
 ```
