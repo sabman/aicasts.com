@@ -3445,4 +3445,10 @@ As can be seen, this procedure simply loops for each day (excepted Sundays) and 
 DROP FUNCTION IF EXISTS deliveries_createDay;
 CREATE FUNCTION deliveries_createDay(vehicId int, aDay date, disturbData boolean)
 RETURNS void LANGUAGE plpgsql STRICT AS $$
+DECLARE
+  -- ...
+BEGIN
+  -- ...
+END;
+$$ LANGUAGE plpgsql STRICT;
 ```
