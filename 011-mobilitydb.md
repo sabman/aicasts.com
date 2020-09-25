@@ -3446,7 +3446,24 @@ DROP FUNCTION IF EXISTS deliveries_createDay;
 CREATE FUNCTION deliveries_createDay(vehicId int, aDay date, disturbData boolean)
 RETURNS void LANGUAGE plpgsql STRICT AS $$
 DECLARE
-  -- ...
+  -- Current timestamp
+  t timestamptz;
+  -- Start time of a trip to a destination
+  startTime timestamptz;
+  -- Number of trips in a delivery (number of destinations + 1)
+  noTrips int;
+  -- Loop variable
+  i int;
+  -- Time delivering a customer
+  deliveryTime interval;
+  -- Warehouse identifier
+  warehouseNode bigint;
+  -- Source and target nodes of one subtrip of a delivery trip
+  sourceNode bigint; targetNode bigint;
+  -- Path betwen start and end nodes
+  path step[];
+  -- Trip obtained from a path
+  trip tgeompoint;
 BEGIN
   -- ...
 END;
