@@ -3465,7 +3465,10 @@ DECLARE
   -- Trip obtained from a path
   trip tgeompoint;
 BEGIN
-  -- ...
+  -- 0: sunday
+  IF date_part('dow', aDay) <> 0 THEN
+    -- ....
+  END IF;
 END;
 $$ LANGUAGE plpgsql STRICT;
 ```
