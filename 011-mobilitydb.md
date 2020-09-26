@@ -3484,6 +3484,10 @@ BEGIN
     IF trip IS NULL THEN
       RAISE EXCEPTION 'A trip cannot be NULL';
     END IF;
+    INSERT INTO Trips VALUES (
+      vehicId, aDay, i, sourceNode, targetNode,
+      trip, trajectory(trip)
+    );
   END IF;
 END;
 $$ LANGUAGE plpgsql STRICT;
