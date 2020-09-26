@@ -3467,7 +3467,10 @@ DECLARE
 BEGIN
   -- 0: sunday
   IF date_part('dow', aDay) <> 0 THEN
-    -- ....
+    -- Get the source and destination nodes of the trip
+    SELECT source, target INTO sourceNode, targetNode
+    FROM DeliveryTrip D
+    WHERE D.vehicle = vehicId AND D.day = aDay AND D.seq = i;
   END IF;
 END;
 $$ LANGUAGE plpgsql STRICT;
