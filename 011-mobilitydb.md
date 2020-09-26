@@ -3471,6 +3471,13 @@ BEGIN
     SELECT source, target INTO sourceNode, targetNode
     FROM DeliveryTrip D
     WHERE D.vehicle = vehicId AND D.day = aDay AND D.seq = i;
+    -- Get the path
+    SELECT array_agg((geom, speed, category) ORDER BY path_seq) INTO path
+    FROM Paths P
+    WHERE start_vid = sourceNode AND end_vid = targetNode AND edge > 0;
+    IF path IS NULL THEN
+      RAISE EXCEPTION 'The path of a trip cannot be NULL';
+    END IF;
   END IF;
 END;
 $$ LANGUAGE plpgsql STRICT;
