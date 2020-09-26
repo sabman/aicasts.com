@@ -3495,3 +3495,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STRICT;
 ```
+
+We first set the *start time* of a delivery trip by adding to 7 am a random non-zero duration of 120 minutes using a uniform distribution. 
+
+Then, for every couple of `source` and `destination` nodes to be visited in the trip, we call the function `create_trip` that we have seen previously to generate the trip, wich is then inserted into the `Trips` table. 
+
+Finally, we add a delivery time between 10 and 60 minutes using a bounded Gaussian distribution before starting the trip to the next customer or the return trip to the warehouse.
