@@ -3478,6 +3478,12 @@ BEGIN
     IF path IS NULL THEN
       RAISE EXCEPTION 'The path of a trip cannot be NULL';
     END IF;
+    -- Create trip
+    startTime = t;
+    trip = create_trip(path, t, disturbData);
+    IF trip IS NULL THEN
+      RAISE EXCEPTION 'A trip cannot be NULL';
+    END IF;
   END IF;
 END;
 $$ LANGUAGE plpgsql STRICT;
