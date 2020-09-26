@@ -3488,6 +3488,9 @@ BEGIN
       vehicId, aDay, i, sourceNode, targetNode,
       trip, trajectory(trip)
     );
+    -- Add a delivery time in [10, 60] min using a bounded Gaussian distribution
+    deliveryTime = random_boundedgauss(10, 60) * interval '1 min';
+    t = t + deliveryTime;
   END IF;
 END;
 $$ LANGUAGE plpgsql STRICT;
