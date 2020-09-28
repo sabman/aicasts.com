@@ -3506,3 +3506,7 @@ Figure 5.7, “Visualization of the data generated for the deliveries scenario. 
 
 Figure 5.7. Visualization of the data generated for the deliveries scenario. The road network is shown with blue lines, the warehouses are shown with a red star, the routes taken by the deliveries are shown with black lines, and the location of the customers with black points.
 
+## Creating a Graph from Input Data
+
+In this workshop, we have used until now the network topology obtained by `osm2pgrouting`. However, in some circumstances it is necessary to build the network topology ourselves, for example, when the data comes from other sources than OSM, such as data from an official mapping agency. In this section we show how to build the network topology from input data.
+
