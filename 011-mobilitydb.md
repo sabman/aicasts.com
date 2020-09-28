@@ -3510,3 +3510,4 @@ Figure 5.7. Visualization of the data generated for the deliveries scenario. The
 
 In this workshop, we have used until now the network topology obtained by `osm2pgrouting`. However, in some circumstances it is necessary to build the network topology ourselves, for example, when the data comes from other sources than OSM, such as data from an official mapping agency. In this section we show how to build the network topology from input data.
 
+We import Brussels data from OSM into a PostgreSQL database using `osm2pgsql`. Then, we construct the network topology using SQL so that the resulting graph can be used with `pgRouting`.
