@@ -3496,9 +3496,9 @@ END;
 $$ LANGUAGE plpgsql STRICT;
 ```
 
-We first set the *start time* of a delivery trip by adding to 7 am a random non-zero duration of 120 minutes using a uniform distribution. 
+We first set the *start time* of a delivery trip by adding to 7 am a random non-zero duration of 120 minutes using a uniform distribution.
 
-Then, for every couple of `source` and `destination` nodes to be visited in the trip, we call the function `create_trip` that we have seen previously to generate the trip, wich is then inserted into the `Trips` table. 
+Then, for every couple of `source` and `destination` nodes to be visited in the trip, we call the function `create_trip` that we have seen previously to generate the trip, wich is then inserted into the `Trips` table.
 
 Finally, we add a delivery time between 10 and 60 minutes using a bounded Gaussian distribution before starting the trip to the next customer or the return trip to the warehouse.
 
@@ -3523,4 +3523,28 @@ osm2pgsql --create --database brussels --host localhost brussels.osm
 ```
 
 The table `planet_osm_line` contains all linear features imported from OSM, in particular road data, but also many other features which are not relevant for our use case such as pedestrian paths, cycling ways, train ways, electric lines, etc. Therefore, we use the attribute highway to extract the roads from this table. We first create a table containing the road types we are interested in and associate to them a priority, a maximum speed, and a category as follows.
+
+
+```sql
+DROP TABLE IF EXISTS RoadTypes;
+CREATE TABLE RoadTypes(id int PRIMARY KEY, type text, priority float, maxspeed float,
+  category int);
+INSERT INTO RoadTypes VALUES
+(101, 'motorway', 1.0, 120, 1),
+(102, 'motorway_link', 1.0, 120, 1),
+(103, 'motorway_junction', 1.0, 120, 1),
+(104, 'trunk', 1.05, 120, 1),
+(105, 'trunk_link', 1.05, 120, 1),
+(106, 'primary', 1.15, 90, 2),
+(107, 'primary_link', 1.15, 90, 1),
+(108, 'secondary', 1.5, 70, 2),
+(109, 'secondary_link', 1.5, 70, 2),
+(110, 'tertiary', 1.75, 50, 2),
+(111, 'tertiary_link', 1.75, 50, 2),
+(112, 'residential', 2.5, 30, 3),
+(113, 'living_street', 3.0, 20, 3),
+(114, 'unclassified', 3.0, 20, 3),
+(115, 'service', 4.0, 20, 3),
+(116, 'services', 4.0, 20, 3);
+```
 
