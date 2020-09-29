@@ -3548,3 +3548,15 @@ INSERT INTO RoadTypes VALUES
 (116, 'services', 4.0, 20, 3);
 ```
 
+Then, we create a table that contains the roads corresponding to one of the above types as follows.
+
+```sql
+DROP TABLE IF EXISTS Roads;
+CREATE TABLE Roads AS
+SELECT osm_id, admin_level, bridge, cutting, highway, junction, name, oneway, operator,
+  ref, route, surface, toll, tracktype, tunnel, width, way AS geom
+FROM planet_osm_line
+WHERE highway IN (SELECT type FROM RoadTypes);
+
+CREATE INDEX Roads_geom_idx ON Roads USING GiST(geom);
+```
