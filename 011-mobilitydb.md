@@ -3513,3 +3513,14 @@ In this workshop, we have used until now the network topology obtained by `osm2p
 We import Brussels data from OSM into a PostgreSQL database using `osm2pgsql`. Then, we construct the network topology using SQL so that the resulting graph can be used with `pgRouting`.
 
 We show two approaches for doing this, depending on whether we want to keep the original roads of the input data or we want to merge roads when they have similar characteristics such as road type, direction, maximum speed, etc. At the end, we compare the two networks obtained with the one obtained by `osm2pgrouting`.
+
+### Creating the Graph
+
+As we did at the beginning of this chapter, we load the OSM data from Brussels into PostgreSQL with the following command.
+
+```sh
+osm2pgsql --create --database brussels --host localhost brussels.osm
+```
+
+The table `planet_osm_line` contains all linear features imported from OSM, in particular road data, but also many other features which are not relevant for our use case such as pedestrian paths, cycling ways, train ways, electric lines, etc. Therefore, we use the attribute highway to extract the roads from this table. We first create a table containing the road types we are interested in and associate to them a priority, a maximum speed, and a category as follows.
+
