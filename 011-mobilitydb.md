@@ -3560,3 +3560,28 @@ WHERE highway IN (SELECT type FROM RoadTypes);
 
 CREATE INDEX Roads_geom_idx ON Roads USING GiST(geom);
 ```
+
+We then create a table that contains all intersections between two roads as follows:
+
+```sql
+DROP TABLE IF EXISTS Intersections;
+CREATE TABLE Intersections AS
+WITH Temp1 AS (
+  SELECT ST_Intersection(a.geom, b.geom) AS geom
+  FROM Roads a, Roads b
+  WHERE a.osm_id < b.osm_id AND ST_Intersects(a.geom, b.geom)
+),
+Temp2 AS (
+  SELECT DISTINCT geom
+  FROM Temp1
+  WHERE geometrytype(geom) = 'POINT'
+  UNION
+  SELECT (ST_DumpPoints(geom)).geom
+  FROM Temp1
+  WHERE geometrytype(geom) = 'MULTIPOINT'
+)
+SELECT ROW_NUMBER() OVER () AS id, geom
+FROM Temp2;
+
+CREATE INDEX Intersections_geom_idx ON Intersections USING GIST(geom);
+```
