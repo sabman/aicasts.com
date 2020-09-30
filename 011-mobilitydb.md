@@ -3589,3 +3589,13 @@ CREATE INDEX Intersections_geom_idx ON Intersections USING GIST(geom);
 The temporary table `Temp1` computes all intersections between two different roads, while the temporary table `Temp2` selects all intersections of type point and splits the intersections of type multipoint into the component points with the function `ST_DumpPoints`. Finally, the last query adds a sequence identifier to the resulting intersections.
 
 Our next task is to use the table `Intersections` we have just created to split the roads. This is done as follows.
+
+```sql
+DROP TABLE IF EXISTS Segments;
+CREATE TABLE Segments AS
+SELECT DISTINCT osm_id, (ST_Dump(ST_Split(R.geom, I.geom))).geom
+FROM Roads R, Intersections I
+WHERE ST_Intersects(R.Geom, I.geom);
+
+CREATE INDEX Segments_geom_idx ON Segments USING GIST(geom);
+```
