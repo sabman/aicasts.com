@@ -3610,3 +3610,11 @@ WHERE S1.osm_id < S2.osm_id AND st_intersects(S1.geom, S2.geom) AND
 -- 490493551	740404156
 -- 490493551	740404157
 ```
+
+We can remove those duplicates segments with the following query, which keeps arbitrarily the smaller `osm_id`.
+
+```sql
+DELETE FROM Segments S1
+    USING Segments S2
+WHERE S1.osm_id > S2.osm_id AND ST_Equals(S1.geom, S2.geom);
+```
