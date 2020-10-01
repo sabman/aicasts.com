@@ -3599,3 +3599,5 @@ WHERE ST_Intersects(R.Geom, I.geom);
 
 CREATE INDEX Segments_geom_idx ON Segments USING GIST(geom);
 ```
+
+The function `ST_Split` breaks the geometry of a road using an intersection and the function `ST_Dump` obtains the individual segments resulting from the splitting. However, as shown in the following query, there are duplicate segments with distinct `osm_id`.
