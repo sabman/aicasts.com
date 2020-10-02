@@ -3618,3 +3618,13 @@ DELETE FROM Segments S1
     USING Segments S2
 WHERE S1.osm_id > S2.osm_id AND ST_Equals(S1.geom, S2.geom);
 ```
+We can obtain some characteristics of the segments with the following queries.
+
+
+```sql
+SELECT DISTINCT geometrytype(geom) FROM Segments;
+-- "LINESTRING"
+
+SELECT min(ST_NPoints(geom)), max(ST_NPoints(geom)) FROM Segments;
+-- 2	283
+```
