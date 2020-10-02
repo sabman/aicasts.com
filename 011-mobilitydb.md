@@ -3643,3 +3643,25 @@ FROM Temp;
 
 CREATE INDEX TempNodes_geom_idx ON TempNodes USING GIST(geom);
 ```
+
+The above query select as nodes the start and the end points of the segments and assigns to each of them a sequence identifier. We construct next the set of edges of our graph as follows.
+
+```sql
+DROP TABLE IF EXISTS Edges;
+CREATE TABLE Edges(
+  id bigint,
+  osm_id bigint,
+  tag_id int,
+  length_m float,
+  source bigint,
+  target bigint,
+  cost_s float,
+  reverse_cost_s float,
+  one_way int,
+  maxspeed float,
+  priority float,
+  geom geometry
+);
+
+
+```
