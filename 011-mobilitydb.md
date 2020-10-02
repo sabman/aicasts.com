@@ -3678,3 +3678,10 @@ WHERE ST_Intersects(ST_StartPoint(S.geom), N1.geom) AND
 CREATE UNIQUE INDEX Edges_id_idx ON Edges USING BTREE(id);
 CREATE INDEX Edges_geom_index ON Edges USING GiST(geom);
 ```
+
+The above query connects the segments obtained previously to the source and target nodes. We can verify that all edges were connected correctly to their source and target nodes using the following query.
+
+```sql
+SELECT count(*) FROM Edges WHERE source IS NULL OR target IS NULL;
+-- 0
+```
