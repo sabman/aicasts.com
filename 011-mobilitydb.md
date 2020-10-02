@@ -3663,5 +3663,18 @@ CREATE TABLE Edges(
   geom geometry
 );
 
+INSERT INTO Edges(id, osm_id, source, target, geom, length_m)
+SELECT
+  ROW_NUMBER() OVER () AS id,
+  S.osm_id,
+  N1.id AS source,
+  N2.id AS target,
+  S.geom,
+  ST_Length(S.geom) AS length_m
+FROM Segments S, TempNodes N1, TempNodes N2
+WHERE ST_Intersects(ST_StartPoint(S.geom), N1.geom) AND
+  ST_Intersects(ST_EndPoint(S.geom), N2.geom);
 
+CREATE UNIQUE INDEX Edges_id_idx ON Edges USING BTREE(id);
+CREATE INDEX Edges_geom_index ON Edges USING GiST(geom);
 ```
