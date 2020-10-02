@@ -3628,3 +3628,18 @@ SELECT DISTINCT geometrytype(geom) FROM Segments;
 SELECT min(ST_NPoints(geom)), max(ST_NPoints(geom)) FROM Segments;
 -- 2	283
 ```
+
+Now we are ready to obtain a first set of nodes for our graph.
+
+```sql
+DROP TABLE IF EXISTS TempNodes;
+CREATE TABLE TempNodes AS
+WITH Temp(geom) AS (
+  SELECT ST_StartPoint(geom) FROM Segments UNION
+  SELECT ST_EndPoint(geom) FROM Segments
+)
+SELECT ROW_NUMBER() OVER () AS id, geom
+FROM Temp;
+
+CREATE INDEX TempNodes_geom_idx ON TempNodes USING GIST(geom);
+```
