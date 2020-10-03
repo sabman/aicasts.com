@@ -3685,3 +3685,12 @@ The above query connects the segments obtained previously to the source and targ
 SELECT count(*) FROM Edges WHERE source IS NULL OR target IS NULL;
 -- 0
 ```
+
+Now we can fill the other attributes of the edges. We start first with the attributes `tag_id`, `priority`, and `maxspeed`, which are obtained from the table `RoadTypes` using the attribute `highway`.
+
+```sql
+UPDATE Edges E
+SET tag_id = T.id, priority = T.priority, maxspeed = T.maxSpeed
+FROM Roads R, RoadTypes T
+WHERE E.osm_id = R.osm_id AND R.highway = T.type;
+```
