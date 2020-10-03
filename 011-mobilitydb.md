@@ -3700,12 +3700,12 @@ We continue with the attribute `one_way` according to the semantics stated in th
 ```sql
 UPDATE Edges E
 SET one_way = CASE
-	WHEN R.oneway = 'yes' OR R.oneway = 'true' OR R.oneway = '1' THEN 1 -- Yes
-	WHEN R.oneway = 'no' OR R.oneway = 'false' OR R.oneway = '0' THEN 2 -- No
-	WHEN R.oneway = 'reversible' THEN 3 -- Reversible
-	WHEN R.oneway = '-1' OR R.oneway = 'reversed' THEN -1 -- Reversed
-	WHEN R.oneway IS NULL THEN 0 -- Unknown
-	END
+  WHEN R.oneway = 'yes' OR R.oneway = 'true' OR R.oneway = '1' THEN 1 -- Yes
+  WHEN R.oneway = 'no' OR R.oneway = 'false' OR R.oneway = '0' THEN 2 -- No
+  WHEN R.oneway = 'reversible' THEN 3 -- Reversible
+  WHEN R.oneway = '-1' OR R.oneway = 'reversed' THEN -1 -- Reversed
+  WHEN R.oneway IS NULL THEN 0 -- Unknown
+  END
 FROM Roads R
 WHERE E.osm_id = R.osm_id;
 ```
