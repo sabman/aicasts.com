@@ -31,3 +31,6 @@
 - https://www.kaggle.com/reubencpereira/spatial-data-repo
 - https://www.kaggle.com/andresionek/geospatial-analysis-of-brazilian-e-commerce
 - https://www.kaggle.com/arthurpaulino/spatial-analysis-tutorial
+
+## datasets
+- https://github.com/chrieke/awesome-satellite-imagery-datasets
