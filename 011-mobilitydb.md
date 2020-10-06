@@ -3719,3 +3719,17 @@ FROM Roads R
 WHERE E.osm_id = R.osm_id AND R.oneway IS NULL AND
   (R.junction = 'roundabout' OR R.highway = 'motorway');
 ```
+
+Finally, we compute the cost and reverse cost in seconds according to the length and the maximum speed of the edge.
+
+```sql
+UPDATE Edges E SET
+  cost_s = CASE
+    WHEN one_way = -1 THEN - length_m / (maxspeed / 3.6)
+    ELSE length_m / (maxspeed / 3.6)
+    END,
+  reverse_cost_s = CASE
+    WHEN one_way = 1 THEN - length_m / (maxspeed / 3.6)
+    ELSE length_m / (maxspeed / 3.6)
+    END;
+```
