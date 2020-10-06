@@ -3709,3 +3709,13 @@ SET one_way = CASE
 FROM Roads R
 WHERE E.osm_id = R.osm_id;
 ```
+
+We compute the implied one way restriction based on OSM documentation as follows.
+
+```sql
+UPDATE Edges E
+SET one_way = 1
+FROM Roads R
+WHERE E.osm_id = R.osm_id AND R.oneway IS NULL AND
+  (R.junction = 'roundabout' OR R.highway = 'motorway');
+```
