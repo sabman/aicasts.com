@@ -3733,3 +3733,29 @@ UPDATE Edges E SET
     ELSE length_m / (maxspeed / 3.6)
     END;
 ```
+
+Our last task is to compute the strongly connected components of the graph. This is necessary to ensure that there is a path between every couple of arbritrary nodes in the graph.
+
+```sql
+DROP TABLE IF EXISTS Nodes;
+CREATE TABLE Nodes AS
+WITH Components AS (
+  SELECT * FROM pgr_strongComponents(
+    'SELECT id, source, target, length_m AS cost, '
+    'length_m * sign(reverse_cost_s) AS reverse_cost FROM Edges')
+),
+LargestComponent AS (
+  SELECT component, count(*) FROM Components
+  GROUP BY component ORDER BY count(*) DESC LIMIT 1
+),
+Connected AS (
+  SELECT geom
+  FROM TempNodes N, LargestComponent L, Components C
+  WHERE N.id = C.node AND C.component = L.component
+)
+SELECT ROW_NUMBER() OVER () AS id, geom
+FROM Connected;
+
+CREATE UNIQUE INDEX Nodes_id_idx ON Nodes USING BTREE(id);
+CREATE INDEX Nodes_geom_idx ON Nodes USING GiST(geom);
+```
