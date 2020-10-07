@@ -3759,3 +3759,5 @@ FROM Connected;
 CREATE UNIQUE INDEX Nodes_id_idx ON Nodes USING BTREE(id);
 CREATE INDEX Nodes_geom_idx ON Nodes USING GiST(geom);
 ```
+
+The temporary table Components is obtained by calling the function pgr_strongComponents from pgRouting, the temporary table LargestComponent selects the largest component from the previous table, and the temporary table Connected selects all nodes that belong to the largest component. Finally, the last query assigns a sequence identifier to all nodes.
