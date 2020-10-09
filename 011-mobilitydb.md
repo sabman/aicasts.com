@@ -3775,3 +3775,7 @@ WHERE ST_Intersects(E.geom, N1.geom) AND ST_StartPoint(E.geom) = N1.geom AND
 ```
 We first set the identifiers of the source and target nodes to NULL before connecting them to the identifiers of the node. Finally, we delete the edges whose source or target node has been removed.
 
+```sql
+DELETE FROM Edges WHERE source IS NULL OR target IS NULL;
+-- DELETE 1080
+```
