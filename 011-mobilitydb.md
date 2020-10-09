@@ -3773,3 +3773,5 @@ FROM Nodes N1, Nodes N2
 WHERE ST_Intersects(E.geom, N1.geom) AND ST_StartPoint(E.geom) = N1.geom AND
   ST_Intersects(E.geom, N2.geom) AND ST_EndPoint(E.geom) = N2.geom;
 ```
+We first set the identifiers of the source and target nodes to NULL before connecting them to the identifiers of the node. Finally, we delete the edges whose source or target node has been removed.
+
