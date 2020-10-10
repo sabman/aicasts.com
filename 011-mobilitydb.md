@@ -3779,3 +3779,16 @@ We first set the identifiers of the source and target nodes to NULL before conne
 DELETE FROM Edges WHERE source IS NULL OR target IS NULL;
 -- DELETE 1080
 ```
+
+In order to compare the graph we have just obtained with the one obtained by osm2pgrouting we can issue the following queries.
+
+
+
+SELECT count(*) FROM Ways;
+-- 83017
+SELECT count(*) FROM Edges;
+-- 81073
+SELECT count(*) FROM Ways_vertices_pgr;
+-- 66832
+SELECT count(*) FROM Nodes;
+-- 45494
