@@ -3780,7 +3780,7 @@ DELETE FROM Edges WHERE source IS NULL OR target IS NULL;
 -- DELETE 1080
 ```
 
-In order to compare the graph we have just obtained with the one obtained by osm2pgrouting we can issue the following queries.
+In order to compare the graph we have just obtained with the one obtained by `osm2pgrouting` we can issue the following queries.
 
 ```sql
 SELECT count(*) FROM Ways;
