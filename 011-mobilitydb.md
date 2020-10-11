@@ -3913,3 +3913,6 @@ SELECT count(*) FROM Nodes1;
 -- 42156
 ```
 
+Figure 5.10, “Comparison of the nodes obtained by contracting the graph (in black), before contraction (in blue), and those obtained by osm2pgrouting (in red).” shows the nodes for the three graphs, those obtained after contracting the graph are shown in black, those before contraction are shown in blue, and those obtained by osm2pgrouting are shown in red. The figure shows in particular how several segments of the ring-road around Brussels are merged together since the have the same road type, direction, and maximum speed, The figure also shows in read a road that was removed since it does not belong to the strongly connected components of the graph.
+
+![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/node_comp2.png)
