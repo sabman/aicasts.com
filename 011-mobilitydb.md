@@ -3792,3 +3792,6 @@ SELECT count(*) FROM Ways_vertices_pgr;
 SELECT count(*) FROM Nodes;
 -- 45494
 ```
+
+As can be seen, we have reduced the size of the graph. This can also be shown in Figure 5.9, “Comparison of the nodes obtained (in blue) with those obtained by osm2pgrouting (in red).”, where the nodes we have obtained are shown in blue and the ones obtained by osm2pgrouting are shown in red. It can be seen that osm2pgrouting adds many more nodes to the graph, in particular, at the intersection of a road and a pedestrian crossing. Our method only adds nodes when there is an intersection between two roads. We will show in the next section how this network can still be optimized by removing unnecessary nodes and merging the corresponding edges.
+
