@@ -3830,5 +3830,52 @@ BEGIN
   DROP TABLE IF EXISTS DeletedRoads;
   CREATE TABLE DeletedRoads(osm_id bigint);
 -- TODO: Iterate until no geometry can be extended
+  LOOP
+    RAISE INFO 'Iteration %', i;
+    i = i + 1;
+    -- Compute the union of two roads
+    DELETE FROM Merge;
+    INSERT INTO Merge
+      SELECT
+        R1.osm_id AS osm_id1,
+        R2.osm_id AS osm_id2,
+        ST_LineMerge(ST_Union(R1.geom, R2.geom)) AS geom
+      FROM MergedRoads R1, TempRoads R2
+      WHERE R1.osm_id <> R2.osm_id AND 
+            R1.highway = R2.highway AND
+            R1.oneway = R2.oneway AND 
+            ST_Intersects(R1.geom, R2.geom) AND
+            ST_EndPoint(R1.geom) =  ST_StartPoint(R2.geom)
+        AND NOT EXISTS (
+          SELECT * FROM TempRoads R3
+          WHERE osm_id NOT IN (SELECT osm_id FROM DeletedRoads) AND
+            R3.osm_id <> R1.osm_id AND 
+            R3.osm_id <> R2.osm_id AND
+            ST_Intersects(R3.geom, ST_StartPoint(R2.geom)))
+      AND geometryType(ST_LineMerge(ST_Union(R1.geom, R2.geom))) = 'LINESTRING'
+      AND NOT St_Equals(ST_LineMerge(ST_Union(R1.geom, R2.geom)), R1.geom);
+    -- Exit if there is no more roads to extend
+    SELECT count(*) INTO cnt FROM Merge;
+    RAISE INFO 'Extended % roads', cnt;
+    EXIT WHEN cnt = 0;
+    -- Extend the geometries
+    UPDATE MergedRoads R SET
+      geom = M.geom,
+      path = R.path || osm_id2
+    FROM Merge M
+    WHERE R.osm_id = M.osm_id1;
+    -- Keep track of redundant roads
+    INSERT INTO DeletedRoads
+    SELECT osm_id2 FROM Merge
+    WHERE osm_id2 NOT IN (SELECT osm_id FROM DeletedRoads);
+  END LOOP;
+  -- Delete redundant roads
+  DELETE FROM MergedRoads R USING DeletedRoads M
+  WHERE R.osm_id = M.osm_id;
+  -- Drop tables
+  DROP TABLE Merge;
+  DROP TABLE DeletedRoads;
+  RETURN;
+
 END; $$
 ```
