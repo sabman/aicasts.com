@@ -3810,3 +3810,25 @@ WHERE highway IN (SELECT type FROM RoadTypes);
 CREATE INDEX TempRoads_geom_idx ON TempRoads USING GiST(geom);
 ```
 
+Then, we use the following procedure to merge the roads.
+
+```sql
+CREATE OR REPLACE FUNCTION mergeRoads()
+RETURNS void LANGUAGE PLPGSQL AS $$
+DECLARE
+  i integer = 1;
+  cnt integer;
+BEGIN
+  -- Create tables
+  DROP TABLE IF EXISTS MergedRoads;
+  CREATE TABLE MergedRoads AS
+  SELECT *, '{}'::bigint[] AS path
+  FROM TempRoads;
+  CREATE INDEX MergedRoads_geom_idx ON MergedRoads USING GIST(geom);
+  DROP TABLE IF EXISTS Merge;
+  CREATE TABLE Merge(osm_id1 bigint, osm_id2 bigint, geom geometry);
+  DROP TABLE IF EXISTS DeletedRoads;
+  CREATE TABLE DeletedRoads(osm_id bigint);
+-- TODO: Iterate until no geometry can be extended
+END; $$
+```
