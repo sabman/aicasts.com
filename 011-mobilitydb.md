@@ -3893,3 +3893,23 @@ FROM MergedRoads;
 
 CREATE INDEX Roads_geom_idx ON Roads USING GiST(geom);
 ```
+
+Notice that now the attribute `osm_id` is an `array` of OSM identifiers (which are big integers), whereas in the previous section it was a single big integer.
+
+We then proceed as we did in the section called “Creating the Graph” to compute the set of nodes and the set of edges, which we will store now for comparison purposes into tables Nodes1 and Edges1. We can issue the following queries to compare the two graphs we have obtained and the one obtained by `osm2pgrouting`.
+
+```sql
+SELECT count(*) FROM Ways;
+-- 83017
+SELECT count(*) FROM Edges;
+-- 81073
+SELECT count(*) FROM Edges1;
+-- 77986
+SELECT count(*) FROM Ways_vertices_pgr;
+-- 66832
+SELECT count(*) FROM Nodes;
+-- 45494
+SELECT count(*) FROM Nodes1;
+-- 42156
+```
+
