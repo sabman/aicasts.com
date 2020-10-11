@@ -3799,3 +3799,14 @@ As can be seen, we have reduced the size of the graph. This can also be shown in
 
 We show next a possible approach to contract the graph. This approach corresponds to linear contraction provided by pgRouting although we do it differently by taking into account the type, the direction, and the geometry of the roads. For this, we get the initial roads to merge as we did previously but now we put them in a table TempRoads.
 
+```sql
+DROP TABLE IF EXISTS TempRoads;
+CREATE TABLE TempRoads AS
+SELECT osm_id, admin_level, bridge, cutting, highway, junction, name, oneway, operator,
+  ref, route, surface, toll, tracktype, tunnel, width, way AS geom
+FROM planet_osm_line
+WHERE highway IN (SELECT type FROM RoadTypes);
+-- SELECT 37045
+CREATE INDEX TempRoads_geom_idx ON TempRoads USING GiST(geom);
+```
+
