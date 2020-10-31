@@ -20,3 +20,8 @@ This folder contains all code, data and images used in preparing the extended la
 **submissions**: the folder containing the unaltered predictions by each submitted system for the test set.
 **datasets/pan20-authorship-verification-test/truth.jsonl**: the ground ground for the test problems.
 **img/*.svg**: SVG-files for the images used in the extended lab overview paper.
+
+## Spreadsheets
+**metrics.xlsx**: the final performance of each system in a tabular format.
+**predictions.xlsx**: a tabular overview of all predictions for all submissions per text pair.
+**predictions_topic.xlsx**: same as predictions.xlsx, but with a column for the topical dissimilarity for each text pair, as measured by a simple NMF-based topic model.
