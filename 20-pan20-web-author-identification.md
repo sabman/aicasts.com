@@ -25,3 +25,8 @@ This folder contains all code, data and images used in preparing the extended la
 **metrics.xlsx**: the final performance of each system in a tabular format.
 **predictions.xlsx**: a tabular overview of all predictions for all submissions per text pair.
 **predictions_topic.xlsx**: same as predictions.xlsx, but with a column for the topical dissimilarity for each text pair, as measured by a simple NMF-based topic model.
+
+TODO: 
+- try training
+- check this issue https://github.com/pan-webis-de/pan-code/issues/1
+
