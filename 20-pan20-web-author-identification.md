@@ -32,3 +32,11 @@ TODO:
 
 This baseline offers a naive, yet fast solution to the  PAN2020 track on authorship verification. All documents are represented using a **bag-of-character-ngrams** model, that is **TFIDF weighted**. The **cosine similarity** between each document pair in the calibration data set is calculated. Finally, the resulting similarities are optimized, and projected through a simple **rescaling operation**, so that they can function as **pseudo-probabilities**, indiciating the likelihood that a document-pair is a same-author pair. Via a grid search, the optimal verification threshold is determined, taking into account that some difficult problems can be left unanswered.
 
+```python
+def main():
+    # data settings:
+
+    # algorithmic settings:
+
+    # run
+```
