@@ -34,8 +34,17 @@ This baseline offers a naive, yet fast solution to the  PAN2020 track on authors
 
 ```python
 def main():
+    parser = argparse.ArgumentParser(description='Distance-based verification: PAN20 baseline')
     # data settings:
-
+    parser.add_argument('-input_pairs', type=str, required=True,
+                        help='Path to the jsonl-file with the input pairs')
+    parser.add_argument('-input_truth', type=str, required=True,
+                        help='Path to the ground truth-file for the input pairs')
+    parser.add_argument('-test_pairs', type=str, required=True,
+                        help='Path to the jsonl-file with the test pairs')
+    parser.add_argument('-output', type=str, required=True,
+                        help='Path to the output folder for the predictions.\
+                             (Will be overwritten if it exist already.)')
     # algorithmic settings:
 
     # run
