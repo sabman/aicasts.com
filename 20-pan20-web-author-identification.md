@@ -52,6 +52,9 @@ def main():
                         help='Maximum number of vocabulary items in feature space')
     parser.add_argument('-ngram_size', default=4, type=int,
                         help='Size of the ngrams')
-
+    parser.add_argument('-num_iterations', default=0, type=int,
+                        help='Number of iterations (`k`); zero by default')
+    parser.add_argument('-dropout', default=.5, type=float,
+                        help='Proportion of features to keep in each iteration')
     # run
 ```
