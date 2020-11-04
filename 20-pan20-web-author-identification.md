@@ -50,6 +50,8 @@ def main():
                         help='Random seed')
     parser.add_argument('-vocab_size', default=3000, type=int,
                         help='Maximum number of vocabulary items in feature space')
+    parser.add_argument('-ngram_size', default=4, type=int,
+                        help='Size of the ngrams')
 
     # run
 ```
