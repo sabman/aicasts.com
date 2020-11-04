@@ -46,6 +46,10 @@ def main():
                         help='Path to the output folder for the predictions.\
                              (Will be overwritten if it exist already.)')
     # algorithmic settings:
+    parser.add_argument('-seed', default=2020, type=int,
+                        help='Random seed')
+    parser.add_argument('-vocab_size', default=3000, type=int,
+                        help='Maximum number of vocabulary items in feature space')
 
     # run
 ```
