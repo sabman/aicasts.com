@@ -37,3 +37,6 @@
 - https://medium.com/the-downlinq/the-spacenet-7-multi-temporal-urban-development-challenge-dataset-release-9e6e5f65c8d5
 - https://spacenet.ai/sn7-challenge/
 - https://www.kaggle.com/c/lyft-motion-prediction-autonomous-vehicles/
+
+
+- Feature engineering https://www.kaggle.com/camnugent/geospatial-feature-engineering-and-visualization
