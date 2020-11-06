@@ -57,4 +57,10 @@ def main():
     parser.add_argument('-dropout', default=.5, type=float,
                         help='Proportion of features to keep in each iteration')
     # run
+    args = parser.parse_args()
+    print(args)
+
+    np.random.seed(args.seed)
+    random.seed(args.seed)
+
 ```
