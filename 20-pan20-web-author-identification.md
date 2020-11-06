@@ -63,4 +63,9 @@ def main():
     np.random.seed(args.seed)
     random.seed(args.seed)
 
+    try:
+        shutil.rmtree(args.output)
+    except FileNotFoundError:
+        pass
+    os.mkdir(args.output)
 ```
