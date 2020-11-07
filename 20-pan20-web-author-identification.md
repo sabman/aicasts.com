@@ -80,4 +80,10 @@ def main():
         gold = dict(random.sample(gold.items(), cutoff))
         print(len(gold))
 
+    texts = []
+    for line in tqdm(open(args.input_pairs)):
+        d = json.loads(line.strip())
+        if d['id'] in gold:
+            texts.extend(d['pair'])
+
 ```
