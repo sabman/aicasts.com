@@ -73,5 +73,11 @@ def main():
     for line in open(args.input_truth):
         d = json.loads(line.strip())
         gold[d['id']] = int(d['same'])
+    
+    # truncation for development purposes
+    cutoff = 0
+    if cutoff:
+        gold = dict(random.sample(gold.items(), cutoff))
+        print(len(gold))
 
 ```
