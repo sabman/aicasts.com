@@ -86,4 +86,9 @@ def main():
         if d['id'] in gold:
             texts.extend(d['pair'])
 
+    print('-> constructing vectorizer')
+    vectorizer = TfidfVectorizer(max_features=args.vocab_size, analyzer='char',
+                                 ngram_range=(args.ngram_size, args.ngram_size))
+    vectorizer.fit(texts)
+
 ```
