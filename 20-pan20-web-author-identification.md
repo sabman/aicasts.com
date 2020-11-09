@@ -102,4 +102,20 @@ def main():
                                                      replace=False))
         rnd_feature_idxs = np.array(rnd_feature_idxs)
 
+    print('-> calculating pairwise similarities')
+    similarities, labels = [], []
+    for line in tqdm(open(args.input_pairs)):
+        d = json.loads(line.strip())
+        if d['id'] in gold:
+            x1, x2 = vectorizer.transform(d['pair']).toarray()
+            if args.num_iterations:
+                similarities_ = []
+                for i in range(args.num_iterations):
+                    similarities_.append(cosine_sim(x1[rnd_feature_idxs[i, :]],
+                                                    x2[rnd_feature_idxs[i, :]]))
+                similarities.append(np.mean(similarities_))
+            else:
+                similarities.append(cosine_sim(x1, x2))
+            labels.append(gold[d['id']])
+
 ```
