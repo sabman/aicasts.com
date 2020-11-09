@@ -118,4 +118,8 @@ def main():
                 similarities.append(cosine_sim(x1, x2))
             labels.append(gold[d['id']])
 
+    similarities = np.array(similarities, dtype=np.float64)
+    labels = np.array(labels, dtype=np.float64)
+
+    kdeplot(similarities, label='orig cos sim')
 ```
