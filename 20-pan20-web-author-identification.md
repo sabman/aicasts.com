@@ -91,4 +91,15 @@ def main():
                                  ngram_range=(args.ngram_size, args.ngram_size))
     vectorizer.fit(texts)
 
+    if args.num_iterations:
+        total_feats = len(vectorizer.get_feature_names())
+        keep_feats = int(total_feats * args.dropout)
+
+        rnd_feature_idxs = []
+        for _ in range(args.num_iterations):
+            rnd_feature_idxs.append(np.random.choice(total_feats,
+                                                     keep_feats,
+                                                     replace=False))
+        rnd_feature_idxs = np.array(rnd_feature_idxs)
+
 ```
