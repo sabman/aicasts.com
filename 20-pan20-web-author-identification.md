@@ -122,4 +122,10 @@ def main():
     labels = np.array(labels, dtype=np.float64)
 
     kdeplot(similarities, label='orig cos sim')
+
+    print('-> grid search p1/p2:')
+    step_size = 0.01
+    thresholds = np.arange(0.01, 0.99, step_size)
+    combs = [(p1, p2) for (p1, p2) in combinations(thresholds, 2) if p1 < p2]
+
 ```
