@@ -138,4 +138,8 @@ def main():
     print('optimal p1/p2:', opt_p1, opt_p2)
     plt.axvline(opt_p1, ls='--', c='darkgrey')
     plt.axvline(opt_p2, ls='--', c='darkgrey')
+
+    corrected_scores = correct_scores(similarities, p1=opt_p1, p2=opt_p2)
+    print('optimal score:', evaluate_all(pred_y=corrected_scores,
+                                         true_y=labels))
 ```
