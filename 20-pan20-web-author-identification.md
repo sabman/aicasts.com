@@ -128,4 +128,14 @@ def main():
     thresholds = np.arange(0.01, 0.99, step_size)
     combs = [(p1, p2) for (p1, p2) in combinations(thresholds, 2) if p1 < p2]
 
+    params = {}
+    for p1, p2 in tqdm(combs):
+        corrected_scores = correct_scores(similarities, p1=p1, p2=p2)
+        score = evaluate_all(pred_y=corrected_scores,
+                             true_y=labels)
+        params[(p1, p2)] = score['overall']
+    opt_p1, opt_p2 = max(params, key=params.get)
+    print('optimal p1/p2:', opt_p1, opt_p2)
+    plt.axvline(opt_p1, ls='--', c='darkgrey')
+    plt.axvline(opt_p2, ls='--', c='darkgrey')
 ```
