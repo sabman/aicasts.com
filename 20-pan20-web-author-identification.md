@@ -73,7 +73,7 @@ def main():
     for line in open(args.input_truth):
         d = json.loads(line.strip())
         gold[d['id']] = int(d['same'])
-    
+
     # truncation for development purposes
     cutoff = 0
     if cutoff:
@@ -165,4 +165,25 @@ def main():
     max_f1 = f1s[max_idx]
     max_th = thresholds[max_idx]
     print(f'Dev results -> F1={max_f1} at th={max_th}')
+
+    with open(args.output + os.sep + 'answers.jsonl', 'w') as outf:
+        for line in tqdm(open(args.test_pairs)):
+            d = json.loads(line.strip())
+            problem_id = d['id']
+            x1, x2 = vectorizer.transform(d['pair']).toarray()
+            if args.num_iterations:
+                similarities_ = []
+                for i in range(args.num_iterations):
+                    similarities_.append(cosine_sim(x1[rnd_feature_idxs[i, :]],
+                                             x2[rnd_feature_idxs[i, :]]))
+                    similarity = np.mean(similarities_)
+            else:
+                similarity = cosine_sim(x1, x2)
+
+            similarity = correct_scores([similarity], p1=opt_p1, p2=opt_p2)[0]
+            r = {'id': problem_id, 'value': similarity}
+            outf.write(json.dumps(r) + '\n')
+
+if __name__ == '__main__':
+    main()
 ```
