@@ -160,4 +160,9 @@ def main():
                         precision_score(labels, adjusted),
                         recall_score(labels, adjusted)))
     thresholds, f1s, precisions, recalls = zip(*scores)
+
+    max_idx = np.array(f1s).argmax()
+    max_f1 = f1s[max_idx]
+    max_th = thresholds[max_idx]
+    print(f'Dev results -> F1={max_f1} at th={max_th}')
 ```
