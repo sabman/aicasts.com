@@ -223,7 +223,7 @@ def main():
     plt.axvline(opt_p2, ls='--', c='darkgrey')
     
     corrected_scores = correct_scores(similarities, p1=opt_p1, p2=opt_p2)
-    **print('optimal score:', evaluate_all**(pred_y=corrected_scores,
+    print('optimal score:', evaluate_all(pred_y=corrected_scores,
                                          true_y=labels))
     kdeplot(corrected_scores, label='corr cos sim')
     corr_p1, corr_p2 = correct_scores([opt_p1, opt_p2], p1=opt_p1, p2=opt_p2)
