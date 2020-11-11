@@ -143,5 +143,12 @@ def main():
     print('optimal score:', evaluate_all(pred_y=corrected_scores,
                                          true_y=labels))
     kdeplot(corrected_scores, label='corr cos sim')
+    corr_p1, corr_p2 = correct_scores([opt_p1, opt_p2], p1=opt_p1, p2=opt_p2)
+    plt.axvline(corr_p1, ls='--', c='darkgrey')
+    plt.axvline(corr_p2, ls='--', c='darkgrey')
+    plt.xlim([0, 1])
+    plt.tight_layout()
+    plt.savefig('kde.pdf')
+    plt.clf()
 
 ```
