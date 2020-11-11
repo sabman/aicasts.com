@@ -151,4 +151,13 @@ def main():
     plt.savefig('kde.pdf')
     plt.clf()
 
+    print('-> determining optimal threshold')
+    scores = []
+    for th in np.linspace(0.25, 0.75, 1000):
+        adjusted = (corrected_scores >= th) * 1
+        scores.append((th,
+                        f1_score(labels, adjusted),
+                        precision_score(labels, adjusted),
+                        recall_score(labels, adjusted)))
+    thresholds, f1s, precisions, recalls = zip(*scores)
 ```
