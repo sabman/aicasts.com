@@ -3,6 +3,7 @@
 - Natural Language Processing course by Dan Jurafsky and Christopher Manning https://www.youtube.com/playlist?list=PLQiyVNMpDLKnZYBTUOlSI9mi9wAErFtFm
 - https://web.stanford.edu/~jurafsky/NLPCourseraSlides.html
 
+
 ref https://github.com/sabman/aicasts.com/issues/18
 
 
@@ -101,3 +102,5 @@ cd transformers
 pip install .
 pip install -r ./examples/requirements.txt
 ```
+
+- https://huggingface.co/datasets/style_change_detection
