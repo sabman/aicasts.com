@@ -7,16 +7,20 @@
 # Input Pairs path: 
 # datasets/pan20-authorship-verification-training-small/pan20-authorship-verification-training-small.jsonl
 
+input_pairs=datasets/pan20-authorship-verification-training-small/pan20-authorship-verification-training-small.jsonl
+
 # Input Truth path:
 # datasets/pan20-authorship-verification-training-small/pan20-authorship-verification-training-small-truth.jsonl
+input_truth=datasets/pan20-authorship-verification-training-small/pan20-authorship-verification-training-small-truth.jsonl
 
 # Test Pairs Path:
 # datasets/pan20-authorship-verification-test/truth.jsonl
+test_pairs=datasets/pan20-authorship-verification-test/truth.jsonl
 
 python pan20-verif-baseline.py \
-    -input_pairs="datasets/pan20-authorship-verification-training-small/pairs.jsonl" \
-    -input_truth="datasets/pan20-authorship-verification-training-small/truth.jsonl" \
-    -test_pairs="datasets/pan20-authorship-verification-test/pairs.jsonl" \
+    -input_pairs=${input_pairs} \
+    -input_truth=${input_truth} \
+    -test_pairs=${test_pairs} \
     -num_iterations=0 \
     -output="out"
 
