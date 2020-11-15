@@ -104,3 +104,4 @@ pip install -r ./examples/requirements.txt
 ```
 
 - https://huggingface.co/datasets/style_change_detection
+- https://github.com/jabraunlin/reddit-user-id
