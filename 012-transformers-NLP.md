@@ -105,3 +105,4 @@ pip install -r ./examples/requirements.txt
 
 - https://huggingface.co/datasets/style_change_detection
 - https://github.com/jabraunlin/reddit-user-id
+- https://medium.com/data-science-bootcamp/getting-started-with-natural-language-processing-nlp-for-beginners-64a699cc60c3
