@@ -108,3 +108,21 @@ pip install -r ./examples/requirements.txt
 - https://medium.com/data-science-bootcamp/getting-started-with-natural-language-processing-nlp-for-beginners-64a699cc60c3
 - https://dev.to/nicfoxds/getting-started-in-nlp-b0e
 - https://github.com/graykode/nlp-roadmap
+
+
+```python
+
+corpus = ["You are reading a tutorial by Uniqtech. We are talking about Natural Language Processing aka NLP. Would you like to learn more? Learn more about Machine Learning today!"]
+# if use corpus = "..."
+# receive error
+# ValueError: Iterable over raw text documents expected, string object received.
+
+from sklearn.feature_extraction.text import CountVectorizer
+count_vect = CountVectorizer()
+bow = count_vect.fit_transform(corpus)
+bow.shape #(1,22)
+count_vect.get_feature_names()
+#[u'about', u'aka', u'are', u'by', u'language', u'learn', u'learning', u'like', u'machine', u'more', u'natural', u'nlp', u'processing', u'reading', u'talking', u'to', u'today', u'tutorial', u'uniqtech', u'we', u'would', u'you']
+bow.toarray()
+#array([[2, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2]])
+```
