@@ -126,3 +126,17 @@ count_vect.get_feature_names()
 bow.toarray()
 #array([[2, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2]])
 ```
+
+```python
+#import regex
+import re
+corpus = "You are reading a tutorial by Uniqtech. We are talking about Natural Language Processing aka NLP. Would you like to learn more? Learn more about Machine Learning today!"
+corpus = re.sub("[^a-zA-Z0-9]+", "",corpus)
+corpus
+# 'YouarereadingatutorialbyUniqtechWearetalkingaboutNaturalLanguageProcessingakaNLPWouldyouliketolearnmoreLearnmoreaboutMachineLearningtoday'
+#note space is also removed
+# ^\s means DO NOT MATCH SPACE
+corpus = re.sub("[^a-zA-Z0-9\s]+", "",corpus)
+corpus
+#returns 'You are reading a tutorial by Uniqtech We are talking about Natural Language Processing aka NLP Would you like to learn more Learn more about Machine Learning today'
+```
