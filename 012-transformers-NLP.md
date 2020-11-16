@@ -108,6 +108,7 @@ pip install -r ./examples/requirements.txt
 - https://medium.com/data-science-bootcamp/getting-started-with-natural-language-processing-nlp-for-beginners-64a699cc60c3
 - https://dev.to/nicfoxds/getting-started-in-nlp-b0e
 - https://github.com/graykode/nlp-roadmap
+- https://www.kaggle.com/matleonard/intro-to-nlp
 
 
 ```python
