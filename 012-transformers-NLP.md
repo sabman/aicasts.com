@@ -141,3 +141,7 @@ corpus = re.sub("[^a-zA-Z0-9\s]+", "",corpus)
 corpus
 #returns 'You are reading a tutorial by Uniqtech We are talking about Natural Language Processing aka NLP Would you like to learn more Learn more about Machine Learning today'
 ```
+
+German and spaCy
+
+- https://www.kaggle.com/saburq/intro-to-nlp/
