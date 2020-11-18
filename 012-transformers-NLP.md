@@ -1,3 +1,10 @@
+## Concepts
+
+- Tokenizing
+- Text preprocessing
+- Hyperparameter Optimization
+- Lemmatizing
+
 ## Courses
 
 - Natural Language Processing course by Dan Jurafsky and Christopher Manning https://www.youtube.com/playlist?list=PLQiyVNMpDLKnZYBTUOlSI9mi9wAErFtFm
