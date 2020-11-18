@@ -4,6 +4,7 @@
 - Text preprocessing
 - Hyperparameter Optimization
 - Lemmatizing
+- Pattern Matching
 
 ## Courses
 
