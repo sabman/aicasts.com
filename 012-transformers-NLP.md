@@ -153,3 +153,6 @@ corpus
 German and spaCy
 
 - https://www.kaggle.com/saburq/intro-to-nlp/
+
+Full Course on Kaggle:
+- https://www.kaggle.com/learn/natural-language-processing
