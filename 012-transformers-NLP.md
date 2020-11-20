@@ -156,3 +156,11 @@ German and spaCy
 
 Full Course on Kaggle:
 - https://www.kaggle.com/learn/natural-language-processing
+
+
+## Text Classification with SpaCy
+
+A common task in NLP is text classification. This is "classification" in the conventional machine learning sense, and it is applied to text. Examples include spam detection, sentiment analysis, and tagging customer queries.
+
+In this tutorial, you'll learn text classification with spaCy. The classifier will detect spam messages, a common functionality in most email clients. Here is an overview of the data you'll use:
+
