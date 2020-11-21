@@ -170,7 +170,7 @@ exe 1 https://www.kaggle.com/saburq/exercise-intro-to-nlp/edit
 
 exe 2 https://www.kaggle.com/saburq/exercise-text-classification/edit
 
-u did a great such a great job for DeFalco's restaurant in the previous exercise that the chef has hired you for a new project.
+u did a great such a great job for DeFalco's restaurant in the **previous** exercise that the chef has hired you for a new project.
 
 The restaurant's menu includes an email address where visitors can give feedback about their food.
 
@@ -179,3 +179,7 @@ The manager wants you to create a tool that automatically sends him all the nega
 You will first build a model to distinguish positive reviews from negative reviews using Yelp reviews because these reviews include a rating with each review. Your data consists of the text body of each review along with the star rating. Ratings with 1-2 stars count as "negative", and ratings with 4-5 stars are "positive". Ratings with 3 stars are "neutral" and have been dropped from the data.
 
 Let's get started. First, run the next code cell.
+
+
+exe 3 https://www.kaggle.com/saburq/word-vectors/edit
+
