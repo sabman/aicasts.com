@@ -208,3 +208,19 @@ text = "These vectors can be used as features for machine learning models."
 with nlp.disable_pipes():
     vectors = np.array([token.vector for token in  nlp(text)])
 ```
+
+```py
+vectors.shape
+# (12, 300)
+```
+
+These are 300-dimensional vectors, with one vector for each word. However, we only have document-level labels and our models won't be able to use the word-level embeddings. So, you need a vector representation for the entire document. 
+
+There are many ways to combine all the word vectors into a single document vector we can use for model training. A simple and surprisingly effective approach is simply averaging the vectors for each word in the document. Then, you can use these document vectors for modeling.
+
+spaCy calculates the average document vector which you can get with `doc.vector`. Here is an example loading the spam data and converting it to document vectors.
+These are 300-dimensional vectors, with one vector for each word. However, we only have document-level labels and our models won't be able to use the word-level embeddings. So, you need a vector representation for the entire document. 
+​
+There are many ways to combine all the word vectors into a single document vector we can use for model training. A simple and surprisingly effective approach is simply averaging the vectors for each word in the document. Then, you can use these document vectors for modeling.
+​
+spaCy calculates the average document vector which you can get with `doc.vector`. Here is an example loading the spam data and converting it to document vectors.
