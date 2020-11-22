@@ -192,3 +192,12 @@ Even cooler, relations between words can be examined with mathematical operation
 ![Word vector examples](https://www.tensorflow.org/images/linear-relationships.png)
 
 These vectors can be used as features for machine learning models. Word vectors will typically improve the performance of your models above bag of words encoding. spaCy provides embeddings learned from a model called Word2Vec. You can access them by loading a large language model like `en_core_web_lg`. Then they will be available on tokens from the `.vector` attribute.
+
+
+```py
+import numpy as np
+import spacy
+
+# Need to load the large model to get the vectors
+nlp = spacy.load('en_core_web_lg')
+```
