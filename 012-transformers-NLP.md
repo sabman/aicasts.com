@@ -201,3 +201,10 @@ import spacy
 # Need to load the large model to get the vectors
 nlp = spacy.load('en_core_web_lg')
 ```
+
+```py
+# Disabling other pipes because we don't need them and it'll speed up this part a bit
+text = "These vectors can be used as features for machine learning models."
+with nlp.disable_pipes():
+    vectors = np.array([token.vector for token in  nlp(text)])
+```
