@@ -237,3 +237,34 @@ with nlp.disable_pipes():
     
 doc_vectors.shape
 ```
+
+
+```py
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(doc_vectors, spam.label,
+                                                    test_size=0.1, random_state=1)
+```
+
+exe 4 https://www.kaggle.com/saburq/exercise-word-vectors/edit word vectors
+
+Vectorizing Language
+
+Embeddings are both conceptually clever and practically effective.
+
+So let's try them for the sentiment analysis model you built for the restaurant. Then you can find the most similar review in the data set given some example text. It's a task where you can easily judge for yourself how well the embeddings work
+
+```py
+%matplotlib inline
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import spacy
+
+# Set up code checking
+from learntools.core import binder
+binder.bind(globals())
+from learntools.nlp.ex3 import *
+print("\nSetup complete")
+```
