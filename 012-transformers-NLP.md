@@ -224,3 +224,16 @@ These are 300-dimensional vectors, with one vector for each word. However, we on
 There are many ways to combine all the word vectors into a single document vector we can use for model training. A simple and surprisingly effective approach is simply averaging the vectors for each word in the document. Then, you can use these document vectors for modeling.
 ​
 spaCy calculates the average document vector which you can get with `doc.vector`. Here is an example loading the spam data and converting it to document vectors.
+
+```py
+import pandas as pd
+
+# Loading the spam data
+# ham is the label for non-spam messages
+spam = pd.read_csv('../input/nlp-course/spam.csv')
+
+with nlp.disable_pipes():
+    doc_vectors = np.array([nlp(text).vector for text in spam.text])
+    
+doc_vectors.shape
+```
