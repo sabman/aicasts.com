@@ -24,3 +24,8 @@ for (test_df, sample_prediction_df) in iter_test:
     sample_prediction_df.action = 0 #make your 0/1 prediction here
     env.predict(sample_prediction_df)
 ```
+
+```py
+train = pd.read_csv('/kaggle/input/jane-street-market-prediction/train.csv', nrows=10000)
+train.head()
+```
