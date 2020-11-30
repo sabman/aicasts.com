@@ -75,6 +75,8 @@ Due to data access agreements, users need to independently download data files f
 
 Once downloaded, copy and unzip the file in the `/data` directory. The notebook `/notebooks/00_dhs_prep.ipynb` will walk you through how to prepare the dataset for modeling.
 
+- register https://dhsprogram.com/data/new-user-registration.cfm
+- 
 ### Google Static Maps
 We used the [Google Static Maps API](https://developers.google.com/maps/documentation/maps-static/intro) to download 400x400 px zoom 17 satellite images. To download satellite images and generate training/validation sets, run the following script in the src/ directory:
 
@@ -119,9 +121,11 @@ optional arguments:
 
 ## Data Sources
 
+
 - **Demographic and Health Survey (DHS)**: we used the socioeconomic indicators in the [2017 Philippine
     Demographic and Health Survey](https://dhsprogram.com/) as our measure of
     ground-truth for socioeconomic indicators.
+
 - **Nighttime Luminosity Data**: we obtained nighttime lights data from the
     [Visible Infrared Imaging Radiometer Suite Day/Night Band (VIIRS
     DNB)](https://ngdc.noaa.gov/eog/viirs/download_dnb_composites.html) for the
