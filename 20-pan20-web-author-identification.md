@@ -187,3 +187,6 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+
+
+Course https://www.coursera.org/learn/classification-vector-spaces-in-nlp/home/welcome
