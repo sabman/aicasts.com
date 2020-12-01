@@ -9,7 +9,7 @@
 
 # ## Imports
 
-# In[6]:
+# In[15]:
 
 
 import pandas as pd
@@ -17,7 +17,7 @@ import pandas as pd
 
 # ## File locations
 
-# In[7]:
+# In[16]:
 
 
 data_dir = '../data/'
@@ -27,7 +27,7 @@ dhs_dict_file = dhs_zip + 'PHHR71DT/PHHR71FL.DO'
 print(dhs_dict_file)
 
 
-# In[8]:
+# In[17]:
 
 
 get_ipython().system('ls ../data/PHHR71DT/PHHR71FL.DO')
@@ -35,7 +35,7 @@ get_ipython().system('ls ../data/PHHR71DT/PHHR71FL.DO')
 
 # ## Helper Function
 
-# In[9]:
+# In[18]:
 
 
 def get_dhs_dict(dhs_dict_file):
@@ -53,7 +53,7 @@ def get_dhs_dict(dhs_dict_file):
 
 # ## Load DHS Dataset
 
-# In[10]:
+# In[19]:
 
 
 dhs = pd.read_stata(dhs_file, convert_categoricals=False)
@@ -64,7 +64,7 @@ print('Data Dimensions: {}'.format(dhs.shape))
 
 # ## Aggregate Columns
 
-# In[13]:
+# In[20]:
 
 
 data = dhs[[
@@ -92,7 +92,7 @@ data.head(10)
 
 # ## Save Processed DHS File
 
-# In[14]:
+# In[21]:
 
 
 data.to_csv(data_dir+'dhs_indicators.csv')
