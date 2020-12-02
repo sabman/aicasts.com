@@ -167,7 +167,7 @@ data_utils.plot_hist(
 # ### Load DHS indicators 
 # Load DHS dataste and merge with average night time lights data.
 
-# In[27]:
+# In[11]:
 
 
 dhs_indicators = pd.read_csv(dhs_indicators_file)
