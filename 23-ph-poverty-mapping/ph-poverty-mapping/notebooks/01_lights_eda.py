@@ -167,57 +167,57 @@ data_utils.plot_hist(
 # ### Load DHS indicators 
 # Load DHS dataste and merge with average night time lights data.
 
-# In[11]:
+# In[12]:
 
 
 dhs_indicators = pd.read_csv(dhs_indicators_file)
 dhs_indicators.head(2)
-# nightlights_avg = nightlights_avg.merge(dhs_indicators, left_on='DHSCLUST', right_on='Cluster number')
-# pop_sum = pop_sum.merge(dhs_indicators, left_on='DHSCLUST', right_on='Cluster number')
+nightlights_avg = nightlights_avg.merge(dhs_indicators, left_on='DHSCLUST', right_on='Cluster number')
+pop_sum = pop_sum.merge(dhs_indicators, left_on='DHSCLUST', right_on='Cluster number')
 
-# print("Number of unique clusters in DHS data merged with NTL data: ", nightlights_avg['DHSCLUST'].nunique())
-# print("Number of unique clusters in DHS data merged with pop data: ", pop_sum['DHSCLUST'].nunique())
+print("Number of unique clusters in DHS data merged with NTL data: ", nightlights_avg['DHSCLUST'].nunique())
+print("Number of unique clusters in DHS data merged with pop data: ", pop_sum['DHSCLUST'].nunique())
 
 
 # ### Correlations bet. Average NTL Intensity and Socioeconomic Indicators
 
-# In[23]:
+# In[13]:
 
 
 data_utils.plot_regplot(pop_sum, 'Wealth Index', 'Population', 'pop_sum')
 
 
-# In[29]:
+# In[14]:
 
 
 data_utils
 
 
-# In[30]:
+# In[15]:
 
 
 nightlights_avg
 
 
-# In[24]:
+# In[16]:
 
 
 data_utils.plot_regplot(nightlights_avg, 'Wealth Index')
 
 
-# In[ ]:
+# In[17]:
 
 
 data_utils.plot_regplot(nightlights_avg, 'Education completed (years)')
 
 
-# In[ ]:
+# In[18]:
 
 
 data_utils.plot_regplot(nightlights_avg, 'Access to electricity')
 
 
-# In[28]:
+# In[19]:
 
 
 data_utils.plot_regplot(nightlights_avg, 'Access to water (minutes)')
@@ -227,7 +227,7 @@ data_utils.plot_regplot(nightlights_avg, 'Access to water (minutes)')
 
 # ###  Load Nighttime Lights Dataset
 
-# In[26]:
+# In[20]:
 
 
 nightlights = pd.read_csv(nightlights_file)
@@ -236,7 +236,7 @@ nightlights.head(3)
 
 # ### Gaussian Mixture Model
 
-# In[ ]:
+# In[21]:
 
 
 bin_labels = ['low', 'low medium', 'medium', 'high medium', 'high']
@@ -251,7 +251,7 @@ for label in bin_labels:
 
 # ### Ad Hoc Label Assignment
 
-# In[ ]:
+# In[22]:
 
 
 bin_caps = [0, 2, 15, 30]
@@ -268,7 +268,7 @@ for label in bin_labels:
 
 # ### Save Binned Dataset
 
-# In[ ]:
+# In[23]:
 
 
 nightlights.to_csv(nightlights_bins_file, index=False)
@@ -282,7 +282,7 @@ print(nightlights['label'].value_counts()/nightlights.shape[0])
 
 # ### Load Nighttime Lights Dataset
 
-# In[ ]:
+# In[24]:
 
 
 nightlights = pd.read_csv(nightlights_bins_file)
@@ -291,7 +291,7 @@ print('Total number images downloaded: ', len(nightlights))
 
 # ### Shuffle NTL Dataset and Split into Train/Val Sets
 
-# In[ ]:
+# In[25]:
 
 
 nightlights = nightlights.sample(frac=1, random_state=SEED).reset_index(drop=True)
@@ -304,7 +304,7 @@ print(val['label'].value_counts())
 
 # ### Upsample Minority Class of Training Set
 
-# In[ ]:
+# In[26]:
 
 
 train_balanced = data_utils.balance_dataset(train, size=30000)
@@ -319,9 +319,3 @@ train_balanced['label'].value_counts()
 # cd src
 # python data_download.py
 # ```
-
-# In[ ]:
-
-
-
-
