@@ -1,4 +1,7 @@
+
+
 ## Concepts
+
 
 - Tokenizing
 - Text preprocessing
@@ -11,6 +14,7 @@
 - Natural Language Processing course by Dan Jurafsky and Christopher Manning https://www.youtube.com/playlist?list=PLQiyVNMpDLKnZYBTUOlSI9mi9wAErFtFm
 - https://web.stanford.edu/~jurafsky/NLPCourseraSlides.html
 
+- https://www.coursera.org/specializations/natural-language-processing
 
 ref https://github.com/sabman/aicasts.com/issues/18
 
