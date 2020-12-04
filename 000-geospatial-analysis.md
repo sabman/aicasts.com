@@ -1,10 +1,10 @@
 # ML in Geo
 
-## Usecases 
+## Usecases
 - https://medium.com/geoai
 - https://toddwschneider.com/posts/analyzing-1-1-billion-nyc-taxi-and-uber-trips-with-a-vengeance/
 
-## Talk 
+## Talk
 - https://media.ccc.de/v/bucharest-448-demystifying-ai-in-geo#t=166
 
 ## Code
