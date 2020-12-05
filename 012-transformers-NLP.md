@@ -276,3 +276,7 @@ print("\nSetup complete")
 ## Stanford cs224n deep learning and nlp
 
 http://web.stanford.edu/class/cs224n/
+
+## Transformer Architecture
+
+https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
