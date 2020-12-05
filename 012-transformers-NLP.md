@@ -272,3 +272,7 @@ binder.bind(globals())
 from learntools.nlp.ex3 import *
 print("\nSetup complete")
 ```
+
+## Stanford cs224n deep learning and nlp
+
+http://web.stanford.edu/class/cs224n/
