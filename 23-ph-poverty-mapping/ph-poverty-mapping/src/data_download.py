@@ -7,8 +7,10 @@ import logging
 import pandas as pd
 
 SEED = 42
-os.environ['GEO_AI_API_KEY'] = "<INSERT API KEY HERE>"
-os.environ['GEO_AI_SECRET_KEY'] = "<INSERT SECRET KEY HERE>"
+print('make sure GEO_AI_API_KEY is set in .env')
+print('make sure GEO_AI_SECRET_KEY is set in .env')
+# os.environ['GEO_AI_API_KEY'] = os.environ.get('GEO_AI_API_KEY')
+# os.environ['GEO_AI_SECRET_KEY'] = os.environ.get('GEO_AI_SECRET_KEY')
 
 def main():
     data_path = '../data/'
@@ -29,6 +31,7 @@ def main():
         )
     except:
         logging.debug("Could not download satellite images. Please set your API keys.")
+        raise "Could not download satellite images. Please set your API keys."
     
     # To see how nightlights_bins_file was generated, please refer to 
     #    notebooks/01_lights_eda.ipynb

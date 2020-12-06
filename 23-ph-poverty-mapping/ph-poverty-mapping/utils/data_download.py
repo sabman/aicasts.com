@@ -16,7 +16,9 @@ import requests
 from PIL import Image
 from staticmaps_signature import StaticMapURLSigner
 from tqdm import tqdm
+import ssl
 
+ssl._create_default_https_context = ssl._create_unverified_context
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -70,6 +72,7 @@ def get_static_google_maps(
 
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
+    print("Requesting map from: " + gsm_url)
     b = BytesIO(urllib.request.urlopen(gsm_url).read())
     image = Image.open(b)
 
