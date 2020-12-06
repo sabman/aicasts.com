@@ -1,4 +1,6 @@
 .PHONY: build
+pipvenv:
+	pipenv shell
 build: venv requirements.txt
 	venv/bin/pip-sync
 dev: venv requirements-dev.txt
