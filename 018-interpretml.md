@@ -12,3 +12,4 @@ https://github.com/interpretml/interpret
 pip install interpret
 ```
 
+https://developers.google.com/machine-learning/guides/rules-of-ml
