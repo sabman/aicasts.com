@@ -3,7 +3,7 @@
 
 # ## Imports
 
-# In[3]:
+# In[9]:
 
 
 import os
@@ -41,15 +41,16 @@ get_ipython().run_line_magic('load_ext', 'autoreload')
 get_ipython().run_line_magic('autoreload', '2')
 
 
-# In[4]:
+# In[10]:
 
 
-get_ipython().system('pip install wandb torch')
+get_ipython().system('pip install wandb torch torchvision torchsummary xgboost')
+ 
 
 
 # ## File Locations
 
-# In[2]:
+# In[11]:
 
 
 # Google Cloud Storage
@@ -80,7 +81,7 @@ low2_file = data_dir+'test_images/low2.jpg'
 
 # ## Load Datasets
 
-# In[3]:
+# In[12]:
 
 
 report = pd.read_csv(report_file)
