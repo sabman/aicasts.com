@@ -5,7 +5,7 @@
 
 # ## Imports
 
-# In[1]:
+# In[7]:
 
 
 import os
@@ -25,9 +25,15 @@ get_ipython().run_line_magic('load_ext', 'autoreload')
 get_ipython().run_line_magic('autoreload', '2')
 
 
+# In[9]:
+
+
+get_ipython().system('pip install google-cloud-storage')
+
+
 # ## File Locations
 
-# In[2]:
+# In[8]:
 
 
 # Google Cloud Storage
@@ -41,7 +47,7 @@ dhs_indicators_file = '../data/dhs_indicators.csv'
 
 # ## Download Datasets
 
-# In[3]:
+# In[6]:
 
 
 # Download from Google Cloud Storage
