@@ -5,7 +5,7 @@
 
 # ## Imports
 
-# In[7]:
+# In[1]:
 
 
 import os
@@ -28,12 +28,22 @@ get_ipython().run_line_magic('autoreload', '2')
 # In[9]:
 
 
-get_ipython().system('pip install google-cloud-storage')
+# !pip install google-cloud-storage
+get_ipython().system('source ../.env')
+
+
+# In[18]:
+
+
+import dotenv
+dotenv.load_dotenv("../.env", override=True)
+from google.cloud import storage
+storage_client = storage.Client()
 
 
 # ## File Locations
 
-# In[8]:
+# In[22]:
 
 
 # Google Cloud Storage
@@ -47,7 +57,7 @@ dhs_indicators_file = '../data/dhs_indicators.csv'
 
 # ## Download Datasets
 
-# In[6]:
+# In[20]:
 
 
 # Download from Google Cloud Storage
@@ -55,9 +65,15 @@ data_utils.download_from_bucket('nightlights_summary_stats.csv', directory, ntl_
 data_utils.download_from_bucket('dhs_indicators.csv', directory, dhs_indicators_file, bucket_name);
 
 
+# In[21]:
+
+
+get_ipython().system('wget https://raw.githubusercontent.com/thinkingmachines/ph-poverty-mapping/master/data/nightlights_summary_stats.csv')
+
+
 # ## Load Datasets
 
-# In[3]:
+# In[23]:
 
 
 # Load nighttime lights dataset
@@ -71,7 +87,7 @@ feature_cols = ['cov', 'kurtosis', 'max', 'mean', 'median', 'min', 'skewness', '
 
 # ## Correlations
 
-# In[4]:
+# In[24]:
 
 
 data_utils.plot_corr(
@@ -86,7 +102,7 @@ data_utils.plot_corr(
 
 # ### Configuration
 
-# In[5]:
+# In[28]:
 
 
 # Scoring metrics
@@ -106,7 +122,7 @@ indicators = [
 
 # ### Random Forest
 
-# In[6]:
+# In[29]:
 
 
 predictions = model_utils.evaluate_model(
@@ -124,7 +140,7 @@ predictions = model_utils.evaluate_model(
 
 # ### XGBoost
 
-# In[7]:
+# In[27]:
 
 
 predictions = model_utils.evaluate_model(
