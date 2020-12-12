@@ -10,6 +10,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
+# SEE https://cloud.google.com/storage/docs/reference/libraries#client-libraries-install-python
 from google.cloud import storage
 
 import seaborn as sns
