@@ -120,9 +120,16 @@ indicators = [
 ]
 
 
+# In[11]:
+
+
+import wandb
+wandb.init(project="tm-poverty-prediction")
+
+
 # ### Random Forest
 
-# In[10]:
+# In[ ]:
 
 
 predictions = model_utils.evaluate_model(
@@ -134,7 +141,8 @@ predictions = model_utils.evaluate_model(
     refit='r2', 
     search_type='random', 
     n_splits=5, 
-    n_iter=10
+    n_iter=10,
+    wandb=wandb
 )
 
 
