@@ -25,14 +25,14 @@ get_ipython().run_line_magic('load_ext', 'autoreload')
 get_ipython().run_line_magic('autoreload', '2')
 
 
-# In[9]:
+# In[2]:
 
 
 # !pip install google-cloud-storage
 get_ipython().system('source ../.env')
 
 
-# In[18]:
+# In[3]:
 
 
 import dotenv
@@ -43,7 +43,7 @@ storage_client = storage.Client()
 
 # ## File Locations
 
-# In[22]:
+# In[5]:
 
 
 # Google Cloud Storage
@@ -57,7 +57,7 @@ dhs_indicators_file = '../data/dhs_indicators.csv'
 
 # ## Download Datasets
 
-# In[20]:
+# In[6]:
 
 
 # Download from Google Cloud Storage
@@ -73,7 +73,7 @@ get_ipython().system('wget https://raw.githubusercontent.com/thinkingmachines/ph
 
 # ## Load Datasets
 
-# In[23]:
+# In[7]:
 
 
 # Load nighttime lights dataset
@@ -87,7 +87,7 @@ feature_cols = ['cov', 'kurtosis', 'max', 'mean', 'median', 'min', 'skewness', '
 
 # ## Correlations
 
-# In[24]:
+# In[8]:
 
 
 data_utils.plot_corr(
@@ -102,7 +102,7 @@ data_utils.plot_corr(
 
 # ### Configuration
 
-# In[28]:
+# In[9]:
 
 
 # Scoring metrics
@@ -122,7 +122,7 @@ indicators = [
 
 # ### Random Forest
 
-# In[29]:
+# In[10]:
 
 
 predictions = model_utils.evaluate_model(
