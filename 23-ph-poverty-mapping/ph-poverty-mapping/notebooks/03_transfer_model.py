@@ -3,7 +3,7 @@
 
 # ## Imports
 
-# In[9]:
+# In[1]:
 
 
 import os
@@ -50,8 +50,10 @@ get_ipython().system('pip install wandb torch torchvision torchsummary xgboost')
 
 # ## File Locations
 
-# In[11]:
+# In[ ]:
 
+
+# see: https://github.com/thinkingmachines/ph-poverty-mapping/issues/7#issuecomment-494645573
 
 # Google Cloud Storage
 bucket_name = 'tm-geospatial'
@@ -59,8 +61,9 @@ dir = 'poverty-prediction-datasets'
 image_dir = dir + '/images'
 
 # Destination files
-data_dir = '../data/zoom17/'
-report_file = data_dir+'report.csv'
+# data_dir = '../data/zoom17/'
+data_dir = '../data/'
+report_file = data_dir+'report/report.csv'
 nightlights_unstacked_file = data_dir+'nightlights_unstacked.csv'
 
 dhs_indicators_file = data_dir+'dhs_indicators.csv'
@@ -81,7 +84,7 @@ low2_file = data_dir+'test_images/low2.jpg'
 
 # ## Load Datasets
 
-# In[12]:
+# In[7]:
 
 
 report = pd.read_csv(report_file)
