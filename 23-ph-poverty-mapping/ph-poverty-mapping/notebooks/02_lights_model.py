@@ -43,7 +43,7 @@ storage_client = storage.Client()
 
 # ## File Locations
 
-# In[5]:
+# In[9]:
 
 
 # Google Cloud Storage
@@ -57,7 +57,7 @@ dhs_indicators_file = '../data/dhs_indicators.csv'
 
 # ## Download Datasets
 
-# In[6]:
+# In[10]:
 
 
 # Download from Google Cloud Storage
@@ -65,7 +65,7 @@ data_utils.download_from_bucket('nightlights_summary_stats.csv', directory, ntl_
 data_utils.download_from_bucket('dhs_indicators.csv', directory, dhs_indicators_file, bucket_name);
 
 
-# In[21]:
+# In[ ]:
 
 
 get_ipython().system('wget https://raw.githubusercontent.com/thinkingmachines/ph-poverty-mapping/master/data/nightlights_summary_stats.csv')
@@ -73,7 +73,7 @@ get_ipython().system('wget https://raw.githubusercontent.com/thinkingmachines/ph
 
 # ## Load Datasets
 
-# In[7]:
+# In[11]:
 
 
 # Load nighttime lights dataset
@@ -87,7 +87,7 @@ feature_cols = ['cov', 'kurtosis', 'max', 'mean', 'median', 'min', 'skewness', '
 
 # ## Correlations
 
-# In[8]:
+# In[12]:
 
 
 data_utils.plot_corr(
@@ -102,7 +102,7 @@ data_utils.plot_corr(
 
 # ### Configuration
 
-# In[9]:
+# In[13]:
 
 
 # Scoring metrics
@@ -120,7 +120,7 @@ indicators = [
 ]
 
 
-# In[11]:
+# In[14]:
 
 
 import wandb
@@ -129,7 +129,7 @@ wandb.init(project="tm-poverty-prediction")
 
 # ### Random Forest
 
-# In[12]:
+# In[15]:
 
 
 predictions = model_utils.evaluate_model(
@@ -148,7 +148,7 @@ predictions = model_utils.evaluate_model(
 
 # ### XGBoost
 
-# In[27]:
+# In[ ]:
 
 
 predictions = model_utils.evaluate_model(
@@ -160,7 +160,8 @@ predictions = model_utils.evaluate_model(
     refit='r2', 
     search_type='random', 
     n_splits=5, 
-    n_iter=10
+    n_iter=10,
+    wandb=wandb
 )
 
 
