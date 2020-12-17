@@ -50,7 +50,7 @@ get_ipython().system('pip install wandb torch torchvision torchsummary xgboost')
 
 # ## File Locations
 
-# In[ ]:
+# In[8]:
 
 
 # see: https://github.com/thinkingmachines/ph-poverty-mapping/issues/7#issuecomment-494645573
