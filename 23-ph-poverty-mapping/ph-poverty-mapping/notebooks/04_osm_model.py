@@ -30,13 +30,14 @@ get_ipython().run_line_magic('autoreload', '2')
 
 # ## File Locations
 
-# In[2]:
+# In[3]:
 
 
 bucket_name = 'tm-geospatial'
 directory = 'poverty-prediction-datasets'
 
-data_dir = '../data/zoom17/'
+# data_dir = '../data/zoom17/'
+data_dir = '../data/'
 ntl_summary_stats_file = data_dir+'nightlights_summary_stats.csv'
 dhs_indicators_file = data_dir+'dhs_indicators.csv'
 
@@ -47,7 +48,7 @@ osm_pois_file = data_dir+'osm_pois.csv'
 
 # ## Load Datasets
 
-# In[3]:
+# In[4]:
 
 
 # Load DHS indicators and nighttime lights
@@ -72,7 +73,7 @@ osm_ntl_cols = list(osm_cols) + list(ntl_cols)
 
 # ## Combine Features
 
-# In[4]:
+# In[5]:
 
 
 # Merge roads + buildings + pois
@@ -90,7 +91,7 @@ dhs = dhs_indicators.merge(osm_ntl, left_on='Cluster number', right_on='DHSCLUST
 
 # ## Spearman and Pearsons Correlation
 
-# In[5]:
+# In[6]:
 
 
 data_utils.plot_corr(
@@ -106,7 +107,7 @@ data_utils.plot_corr(
 
 # ### Configuration
 
-# In[6]:
+# In[7]:
 
 
 # Scoring metrics
@@ -126,7 +127,7 @@ indicators = [
 
 # ## OSM Features + Nighttime Lights
 
-# In[7]:
+# In[ ]:
 
 
 predictions = model_utils.evaluate_model(
