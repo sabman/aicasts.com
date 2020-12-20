@@ -30,7 +30,7 @@ get_ipython().run_line_magic('autoreload', '2')
 
 # ## File Locations
 
-# In[3]:
+# In[2]:
 
 
 bucket_name = 'tm-geospatial'
@@ -48,7 +48,7 @@ osm_pois_file = data_dir+'osm_pois.csv'
 
 # ## Load Datasets
 
-# In[4]:
+# In[3]:
 
 
 # Load DHS indicators and nighttime lights
@@ -73,7 +73,7 @@ osm_ntl_cols = list(osm_cols) + list(ntl_cols)
 
 # ## Combine Features
 
-# In[5]:
+# In[4]:
 
 
 # Merge roads + buildings + pois
@@ -91,7 +91,7 @@ dhs = dhs_indicators.merge(osm_ntl, left_on='Cluster number', right_on='DHSCLUST
 
 # ## Spearman and Pearsons Correlation
 
-# In[6]:
+# In[5]:
 
 
 data_utils.plot_corr(
@@ -107,7 +107,7 @@ data_utils.plot_corr(
 
 # ### Configuration
 
-# In[7]:
+# In[6]:
 
 
 # Scoring metrics
@@ -148,7 +148,7 @@ predictions = model_utils.evaluate_model(
 
 # ## OSM Features Only
 
-# In[8]:
+# In[ ]:
 
 
 predictions = model_utils.evaluate_model(
