@@ -39,9 +39,7 @@
 - https://spacenet.ai/sn7-challenge/
 - https://www.kaggle.com/c/lyft-motion-prediction-autonomous-vehicles/
 
-
 - Feature engineering https://www.kaggle.com/camnugent/geospatial-feature-engineering-and-visualization
 - https://www.kaggle.com/jcarrillo/machine-learning-for-geospatial-data-workshop-2a
-
 
 - https://github.com/sacridini/Awesome-Geospatial
