@@ -32,6 +32,7 @@
 - https://www.kaggle.com/reubencpereira/spatial-data-repo
 - https://www.kaggle.com/andresionek/geospatial-analysis-of-brazilian-e-commerce
 - https://www.kaggle.com/arthurpaulino/spatial-analysis-tutorial
+- https://www.kaggle.com/c/bigquery-geotab-intersection-congestion
 
 ## datasets
 - https://github.com/chrieke/awesome-satellite-imagery-datasets
