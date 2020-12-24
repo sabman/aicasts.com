@@ -33,6 +33,7 @@
 - https://www.kaggle.com/andresionek/geospatial-analysis-of-brazilian-e-commerce
 - https://www.kaggle.com/arthurpaulino/spatial-analysis-tutorial
 - https://www.kaggle.com/c/bigquery-geotab-intersection-congestion
+  - EDA https://www.kaggle.com/kabure/insightful-eda-modeling-lgbm-hyperopt
 
 ## datasets
 - https://github.com/chrieke/awesome-satellite-imagery-datasets
