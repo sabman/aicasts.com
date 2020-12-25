@@ -9,6 +9,8 @@
 
 ## Code
 - https://github.com/thinkingmachines/ph-poverty-mapping
+  - https://science.sciencemag.org/content/353/6301/790.abstract
+  - 
 - https://github.com/mmann1123/ts-raster and https://github.com/liyingben/ts-raster/branches/stale
 - https://github.com/deepVector/geospatial-machine-learning
 - https://github.com/cosmiq/solaris
