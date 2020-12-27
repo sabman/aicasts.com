@@ -3,7 +3,7 @@
 
 # ## Imports
 
-# In[1]:
+# In[16]:
 
 
 import os
@@ -41,7 +41,7 @@ get_ipython().run_line_magic('load_ext', 'autoreload')
 get_ipython().run_line_magic('autoreload', '2')
 
 
-# In[10]:
+# In[13]:
 
 
 get_ipython().system('pip install wandb torch torchvision torchsummary xgboost')
@@ -50,7 +50,7 @@ get_ipython().system('pip install wandb torch torchvision torchsummary xgboost')
 
 # ## File Locations
 
-# In[7]:
+# In[17]:
 
 
 # see: https://github.com/thinkingmachines/ph-poverty-mapping/issues/7#issuecomment-494645573
@@ -62,7 +62,7 @@ image_dir = dir + '/images'
 
 # Destination files
 data_dir = '../data/'
-report_file = data_dir+'report.csv'
+report_file = data_dir+'report/report.csv'
 nightlights_unstacked_file = data_dir+'nightlights_unstacked.csv'
 
 dhs_indicators_file = data_dir+'dhs_indicators.csv'
@@ -83,7 +83,7 @@ low2_file = data_dir+'test_images/low2.jpg'
 
 # ## Load Datasets
 
-# In[9]:
+# In[18]:
 
 
 # generate report file as per https://github.com/thinkingmachines/ph-poverty-mapping/issues/15#issuecomment-495090238
