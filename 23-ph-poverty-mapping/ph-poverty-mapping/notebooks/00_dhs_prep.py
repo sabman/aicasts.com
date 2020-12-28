@@ -97,9 +97,3 @@ data.head(10)
 
 data.to_csv(data_dir+'dhs_indicators.csv')
 
-
-# In[ ]:
-
-
-
-
