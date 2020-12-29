@@ -9,7 +9,7 @@
 
 # ## Imports
 
-# In[15]:
+# In[1]:
 
 
 import pandas as pd
@@ -17,7 +17,7 @@ import pandas as pd
 
 # ## File locations
 
-# In[16]:
+# In[2]:
 
 
 data_dir = '../data/'
@@ -27,7 +27,7 @@ dhs_dict_file = dhs_zip + 'PHHR71DT/PHHR71FL.DO'
 print(dhs_dict_file)
 
 
-# In[17]:
+# In[3]:
 
 
 get_ipython().system('ls ../data/PHHR71DT/PHHR71FL.DO')
@@ -35,7 +35,7 @@ get_ipython().system('ls ../data/PHHR71DT/PHHR71FL.DO')
 
 # ## Helper Function
 
-# In[18]:
+# In[4]:
 
 
 def get_dhs_dict(dhs_dict_file):
@@ -53,13 +53,19 @@ def get_dhs_dict(dhs_dict_file):
 
 # ## Load DHS Dataset
 
-# In[19]:
+# In[5]:
 
 
 dhs = pd.read_stata(dhs_file, convert_categoricals=False)
 dhs_dict = get_dhs_dict(dhs_dict_file)
 dhs = dhs.rename(columns=dhs_dict).dropna(axis=1)
 print('Data Dimensions: {}'.format(dhs.shape))
+
+
+# In[6]:
+
+
+dhs_dict
 
 
 # ## Aggregate Columns
