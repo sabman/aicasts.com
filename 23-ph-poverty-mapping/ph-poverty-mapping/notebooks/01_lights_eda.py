@@ -134,7 +134,7 @@ print("Percent of zero intensity pixels in dataset: {:.0f}%".format(percent_zero
 
 # ### Sanity Check Average Nighttime Lights Per Cluster
 
-# In[12]:
+# In[9]:
 
 
 nightlights_avg = pd.DataFrame(nightlights.groupby(['DHSCLUST'])['ntl2016'].mean()).reset_index()
@@ -149,7 +149,7 @@ data_utils.plot_hist(
 
 # ### Get Sum of Population Per Cluster
 
-# In[13]:
+# In[10]:
 
 
 pop_sum = pd.DataFrame(nightlights.groupby(['DHSCLUST'])['pop_sum'].sum()).reset_index()
@@ -167,7 +167,7 @@ data_utils.plot_hist(
 # ### Load DHS indicators 
 # Load DHS dataste and merge with average night time lights data.
 
-# In[14]:
+# In[11]:
 
 
 dhs_indicators = pd.read_csv(dhs_indicators_file)
@@ -181,43 +181,43 @@ print("Number of unique clusters in DHS data merged with pop data: ", pop_sum['D
 
 # ### Correlations bet. Average NTL Intensity and Socioeconomic Indicators
 
-# In[15]:
+# In[12]:
 
 
 data_utils.plot_regplot(pop_sum, 'Wealth Index', 'Population', 'pop_sum')
 
 
-# In[18]:
+# In[13]:
 
 
 data_utils
 
 
-# In[23]:
+# In[14]:
 
 
 nightlights_avg.columns
 
 
-# In[20]:
+# In[15]:
 
 
 data_utils.plot_regplot(nightlights_avg, 'Wealth Index')
 
 
-# In[21]:
+# In[16]:
 
 
 data_utils.plot_regplot(nightlights_avg, 'Education completed (years)')
 
 
-# In[22]:
+# In[17]:
 
 
 data_utils.plot_regplot(nightlights_avg, 'Access to electricity')
 
 
-# In[25]:
+# In[18]:
 
 
 data_utils.plot_regplot(nightlights_avg, 'Access to water (minutes)')
@@ -227,7 +227,7 @@ data_utils.plot_regplot(nightlights_avg, 'Access to water (minutes)')
 
 # ###  Load Nighttime Lights Dataset
 
-# In[26]:
+# In[19]:
 
 
 nightlights = pd.read_csv(nightlights_file)
@@ -236,7 +236,7 @@ nightlights.head(3)
 
 # ### Gaussian Mixture Model
 
-# In[27]:
+# In[20]:
 
 
 bin_labels = ['low', 'low medium', 'medium', 'high medium', 'high']
@@ -251,7 +251,7 @@ for label in bin_labels:
 
 # ### Ad Hoc Label Assignment
 
-# In[28]:
+# In[21]:
 
 
 bin_caps = [0, 2, 15, 30]
@@ -268,7 +268,7 @@ for label in bin_labels:
 
 # ### Save Binned Dataset
 
-# In[29]:
+# In[22]:
 
 
 nightlights.to_csv(nightlights_bins_file, index=False)
@@ -282,7 +282,7 @@ print(nightlights['label'].value_counts()/nightlights.shape[0])
 
 # ### Load Nighttime Lights Dataset
 
-# In[30]:
+# In[25]:
 
 
 nightlights = pd.read_csv(nightlights_bins_file)
@@ -291,7 +291,7 @@ print('Total number images downloaded: ', len(nightlights))
 
 # ### Shuffle NTL Dataset and Split into Train/Val Sets
 
-# In[31]:
+# In[26]:
 
 
 nightlights = nightlights.sample(frac=1, random_state=SEED).reset_index(drop=True)
