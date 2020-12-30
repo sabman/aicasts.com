@@ -284,3 +284,17 @@ https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
 ## References
 
 https://www.kaggle.com/abhishek/approaching-almost-any-nlp-problem-on-kaggle/
+
+## Topics
+
+- tfidf 
+- count features
+- logistic regression
+- naive bayes
+- svm
+- xgboost
+- grid search
+- word vectors
+- LSTM
+- GRU
+- Ensembling
