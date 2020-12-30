@@ -280,3 +280,7 @@ http://web.stanford.edu/class/cs224n/
 ## Transformer Architecture
 
 https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
+
+## References
+
+https://www.kaggle.com/abhishek/approaching-almost-any-nlp-problem-on-kaggle/
