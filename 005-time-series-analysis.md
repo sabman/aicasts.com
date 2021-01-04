@@ -22,7 +22,9 @@ import math
 
 import warnings # Supress warnings 
 warnings.filterwarnings('ignore')
+```
 
+```py
 df = pd.read_csv("../input/acea-water-prediction/Aquifer_Petrignano.csv")
 
 ### Simplifications for the sake of the tutorial ###
