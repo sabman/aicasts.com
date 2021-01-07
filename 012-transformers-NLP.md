@@ -285,6 +285,7 @@ https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
 
 - https://www.kaggle.com/abhishek/approaching-almost-any-nlp-problem-on-kaggle/
 - https://www.kaggle.com/c/spooky-author-identification/discussion/42220
+- http://web.stanford.edu/class/cs224n/
 - Feature Engineering https://www.kaggle.com/c/spooky-author-identification/discussion/42242
 
 ## Topics
