@@ -304,3 +304,5 @@ https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
 # Links
 - https://github.com/keon/awesome-nlp
 - https://github.com/hankcs/HanLP
+
+German: https://github.com/adbar/German-NLP
