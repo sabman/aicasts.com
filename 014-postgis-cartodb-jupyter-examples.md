@@ -1,7 +1,7 @@
 
 # Kepler + Carto + Jupyter
 
-- https://github.com/CartoDB/kepler.gl/blob/master/docs/keplergl-jupyter/user-guide.md
+- https://github.com/CartoDB/kepler.gl/blob/master/docs/keplergl-jupyter/README.md
 - https://github.com/keplergl/kepler.gl/blob/master/bindings/kepler.gl-jupyter/notebooks/Load%20kepler.gl.ipynb
 - https://github.com/keplergl/kepler.gl/blob/master/bindings/kepler.gl-jupyter/notebooks/Geometry%20as%20String.ipynb
 - https://github.com/keplergl/kepler.gl/blob/master/bindings/kepler.gl-jupyter/notebooks/GeoJSON.ipynb
