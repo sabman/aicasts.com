@@ -1,6 +1,9 @@
 # Stacks
 
-TBA
+## Data Ingestion:
+
+- Real-time
+- Batch/Bulk
 
 # Config Management Tools
 
