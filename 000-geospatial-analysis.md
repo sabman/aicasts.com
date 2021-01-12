@@ -46,5 +46,6 @@
 - Feature engineering https://www.kaggle.com/camnugent/geospatial-feature-engineering-and-visualization
 - https://www.kaggle.com/jcarrillo/machine-learning-for-geospatial-data-workshop-2a
 - https://www.kaggle.com/c/planet-understanding-the-amazon-from-space
+- https://github.com/EKami/planet-amazon-deforestation
 
 - https://github.com/sacridini/Awesome-Geospatial
