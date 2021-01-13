@@ -49,3 +49,4 @@
 - https://github.com/EKami/planet-amazon-deforestation
 
 - https://github.com/sacridini/Awesome-Geospatial
+- https://wandb.ai/thinkingmachines/ph-poverty-mapping/benchmark
