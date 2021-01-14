@@ -51,3 +51,5 @@
 - https://github.com/sacridini/Awesome-Geospatial
 - https://wandb.ai/thinkingmachines/ph-poverty-mapping/benchmark
 - https://www.kaggle.com/abrahamanderson/visualizing-geospatial-data-with-folium
+
+1...
