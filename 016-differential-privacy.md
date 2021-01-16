@@ -172,4 +172,3 @@ WHERE result.number_eaters > 50;
 ```
 
 The restriction with this method of rewriting is that joins must not create any rows of **shared ownership**. In the example above, this is satisfied.
-
