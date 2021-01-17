@@ -287,6 +287,8 @@ https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
 - https://www.kaggle.com/c/spooky-author-identification/discussion/42220
 - http://web.stanford.edu/class/cs224n/
 - Feature Engineering https://www.kaggle.com/c/spooky-author-identification/discussion/42242
+- https://www.kaggle.com/gunesevitan/nlp-with-disaster-tweets-eda-cleaning-and-bert/notebook
+
 
 ## Topics
 
@@ -306,3 +308,4 @@ https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
 - https://github.com/keon/awesome-nlp
 - https://github.com/hankcs/HanLP
 - German: https://github.com/adbar/German-NLP
+
