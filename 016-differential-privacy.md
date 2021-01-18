@@ -1,5 +1,6 @@
 https://github.com/google/differential-privacy/tree/master/differential_privacy/postgres
 
+https://github.com/google/differential-privacy/blob/main/differential_privacy.md
 
 ```sql
 CREATE TABLE FruitEaten (
