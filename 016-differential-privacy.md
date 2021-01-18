@@ -2,6 +2,8 @@ https://github.com/google/differential-privacy/tree/master/differential_privacy/
 
 https://github.com/google/differential-privacy/blob/main/differential_privacy.md
 
+https://github.com/google/differential-privacy/blob/main/cc/postgres/README.md
+
 ```sql
 CREATE TABLE FruitEaten (
   uid integer,
