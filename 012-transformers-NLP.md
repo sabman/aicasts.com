@@ -310,3 +310,7 @@ https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
 - https://github.com/hankcs/HanLP
 - German: https://github.com/adbar/German-NLP
 
+
+## Named Entity Recognition
+
+- https://towardsdatascience.com/named-entity-recognition-with-nltk-and-spacy-8c4a7d88e7da
