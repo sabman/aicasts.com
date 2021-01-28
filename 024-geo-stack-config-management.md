@@ -18,6 +18,7 @@ TBA
 
 ## AI/ML
 
+- Computer vision
 - NLP tools
 
 ## Links/References
