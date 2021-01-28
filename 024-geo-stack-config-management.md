@@ -18,7 +18,7 @@ TBA
 
 ## AI/ML
 
-TBA
+- NLP tools
 
 ## Links/References
 
