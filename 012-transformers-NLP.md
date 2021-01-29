@@ -317,3 +317,4 @@ https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
 - Spacy's NER: https://spacy.io/api/annotation#section-named-entities
 - https://github.com/susanli2016/NLP-with-Python/blob/master/NER_NLTK_Spacy.ipynb
 - https://medium.com/geoai/geospatial-natural-language-processing-ee3fc6ea6939
+- https://hal.archives-ouvertes.fr/hal-01633344/document
