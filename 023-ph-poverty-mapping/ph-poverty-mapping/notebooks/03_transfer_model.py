@@ -3,7 +3,7 @@
 
 # ## Imports
 
-# In[16]:
+# In[1]:
 
 
 import os
@@ -41,7 +41,7 @@ get_ipython().run_line_magic('load_ext', 'autoreload')
 get_ipython().run_line_magic('autoreload', '2')
 
 
-# In[13]:
+# In[2]:
 
 
 get_ipython().system('pip install wandb torch torchvision torchsummary xgboost')
@@ -50,7 +50,7 @@ get_ipython().system('pip install wandb torch torchvision torchsummary xgboost')
 
 # ## File Locations
 
-# In[17]:
+# In[3]:
 
 
 # see: https://github.com/thinkingmachines/ph-poverty-mapping/issues/7#issuecomment-494645573
@@ -66,7 +66,7 @@ report_file = data_dir+'report/report.csv'
 nightlights_unstacked_file = data_dir+'nightlights_unstacked.csv'
 
 dhs_indicators_file = data_dir+'dhs_indicators.csv'
-dhs_provinces_file = data_dir+'dhs_provinces.csv'
+# dhs_provinces_file = data_dir+'dhs_provinces.csv'
 dhs_regions_file = data_dir+'dhs_regions.csv'
 
 gsm_data_dir = data_dir+'images/' 
@@ -83,7 +83,7 @@ low2_file = data_dir+'test_images/low2.jpg'
 
 # ## Load Datasets
 
-# In[18]:
+# In[4]:
 
 
 # generate report file as per https://github.com/thinkingmachines/ph-poverty-mapping/issues/15#issuecomment-495090238
@@ -91,12 +91,12 @@ report = pd.read_csv(report_file)
 nightlights_unstacked = pd.read_csv(nightlights_unstacked_file)
 dhs_indicators = pd.read_csv(dhs_indicators_file)
 dhs_regions = pd.read_csv(dhs_regions_file)
-dhs_provinces = pd.read_csv(dhs_provinces_file)
+# dhs_provinces = pd.read_csv(dhs_provinces_file)
 
 
 # ## Instantiate Transfer Model
 
-# In[4]:
+# In[5]:
 
 
 # Load data
