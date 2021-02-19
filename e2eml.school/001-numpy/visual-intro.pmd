@@ -12,7 +12,12 @@ plt.plot(x, np.sin(x))
 
 ## Visual Guide to Numpy
 
+
+
+
 This [article](https://jalammar.github.io/visual-numpy/) about numpy is an excellent resource but build an intuition for numpy arrays if you are a visual thinker.
+
+### Creating Arrays
 
 ```python
 a = np.array([1,2,3])
@@ -28,4 +33,15 @@ print(np.ones(3))
 print(np.zeros(3))
 # random
 print(np.random.random(3))
+```
+
+### Array Arithmetic
+
+```python
+data = np.array([1,2])
+ones = np.ones(2)
+
+# lets add them
+_sum = data + ones
+print(_sum)
 ```
