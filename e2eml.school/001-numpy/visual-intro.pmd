@@ -9,3 +9,12 @@ import matplotlib.pyplot as plt
 x = np.linspace(0, 2*np.pi)
 plt.plot(x, np.sin(x))
 ```
+
+## Visual Guide to Numpy
+
+This [article](https://jalammar.github.io/visual-numpy/) about numpy is an excellent resource but build an intuition for numpy arrays if you are a visual thinker.
+
+```python
+a = np.array([1,2,3])
+print(a)
+```
