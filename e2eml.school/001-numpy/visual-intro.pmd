@@ -42,6 +42,11 @@ data = np.array([1,2])
 ones = np.ones(2)
 
 # lets add them
+# Look ma no loops!
 _sum = data + ones
 print(_sum)
+
+print(data*ones)
+print(data/ones)
 ```
+
