@@ -18,3 +18,14 @@ This [article](https://jalammar.github.io/visual-numpy/) about numpy is an excel
 a = np.array([1,2,3])
 print(a)
 ```
+
+Initialize a certain number of elements in our array using initialization methods:
+
+```python
+# ones
+print(np.ones(3))
+# zeros
+print(np.zeros(3))
+# random
+print(np.random.random(3))
+```
