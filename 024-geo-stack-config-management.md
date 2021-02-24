@@ -1,7 +1,5 @@
 # Stacks
 
-
-
 ## Data Ingestion:
 
 - Real-time
@@ -24,3 +22,4 @@ TBA
 ## Links/References
 
 - https://github.com/developmentseed/osm-seed
+
