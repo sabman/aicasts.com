@@ -52,3 +52,9 @@ print(data/ones)
 
 ### Scalar-Vector operations
 operation between an array and a single number (we can also call this an operation between a vector and a scalar)
+
+```python
+_ = data * 1.6
+print(_)
+```
+
