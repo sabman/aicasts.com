@@ -70,3 +70,11 @@ print(_)
 _ = data.sum()
 print(_)
 ```
+
+## More Dimensions
+
+```python
+_ = np.array([[1,2],[3,4]])
+print(_)
+
+```
