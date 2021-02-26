@@ -58,3 +58,15 @@ _ = data * 1.6
 print(_)
 ```
 
+### Aggregation
+
+```python
+_ = data.max()
+print(_)
+
+_ = data.min()
+print(_)
+
+_ = data.sum()
+print(_)
+```
