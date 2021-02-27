@@ -12,7 +12,7 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
-[<matplotlib.lines.Line2D at 0x11a61a978>]
+[<matplotlib.lines.Line2D at 0x111a084a8>]
 ```
 
 ![](figures/visual-intro_figure1_1.png)\
@@ -54,7 +54,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.98576726 0.02500137 0.50048072]
+[0.00182363 0.22034048 0.53991471]
 ```
 
 
@@ -122,15 +122,39 @@ print(_)
 
 ## More Dimensions
 
+### Creating Matrices
+
+
 
 ```python
 _ = np.array([[1,2],[3,4]])
 print(_)
+
+_ = np.ones((3,2))
+print("ones: \n", _)
+
+_ = np.zeros((3,2))
+print("zeros: \n", _)
+
+_ = np.random.random((3,2))
+print("random: \n", _)
 ```
 
 ```
 [[1 2]
  [3 4]]
+ones:
+ [[1. 1.]
+ [1. 1.]
+ [1. 1.]]
+zeros:
+ [[0. 0.]
+ [0. 0.]
+ [0. 0.]]
+random:
+ [[0.71588322 0.94689302]
+ [0.01965851 0.38181312]
+ [0.8752029  0.7635567 ]]
 ```
 
 
