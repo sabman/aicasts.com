@@ -12,7 +12,7 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
-[<matplotlib.lines.Line2D at 0x111a084a8>]
+[<matplotlib.lines.Line2D at 0x118dbe438>]
 ```
 
 ![](figures/visual-intro_figure1_1.png)\
@@ -54,7 +54,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.00182363 0.22034048 0.53991471]
+[0.35184752 0.60481612 0.19156038]
 ```
 
 
@@ -152,9 +152,28 @@ zeros:
  [0. 0.]
  [0. 0.]]
 random:
- [[0.71588322 0.94689302]
- [0.01965851 0.38181312]
- [0.8752029  0.7635567 ]]
+ [[0.04469914 0.59323874]
+ [0.80161005 0.02800435]
+ [0.27152905 0.46039763]]
+```
+
+
+
+### Matrix Arithmetic
+
+Requirement: Matrices must be the same size
+
+
+```python
+data = np.array([[1,2],[3,4]])
+ones = np.ones((2,2))
+_ = data + ones
+print(_)
+```
+
+```
+[[2. 3.]
+ [4. 5.]]
 ```
 
 

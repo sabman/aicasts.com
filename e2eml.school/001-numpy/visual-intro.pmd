@@ -88,5 +88,15 @@ print("zeros: \n", _)
 
 _ = np.random.random((3,2))
 print("random: \n", _)
+```
 
+### Matrix Arithmetic
+
+Requirement: Matrices must be the same size
+
+```python
+data = np.array([[1,2],[3,4]])
+ones = np.ones((2,2))
+_ = data + ones
+print(_)
 ```
