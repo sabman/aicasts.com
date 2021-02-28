@@ -100,3 +100,13 @@ ones = np.ones((2,2))
 _ = data + ones
 print(_)
 ```
+
+Broadcast rules in `numpy` allow perfroming arithmetic on matrices of different sizes.
+
+```python
+ones_row = np.ones((1,2))
+print(ones_row)
+print(data)
+_ = data + ones_row
+print(_)
+```

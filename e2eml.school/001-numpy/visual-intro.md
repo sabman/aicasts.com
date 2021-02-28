@@ -12,7 +12,7 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
-[<matplotlib.lines.Line2D at 0x118dbe438>]
+[<matplotlib.lines.Line2D at 0x117747438>]
 ```
 
 ![](figures/visual-intro_figure1_1.png)\
@@ -54,7 +54,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.35184752 0.60481612 0.19156038]
+[0.92184369 0.19547181 0.78667072]
 ```
 
 
@@ -152,9 +152,9 @@ zeros:
  [0. 0.]
  [0. 0.]]
 random:
- [[0.04469914 0.59323874]
- [0.80161005 0.02800435]
- [0.27152905 0.46039763]]
+ [[0.15795171 0.78401414]
+ [0.10104205 0.62924756]
+ [0.89586602 0.03121201]]
 ```
 
 
@@ -172,6 +172,27 @@ print(_)
 ```
 
 ```
+[[2. 3.]
+ [4. 5.]]
+```
+
+
+
+Broadcast rules in `numpy` allow perfroming arithmetic on matrices of different sizes.
+
+
+```python
+ones_row = np.ones((1,2))
+print(ones_row)
+print(data)
+_ = data + ones_row
+print(_)
+```
+
+```
+[[1. 1.]]
+[[1 2]
+ [3 4]]
 [[2. 3.]
  [4. 5.]]
 ```
