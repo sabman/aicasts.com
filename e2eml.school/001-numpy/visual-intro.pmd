@@ -111,3 +111,17 @@ _ = data + ones_row
 print(_)
 ```
 
+### Dot Product
+
+NumPy gives every matrix a `dot()` method we can use to carry-out dot product operations with other matrices:
+
+```python
+
+data = np.array([1,2,3])
+powers_of_ten = np.array([[1,10],[100,1000], [10000, 100000]])
+
+_ = data.dot(powers_of_ten)
+print(_)
+```
+
+

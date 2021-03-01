@@ -12,10 +12,17 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
-[<matplotlib.lines.Line2D at 0x117747438>]
+---------------------------------------------------------------------------ModuleNotFoundError
+Traceback (most recent call last)<ipython-input-1-5e953daa2e19> in
+<module>
+      1 import numpy as np
+----> 2 import matplotlib.pyplot as plt
+      3
+      4 x = np.linspace(0, 2*np.pi)
+      5 plt.plot(x, np.sin(x))
+ModuleNotFoundError: No module named 'matplotlib'
 ```
 
-![](figures/visual-intro_figure1_1.png)\
 
 
 ## Visual Guide to Numpy
@@ -54,7 +61,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.92184369 0.19547181 0.78667072]
+[0.51985116 0.01265232 0.08082209]
 ```
 
 
@@ -152,9 +159,9 @@ zeros:
  [0. 0.]
  [0. 0.]]
 random:
- [[0.15795171 0.78401414]
- [0.10104205 0.62924756]
- [0.89586602 0.03121201]]
+ [[0.38011826 0.11451879]
+ [0.11961164 0.0298388 ]
+ [0.60640653 0.43211824]]
 ```
 
 
@@ -197,4 +204,23 @@ print(_)
  [4. 5.]]
 ```
 
+
+
+### Dot Product
+
+NumPy gives every matrix a `dot()` method we can use to carry-out dot product operations with other matrices:
+
+
+```python
+
+data = np.array([1,2,3])
+powers_of_ten = np.array([[1,10],[100,1000], [10000, 100000]])
+
+_ = data.dot(powers_of_ten)
+print(_)
+```
+
+```
+[ 30201 302010]
+```
 
