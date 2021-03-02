@@ -12,17 +12,10 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
----------------------------------------------------------------------------ModuleNotFoundError
-Traceback (most recent call last)<ipython-input-1-5e953daa2e19> in
-<module>
-      1 import numpy as np
-----> 2 import matplotlib.pyplot as plt
-      3
-      4 x = np.linspace(0, 2*np.pi)
-      5 plt.plot(x, np.sin(x))
-ModuleNotFoundError: No module named 'matplotlib'
+[<matplotlib.lines.Line2D at 0x1191224e0>]
 ```
 
+![](figures/visual-intro_figure1_1.png)\
 
 
 ## Visual Guide to Numpy
@@ -61,7 +54,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.51985116 0.01265232 0.08082209]
+[0.82019209 0.67127701 0.53190267]
 ```
 
 
@@ -159,9 +152,9 @@ zeros:
  [0. 0.]
  [0. 0.]]
 random:
- [[0.38011826 0.11451879]
- [0.11961164 0.0298388 ]
- [0.60640653 0.43211824]]
+ [[0.27167917 0.03531124]
+ [0.93689937 0.3189814 ]
+ [0.83796186 0.5509712 ]]
 ```
 
 
@@ -223,4 +216,18 @@ print(_)
 ```
 [ 30201 302010]
 ```
+
+
+
+
+
+
+```python
+import seaborn as sns
+sns.set_theme(style="whitegrid")
+tips = sns.load_dataset("tips")
+ax = sns.stripplot(x=tips["total_bill"])
+```
+
+![](figures/visual-intro_figure11_1.png)\
 
