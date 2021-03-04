@@ -132,5 +132,13 @@ sns.set_theme(style="whitegrid")
 tips = sns.load_dataset("tips")
 ax = sns.stripplot(x=tips["total_bill"])
 ```
+### Matrix Indexing
 
-...
+```python
+data = np.array([[1,2],[3,4],[5,6]])
+print(data.max())
+print(data.min())
+print(data.sum())
+```
+
+```
