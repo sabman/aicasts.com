@@ -12,7 +12,7 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
-[<matplotlib.lines.Line2D at 0x1191224e0>]
+[<matplotlib.lines.Line2D at 0x10e4ea470>]
 ```
 
 ![](figures/visual-intro_figure1_1.png)\
@@ -54,7 +54,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.82019209 0.67127701 0.53190267]
+[0.5988578  0.42666862 0.32033936]
 ```
 
 
@@ -152,9 +152,9 @@ zeros:
  [0. 0.]
  [0. 0.]]
 random:
- [[0.27167917 0.03531124]
- [0.93689937 0.3189814 ]
- [0.83796186 0.5509712 ]]
+ [[0.69038127 0.11349555]
+ [0.78626793 0.83284754]
+ [0.88582829 0.84282884]]
 ```
 
 
@@ -231,3 +231,22 @@ ax = sns.stripplot(x=tips["total_bill"])
 
 ![](figures/visual-intro_figure11_1.png)\
 
+### Matrix Indexing
+
+
+```python
+data = np.array([[1,2],[3,4],[5,6]])
+print(data.max())
+print(data.min())
+print(data.sum())
+```
+
+```
+6
+1
+21
+```
+
+
+
+```
