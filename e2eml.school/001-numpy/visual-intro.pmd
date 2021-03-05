@@ -141,4 +141,7 @@ print(data.min())
 print(data.sum())
 ```
 
-```
+### Aggregation acrosss rows or columns
+
+Not only can we aggregate all the values in a matrix, but we can also aggregate across the rows or columns by using the `axis` parameter:
+
