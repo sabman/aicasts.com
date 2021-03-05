@@ -12,7 +12,7 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
-[<matplotlib.lines.Line2D at 0x10e4ea470>]
+[<matplotlib.lines.Line2D at 0x11b18e4e0>]
 ```
 
 ![](figures/visual-intro_figure1_1.png)\
@@ -54,7 +54,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.5988578  0.42666862 0.32033936]
+[0.06557132 0.42825446 0.13978687]
 ```
 
 
@@ -152,9 +152,9 @@ zeros:
  [0. 0.]
  [0. 0.]]
 random:
- [[0.69038127 0.11349555]
- [0.78626793 0.83284754]
- [0.88582829 0.84282884]]
+ [[0.05097071 0.24963939]
+ [0.52446999 0.6779733 ]
+ [0.83830771 0.00277451]]
 ```
 
 
@@ -249,4 +249,19 @@ print(data.sum())
 
 
 
+### Aggregation acrosss rows or columns
+
+Not only can we aggregate all the values in a matrix, but we can also aggregate across the rows or columns by using the `axis` parameter:
+
+
+```python
+data = np.array([[1,2],[3,4],[5,6]])
+print(data.max(axis=0))
+print(data.max(axis=1))
 ```
+
+```
+[5 6]
+[2 4 6]
+```
+
