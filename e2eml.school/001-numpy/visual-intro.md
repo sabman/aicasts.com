@@ -12,7 +12,7 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
-[<matplotlib.lines.Line2D at 0x11b18e4e0>]
+[<matplotlib.lines.Line2D at 0x11349ae48>]
 ```
 
 ![](figures/visual-intro_figure1_1.png)\
@@ -54,7 +54,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.06557132 0.42825446 0.13978687]
+[0.83207458 0.63776268 0.55318266]
 ```
 
 
@@ -152,9 +152,9 @@ zeros:
  [0. 0.]
  [0. 0.]]
 random:
- [[0.05097071 0.24963939]
- [0.52446999 0.6779733 ]
- [0.83830771 0.00277451]]
+ [[0.62265317 0.80247748]
+ [0.19954904 0.6151344 ]
+ [0.52758833 0.78510766]]
 ```
 
 
@@ -264,4 +264,30 @@ print(data.max(axis=1))
 [5 6]
 [2 4 6]
 ```
+
+
+
+
+### Transposing and Reshaping
+
+
+
+```python
+print("Data:")
+print(data)
+
+print("Transpose:")
+print(data.T)
+```
+
+```
+Data:
+[[1 2]
+ [3 4]
+ [5 6]]
+Transpose:
+[[1 3 5]
+ [2 4 6]]
+```
+
 
