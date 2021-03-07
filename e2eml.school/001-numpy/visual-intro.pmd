@@ -156,6 +156,9 @@ print(data.max(axis=1))
 
 
 ```python
+print("Data:")
 print(data)
+
+print("Transpose:")
 print(data.T)
 ```
