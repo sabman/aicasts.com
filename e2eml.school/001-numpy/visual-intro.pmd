@@ -151,3 +151,11 @@ print(data.max(axis=0))
 print(data.max(axis=1))
 ```
 
+
+### Transposing and Reshaping
+
+
+```python
+print(data)
+print(data.T)
+```
