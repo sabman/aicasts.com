@@ -162,3 +162,14 @@ print(data)
 print("Transpose:")
 print(data.T)
 ```
+
+### Reshaping
+
+```python
+print(data)
+_ = data.reshape(2,3)
+print(_)
+_ = data.reshape(3,2)
+print(_)
+```
+```
