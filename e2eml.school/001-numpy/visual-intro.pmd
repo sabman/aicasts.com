@@ -192,3 +192,15 @@ _ = np.random.random((4,3,2)) # 4 x 3 x 2 matrix
 print(_)
 
 ```
+
+## Practical Usage
+
+### key use 
+
+Mathematical formulas that work on matrices and vectors.
+
+For example: Mean Square Error 
+
+```python
+error = (1/n) * np.sum(np.square(predictions - labels))
+```
