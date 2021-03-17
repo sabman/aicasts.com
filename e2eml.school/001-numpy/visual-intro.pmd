@@ -172,4 +172,23 @@ print(_)
 _ = data.reshape(3,2)
 print(_)
 ```
+
+### Adding ndimensions
+
+```python
+_ = np.array([
+    [[1,2],[3,4]],
+    [[5,6],[7,8]]
+])
+print(_)
+
+_ = np.ones((4,3,2)) # 4 x 3 x 2 matrix
+print(_)
+
+_ = np.zeros((4,3,2)) # 4 x 3 x 2 matrix
+print(_)
+
+_ = np.random.random((4,3,2)) # 4 x 3 x 2 matrix
+print(_)
+
 ```
