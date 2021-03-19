@@ -207,5 +207,5 @@ predictions = np.ones(n)
 labels = np.array([1,2,3])
 error = (1/n * np.sum(np.square(predictions - labels))
 print(error)
-```
 
+```
