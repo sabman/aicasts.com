@@ -209,3 +209,13 @@ error = (1/n * np.sum(np.square(predictions - labels))
 print(error)
 
 ```
+
+Which results in the error value for that prediction and a score for the quality of the model.
+
+### Data Representation
+
+Think of all the data types you’ll need to crunch and build models around (spreadsheets, images, audio…etc). So many of them are perfectly suited for representation in an n-dimensional array:
+
+**Tables and Spreadsheets**
+
+A spreadsheet or a table of values is a two dimensional matrix. Each sheet in a spreadsheet can be its own variable. The most popular abstraction in python for those is the pandas dataframe, which actually uses NumPy and builds on top of it.
