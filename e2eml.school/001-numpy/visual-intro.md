@@ -12,7 +12,7 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
-[<matplotlib.lines.Line2D at 0x120cc7518>]
+[<matplotlib.lines.Line2D at 0x10c1244e0>]
 ```
 
 ![](figures/visual-intro_figure1_1.png)\
@@ -54,7 +54,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.23984192 0.70604736 0.6491148 ]
+[0.96088009 0.80691743 0.13459396]
 ```
 
 
@@ -152,9 +152,9 @@ zeros:
  [0. 0.]
  [0. 0.]]
 random:
- [[0.21901291 0.41987117]
- [0.56806437 0.62961135]
- [0.52870911 0.38462356]]
+ [[0.72712944 0.64277025]
+ [0.54336892 0.71117583]
+ [0.62768939 0.22317869]]
 ```
 
 
@@ -372,21 +372,21 @@ print(_)
  [[0. 0.]
   [0. 0.]
   [0. 0.]]]
-[[[0.42644035 0.45161003]
-  [0.41108986 0.15633924]
-  [0.35845932 0.42255224]]
+[[[0.55761197 0.23403513]
+  [0.44813647 0.29279836]
+  [0.91633656 0.39542889]]
 
- [[0.98574712 0.39417963]
-  [0.00862692 0.96417456]
-  [0.36743981 0.5300963 ]]
+ [[0.51641137 0.16838451]
+  [0.68907183 0.91840545]
+  [0.85909468 0.60755567]]
 
- [[0.74022469 0.35144511]
-  [0.93843963 0.21871381]
-  [0.92081369 0.86264438]]
+ [[0.61654915 0.81622898]
+  [0.61920193 0.54338507]
+  [0.04384201 0.96408176]]
 
- [[0.25035937 0.19749698]
-  [0.75246796 0.97502874]
-  [0.2681811  0.49977709]]]
+ [[0.23160487 0.82369935]
+  [0.41996479 0.32101952]
+  [0.65250787 0.88826802]]]
 ```
 
 
@@ -416,4 +416,20 @@ SyntaxError: invalid syntax
 ```
 
 
+
+Which results in the error value for that prediction and a score for the quality of the model.
+
+### Data Representation
+
+Think of all the data types you’ll need to crunch and build models around (spreadsheets, images, audio…etc). So many of them are perfectly suited for representation in an n-dimensional array:
+
+**Tables and Spreadsheets**
+
+A spreadsheet or a table of values is a two dimensional matrix. Each sheet in a spreadsheet can be its own variable. The most popular abstraction in python for those is the pandas dataframe, which actually uses NumPy and builds on top of it.
+
+**Audio and Timeseries**
+
+An audio file is a one-dimensional array of samples. Each sample is a number representing a tiny chunk of the audio signal. CD-quality audio may have 44,100 samples per second and each sample is an integer between -32767 and 32768. Meaning if you have a ten-seconds WAVE file of CD-quality, you can load it in a NumPy array with length 10 * 44,100 = 441,000 samples. Want to extract the first second of audio? simply load the file into a NumPy array that we’ll call audio, and get audio[:44100].
+
+Here’s a look at a slice of an audio file:
 
