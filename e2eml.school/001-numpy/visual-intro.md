@@ -12,15 +12,13 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
-[<matplotlib.lines.Line2D at 0x10c1244e0>]
+[<matplotlib.lines.Line2D at 0x116a14f60>]
 ```
 
 ![](figures/visual-intro_figure1_1.png)\
 
 
 ## Visual Guide to Numpy
-
-
 
 
 This [article](https://jalammar.github.io/visual-numpy/) about numpy is an excellent resource but build an intuition for numpy arrays if you are a visual thinker.
@@ -54,7 +52,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.96088009 0.80691743 0.13459396]
+[0.38051625 0.29925985 0.57335242]
 ```
 
 
@@ -152,9 +150,9 @@ zeros:
  [0. 0.]
  [0. 0.]]
 random:
- [[0.72712944 0.64277025]
- [0.54336892 0.71117583]
- [0.62768939 0.22317869]]
+ [[0.63369487 0.51086045]
+ [0.07164688 0.14436762]
+ [0.43776552 0.10002913]]
 ```
 
 
@@ -372,21 +370,21 @@ print(_)
  [[0. 0.]
   [0. 0.]
   [0. 0.]]]
-[[[0.55761197 0.23403513]
-  [0.44813647 0.29279836]
-  [0.91633656 0.39542889]]
+[[[0.48150623 0.8632563 ]
+  [0.37164362 0.82039877]
+  [0.41370759 0.01785467]]
 
- [[0.51641137 0.16838451]
-  [0.68907183 0.91840545]
-  [0.85909468 0.60755567]]
+ [[0.85799963 0.41378305]
+  [0.92853418 0.51658944]
+  [0.00544379 0.34596991]]
 
- [[0.61654915 0.81622898]
-  [0.61920193 0.54338507]
-  [0.04384201 0.96408176]]
+ [[0.06155756 0.3533665 ]
+  [0.01587495 0.38448802]
+  [0.54410944 0.04685521]]
 
- [[0.23160487 0.82369935]
-  [0.41996479 0.32101952]
-  [0.65250787 0.88826802]]]
+ [[0.35177808 0.81494685]
+  [0.13615483 0.89001441]
+  [0.70224719 0.96143105]]]
 ```
 
 
@@ -432,4 +430,13 @@ A spreadsheet or a table of values is a two dimensional matrix. Each sheet in a 
 An audio file is a one-dimensional array of samples. Each sample is a number representing a tiny chunk of the audio signal. CD-quality audio may have 44,100 samples per second and each sample is an integer between -32767 and 32768. Meaning if you have a ten-seconds WAVE file of CD-quality, you can load it in a NumPy array with length 10 * 44,100 = 441,000 samples. Want to extract the first second of audio? simply load the file into a NumPy array that we’ll call audio, and get audio[:44100].
 
 Here’s a look at a slice of an audio file:
+
+The same goes for time-series data (for example, the price of a stock over time).
+
+**Images**
+
+An image is a matrix of pixels of size (height x width).
+
+If the image is black and white (a.k.a. grayscale), each pixel can be represented by a single number (commonly between 0 (black) and 255 (white)). Want to crop the top left 10 x 10 pixel part of the image? Just tell NumPy to get you image[:10,:10].
+Here’s a look at a slice of an image file:
 
