@@ -13,8 +13,6 @@ plt.plot(x, np.sin(x))
 ## Visual Guide to Numpy
 
 
-
-
 This [article](https://jalammar.github.io/visual-numpy/) about numpy is an excellent resource but build an intuition for numpy arrays if you are a visual thinker.
 
 ### Creating Arrays
