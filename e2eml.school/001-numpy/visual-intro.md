@@ -12,7 +12,7 @@ plt.plot(x, np.sin(x))
 ```
 
 ```
-[<matplotlib.lines.Line2D at 0x116a14f60>]
+[<matplotlib.lines.Line2D at 0x117c35ac8>]
 ```
 
 ![](figures/visual-intro_figure1_1.png)\
@@ -52,7 +52,7 @@ print(np.random.random(3))
 ```
 [1. 1. 1.]
 [0. 0. 0.]
-[0.38051625 0.29925985 0.57335242]
+[0.2998702  0.8897921  0.42416201]
 ```
 
 
@@ -150,9 +150,9 @@ zeros:
  [0. 0.]
  [0. 0.]]
 random:
- [[0.63369487 0.51086045]
- [0.07164688 0.14436762]
- [0.43776552 0.10002913]]
+ [[0.44659383 0.42365539]
+ [0.90358692 0.86031249]
+ [0.4245573  0.42218689]]
 ```
 
 
@@ -370,21 +370,21 @@ print(_)
  [[0. 0.]
   [0. 0.]
   [0. 0.]]]
-[[[0.48150623 0.8632563 ]
-  [0.37164362 0.82039877]
-  [0.41370759 0.01785467]]
+[[[0.49365219 0.52819131]
+  [0.19385599 0.91771052]
+  [0.94165204 0.84124097]]
 
- [[0.85799963 0.41378305]
-  [0.92853418 0.51658944]
-  [0.00544379 0.34596991]]
+ [[0.92172326 0.1916539 ]
+  [0.28992331 0.92439101]
+  [0.68656742 0.34396483]]
 
- [[0.06155756 0.3533665 ]
-  [0.01587495 0.38448802]
-  [0.54410944 0.04685521]]
+ [[0.04234544 0.30879684]
+  [0.53506092 0.64539163]
+  [0.13909777 0.69806667]]
 
- [[0.35177808 0.81494685]
-  [0.13615483 0.89001441]
-  [0.70224719 0.96143105]]]
+ [[0.87876001 0.89682405]
+  [0.92079515 0.09340211]
+  [0.26875012 0.83471592]]]
 ```
 
 
@@ -425,11 +425,15 @@ Think of all the data types you’ll need to crunch and build models around (spr
 
 A spreadsheet or a table of values is a two dimensional matrix. Each sheet in a spreadsheet can be its own variable. The most popular abstraction in python for those is the pandas dataframe, which actually uses NumPy and builds on top of it.
 
+![](https://jalammar.github.io/images/pandas-intro/0%20excel-to-pandas.png)
+
 **Audio and Timeseries**
 
 An audio file is a one-dimensional array of samples. Each sample is a number representing a tiny chunk of the audio signal. CD-quality audio may have 44,100 samples per second and each sample is an integer between -32767 and 32768. Meaning if you have a ten-seconds WAVE file of CD-quality, you can load it in a NumPy array with length 10 * 44,100 = 441,000 samples. Want to extract the first second of audio? simply load the file into a NumPy array that we’ll call audio, and get audio[:44100].
 
 Here’s a look at a slice of an audio file:
+
+![](https://jalammar.github.io/images/numpy/numpy-audio.png)
 
 The same goes for time-series data (for example, the price of a stock over time).
 
@@ -440,3 +444,8 @@ An image is a matrix of pixels of size (height x width).
 If the image is black and white (a.k.a. grayscale), each pixel can be represented by a single number (commonly between 0 (black) and 255 (white)). Want to crop the top left 10 x 10 pixel part of the image? Just tell NumPy to get you image[:10,:10].
 Here’s a look at a slice of an image file:
 
+![](https://jalammar.github.io/images/numpy/numpy-grayscale-image.png)
+
+If the image is colored, then each pixel is represented by three numbers - a value for each of red, green, and blue. In that case we need a 3rd dimension (because each cell can only contain one number). So a colored image is represented by an ndarray of dimensions: (height x width x 3).
+
+![](https://jalammar.github.io/images/numpy/numpy-color-image.png)
