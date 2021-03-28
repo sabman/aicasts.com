@@ -250,3 +250,6 @@ If we’re dealing with text, the story is a little different. The numeric repre
 “Have the bards who preceded me left any theme unsung?”
 
 A model needs to look at a large amount of text before it can numerically represent the anxious words of this warrior poet. We can proceed to have it process a small dataset and use it to build a vocabulary (of 71,290 words):
+
+The sentence can then be broken into an array of tokens (words or parts of words based on common rules):
+
