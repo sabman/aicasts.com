@@ -1,5 +1,12 @@
 source: https://www.labri.fr/perso/nrougier/from-python-to-numpy/#id1
 
+Numpy is all about vectorization. If you are familiar with Python, this is the main difficulty you'll face because you'll need to change your way of thinking and your new friends (among others) are named "vectors", "arrays", "views" or "ufuncs".
+
+Let's take a very simple example, random walk. One possible object oriented approach would be to define a RandomWalker class and write a walk method that would return the current position after each (random) step. It's nice, it's readable, but it is slow:
+
+
+### Object oriented approach
+
 
 ```py
 
@@ -22,4 +29,33 @@ class RandomWalker:
 
 walker = RandomWalker()
 walk = [position for position in walker.walk(1000)]
+print(walk[0:10])
+```
+
+Benchmarking gives us:
+
+```py
+from tools import timeit
+walker = RandomWalker()
+timeit("[position for position in walker.walk(n=10000)]", globals())
+10 loops, best of 3: 15.7 msec per loop
+```
+
+### Procedural approach
+
+For such a simple problem, we can probably save the class definition and concentrate only on the walk method that computes successive positions after each random step.
+
+```py
+
+def random_walk(n):
+    position = 0
+    walk = [position]
+    for i in range(n):
+        position += 2*random.randint(0, 1)-1
+        walk.append(position)
+    return walk
+
+walk = random_walk(1000)
+print(walk[0:10])
+
 ```
