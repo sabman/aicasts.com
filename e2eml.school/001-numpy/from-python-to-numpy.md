@@ -8,15 +8,18 @@ Let's take a very simple example, random walk. One possible object oriented appr
 ### Object oriented approach
 
 
-```py
 
+```python
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
-
+import random
 ```
 
-```py
+
+
+
+```python
 class RandomWalker:
     def __init__(self):
         self.position = 0
@@ -29,17 +32,34 @@ class RandomWalker:
 
 walker = RandomWalker()
 walk = [position for position in walker.walk(1000)]
-print(walk[0:10])
+# print(walk[0:10])
 ```
+
+
 
 Benchmarking gives us:
 
-```py
-from tools import timeit
+
+```python
+import timeit
 walker = RandomWalker()
 timeit("[position for position in walker.walk(n=10000)]", globals())
-10 loops, best of 3: 15.7 msec per loop
+# 10 loops, best of 3: 15.7 msec per loop
 ```
+
+```
+---------------------------------------------------------------------------TypeError
+Traceback (most recent call last)<ipython-input-1-9a524707edc8> in
+<module>
+      1 import timeit
+      2 walker = RandomWalker()
+----> 3 timeit("[position for position in walker.walk(n=10000)]",
+globals())
+      4 # 10 loops, best of 3: 15.7 msec per loop
+TypeError: 'module' object is not callable
+```
+
+
 
 ### Procedural approach
 
