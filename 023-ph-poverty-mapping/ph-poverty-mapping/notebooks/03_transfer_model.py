@@ -48,9 +48,17 @@ get_ipython().system('pip install wandb torch torchvision torchsummary xgboost')
  
 
 
+# In[21]:
+
+
+get_ipython().system('ls ../data/report/report.csv')
+get_ipython().system('ls ../data/dhs_indicators.csv')
+get_ipython().system('ls ../data/images/')
+
+
 # ## File Locations
 
-# In[3]:
+# In[17]:
 
 
 # see: https://github.com/thinkingmachines/ph-poverty-mapping/issues/7#issuecomment-494645573
@@ -67,7 +75,7 @@ nightlights_unstacked_file = data_dir+'nightlights_unstacked.csv'
 
 dhs_indicators_file = data_dir+'dhs_indicators.csv'
 # dhs_provinces_file = data_dir+'dhs_provinces.csv'
-dhs_regions_file = data_dir+'dhs_regions.csv'
+# dhs_regions_file = data_dir+'dhs_regions.csv'
 
 gsm_data_dir = data_dir+'images/' 
 model_file = '../models/model_best.pt'
@@ -83,20 +91,20 @@ low2_file = data_dir+'test_images/low2.jpg'
 
 # ## Load Datasets
 
-# In[4]:
+# In[19]:
 
 
 # generate report file as per https://github.com/thinkingmachines/ph-poverty-mapping/issues/15#issuecomment-495090238
 report = pd.read_csv(report_file)
 nightlights_unstacked = pd.read_csv(nightlights_unstacked_file)
 dhs_indicators = pd.read_csv(dhs_indicators_file)
-dhs_regions = pd.read_csv(dhs_regions_file)
+# dhs_regions = pd.read_csv(dhs_regions_file)
 # dhs_provinces = pd.read_csv(dhs_provinces_file)
 
 
 # ## Instantiate Transfer Model
 
-# In[5]:
+# In[20]:
 
 
 # Load data
@@ -219,8 +227,8 @@ indicators = [
 embeddings_df = pd.read_csv(feature_embeddings_file).iloc[:, 1:]
 cluster_embeddings = pd.read_csv(embeddings_indicators_file)
 
-region_cols = list(dhs_regions.columns[:-1])
-province_cols = list(dhs_provinces.columns[:-1])
+# region_cols = list(dhs_regions.columns[:-1])
+# province_cols = list(dhs_provinces.columns[:-1])
 embedding_cols = list(embeddings_df.columns) 
 
 # Merge with DHS indicators
@@ -228,7 +236,7 @@ embeddings_df['Cluster number'] = cluster_embeddings['Cluster number']
 data = embeddings_df.merge(cluster_embeddings, on='Cluster number')
 
 # Merge with regional and provincial indicators
-data = data.merge(dhs_regions, on='Cluster number', how='left')
+# data = data.merge(dhs_regions, on='Cluster number', how='left')
 data = data.fillna(0)
 
 print(data.shape)
