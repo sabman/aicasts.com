@@ -36,7 +36,7 @@ Benchmarking gives us:
 ```python
 import timeit
 walker = RandomWalker()
-timeit("[position for position in walker.walk(n=10000)]", globals())
+# timeit.timeit("[position for position in walker.walk(n=10000)]", number=10000)
 # 10 loops, best of 3: 15.7 msec per loop
 ```
 

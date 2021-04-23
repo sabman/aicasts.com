@@ -43,20 +43,8 @@ Benchmarking gives us:
 ```python
 import timeit
 walker = RandomWalker()
-timeit("[position for position in walker.walk(n=10000)]", globals())
+# timeit.timeit("[position for position in walker.walk(n=10000)]", number=10000)
 # 10 loops, best of 3: 15.7 msec per loop
-```
-
-```
----------------------------------------------------------------------------TypeError
-Traceback (most recent call last)<ipython-input-1-9a524707edc8> in
-<module>
-      1 import timeit
-      2 walker = RandomWalker()
-----> 3 timeit("[position for position in walker.walk(n=10000)]",
-globals())
-      4 # 10 loops, best of 3: 15.7 msec per loop
-TypeError: 'module' object is not callable
 ```
 
 
