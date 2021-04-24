@@ -67,3 +67,31 @@ walk = random_walk(1000)
 print(walk[0:10])
 
 ```
+
+### Vectorized approach
+
+
+```python
+def random_walk_faster(n=1000):
+    from itertools import accumulate
+    # only available from python 3.6
+
+    steps = random.choices([-1, +1], k=n)
+    return [0]+list(accumulate(steps))
+
+walk = random_walk_faster(n=10000)
+print(walk[0:10])
+
+from timeit import timeit
+timeit("random_walk_faster(n=10000)", number=10000, globals = globals())
+```
+
+```
+[0, 1, 2, 1, 2, 3, 2, 3, 4, 3]
+```
+
+```
+40.632896060997155
+```
+
+
