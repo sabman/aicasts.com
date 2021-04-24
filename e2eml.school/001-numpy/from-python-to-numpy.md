@@ -82,16 +82,38 @@ def random_walk_faster(n=1000):
 walk = random_walk_faster(n=10000)
 print(walk[0:10])
 
+# from timeit import timeit
+# timeit("random_walk_faster(n=10000)", number = 10000, globals = globals())
+# 40.632896060997155
+```
+
+```
+[0, -1, 0, -1, 0, 1, 2, 1, 2, 1]
+```
+
+
+
+Let's use `numpy` instead of the `itertools`:
+
+
+```python
+def random_walk_fastest(n=1000):
+    steps = np.random.choice([-1,+1],n)
+    return np.cumsum(steps)
+
+walk = random_walk_fastest(n=10000)
+print(walk[0:10])
+
 from timeit import timeit
-timeit("random_walk_faster(n=10000)", number=10000, globals = globals())
+timeit("random_walk_fastest(n=10000)", number = 10000, globals = globals())
 ```
 
 ```
-[0, 1, 2, 1, 2, 3, 2, 3, 4, 3]
+[ 1  0  1  0  1  0 -1  0  1  2]
 ```
 
 ```
-40.632896060997155
+1.4427583460346796
 ```
 
 
