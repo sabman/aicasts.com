@@ -102,7 +102,7 @@ def function_2(seq, sub):
     target = np.dot(seq, sub)
     candidates = np.where(np.correlate(seq, sub, mode='valid') == targe)[0]
     check = candidates[:, np.newaxis] + np.arrange(len(sub))
-    mask = np.all((np.take(seqm check) == sub), axis = -1)
+    mask = np.all((np.take(seq, check) == sub), axis = -1)
     return candidates[mask]
 ```
 

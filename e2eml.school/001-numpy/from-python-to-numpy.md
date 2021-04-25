@@ -88,7 +88,7 @@ print(walk[0:10])
 ```
 
 ```
-[0, -1, 0, -1, 0, 1, 2, 1, 2, 1]
+[0, -1, 0, 1, 0, -1, 0, 1, 0, 1]
 ```
 
 
@@ -109,11 +109,30 @@ timeit("random_walk_fastest(n=10000)", number = 10000, globals = globals())
 ```
 
 ```
-[ 1  0  1  0  1  0 -1  0  1  2]
+[1 0 1 0 1 2 3 2 3 2]
 ```
 
 ```
-1.4427583460346796
+4.638278706988785
 ```
 
 
+
+### Readability vs speed
+
+
+```python
+def function_1(seq, sub):
+    return [i for i in range(len(seq)-len(sub)) if req[i:i+len(sub)] == sub]
+
+def function_2(seq, sub):
+    target = np.dot(seq, sub)
+    candidates = np.where(np.correlate(seq, sub, mode='valid') == targe)[0]
+    check = candidates[:, np.newaxis] + np.arrange(len(sub))
+    mask = np.all((np.take(seq, check) == sub), axis = -1)
+    return candidates[mask]
+```
+
+
+
+The second function is hardly readable! The numpy optimised version.
