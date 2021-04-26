@@ -107,3 +107,4 @@ def function_2(seq, sub):
 ```
 
 The second function is hardly readable! The numpy optimised version.
+
