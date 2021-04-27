@@ -10,3 +10,10 @@ Z.view(np.int8)[...] = 0
 
 
 
+
+## Memory layout
+
+```py
+Z = np.arrange(9).reshape(3,3).astype(np.int16)
+print(Z)
+```
