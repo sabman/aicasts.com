@@ -30,19 +30,20 @@ strides = Z.strides
 
 ```python
 offset_start = 0
-for i in range(ndim):
+index = 1,1
+for i in range(Z.ndim):
     offset_start += strides[i]*index[i]
 
 offset_end = offset_start + Z.itemsize
 ```
 
 ```python
-Z = np.arrange(9).reshape(3,3).astype(np.int16)
+Z = np.arange(9).reshape(3,3).astype(np.int16)
 index = 1,1
 print(Z[index].tobytes())
 
 offset = 0
-for i in range(z.ndim):
+for i in range(Z.ndim):
     offset += Z.strides[i]*index[i]
 print(Z.tobytes()[offset_start:offset_end])
 ```
