@@ -47,3 +47,7 @@ for i in range(Z.ndim):
     offset += Z.strides[i]*index[i]
 print(Z.tobytes()[offset_start:offset_end])
 ```
+
+```py
+V = Z[::2,::2]
+```
