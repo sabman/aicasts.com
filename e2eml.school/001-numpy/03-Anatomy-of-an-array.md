@@ -109,3 +109,17 @@ A = 2*X + 2*Y
 ```
 
 
+
+If we don't need to keep the Y and X around then this is better as an in-place solution:
+
+```python
+np.multiply(X, 2, out=X)
+np.multiply(Y, 2, out=Y)
+np.add(X, Y, out=X)
+```
+
+```
+array([4, 4, 4, 4, 4, 4, 4, 4, 4, 4])
+```
+
+
