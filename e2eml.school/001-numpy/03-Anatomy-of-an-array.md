@@ -98,3 +98,14 @@ False
 ```
 
 
+
+This won't scale for big arrays:
+
+
+```python
+X = np.ones(10, dtype=np.int)
+Y = np.ones(10, dtype=np.int)
+A = 2*X + 2*Y
+```
+
+
