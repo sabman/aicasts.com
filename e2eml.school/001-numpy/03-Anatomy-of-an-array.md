@@ -72,3 +72,29 @@ b'\x02\x00\x03\x00'
 ```py
 V = Z[::2,::2]
 ```
+
+Note some functions return `view` while other return a `copy`.
+
+```python
+Z = np.zeros((5,5))
+# view
+Z.ravel().base is Z
+```
+
+```
+True
+```
+
+
+
+
+```python
+# copy
+Z.flatten().base is Z
+```
+
+```
+False
+```
+
+
