@@ -105,3 +105,15 @@ print(offset_start) # bytes
 offset_stop = np.byte_bounds(Z2)[-1] - np.byte_bounds(Z1)[-1]
 print(offset_stop) # bytes
 ```
+
+Converting the offset into indicies: we use `itemsize`
+
+```python
+start = offset_start // Z1.itemsize
+print(start)
+```
+
+```python
+stop = Z1.size + offset_stop // Z1.itemsize
+print(start, stop, step)
+```

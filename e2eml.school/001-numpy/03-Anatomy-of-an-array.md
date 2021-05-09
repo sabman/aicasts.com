@@ -178,3 +178,29 @@ print(offset_stop) # bytes
 ```
 
 
+
+Converting the offset into indicies: we use `itemsize`
+
+
+```python
+start = offset_start // Z1.itemsize
+print(start)
+```
+
+```
+1
+```
+
+
+
+
+```python
+stop = Z1.size + offset_stop // Z1.itemsize
+print(start, stop, step)
+```
+
+```
+1 8 2
+```
+
+
