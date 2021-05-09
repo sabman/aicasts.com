@@ -123,3 +123,18 @@ array([4, 4, 4, 4, 4, 4, 4, 4, 4, 4])
 ```
 
 
+
+An Exercise: Is `Z2` a view of `Z1`?
+
+
+```python
+Z1 = np.arange(10)
+Z2 = Z1[1:-1:2]
+print(Z2.base is Z1)
+```
+
+```
+True
+```
+
+
