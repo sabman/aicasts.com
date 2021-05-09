@@ -138,3 +138,17 @@ True
 ```
 
 
+
+To know the actual steps is the questions. So to figure that out we look at the bytes required to move from one element to the next in one dimension. i.e. **strides**.
+
+
+```python
+step = Z2.strides[0] // Z1.strides[0]
+print(step)
+```
+
+```
+2
+```
+
+

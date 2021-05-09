@@ -86,3 +86,10 @@ Z1 = np.arange(10)
 Z2 = Z1[1:-1:2]
 print(Z2.base is Z1)
 ```
+
+To know the actual steps is the questions. So to figure that out we look at the bytes required to move from one element to the next in one dimension. i.e. **strides**.
+
+```python
+step = Z2.strides[0] // Z1.strides[0]
+print(step)
+```
