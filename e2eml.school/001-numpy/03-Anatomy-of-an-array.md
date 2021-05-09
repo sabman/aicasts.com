@@ -152,3 +152,29 @@ print(step)
 ```
 
 
+
+Finding start and stop indicies. For this we can use the `byte_bounds` method that returns a point to the end points of an array.
+
+
+```python
+offset_start = np.byte_bounds(Z2)[0] - np.byte_bounds(Z1)[0]
+print(offset_start) # bytes
+```
+
+```
+8
+```
+
+
+
+
+```python
+offset_stop = np.byte_bounds(Z2)[-1] - np.byte_bounds(Z1)[-1]
+print(offset_stop) # bytes
+```
+
+```
+-16
+```
+
+
