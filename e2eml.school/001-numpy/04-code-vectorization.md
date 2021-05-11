@@ -1,0 +1,22 @@
+# Code Vectorizatioon
+
+This means the problem you are trying to solve is inherently vectorizable. In other words you don't need to rethink your problem to solve it with numpy. For an example lets look at suming two lists of integers.
+
+regular python:
+
+
+```python
+def add_python(Z1,Z2):
+  return [z1+z2 for (z1,z2) in zip(Z1,Z2)]
+```
+
+
+
+now numpy:
+
+```python
+def add_numpy(Z1,Z2):
+  return np.add(Z1,Z2)
+```
+
+
