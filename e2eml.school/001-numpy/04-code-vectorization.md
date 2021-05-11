@@ -15,8 +15,44 @@ def add_python(Z1,Z2):
 now numpy:
 
 ```python
+import numpy as np
 def add_numpy(Z1,Z2):
   return np.add(Z1,Z2)
+```
+
+
+
+let's benchmark:
+
+
+```python
+import random
+from timeit import timeit
+Z1 = random.sample(range(1000), 100)
+Z2 = random.sample(range(1000), 100)
+
+timeit("add_python(Z1,Z2)", number = 10000, globals = globals())
+```
+
+```
+0.10006508103106171
+```
+
+
+
+
+
+```python
+import random
+from timeit import timeit
+# Z1 = random.sample(range(1000), 100)
+# Z2 = random.sample(range(1000), 100)
+
+timeit("add_numpy(Z1,Z2)", number = 10000, globals = globals())
+```
+
+```
+0.2262292149825953
 ```
 
 
