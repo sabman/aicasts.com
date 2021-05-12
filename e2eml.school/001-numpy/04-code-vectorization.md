@@ -35,7 +35,7 @@ timeit("add_python(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.10828315600156202
+0.1319716990001325
 ```
 
 
@@ -52,14 +52,21 @@ timeit("add_numpy(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.20328883299953304
+0.2895150170006673
 ```
 
 
 
 ## Uniform vectorization
 
-Simplist form of vectorization. Where all elements share the same computation at every iteration of processing the vector. Game of Life is a good example.
+Simplest form of vectorization. Where all elements share the same computation at every iteration of processing the vector. Game of Life is a good example.
+
+> The universe of the Game of Life is an infinite two-dimensional orthogonal grid of square cells, each of which is in one of two possible states, live or dead. Every cell interacts with its eight neighbours, which are the cells that are directly horizontally, vertically, or diagonally adjacent. At each step in time, the following transitions occur:
+
+> - Any live cell with fewer than two live neighbours dies, as if by needs caused by underpopulation.
+> - Any live cell with more than three live neighbours dies, as if by overcrowding.
+> - Any live cell with two or three live neighbours lives, unchanged, to the next generation.
+> - Any dead cell with exactly three live neighbours becomes a live cell.
 
 We can implement the Game of Life rules and steps as follows:
 
@@ -86,6 +93,21 @@ def compute_neighbours(Z):
                     + Z[x-1][y]            +Z[x+1][y]   \
                     + Z[x-1][y+1]+Z[x][y+1]+Z[x+1][y+1]
     return N
+```
+
+
+
+
+```python
+def iterate(Z):
+    N = compute_neighbours(Z)
+    for x in range(1,shape[0]-1):
+        for y in range(1,shape[1]-1):
+             if Z[x][y] == 1 and (N[x][y] < 2 or N[x][y] > 3):
+                 Z[x][y] = 0
+             elif Z[x][y] == 0 and N[x][y] == 3:
+                 Z[x][y] = 1
+    return Z
 ```
 
 
