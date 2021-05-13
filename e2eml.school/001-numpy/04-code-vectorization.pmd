@@ -82,3 +82,14 @@ def iterate(Z):
                  Z[x][y] = 1
     return Z
 ```
+
+
+## Numpy implementation
+
+
+```python
+N = np.zeros(Z.shape, dtype=int)
+N[1:-1,1:-1] += (Z[ :-2, :-2] + Z[ :-2,1:-1] + Z[ :-2,2:] +
+                 Z[1:-1, :-2]                + Z[1:-1,2:] +
+                 Z[2:  , :-2] + Z[2:  ,1:-1] + Z[2:  ,2:])
+```
