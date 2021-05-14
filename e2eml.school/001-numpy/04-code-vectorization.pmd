@@ -94,6 +94,8 @@ N[1:-1,1:-1] += (Z[ :-2, :-2] + Z[ :-2,1:-1] + Z[ :-2,2:] +
                  Z[2:  , :-2] + Z[2:  ,1:-1] + Z[2:  ,2:])
 ```
 
+Rules enforcement:
+
 ```python
 # Flatten arrays
 N_ = N.ravel()

@@ -35,7 +35,7 @@ timeit("add_python(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.1319716990001325
+0.09717741499480326
 ```
 
 
@@ -52,7 +52,7 @@ timeit("add_numpy(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.2895150170006673
+0.22110833298938815
 ```
 
 
@@ -108,6 +108,69 @@ def iterate(Z):
              elif Z[x][y] == 0 and N[x][y] == 3:
                  Z[x][y] = 1
     return Z
+```
+
+
+
+
+## Numpy implementation
+
+
+
+```python
+N = np.zeros(Z.shape, dtype=int)
+N[1:-1,1:-1] += (Z[ :-2, :-2] + Z[ :-2,1:-1] + Z[ :-2,2:] +
+                 Z[1:-1, :-2]                + Z[1:-1,2:] +
+                 Z[2:  , :-2] + Z[2:  ,1:-1] + Z[2:  ,2:])
+```
+
+```
+---------------------------------------------------------------------------AttributeError
+Traceback (most recent call last)<ipython-input-1-a66d88b4d01b> in
+<module>
+----> 1 N = np.zeros(Z.shape, dtype=int)
+      2 N[1:-1,1:-1] += (Z[ :-2, :-2] + Z[ :-2,1:-1] + Z[ :-2,2:] +
+      3                  Z[1:-1, :-2]                + Z[1:-1,2:] +
+      4                  Z[2:  , :-2] + Z[2:  ,1:-1] + Z[2:  ,2:])
+AttributeError: 'list' object has no attribute 'shape'
+```
+
+
+
+Rules enforcement:
+
+
+```python
+# Flatten arrays
+N_ = N.ravel()
+Z_ = Z.ravel()
+
+# Apply rules
+R1 = np.argwhere( (Z_==1) & (N_ < 2) )
+R2 = np.argwhere( (Z_==1) & (N_ > 3) )
+R3 = np.argwhere( (Z_==1) & ((N_==2) | (N_==3)) )
+R4 = np.argwhere( (Z_==0) & (N_==3) )
+
+# Set new values
+Z_[R1] = 0
+Z_[R2] = 0
+Z_[R3] = Z_[R3]
+Z_[R4] = 1
+
+# Make sure borders stay null
+Z[0,:] = Z[-1,:] = Z[:,0] = Z[:,-1] = 0
+```
+
+```
+---------------------------------------------------------------------------NameError
+Traceback (most recent call last)<ipython-input-1-9b34b1bbcc10> in
+<module>
+      1 # Flatten arrays
+----> 2 N_ = N.ravel()
+      3 Z_ = Z.ravel()
+      4
+      5 # Apply rules
+NameError: name 'N' is not defined
 ```
 
 
