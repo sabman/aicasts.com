@@ -135,3 +135,4 @@ def mandelbrot_python(xmin, xmax, ymin, ymax, xn, yn, maxiter, horizon=2.0):
     return [mandelbrot(complex(r, i),maxiter) for r in r1 for i in r2]
 
 ```
+Temporal vectorization
