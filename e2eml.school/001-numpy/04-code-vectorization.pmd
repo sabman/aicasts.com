@@ -136,3 +136,6 @@ def mandelbrot_python(xmin, xmax, ymin, ymax, xn, yn, maxiter, horizon=2.0):
 
 ```
 Temporal vectorization
+
+The interesting (and slow) part of this code is the mandelbrot function that actually computes the sequence fc(fc(fc...))). The vectorization of such code is not totally straightforward because the internal return implies a differential processing of the element. Once it has diverged, we don't need to iterate any more and we can safely return the iteration count at divergence. The problem is to then do the same in numpy. But how?
+
