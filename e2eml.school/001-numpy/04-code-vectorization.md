@@ -35,7 +35,7 @@ timeit("add_python(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.10625019199505914
+0.08409227499942062
 ```
 
 
@@ -52,7 +52,7 @@ timeit("add_numpy(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.35445997200440615
+0.38320752499930677
 ```
 
 
@@ -192,6 +192,45 @@ def mandelbrot_python(xmin, xmax, ymin, ymax, xn, yn, maxiter, horizon=2.0):
     r1 = [xmin+i*(xmax-xmin)/xn for i in range(xn)]
     r2 = [ymin+i*(ymax-ymin)/yn for i in range(yn)]
     return [mandelbrot(complex(r, i),maxiter) for r in r1 for i in r2]
+```
+
+
+Temporal vectorization
+
+The interesting (and slow) part of this code is the mandelbrot function that actually computes the sequence fc(fc(fc...))). The vectorization of such code is not totally straightforward because the internal return implies a differential processing of the element. Once it has diverged, we don't need to iterate any more and we can safely return the iteration count at divergence. The problem is to then do the same in numpy. But how?
+
+
+
+```python
+def mandelbrot_numpy_2(xmin, xmax, ymin, ymax, xn, yn, itermax, horizon=2.0):
+    Xi, Yi = np.mgrid[0:xn, 0:yn]
+    Xi, Yi = Xi.astype(np.uint32), Yi.astype(np.uint32)
+    X = np.linspace(xmin, xmax, xn, dtype=np.float32)[Xi]
+    Y = np.linspace(ymin, ymax, yn, dtype=np.float32)[Yi]
+    C = X + Y*1j
+    N_ = np.zeros(C.shape, dtype=np.uint32)
+    Z_ = np.zeros(C.shape, dtype=np.complex64)
+    Xi.shape = Yi.shape = C.shape = xn*yn
+
+    Z = np.zeros(C.shape, np.complex64)
+    for i in range(itermax):
+        if not len(Z): break
+
+        # Compute for relevant points only
+        np.multiply(Z, Z, Z)
+        np.add(Z, C, Z)
+
+        # Failed convergence
+        I = abs(Z) > horizon
+        N_[Xi[I], Yi[I]] = i+1
+        Z_[Xi[I], Yi[I]] = Z[I]
+
+        # Keep going with those who have not diverged yet
+        np.negative(I,I)
+        Z = Z[I]
+        Xi, Yi = Xi[I], Yi[I]
+        C = C[I]
+    return Z_.T, N_.T
 ```
 
 
