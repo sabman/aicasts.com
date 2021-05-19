@@ -178,3 +178,15 @@ We now want to measure the fractal dimension of the Mandelbrot set using the Min
 
 Spatial vectorization refers to a situation where elements share the same computation but are in interaction with only a subgroup of other elements. This was already the case for the game of life example, but in some situations there is an added difficulty because the subgroup is dynamic and needs to be updated at each iteration. This the case, for example, in particle systems where particles interact mostly with local neighbours. This is also the case for "boids" that simulate flocking behaviors.
 
+```python
+import math
+import random
+from vec2 import vec2
+
+class Boid:
+    def __init__(self, x=0, y=0):
+        self.position = vec2(x, y)
+        angle = random.uniform(0, 2*math.pi)
+        self.velocity = vec2(math.cos(angle), math.sin(angle))
+        self.acceleration = vec2(0, 0)
+```
