@@ -205,3 +205,16 @@ def separation(self, boids):
  def alignment(self, boids): ...
  def cohesion(self, boids): ...
 ```
+
+```python
+class Flock:
+    def __init__(self, count=150):
+        self.boids = []
+        for i in range(count):
+            boid = Boid()
+            self.boids.append(boid)
+
+    def run(self):
+        for boid in self.boids:
+            boid.run(self.boids)
+```
