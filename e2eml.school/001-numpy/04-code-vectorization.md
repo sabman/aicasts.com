@@ -35,7 +35,7 @@ timeit("add_python(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.08409227499942062
+0.15312543400068535
 ```
 
 
@@ -52,7 +52,7 @@ timeit("add_numpy(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.38320752499930677
+0.26306164899870055
 ```
 
 
@@ -231,6 +231,40 @@ def mandelbrot_numpy_2(xmin, xmax, ymin, ymax, xn, yn, itermax, horizon=2.0):
         Xi, Yi = Xi[I], Yi[I]
         C = C[I]
     return Z_.T, N_.T
+```
+
+
+
+We now want to measure the fractal dimension of the Mandelbrot set using the Minkowski–Bouligand dimension. To do that, we need to do box-counting with a decreasing box size (see figure below). As you can imagine, we cannot use pure Python because it would be way too slow. The goal of the exercise is to write a function using numpy that takes a two-dimensional float array and returns the dimension. We'll consider values in the array to be normalized (i.e. all values are between 0 and 1).
+
+## Spatial vectorization
+
+Spatial vectorization refers to a situation where elements share the same computation but are in interaction with only a subgroup of other elements. This was already the case for the game of life example, but in some situations there is an added difficulty because the subgroup is dynamic and needs to be updated at each iteration. This the case, for example, in particle systems where particles interact mostly with local neighbours. This is also the case for "boids" that simulate flocking behaviors.
+
+
+```python
+import math
+import random
+from vec2 import vec2
+
+class Boid:
+    def __init__(self, x=0, y=0):
+        self.position = vec2(x, y)
+        angle = random.uniform(0, 2*math.pi)
+        self.velocity = vec2(math.cos(angle), math.sin(angle))
+        self.acceleration = vec2(0, 0)
+```
+
+```
+---------------------------------------------------------------------------ModuleNotFoundError
+Traceback (most recent call last)<ipython-input-1-24da46298b2b> in
+<module>
+      1 import math
+      2 import random
+----> 3 from vec2 import vec2
+      4
+      5 class Boid:
+ModuleNotFoundError: No module named 'vec2'
 ```
 
 

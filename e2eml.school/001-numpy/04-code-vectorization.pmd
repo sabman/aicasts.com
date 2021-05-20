@@ -190,3 +190,18 @@ class Boid:
         self.velocity = vec2(math.cos(angle), math.sin(angle))
         self.acceleration = vec2(0, 0)
 ```
+
+```python
+def separation(self, boids):
+    count = 0
+    for other in boids:
+        d = (self.position - other.position).length()
+        if 0 < d < desired_separation:
+            count += 1
+            ...
+    if count > 0:
+        ...
+
+ def alignment(self, boids): ...
+ def cohesion(self, boids): ...
+```
