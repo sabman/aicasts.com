@@ -226,4 +226,7 @@ n = 500
 velocity = np.zeros((n, 2), dtype=np.float32)
 position = np.zeros((n, 2), dtype=np.float32)
 
+dx = np.subtract.outer(position[:, 0], position[:, 0])
+dy = np.subtract.outer(position[:, 1], position[:, 1])
+distance = np.hypot(dx, dy)
 ```
