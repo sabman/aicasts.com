@@ -218,3 +218,12 @@ class Flock:
         for boid in self.boids:
             boid.run(self.boids)
 ```
+
+numpy implementation takes a different approach and we'll gather all our boids into a position array and a velocity array
+
+```python
+n = 500
+velocity = np.zeros((n, 2), dtype=np.float32)
+position = np.zeros((n, 2), dtype=np.float32)
+
+```
