@@ -230,3 +230,18 @@ dx = np.subtract.outer(position[:, 0], position[:, 0])
 dy = np.subtract.outer(position[:, 1], position[:, 1])
 distance = np.hypot(dx, dy)
 ```
+
+https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html
+https://numpy.org/doc/stable/reference/generated/numpy.hypot.html
+
+```python
+mask_0 = (distance > 0)
+mask_1 = (distance < 25)
+mask_2 = (distance < 50)
+mask_1 *= mask_0
+mask_2 *= mask_0
+mask_3 = mask_2
+```
+
+```python
+```
