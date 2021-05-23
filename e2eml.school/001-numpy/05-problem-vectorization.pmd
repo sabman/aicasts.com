@@ -1,0 +1,8 @@
+```python
+def compute_python(X, Y):
+    result = 0
+    for i in range(len(X)):
+        for j in range(len(Y)):
+            result += X[i] * Y[j]
+    return result
+```
