@@ -6,3 +6,14 @@ def compute_python(X, Y):
             result += X[i] * Y[j]
     return result
 ```
+
+```python
+def compute_numpy_better_1(X, Y):
+    result = 0
+    for i in range(len(X)):
+        Ysum = 0
+        for j in range(len(Y)):
+            Ysum += Y[j]
+        result += X[i]*Ysum
+    return result
+```
