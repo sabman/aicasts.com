@@ -35,7 +35,7 @@ timeit("add_python(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.15312543400068535
+0.16190992499468848
 ```
 
 
@@ -52,7 +52,7 @@ timeit("add_numpy(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.26306164899870055
+0.3094670090067666
 ```
 
 
@@ -265,6 +265,86 @@ Traceback (most recent call last)<ipython-input-1-24da46298b2b> in
       4
       5 class Boid:
 ModuleNotFoundError: No module named 'vec2'
+```
+
+
+
+
+```python
+def separation(self, boids):
+    count = 0
+    for other in boids:
+        d = (self.position - other.position).length()
+        if 0 < d < desired_separation:
+            count += 1
+            ...
+    if count > 0:
+        ...
+
+ def alignment(self, boids): ...
+ def cohesion(self, boids): ...
+```
+
+```
+  File "<tokenize>", line 11
+    def alignment(self, boids): ...
+    ^
+IndentationError: unindent does not match any outer indentation level
+```
+
+
+
+
+```python
+class Flock:
+    def __init__(self, count=150):
+        self.boids = []
+        for i in range(count):
+            boid = Boid()
+            self.boids.append(boid)
+
+    def run(self):
+        for boid in self.boids:
+            boid.run(self.boids)
+```
+
+
+
+numpy implementation takes a different approach and we'll gather all our boids into a position array and a velocity array
+
+
+```python
+n = 500
+velocity = np.zeros((n, 2), dtype=np.float32)
+position = np.zeros((n, 2), dtype=np.float32)
+
+dx = np.subtract.outer(position[:, 0], position[:, 0])
+dy = np.subtract.outer(position[:, 1], position[:, 1])
+distance = np.hypot(dx, dy)
+```
+
+
+
+https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html
+https://numpy.org/doc/stable/reference/generated/numpy.hypot.html
+
+
+```python
+mask_0 = (distance > 0)
+mask_1 = (distance < 25)
+mask_2 = (distance < 50)
+mask_1 *= mask_0
+mask_2 *= mask_0
+mask_3 = mask_2
+```
+
+
+
+
+```python
+mask_1_count = np.maximum(mask_1.sum(axis=1), 1)
+mask_2_count = np.maximum(mask_2.sum(axis=1), 1)
+mask_3_count = mask_2_count
 ```
 
 
