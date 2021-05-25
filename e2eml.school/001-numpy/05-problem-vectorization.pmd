@@ -39,3 +39,8 @@ def compute_numpy_better_3(x, y):
         Xsum += X[i]
     return Xsum*Ysum
 ```
+
+```python
+def compute_numpy_better(x, y):
+    return np.sum(y) * np.sum(x)
+```
