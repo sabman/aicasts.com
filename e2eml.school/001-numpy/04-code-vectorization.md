@@ -35,7 +35,7 @@ timeit("add_python(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.16190992499468848
+0.1004942659928929
 ```
 
 
@@ -52,7 +52,7 @@ timeit("add_numpy(Z1,Z2)", number = 10000, globals = globals())
 ```
 
 ```
-0.3094670090067666
+0.20945984398713335
 ```
 
 
