@@ -44,3 +44,8 @@ def compute_numpy_better_3(x, y):
 def compute_numpy_better(x, y):
     return np.sum(y) * np.sum(x)
 ```
+
+## Path finding
+
+Path finding is all about finding the shortest path in a graph. This can be split in two distinct problems: to find a path between two nodes in a graph and to find the shortest path. We'll illustrate this through path finding in a maze. The first task is thus to build a maze.
+
