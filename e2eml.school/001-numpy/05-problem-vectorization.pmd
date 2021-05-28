@@ -114,4 +114,22 @@ def build_graph(maze):
             graph[(row, col + 1)].append(("W", (row, col)))
     return graph
 
+def breadth_first(maze, start, goal):
+    queue = deque([([start], start)])
+    visited = set()
+    graph = build_graph(maze)
+
+    while queue:
+        path, current = queue.popleft()
+        if current == goal:
+            return np.array(path)
+        if current in visited:
+            continue
+        visited.add(current)
+        for direction, neighbour in graph[current]:
+            p = list(path)
+            p.append(neighbour)
+            queue.append((p, neighbour))
+    return None
+
 ```
