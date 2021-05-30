@@ -158,3 +158,27 @@ while G[goal] == 0.0:
                                                   [0, 1, 0]])
 ```
 
+
+```python
+# Build gradient array
+G = np.zeros(Z.shape)
+
+# Initialize gradient at the entrance with value 1
+G[start] = 1
+
+# Discount factor
+gamma = 0.99
+
+# We iterate until value at exit is > 0. This requires the maze
+# to have a solution or it will be stuck in the loop.
+G_gamma = np.empty_like(G)
+while G[goal] == 0.0:
+    np.multiply(G, gamma, out=G_gamma)
+    N = G_gamma[0:-2,1:-1]
+    W = G_gamma[1:-1,0:-2]
+    C = G[1:-1,1:-1]
+    E = G_gamma[1:-1,2:]
+    S = G_gamma[2:,1:-1]
+    G[1:-1,1:-1] = Z[1:-1,1:-1]*np.maximum(N,np.maximum(W,
+                                np.maximum(C,np.maximum(E,S))))
+```
