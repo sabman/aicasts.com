@@ -133,3 +133,28 @@ def breadth_first(maze, start, goal):
     return None
 
 ```
+
+### Bellman-Ford method
+
+```python
+def diffuse(Z):
+    # North, West, Center, East, South
+    return max(gamma*Z[0], gamma*Z[1], Z[2], gamma*Z[3], gamma*Z[4])
+
+# Build gradient array
+G = np.zeros(Z.shape)
+
+# Initialize gradient at the entrance with value 1
+G[start] = 1
+
+# Discount factor
+gamma = 0.99
+
+# We iterate until value at exit is > 0. This requires the maze
+# to have a solution or it will be stuck in the loop.
+while G[goal] == 0.0:
+    G = Z * generic_filter(G, diffuse, footprint=[[0, 1, 0],
+                                                  [1, 1, 1],
+                                                  [0, 1, 0]])
+```
+
