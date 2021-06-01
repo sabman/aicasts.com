@@ -539,3 +539,5 @@ def DART_sampling(width=1.0, height=1.0, r = 0.025, k=100):
     return points
 
 ```
+
+source: https://bost.ocks.org/mike/algorithms/
