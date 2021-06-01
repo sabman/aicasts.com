@@ -505,3 +505,37 @@ if __name__ == '__main__':
     #                metadata={'artist': 'Nicolas P. Rougier'})
     plt.show()
 ```
+
+### Blue noise sampling
+
+DART method
+
+```
+import math
+import random
+
+def DART_sampling(width=1.0, height=1.0, r = 0.025, k=100):
+    def distance(p0, p1):
+        dx, dy = p0[0]-p1[0], p0[1]-p1[1]
+        return math.hypot(dx, dy)
+
+    points = []
+    i = 0
+    last_success = 0
+    while True:
+        x = random.uniform(0, width)
+        y = random.uniform(0, height)
+        accept = True
+        for p in points:
+            if distance(p, (x, y)) < r:
+                accept = False
+                break
+        if accept is True:
+            points.append((x, y))
+            if i-last_success > k:
+                break
+            last_success = i
+        i += 1
+    return points
+
+```
