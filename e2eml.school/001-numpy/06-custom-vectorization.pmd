@@ -11,3 +11,28 @@ l = TypedList([[1,2], [3]])
 print(l)
 print(l+1)
 ```
+
+```python
+def __init__(self, data=None, sizes=None, dtype=float)
+    """
+    Parameters
+    ----------
+
+    data : array_like
+        An array, any object exposing the array interface, an object
+        whose __array__ method returns an array, or any (nested) sequence.
+
+    sizes:  int or 1-D array
+        If `itemsize is an integer, N, the array will be divided
+        into elements of size N. If such partition is not possible,
+        an error is raised.
+
+        If `itemsize` is 1-D array, the array will be divided into
+        elements whose successive sizes will be picked from itemsize.
+        If the sum of itemsize values is different from array size,
+        an error is raised.
+
+    dtype: np.dtype
+        Any object that can be interpreted as a numpy data type.
+    """
+```
