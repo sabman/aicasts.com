@@ -1,0 +1,13 @@
+# Custom Vectorization
+
+## introduction
+
+## typed list
+
+```python
+from numpy import TypedList
+
+l = TypedList([[1,2], [3]])
+print(l)
+print(l+1)
+```
