@@ -45,3 +45,20 @@ L = TypedList([[0], [1,2], [3,4,5], [6,7,8,9]])
 ```python
  L = TypedList(np.arange(10), [1,2,3,4])
 ```
+
+
+```python
+self._data = np.zeros(512, dtype=dtype)
+self._items = np.zeros((64,2), dtype=int)
+self._size = 0
+self._count = 0
+
+self._data = np.array(data, copy=False)
+self._size = data.size
+self._count = len(sizes)
+indices = sizes.cumsum()
+self._items = np.zeros((len(sizes),2),int)
+self._items[1:,0] += indices[:-1]
+self._items[0:,1] += indices
+
+```
