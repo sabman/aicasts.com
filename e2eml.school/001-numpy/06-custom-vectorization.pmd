@@ -62,3 +62,36 @@ self._items[1:,0] += indices[:-1]
 self._items[0:,1] += indices
 
 ```
+
+```python
+def __getitem__(self, key):
+    if type(key) is int:
+        if key < 0:
+            key += len(self)
+        if key < 0 or key >= len(self):
+            raise IndexError("Tuple index out of range")
+        dstart = self._items[key][0]
+        dstop  = self._items[key][1]
+        return self._data[dstart:dstop]
+
+    elif type(key) is slice:
+        istart, istop, step = key.indices(len(self))
+        if istart > istop:
+            istart,istop = istop,istart
+        dstart = self._items[istart][0]
+        if istart == istop:
+            dstop = dstart
+        else:
+            dstop  = self._items[istop-1][1]
+        return self._data[dstart:dstop]
+
+    elif isinstance(key,str):
+        return self._data[key][:self._size]
+
+    elif key is Ellipsis:
+        return self.data
+
+    else:
+        raise TypeError("List indices must be integers")
+
+```
