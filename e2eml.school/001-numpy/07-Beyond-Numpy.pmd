@@ -1,0 +1,29 @@
+# Beyond Numpy
+
+> Write the most succinct code possible to compute all "legal" allocations to 4 stocks such that the allocations are in 1.0 chunks, and the allocations sum to 10.0.
+
+
+```python
+def solution_1():
+    # Brute force
+    # 14641 (=11*11*11*11) iterations & tests
+    Z = []
+    for i in range(11):
+        for j in range(11):
+            for k in range(11):
+                for l in range(11):
+                    if i+j+k+l == 10:
+                        Z.append((i,j,k,l))
+    return Z
+
+```
+
+```python
+import itertools as it
+
+def solution_2():
+    # Itertools
+    # 14641 (=11*11*11*11) iterations & tests
+    return [(i,j,k,l)
+            for i,j,k,l in it.product(range(11),repeat=4) if i+j+k+l == 10]
+```
