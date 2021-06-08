@@ -103,3 +103,31 @@ def __getitem__(self, key):
 https://glumpy.github.io/
 
 
+```python
+from glumpy import gloo
+
+dtype = [("position", np.float32, 2),  # x,y
+         ("color",    np.float32, 3)]  # r,g,b
+V = np.zeros((3,3),dtype).view(gloo.VertexBuffer)
+V["position"][0,0] = 0.0, 0.0
+V["position"][1,1] = 0.0, 0.0
+```
+
+Array subclass
+
+```python
+class GPUData(np.ndarray):
+    def __new__(cls, *args, **kwargs):
+        return np.ndarray.__new__(cls, *args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def __array_finalize__(self, obj):
+        if not isinstance(obj, GPUData):
+            self._extents = 0, self.size*self.itemsize
+            self.__class__.__init__(self)
+            self._pending_data = self._extents
+        else:
+            self._extents = obj._extents
+```
