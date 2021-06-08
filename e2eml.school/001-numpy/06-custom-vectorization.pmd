@@ -130,4 +130,24 @@ class GPUData(np.ndarray):
             self._pending_data = self._extents
         else:
             self._extents = obj._extents
+
+    def __getitem__(self, key):
+        Z = np.ndarray.__getitem__(self, key)
+        if not hasattr(Z,'shape') or Z.shape == ():
+            return Z
+        Z._extents = self._compute_extents(Z)
+        return Z
+
+    def _compute_extents(self, Z):
+        if self.base is not None:
+            base = self.base.__array_interface__['data'][0]
+            view = Z.__array_interface__['data'][0]
+            offset = view - base
+            shape = np.array(Z.shape) - 1
+            strides = np.array(Z.strides)
+            size = (shape*strides).sum() + Z.itemsize
+            return offset, offset+size
+        else:
+            return 0, self.size*self.itemsize
+
 ```
