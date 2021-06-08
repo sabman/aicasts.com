@@ -27,3 +27,19 @@ def solution_2():
     return [(i,j,k,l)
             for i,j,k,l in it.product(range(11),repeat=4) if i+j+k+l == 10]
 ```
+
+```python
+def solution_3():
+    return [(a, b, c, (10 - a - b - c))
+            for a in range(11)
+            for b in range(11 - a)
+            for c in range(11 - a - b)]
+
+```
+
+```python
+def solution_4():
+    X123 = np.indices((11,11,11)).reshape(3,11*11*11)
+    X4 = 10 - X123.sum(axis=0)
+    return np.vstack((X123, X4)).T[X4 > -1]
+```
