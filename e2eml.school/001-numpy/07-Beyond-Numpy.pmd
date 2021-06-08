@@ -43,3 +43,25 @@ def solution_4():
     X4 = 10 - X123.sum(axis=0)
     return np.vstack((X123, X4)).T[X4 > -1]
 ```
+
+
+## Numpy & co
+
+
+```python
+import numpy as np
+a = np.random.uniform(0, 1, 1000).astype(np.float32)
+b = np.random.uniform(0, 1, 1000).astype(np.float32)
+c = 2*a + 3*b
+```
+
+## NumExpr
+
+```python
+import numpy as np
+import numexpr as ne
+
+a = np.random.uniform(0, 1, 1000).astype(np.float32)
+b = np.random.uniform(0, 1, 1000).astype(np.float32)
+c = ne.evaluate("2*a + 3*b")
+```
