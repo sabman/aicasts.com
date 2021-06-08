@@ -95,3 +95,11 @@ def __getitem__(self, key):
         raise TypeError("List indices must be integers")
 
 ```
+
+### Memory aware array
+
+#### Glumpy
+
+https://glumpy.github.io/
+
+
