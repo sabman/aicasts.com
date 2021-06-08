@@ -150,4 +150,29 @@ class GPUData(np.ndarray):
         else:
             return 0, self.size*self.itemsize
 
+    def __setitem__(self, key, value):
+        Z = np.ndarray.__getitem__(self, key)
+        if Z.shape == ():
+            key = np.mod(np.array(key)+self.shape, self.shape)
+            offset = self._extents[0]+(key * self.strides).sum()
+            size = Z.itemsize
+            self._add_pending_data(offset, offset+size)
+            key = tuple(key)
+        else:
+            Z._extents = self._compute_extents(Z)
+            self._add_pending_data(Z._extents[0], Z._extents[1])
+        np.ndarray.__setitem__(self, key, value)
+
+    def _add_pending_data(self, start, stop):
+        base = self.base
+        if isinstance(base, GPUData):
+            base._add_pending_data(start, stop)
+        else:
+            if self._pending_data is None:
+                self._pending_data = start, stop
+            else:
+                start = min(self._pending_data[0], start)
+                stop = max(self._pending_data[1], stop)
+                self._pending_data = start, stop
+    
 ```
