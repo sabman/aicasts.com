@@ -179,3 +179,5 @@ cl.enqueue_copy(queue, c, gpu_c)
 
 - https://www.oreilly.com/library/view/elegant-scipy/9781491922927/
 - https://scipy-lectures.org/
+- https://www.oreilly.com/library/view/python-data-science/9781491912126/
+- https://www.labri.fr/perso/nrougier/from-python-to-numpy/#books
