@@ -175,3 +175,7 @@ evaluate.evaluate(queue, a.shape, None, gpu_a, gpu_b, gpu_c)
 cl.enqueue_copy(queue, c, gpu_c)
 ```
 
+## Resources
+
+- https://www.oreilly.com/library/view/elegant-scipy/9781491922927/
+- https://scipy-lectures.org/
