@@ -1,0 +1,2 @@
+- [ ] https://e2eml.school/one_step_program_become_data_scientist.html
+- [ ] 
