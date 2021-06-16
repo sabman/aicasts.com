@@ -1,3 +1,4 @@
 - [ ] https://e2eml.school/one_step_program_become_data_scientist.html
 - [ ] https://e2eml.school/pocket_guide_data_science.html
+- [ ] Book Make Time: How to Focus on What Matters Every Day
 - [ ] 
