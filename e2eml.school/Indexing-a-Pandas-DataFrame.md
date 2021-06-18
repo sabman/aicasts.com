@@ -24,3 +24,21 @@ mtns = pd.DataFrame([
 ])
 mtns.set_index('name', inplace=True)
 
+
+print(mtns)
+print(mtns.loc[:, 'height (m)'])
+print(mtns.loc[:, 'height (m)'].values)
+print(mtns.loc[:, 'mountain range'])
+print(mtns.loc['K2', :])
+print(mtns.loc['K2', 'mountain range'])
+print(mtns.loc[:, 'height (m)': 'summited'])
+print(mtns.loc[:, ['height (m)', 'summited']])
+print(mtns.loc[mtns.loc[:, 'summited'] > 1954, :])
+print(mtns.iloc[0, :])
+print(mtns.iloc[:, 2])
+print(mtns.iloc[0, 2])
+print(mtns.iloc[[1, 3], :])
+print(mtns.iloc[:, 0:2])
+print(mtns.iloc[:, 0:2].loc['K2', :])
+print(mtns.iloc[:, 0].loc['K2', :])
+
