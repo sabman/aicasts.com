@@ -10,3 +10,4 @@
 - [ ] https://e2eml.school/data_science_archetypes.html
 - [ ] https://e2eml.school/five_questions_data_science_answers.html
 - [ ] https://e2eml.school/
+https://www.youtube.com/watch?v=B-M5q51U8SM&feature=youtu.be
