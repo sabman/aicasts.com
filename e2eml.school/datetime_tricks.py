@@ -17,3 +17,7 @@ start_datetime = datetime.datetime.combine(
 # is a computer-friendly way to handle time.
 unix_epoch = timestamp(start_datetime)
 start_datetime = fromtimestamp(1457453760)
+
+# Gets the day of the week for a given date.
+# Monday is 0, Sunday is 6
+weekday_number = start_datetime.date().weekday()
