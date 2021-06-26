@@ -1,0 +1,4 @@
+```python
+from toolbox import texttools as ttl
+ttl.parse_weird_file(filename)
+```
