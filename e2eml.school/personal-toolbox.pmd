@@ -4,9 +4,19 @@ ttl.parse_weird_file(filename)
 ```
 
 ```bash
-mkdir -p toolbox/toolbox.
-touch toolbox/toolbox/__init__.py.
+mkdir -p toolbox/toolbox
+touch toolbox/toolbox/__init__.py
 echo "from setuptools import setup" > toolbox/setup.py
 echo "setup(name='toolbox')" >> toolbox/setup.py
 python3 -m pip install -e toolbox
+```
+
+```
+touch toolbox/toolbox/texttools.py
+
+cat >> toolbox/toolbox/texttools.py<< EOF
+def parse_weird_file(f):
+    print(f)
+EOF
+
 ```
