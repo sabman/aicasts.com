@@ -2,3 +2,11 @@
 from toolbox import texttools as ttl
 ttl.parse_weird_file(filename)
 ```
+
+```bash
+mkdir -p toolbox/toolbox.
+touch toolbox/toolbox/__init__.py.
+echo "from setuptools import setup" > toolbox/setup.py
+echo "setup(name='toolbox')" >> toolbox/setup.py
+python3 -m pip install -e toolbox
+```
