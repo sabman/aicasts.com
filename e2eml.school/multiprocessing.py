@@ -13,3 +13,6 @@ with Pool(processes=os.cpu_count() - 1) as pool:
     for _ in range(n):
         result = pool.apply_async(f, (n,))
         result_objs.append(result)
+
+    results = [result.get() for result in result_objs]
+    print(len(results), np.mean(results), np.var(results))
