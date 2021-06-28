@@ -7,7 +7,7 @@ def f(n):
     return np.var(np.random.sample((n, n)))
 
 result_objs = []
-n = 1000
+n = 10000
 
 with Pool(processes=os.cpu_count() - 1) as pool:
     for _ in range(n):
