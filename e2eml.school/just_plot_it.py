@@ -8,3 +8,10 @@ plt.plot(x_curve, y_curve)
 plt.savefig("images/line_plot.png")
 plt.show()
 
+x_scatter = np.linspace(-1, 1)
+y_scatter = x_scatter + np.random.normal(size=x_scatter.size)
+
+plt.figure()
+plt.scatter(x_scatter, y_scatter)
+plt.savefig("images/scatter_plot.png")
+plt.show()
