@@ -17,3 +17,8 @@ ax.scatter(x, y, s=80)
 
 sizes = (np.random.sample(size=x.size) * 10) ** 2
 ax.scatter(x, y, s=sizes)
+
+from matplotlib.colors import LinearSegmentedColormap
+custom_cmap = LinearSegmentedColormap.from_list("my_cmap", ["red", "black", "white"])
+print(custom_cmap)
+
