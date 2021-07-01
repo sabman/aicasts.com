@@ -7,6 +7,17 @@ path = [
     [.2, .9],
     [.8, .4],
 ]
-ax.add_patch(patches.Polygon(path))
-fig.savefig("patch.png")
 
+ax.add_patch(patches.Polygon(
+  path,
+  alpha=.7,
+  edgecolor="darkblue",
+  facecolor="red",
+  hatch="+",
+  joinstyle="miter",
+  linestyle="--",
+  linewidth=5,
+))
+
+
+fig.savefig("patch.png")
