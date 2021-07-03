@@ -10,3 +10,9 @@ fig = plt.figure()
 ax = fig.gca()
 ax.plot(x, y)
 
+ax.annotate(
+    "Some annotation text",
+    (x_point, y_point),
+    (x_text, y_text),
+    arrowprops=dict(arrowstyle = "-|>"))
+
