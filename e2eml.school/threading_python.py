@@ -1,18 +1,27 @@
-import threading
 import queue
+import threading
+import time
+
+
+def fold_wontons(pan):
+    counter = 0
+    while True:
+        time.sleep(.1)
+        pan.put(f"wonton_{counter}")
+        counter += 1
+
+
 pan = queue.Queue()
+worker = threading.Thread(target=fold_wontons, args=(pan,), daemon=True)
+worker.start()
 
-def fold_wontons(pan, wrappers, filling):
-    while wrappers > 0 and filling > 0:
-        # It takes about 10 seconds for a 13 year old to fold a wonton.
-        time.sleep(10)
-        pan.put("wonton")
-
-worker_1 = threading.Thread(
-    target=fold_wontons, args=(pan, wrappers, filling))
-worker_2 = threading.Thread(
-    target=fold_wontons, args=(pan, wrappers, filling))
-
-worker_1.start()
-worker_2.start()
+for i in range(10):
+    time.sleep(.4)
+    print(f"cooking batch {i}")
+    while True:
+        try:
+            next_wonton = pan.get_nowait()
+            print(next_wonton)
+        except queue.Empty:
+            break
 
