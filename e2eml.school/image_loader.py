@@ -27,3 +27,21 @@ def load_image(path, imagename, patch_size):
     return padded
 
 
+def load_images(patch_size, image_path):
+    images = []
+    filenames = os.listdir(image_path)
+    imagenames = []
+
+    for filename in filenames:
+        try:
+            image = load_image(image_path, filename, patch_size)
+            images.append(image)
+            imagenames.append(filename)
+        except Exception:
+            pass
+
+    assert len(images) > 0
+
+    return images, imagenames
+
+
