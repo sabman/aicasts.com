@@ -45,3 +45,17 @@ def load_images(patch_size, image_path):
     return images, imagenames
 
 
+def data_generator(imagelist, patch_size):
+    img = None
+    switch_probability = 1 / 100
+    while True:
+        # Occasionally switch to a new image
+        if img is None or np.random.sample() < switch_probability:
+            img = np.random.choice(imagelist)
+            n_rows, n_cols = img.shape
+
+        i_row = np.random.randint(n_rows - patch_size)
+        i_col = np.random.randint(n_cols - patch_size)
+        yield img[i_row: i_row + patch_size, i_col: i_col + patch_size]
+
+
