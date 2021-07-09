@@ -59,3 +59,9 @@ def data_generator(imagelist, patch_size):
         yield img[i_row: i_row + patch_size, i_col: i_col + patch_size]
 
 
+def get_training_data(patch_size, image_path):
+    """
+    This function creates a function that generates training data.
+    """
+    training_images, _ = load_images(patch_size, image_path)
+    return data_generator(training_images, patch_size)
