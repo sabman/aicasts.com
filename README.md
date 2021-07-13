@@ -22,3 +22,4 @@ https://www.crunchydata.com/case-study/sas/?utm_campaign=Crunchy%20Data%20Newsle
 
 ## FOSS4G 2021
 https://callforpapers.2021.foss4g.org/foss4g-2021-workshop/schedule/
+https://callforpapers.2021.foss4g.org/foss4g-2021-workshop/talk/
