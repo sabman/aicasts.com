@@ -4,4 +4,4 @@ Imagine we have a shower with two valves (main valve, m and handle valve h). The
 
 Say flow at the shower is dy.
 
-Hence the flow from shower with respect to handle valve is dy/dh
+Hence the flow from shower with respect to handle valve is dy/dh and with respect to the main valve is dy/dm
