@@ -11,3 +11,4 @@
 - [ ] https://e2eml.school/five_questions_data_science_answers.html
 - [ ] https://e2eml.school/how_backpropagation_works.html
 - [ ] https://end-to-end-machine-learning.teachable.com/courses/513512
+- [ ] https://end-to-end-machine-learning.teachable.com/courses/enrolled/1314278
