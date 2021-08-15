@@ -15,3 +15,4 @@
 - [ ] https://end-to-end-machine-learning.teachable.com/courses/enrolled/514971
 - [ ] https://end-to-end-machine-learning.teachable.com/courses/enrolled/669091
 - [ ] how to get travel time data from trips using GTFS
+- [ ] how to bring that data into pandas and do modelling
