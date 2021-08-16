@@ -10,3 +10,8 @@ Question: What time should I leave home for work?
 However departure and transit time has variation. We can rephrase our question to deal with probabilities instead of certainties.
 
 We can set a goal like what time do I need to leave the house to get to office on time 9 times out of 10
+
+
+## Data
+
+The data that might solve this problem is historic records of train trips.
