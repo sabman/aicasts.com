@@ -14,4 +14,6 @@ We can set a goal like what time do I need to leave the house to get to office o
 
 ## Data
 
-The data that might solve this problem is historic records of train trips.
+The data that might solve this problem is historic records of train trips. 
+
+i.e what time the trains leave destination station and what time they arrive at departure station.
