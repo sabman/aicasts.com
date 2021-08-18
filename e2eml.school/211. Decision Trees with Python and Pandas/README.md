@@ -22,5 +22,7 @@ Berlin data
 https://daten.berlin.de/datensaetze/vbb-fahrplandaten-gtfs
 
 ```
+# https://daten.berlin.de/datensaetze/vbb-fahrplandaten-gtfs
+npm install -g print-gtfs-rt-cli
 curl 'https://v0.berlin-gtfs-rt.transport.rest/feed' -s | print-gtfs-rt --json | head -n 1 | jq
 ```
