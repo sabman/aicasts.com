@@ -20,3 +20,7 @@ i.e what time the trains leave destination station and what time they arrive at 
 
 Berlin data
 https://daten.berlin.de/datensaetze/vbb-fahrplandaten-gtfs
+
+```
+curl 'https://v0.berlin-gtfs-rt.transport.rest/feed' -s | print-gtfs-rt --json | head -n 1 | jq
+```
