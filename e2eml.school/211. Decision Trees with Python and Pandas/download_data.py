@@ -11,4 +11,4 @@ def download_data(verbose=True):
 
     TTravelURL = "http://realtime.mbta.com/developer/api/v2.1/traveltimes"
     TKey = "?api_key=wX9NwuHnZU2To07GmGR"
-
+    TFormat = "json"
