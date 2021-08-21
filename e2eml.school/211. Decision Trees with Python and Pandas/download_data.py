@@ -9,5 +9,6 @@ def download_data(verbose=True):
     start_date = datetime.date(2015, 5, 1)
     end_date = datetime.date(2018, 5, 1)
 
-    TTravelURL
+    TTravelURL = "http://realtime.mbta.com/developer/api/v2.1/traveltimes"
+    TKey = "?api_key=wX9NwuHnZU2To07GmGR"
 
