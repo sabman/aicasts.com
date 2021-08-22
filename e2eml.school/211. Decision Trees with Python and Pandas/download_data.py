@@ -25,5 +25,16 @@ def download_data(verbose=True):
 
         from_time = datetime.datetime.combine(check_date, start_time)
         to_time = datetime.datetime.combine(check_date, end_time)
+        TFrom_time = "&from_datetime="+str(int(from_time.timestamp()))
+        TTo_time = "&to_datetime="+str(int(to_time.timestamp()))
 
+        SResquest = "".join([
+            TTravelURL,
+            TKey,
+            TFormat,
+            from_stop, to_stop,
+            TFrom_time, TTo_time
+        ])
+        s = requests.get(SRequest)
+        s_json = s.json()
 
