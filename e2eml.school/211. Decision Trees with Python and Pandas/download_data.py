@@ -37,4 +37,5 @@ def download_data(verbose=True):
         ])
         s = requests.get(SRequest)
         s_json = s.json()
-
+        for trip in s_json['travel_times']:
+            trips.append({})
