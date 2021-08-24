@@ -49,5 +49,5 @@ def download_data(verbose=True):
 
     return trips
 
-if __name__ == "main":
+if __name__ == 'main':
     trips = download_data()
