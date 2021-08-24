@@ -19,7 +19,7 @@ def download_data(verbose=True):
     i_day = 0
     trips = []
     while True:
-        check_date = start + datetime.timedelta(days=i_day)
+        check_date = start_date + datetime.timedelta(days=i_day)
         if check_date > end_date:
             break
 
@@ -39,6 +39,15 @@ def download_data(verbose=True):
         s_json = s.json()
         for trip in s_json['travel_times']:
             trips.append({
-                dep: "",
-                arr: ""
+                dep: datetime.datetime.fromtimestamp(float(trip['dep_dt'])),
+                arr: datetime.datetime.fromtimestamp(float(trip['arr_dt']))
             })
+        if verbose:
+            print(check_date, ':', len(s_json['travel_times']))
+
+        i_day += 1
+
+    return trips
+
+if __name__ == "main":
+    trips = download_data()
