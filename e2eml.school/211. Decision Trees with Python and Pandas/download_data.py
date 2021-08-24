@@ -1,13 +1,18 @@
 import datetime
 import requests
+import os
+import sys
+import time
+os.environ['TZ'] = "US/Eastern"
+time.tzset()
 
 def download_data(verbose=True):
-    harvard_stop_id = '70086'
+    harvard_stop_id = '70068'
     jfk_stop_id = '70086'
     
     start_time = datetime.time(7, 0)
     end_time = datetime.time(10, 0)
-    start_date = datetime.date(2015, 5, 1)
+    start_date = datetime.date(2015, 4, 1)
     end_date = datetime.date(2018, 5, 1)
 
     TTravelURL = "http://realtime.mbta.com/developer/api/v2.1/traveltimes"
@@ -36,6 +41,7 @@ def download_data(verbose=True):
             from_stop, to_stop,
             TFrom_time, TTo_time
         ])
+        print(SRequest)
         s = requests.get(SRequest)
         s_json = s.json()
         for trip in s_json['travel_times']:
