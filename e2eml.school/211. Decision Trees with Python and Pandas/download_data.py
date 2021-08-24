@@ -1,4 +1,5 @@
 import datetime
+import requests
 
 def download_data(verbose=True):
     harvard_stop_id = '70086'
@@ -10,10 +11,10 @@ def download_data(verbose=True):
     end_date = datetime.date(2018, 5, 1)
 
     TTravelURL = "http://realtime.mbta.com/developer/api/v2.1/traveltimes"
-    TKey = "?api_key=wX9NwuHnZU2To07GmGR9uw"
+    TKey = "?api_key=wX9NwuHnZU2ToO7GmGR9uw"
     TFormat = "&format=json"
     from_stop = "&from_stop="+str(jfk_stop_id) 
-    to_stop = "&to_stop="+str(to_stop_id)
+    to_stop = "&to_stop="+str(harvard_stop_id)
 
     # cycle through all the days
     i_day = 0
@@ -28,7 +29,7 @@ def download_data(verbose=True):
         TFrom_time = "&from_datetime="+str(int(from_time.timestamp()))
         TTo_time = "&to_datetime="+str(int(to_time.timestamp()))
 
-        SResquest = "".join([
+        SRequest = "".join([
             TTravelURL,
             TKey,
             TFormat,
@@ -49,5 +50,4 @@ def download_data(verbose=True):
 
     return trips
 
-if __name__ == 'main':
-    trips = download_data()
+trips = download_data(verbose=True)
