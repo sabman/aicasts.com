@@ -1,7 +1,6 @@
 import datetime
 import requests
 import os
-import sys
 import time
 os.environ['TZ'] = "US/Eastern"
 time.tzset()
