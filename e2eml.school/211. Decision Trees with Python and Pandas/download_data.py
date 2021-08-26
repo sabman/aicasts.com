@@ -6,10 +6,11 @@ import time
 os.environ['TZ'] = "US/Eastern"
 time.tzset()
 
+
 def download_data(verbose=True):
     harvard_stop_id = '70068'
     jfk_stop_id = '70086'
-    
+
     start_time = datetime.time(7, 0)
     end_time = datetime.time(10, 0)
     start_date = datetime.date(2015, 4, 1)
@@ -18,7 +19,7 @@ def download_data(verbose=True):
     TTravelURL = "http://realtime.mbta.com/developer/api/v2.1/traveltimes"
     TKey = "?api_key=wX9NwuHnZU2ToO7GmGR9uw"
     TFormat = "&format=json"
-    from_stop = "&from_stop="+str(jfk_stop_id) 
+    from_stop = "&from_stop="+str(jfk_stop_id)
     to_stop = "&to_stop="+str(harvard_stop_id)
 
     # cycle through all the days
@@ -55,5 +56,6 @@ def download_data(verbose=True):
         i_day += 1
 
     return trips
+
 
 trips = download_data(verbose=True)
