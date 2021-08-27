@@ -57,4 +57,5 @@ def download_data(verbose=True):
     return trips
 
 
-trips = download_data(verbose=True)
+if __name__ == "__main__":
+    download_data(verbose=True)
