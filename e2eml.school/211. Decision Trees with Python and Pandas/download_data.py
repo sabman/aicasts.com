@@ -12,8 +12,8 @@ def download_data(verbose=True):
 
     start_time = datetime.time(7, 0)
     end_time = datetime.time(10, 0)
-    start_date = datetime.date(2015, 4, 1)
-    end_date = datetime.date(2018, 5, 1)
+    start_date = datetime.date(2021, 5, 1)
+    end_date = datetime.date(2021, 8, 1)
 
     TTravelURL = "http://realtime.mbta.com/developer/api/v2.1/traveltimes"
     TKey = "?api_key=wX9NwuHnZU2ToO7GmGR9uw"
@@ -46,8 +46,8 @@ def download_data(verbose=True):
         s_json = s.json()
         for trip in s_json['travel_times']:
             trips.append({
-                dep: datetime.datetime.fromtimestamp(float(trip['dep_dt'])),
-                arr: datetime.datetime.fromtimestamp(float(trip['arr_dt']))
+                "dep": datetime.datetime.fromtimestamp(float(trip['dep_dt'])),
+                "arr": datetime.datetime.fromtimestamp(float(trip['arr_dt']))
             })
         if verbose:
             print(check_date, ':', len(s_json['travel_times']))
@@ -58,4 +58,10 @@ def download_data(verbose=True):
 
 
 if __name__ == "__main__":
-    download_data(verbose=True)
+    trips = download_data(verbose=True)
+    # make arrival time a function of departure time for everyday
+    # date, dep time (decision), rel arr time (relative to when we wanna get to work)
+ 
+    # decision: when do we leave home
+    # outcome: when do we get to work
+    calculate_arrival_times()
