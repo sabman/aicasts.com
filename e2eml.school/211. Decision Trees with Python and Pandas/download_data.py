@@ -64,4 +64,4 @@ if __name__ == "__main__":
  
     # decision: when do we leave home
     # outcome: when do we get to work
-    arrival = calculate_arrival_times()
+    arrival = calculate_arrival_times(trips, debug=True)
