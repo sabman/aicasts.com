@@ -57,8 +57,12 @@ def download_data(verbose=True):
     return trips
 
 
-def calculate_arrival_times():
+def calculate_arrival_times(
+
+    ):
     # ...
+    trips['dep'] - trips['arr']
+    
 
 if __name__ == "__main__":
     trips = download_data(verbose=True)
