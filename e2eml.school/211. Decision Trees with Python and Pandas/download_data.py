@@ -57,6 +57,9 @@ def download_data(verbose=True):
     return trips
 
 
+def calculate_arrival_times():
+    # ...
+
 if __name__ == "__main__":
     trips = download_data(verbose=True)
     # make arrival time a function of departure time for everyday
@@ -64,4 +67,4 @@ if __name__ == "__main__":
  
     # decision: when do we leave home
     # outcome: when do we get to work
-    arrival = calculate_arrival_times(trips, debug=True)
+    arrival_times = calculate_arrival_times(trips, debug=True)
