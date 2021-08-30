@@ -58,6 +58,11 @@ def download_data(verbose=True):
 
 
 def calculate_arrival_times(
+        trips,
+        harvard_walk=4,
+        jfk_walk=6,
+        target_hour=9,
+        target_minute=0,
 
     ):
     # ...
