@@ -68,7 +68,9 @@ if __name__ == "__main__":
     trips = download_data(verbose=True)
     # make arrival time a function of departure time for everyday
     # date, dep time (decision), rel arr time (relative to when we wanna get to work)
- 
     # decision: when do we leave home
     # outcome: when do we get to work
+    # check every min of leaving house what time we'll get to work
+    # relative arr time
+    # 
     arrival_times = calculate_arrival_times(trips, debug=True)
