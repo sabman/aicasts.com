@@ -63,11 +63,15 @@ def calculate_arrival_times(
         jfk_walk=6,
         target_hour=9,
         target_minute=0,
-
+        train_dep_min=-60,
+        train_dep_max=0,
+        debug=False,
     ):
+    minuites_per_hour = 60
+    date_format = "%Y-%m-%d"
     # ...
     trips['dep'] - trips['arr']
-    
+     
 
 if __name__ == "__main__":
     trips = download_data(verbose=True)
