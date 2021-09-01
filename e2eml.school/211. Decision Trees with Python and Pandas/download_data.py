@@ -67,8 +67,21 @@ def calculate_arrival_times(
         train_dep_max=0,
         debug=False,
     ):
+    """
+    Based on the downloaded trips data, calculate the departure times that each
+    possible departure time would result in.
+
+    The kwargs above default to our specific use case (work starts at 9:00, it
+    take 6 minutes to walk to JFK, and it take 4 minutes to walk from Harvard
+    square to work)
+    """
     minuites_per_hour = 60
     date_format = "%Y-%m-%d"
+    trips_expanded = []
+    for raw_trip in trips:
+        rel_dep = (
+            minuites_per_hour * 
+        )
     # ...
     trips['dep'] - trips['arr']
      
