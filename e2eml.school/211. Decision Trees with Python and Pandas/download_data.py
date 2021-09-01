@@ -74,6 +74,14 @@ def calculate_arrival_times(
     The kwargs above default to our specific use case (work starts at 9:00, it
     take 6 minutes to walk to JFK, and it take 4 minutes to walk from Harvard
     square to work)
+
+    Parameters
+    ----------
+    harvard_walk, jfk_walk: int
+        the time in min to take these walks
+    trips: Dataframe
+    target_hour, target_minute: int
+        The time work starts is target_hour:target_minute
     """
     minuites_per_hour = 60
     date_format = "%Y-%m-%d"
