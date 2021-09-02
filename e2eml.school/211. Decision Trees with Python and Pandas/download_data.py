@@ -86,14 +86,18 @@ def calculate_arrival_times(
         The time relative to the target, in minutes when the train departs from
         JFK. Negative number means minutes *before* the target. Min max define
         the time window under consideration.
+    debug: boolean
     """
     minuites_per_hour = 60
     date_format = "%Y-%m-%d"
     trips_expanded = []
     for raw_trip in trips:
         rel_dep = (
-            minuites_per_hour * 
-        )
+            minuites_per_hour * (raw_trip['dep'].hour - target_hour) + 
+            (raw_trip['dep'].min - target_min))
+        rel_arr = (
+            minuites_per_hour * (raw_trip['arr'].hour - target_hour) + 
+            (raw_trip['arr'].min - target_min))
     # ...
     trips['dep'] - trips['arr']
      
