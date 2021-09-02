@@ -98,6 +98,14 @@ def calculate_arrival_times(
         rel_arr = (
             minuites_per_hour * (raw_trip['arr'].hour - target_hour) + 
             (raw_trip['arr'].min - target_min))
+
+        if rel_dep > train_dep_min and rel_dep <= train_dep_max:
+            new_trip = {
+                'departure': rel_dep,
+                'arrival': rel_arr,
+                'date': raw_trip['dep'].date()
+            }
+            trips_expanded.append(new_trip)
     # ...
     trips['dep'] - trips['arr']
      
