@@ -1,6 +1,7 @@
 import datetime
 import requests
 import os
+import pandas as pd
 import time
 os.environ['TZ'] = "US/Eastern"
 time.tzset()
@@ -94,10 +95,10 @@ def calculate_arrival_times(
     for raw_trip in trips:
         rel_dep = (
             minuites_per_hour * (raw_trip['dep'].hour - target_hour) + 
-            (raw_trip['dep'].min - target_min))
+            (raw_trip['dep'].minute - target_minute))
         rel_arr = (
             minuites_per_hour * (raw_trip['arr'].hour - target_hour) + 
-            (raw_trip['arr'].min - target_min))
+            (raw_trip['arr'].minute - target_minute))
 
         if rel_dep > train_dep_min and rel_dep <= train_dep_max:
             new_trip = {
@@ -106,9 +107,12 @@ def calculate_arrival_times(
                 'date': raw_trip['dep'].date()
             }
             trips_expanded.append(new_trip)
-    # ...
-    trips['dep'] - trips['arr']
-     
+
+    trips_df = pd.DataFrame(trips_expanded)
+    
+    if debug:
+        print(trips_df)
+        #tools.custom_scatter(trips_df['departure'], trips_df['arrival'])
 
 if __name__ == "__main__":
     trips = download_data(verbose=True)
