@@ -6,6 +6,7 @@ import time
 os.environ['TZ'] = "US/Eastern"
 time.tzset()
 
+
 def download_data(verbose=True):
     harvard_stop_id = '70068'
     jfk_stop_id = '70086'
@@ -58,15 +59,15 @@ def download_data(verbose=True):
 
 
 def calculate_arrival_times(
-        trips,
-        harvard_walk=4,
-        jfk_walk=6,
-        target_hour=9,
-        target_minute=0,
-        train_dep_min=-60,
-        train_dep_max=0,
-        debug=False,
-    ):
+    trips,
+    harvard_walk=4,
+    jfk_walk=6,
+    target_hour=9,
+    target_minute=0,
+    train_dep_min=-60,
+    train_dep_max=0,
+    debug=False,
+):
     """
     Based on the downloaded trips data, calculate the departure times that each
     possible departure time would result in.
@@ -93,10 +94,10 @@ def calculate_arrival_times(
     trips_expanded = []
     for raw_trip in trips:
         rel_dep = (
-            minuites_per_hour * (raw_trip['dep'].hour - target_hour) + 
+            minuites_per_hour * (raw_trip['dep'].hour - target_hour) +
             (raw_trip['dep'].minute - target_minute))
         rel_arr = (
-            minuites_per_hour * (raw_trip['arr'].hour - target_hour) + 
+            minuites_per_hour * (raw_trip['arr'].hour - target_hour) +
             (raw_trip['arr'].minute - target_minute))
 
         if rel_dep > train_dep_min and rel_dep <= train_dep_max:
@@ -108,10 +109,11 @@ def calculate_arrival_times(
             trips_expanded.append(new_trip)
 
     trips_df = pd.DataFrame(trips_expanded)
-    
+
     if debug:
         print(trips_df)
         #tools.custom_scatter(trips_df['departure'], trips_df['arrival'])
+
 
 if __name__ == "__main__":
     trips = download_data(verbose=True)
