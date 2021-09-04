@@ -6,7 +6,6 @@ import time
 os.environ['TZ'] = "US/Eastern"
 time.tzset()
 
-
 def download_data(verbose=True):
     harvard_stop_id = '70068'
     jfk_stop_id = '70086'
