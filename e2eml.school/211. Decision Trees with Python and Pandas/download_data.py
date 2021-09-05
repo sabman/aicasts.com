@@ -115,6 +115,24 @@ def calculate_arrival_times(
         #tools.custom_scatter(trips_df['departure'], trips_df['arrival'])
 
 
+def get_trips():
+    """
+    Attempt to restore a saved copy.
+    If unsuccessful, download a new one.
+
+    Returns
+    -------
+
+    trips: list of dicts
+    """
+
+    trips_filename = "trips.pickle"
+    try:
+        trips = tools.restore(trips_filename)
+    except Exception:
+        trips = download_data()
+        tools.store(trips, trips_filename)
+
 if __name__ == "__main__":
     trips = download_data(verbose=True)
     # make arrival time a function of departure time for everyday
