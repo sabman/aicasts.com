@@ -2,7 +2,7 @@ import pickle
 
 def restore(filename):
     data = None
-    with open(filename) as dfile
+    with open(filename) as dfile:
         data = pickle.load(dfile)
     return data
 
