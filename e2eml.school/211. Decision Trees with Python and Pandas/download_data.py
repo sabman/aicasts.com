@@ -132,7 +132,8 @@ def get_trips():
         trips = tools.restore(trips_filename)
     except Exception:
         trips = download_data()
-        tools.store(trips, trips_filename)
+        tools.store(trips, trips_filename, True)
+    return trips
 
 if __name__ == "__main__":
     trips = get_trips()
