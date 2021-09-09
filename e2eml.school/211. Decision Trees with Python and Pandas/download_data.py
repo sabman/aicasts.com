@@ -114,6 +114,8 @@ def calculate_arrival_times(
     if debug:
         print(trips_df)
         tools.custom_scatter(trips_df['departure'], trips_df['arrival'])
+    door_arrivals = {}
+
 
 
 def get_trips():
