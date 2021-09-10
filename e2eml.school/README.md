@@ -12,4 +12,3 @@
 - [ ] https://e2eml.school/how_backpropagation_works.html
 - [ ] https://end-to-end-machine-learning.teachable.com/courses/513512
 - [ ] https://end-to-end-machine-learning.teachable.com/courses/enrolled/1314278
-- [ ] https://end-to-end-machine-learning.teachable.com/courses/enrolled/514971
