@@ -9,4 +9,3 @@
 - [ ] https://gitlab.com/frontierdevelopmentlab/disaster-prevention/cubesatfloods data
 - [ ] https://e2eml.school/data_science_archetypes.html
 - [ ] https://e2eml.school/five_questions_data_science_answers.html
-- [ ] https://e2eml.school/how_backpropagation_works.html
