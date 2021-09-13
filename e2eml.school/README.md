@@ -5,4 +5,3 @@
 - [ ] https://e2eml.school/pocket_guide_data_science.html
 - [ ] https://e2eml.school/blog.html
 - [ ] https://end-to-end-machine-learning.teachable.com/courses/565103/lectures/10232079
-- [ ] https://www.nature.com/articles/s41598-021-86650-z paper
