@@ -3,4 +3,3 @@
 - [ ] Book Make Time: How to Focus on What Matters Every Day
 - [ ] Peace is Every Step https://e2eml.school/mindfulness_reading_list.html
 - [ ] https://e2eml.school/pocket_guide_data_science.html
-- [ ] https://e2eml.school/blog.html
