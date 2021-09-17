@@ -117,7 +117,6 @@ def calculate_arrival_times(
     door_arrivals = {}
 
 
-
 def get_trips():
     """
     Attempt to restore a saved copy.
