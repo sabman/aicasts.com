@@ -1,2 +1,2 @@
-dd:- [https://www.youtube.com/watch?v=qdJIkFeb_E8](Special Episode - Jake Knapp - Make Time)
+- [https://www.youtube.com/watch?v=qdJIkFeb_E8](Special Episode - Jake Knapp - Make Time)
 
