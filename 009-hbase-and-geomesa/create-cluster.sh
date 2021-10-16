@@ -13,3 +13,4 @@ aws emr create-cluster                                                         \
   Name=Workers,InstanceCount=3,InstanceGroupType=CORE,InstanceType=m4.large    \
 --configurations file://./geomesa-hbase-on-s3.json                             \
 )
+
