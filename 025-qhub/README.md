@@ -36,3 +36,34 @@ conda-docker, an extension to the docker concept of having declarative environme
 vscode built-in web editor tied to jupyterlab server
 
 
+Integrations
+In an effort for QHub to serve as a core that services can integrate with.
+
+prefect workflow management
+
+clearml machine learning platform
+
+prometheus cluster monitoring
+
+grafana cluster monitoring visualizations
+
+Why use QHub?
+QHub provides enables teams to build their own scalable compute infrastructure with:
+
+Easy installation and maintenance controlled by a single configuration file.
+
+Autoscaling JupyterHub installation deployed on the Cloud provider of your choice.
+
+Option to choose from multiple compute instances, such as: namely normal, high memory, GPU, etc.
+
+Autoscaling Dask compute clusters for big data using any instance type.
+
+Shell access and remote editing access (i.e. VSCode remote) through KubeSSH.
+
+Full linux style permissions allowing for different shared folders for different groups of users.
+
+Robust compute environment handling allowing both prebuilt and ad-hoc environment creation.
+
+Integrated video conferencing, using Jitsi.
+
+
