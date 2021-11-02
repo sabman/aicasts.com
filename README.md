@@ -27,3 +27,7 @@ https://www.crunchydata.com/case-study/sas
 ## ML
 - https://github.com/azavea/raster-vision
 - https://github.com/AdeelH/pytorch-multi-class-focal-loss
+
+WIP:
+- https://end-to-end-machine-learning.teachable.com/courses/516029/lectures/9533965
+
