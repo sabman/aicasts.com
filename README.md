@@ -30,4 +30,4 @@ https://www.crunchydata.com/case-study/sas
 
 WIP:
 - https://end-to-end-machine-learning.teachable.com/courses/516029/lectures/9533965
-
+- Pooling layer
