@@ -1,6 +1,5 @@
 # aicasts.com
 
-
 Weekly AI Tutorials
 
 TODO:
@@ -25,9 +24,11 @@ https://www.crunchydata.com/case-study/sas
 - 3d https://stackoverflow.com/questions/64675784/tools-for-geospatial-data-visualization-with-custom-3d-models
 
 ## ML
+
 - https://github.com/azavea/raster-vision
 - https://github.com/AdeelH/pytorch-multi-class-focal-loss
 
 WIP:
+
 - https://end-to-end-machine-learning.teachable.com/courses/516029/lectures/9533965
 - Pooling layer https://www.youtube.com/watch?v=JB8T_zN7ZC0
