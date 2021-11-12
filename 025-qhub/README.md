@@ -64,6 +64,6 @@ Full linux style permissions allowing for different shared folders for different
 
 Robust compute environment handling allowing both prebuilt and ad-hoc environment creation.
 
-Integrated video conferencing, using Jitsi.
+- Integrated video conferencing, using Jitsi.
 
 
