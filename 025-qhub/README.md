@@ -3,7 +3,7 @@ https://github.com/Quansight/qhub
 Components
 The technology stack is an integration of the following existing open source libraries:
 
-Terraform a tool for building, changing, and versioning infrastructure.
+- Terraform a tool for building, changing, and versioning infrastructure.
 
 Kubernetes a cloud-agnostic orchestration system
 
