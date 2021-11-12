@@ -5,7 +5,7 @@ The technology stack is an integration of the following existing open source lib
 
 - Terraform a tool for building, changing, and versioning infrastructure.
 
-Kubernetes a cloud-agnostic orchestration system
+- Kubernetes a cloud-agnostic orchestration system
 
 Helm: a package manager for Kubernetes
 
