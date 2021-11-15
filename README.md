@@ -37,3 +37,4 @@ WIP:
 
 - https://github.com/aptx1231/Traffic-Prediction-Open-Code-Summary
 - https://github.com/ArsamAryandoust/DataSelectionMaps
+- https://github.com/StanfordASL/Trajectron-plus-plus
