@@ -1,7 +1,4 @@
-
-
 ## Concepts
-
 
 - Tokenizing
 - Text preprocessing
@@ -18,8 +15,8 @@
 
 ref https://github.com/sabman/aicasts.com/issues/18
 
-
 Quick start:
+
 ```sh
 pip install transformers
 pip install -U tqdm
@@ -104,9 +101,9 @@ python bret_example.py
 ```
 
 TODO:
-* examples: https://github.com/huggingface/transformers#run-the-examples
-  * https://github.com/huggingface/transformers/blob/master/examples/README.md
 
+- examples: https://github.com/huggingface/transformers#run-the-examples
+  - https://github.com/huggingface/transformers/blob/master/examples/README.md
 
 ```
 git clone https://github.com/huggingface/transformers
@@ -121,7 +118,6 @@ pip install -r ./examples/requirements.txt
 - https://dev.to/nicfoxds/getting-started-in-nlp-b0e
 - https://github.com/graykode/nlp-roadmap
 - https://www.kaggle.com/matleonard/intro-to-nlp
-
 
 ```python
 
@@ -159,8 +155,8 @@ German and spaCy
 - https://www.kaggle.com/saburq/intro-to-nlp/
 
 Full Course on Kaggle:
-- https://www.kaggle.com/learn/natural-language-processing
 
+- https://www.kaggle.com/learn/natural-language-processing
 
 ## Text Classification with SpaCy
 
@@ -184,7 +180,6 @@ You will first build a model to distinguish positive reviews from negative revie
 
 Let's get started. First, run the next code cell.
 
-
 exe 3 https://www.kaggle.com/saburq/word-vectors/edit
 
 You know at this point that machine learning on text requires that you first represent the text numerically. So far, you've done this with bag of words representations. But you can usually do better with word embeddings.
@@ -196,7 +191,6 @@ Even cooler, relations between words can be examined with mathematical operation
 ![Word vector examples](https://www.tensorflow.org/images/linear-relationships.png)
 
 These vectors can be used as features for machine learning models. Word vectors will typically improve the performance of your models above bag of words encoding. spaCy provides embeddings learned from a model called Word2Vec. You can access them by loading a large language model like `en_core_web_lg`. Then they will be available on tokens from the `.vector` attribute.
-
 
 ```py
 import numpy as np
@@ -218,12 +212,12 @@ vectors.shape
 # (12, 300)
 ```
 
-These are 300-dimensional vectors, with one vector for each word. However, we only have document-level labels and our models won't be able to use the word-level embeddings. So, you need a vector representation for the entire document. 
+These are 300-dimensional vectors, with one vector for each word. However, we only have document-level labels and our models won't be able to use the word-level embeddings. So, you need a vector representation for the entire document.
 
 There are many ways to combine all the word vectors into a single document vector we can use for model training. A simple and surprisingly effective approach is simply averaging the vectors for each word in the document. Then, you can use these document vectors for modeling.
 
 spaCy calculates the average document vector which you can get with `doc.vector`. Here is an example loading the spam data and converting it to document vectors.
-These are 300-dimensional vectors, with one vector for each word. However, we only have document-level labels and our models won't be able to use the word-level embeddings. So, you need a vector representation for the entire document. 
+These are 300-dimensional vectors, with one vector for each word. However, we only have document-level labels and our models won't be able to use the word-level embeddings. So, you need a vector representation for the entire document.
 ​
 There are many ways to combine all the word vectors into a single document vector we can use for model training. A simple and surprisingly effective approach is simply averaging the vectors for each word in the document. Then, you can use these document vectors for modeling.
 ​
@@ -238,10 +232,9 @@ spam = pd.read_csv('../input/nlp-course/spam.csv')
 
 with nlp.disable_pipes():
     doc_vectors = np.array([nlp(text).vector for text in spam.text])
-    
+
 doc_vectors.shape
 ```
-
 
 ```py
 from sklearn.model_selection import train_test_split
@@ -290,10 +283,9 @@ https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
 - https://www.kaggle.com/gunesevitan/nlp-with-disaster-tweets-eda-cleaning-and-bert/notebook
 - https://www.kaggle.com/tanulsingh077/deep-learning-for-nlp-zero-to-transformers-bert
 
-
 ## Topics
 
-- tfidf 
+- tfidf
 - count features
 - logistic regression
 - naive bayes
@@ -306,10 +298,10 @@ https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
 - Ensembling
 
 # Links
+
 - https://github.com/keon/awesome-nlp
 - https://github.com/hankcs/HanLP
 - German: https://github.com/adbar/German-NLP
-
 
 ## Named Entity Recognition
 

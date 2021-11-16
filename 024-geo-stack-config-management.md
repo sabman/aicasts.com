@@ -7,7 +7,6 @@
 
 ## Config Management Tools
 
-
 TBA
 
 ## Architectures
@@ -22,4 +21,3 @@ TBA
 ## Links/References
 
 - https://github.com/developmentseed/osm-seed
-

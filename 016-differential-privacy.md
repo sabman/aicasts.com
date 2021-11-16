@@ -47,7 +47,7 @@ WHERE result.number_eaters > 50;
 
 As we can see, there are four SELECTS in the query. We will explain them from inner-most to outer-most. The following steps were taken to rewrite the query:
 
-* Construct the 1st and inner-most `SELECT`, aliased as `per_person_raw`.
+- Construct the 1st and inner-most `SELECT`, aliased as `per_person_raw`.
 
 ```sql
 SELECT fruit, uid, COUNT(fruit) as fruit_count
@@ -68,7 +68,6 @@ FROM per_person_raw;
 ```
 
 For each person, `per_person_raw` contains rows corresponding to the fruits they have eaten. We shuffle these rows and assign them a row number. This will allow us to effectively [reservoir sample](https://en.wikipedia.org/wiki/Reservoir_sampling) rows for each user by filtering by row number in the next step. This is similar to C_u thresholding in Wilson et al.
-
 
 Construct the 3rd `SELECT`, aliased as result.
 
@@ -112,10 +111,12 @@ Suppose we want to use the privacy parameter `ε=M`. In the rewritten query, we 
 | SUM(col2)   | ANON_SUM(col2, M/3)   |
 
 This is because we have **two** (`COUNT`, `SUM`) requested anonymous functions, and an additional **anonymous unique user count** required when we perform the rewrite.
-****
+
+---
+
 ### Bounding User Contribution
 
-Consider again our fruit-eating example. Suppose we want to *restrict the contribution of each person to the fruit-eaten counts* by `5`. So if a person has eaten more than `5` fruit, we want to count it as that they have eaten `5` fruit. To do this, add lower and upper bounds on the anonymous functions:
+Consider again our fruit-eating example. Suppose we want to _restrict the contribution of each person to the fruit-eaten counts_ by `5`. So if a person has eaten more than `5` fruit, we want to count it as that they have eaten `5` fruit. To do this, add lower and upper bounds on the anonymous functions:
 
 | Original                                    | Replacement                                           |
 | ------------------------------------------- | ----------------------------------------------------- |
@@ -147,7 +148,6 @@ SELECT color, COUNT(fruit)
 FROM FruitEaten f INNER JOIN Shirts s ON (f.uid = s.uid)
 GROUP BY color;
 ```
-
 
 We rewrite the query into its differentially private version:
 
