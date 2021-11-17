@@ -7,3 +7,15 @@ cd WebODM
 ```
 
 https://dronemapper.com/blog/
+
+Understanding `./webodm.sh` see https://github.com/OpenDroneMap/WebODM/blob/master/webodm.sh
+
+```bash
+
+#!/bin/bash
+set -eo pipefail
+__dirname=$(cd $(dirname "$0"); pwd -P)
+cd "${__dirname}"
+
+
+```
