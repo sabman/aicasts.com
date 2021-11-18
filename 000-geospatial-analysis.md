@@ -1,13 +1,16 @@
 # ML in Geo
 
 ## Usecases
+
 - https://medium.com/geoai
 - https://toddwschneider.com/posts/analyzing-1-1-billion-nyc-taxi-and-uber-trips-with-a-vengeance/
 
 ## Talk
+
 - https://media.ccc.de/v/bucharest-448-demystifying-ai-in-geo#t=166
 
 ## Code
+
 - https://github.com/thinkingmachines/ph-poverty-mapping
   - https://science.sciencemag.org/content/353/6301/790.abstract
   - https://arxiv.org/abs/1510.00098
@@ -26,6 +29,7 @@
 - https://github.com/hoshinolab/tadataka
 
 ## Kaggle
+
 - https://www.kaggle.com/learn/geospatial-analysis
 - https://www.kaggle.com/tags/geospatial-analysis
 - https://www.kaggle.com/camnugent/geospatial-feature-engineering-and-visualization
@@ -38,6 +42,7 @@
   - EDA https://www.kaggle.com/kabure/insightful-eda-modeling-lgbm-hyperopt
 
 ## datasets
+
 - https://github.com/chrieke/awesome-satellite-imagery-datasets
 - https://medium.com/the-downlinq/the-spacenet-7-multi-temporal-urban-development-challenge-dataset-release-9e6e5f65c8d5
 - https://spacenet.ai/sn7-challenge/
@@ -52,4 +57,4 @@
 - https://wandb.ai/thinkingmachines/ph-poverty-mapping/benchmark
 - https://www.kaggle.com/abrahamanderson/visualizing-geospatial-data-with-folium
 
-1...
+  1...
