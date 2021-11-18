@@ -20,7 +20,6 @@ https://www.researchgate.net/publication/28231298_Vineyard_area_estimation_using
 
 https://appsilon.com/satellite-imagery-generation-with-gans/
 
-
 ```r
 image_height <- 80 # Image height in pixels
 image_width <- 80 # Image width in pixels
