@@ -5,3 +5,14 @@ GANs are composed of two deep neural networks. The first network is called the g
 ![](026-GANS-for-satellite-imagery/pasted-image-0.png)
 
 ### build a generator and discriminator
+
+```
+import matplotlib.pyplot as plt # plotting to see how our synthetic data compares to real data
+import pandas as pd # data frames for easier manipulation of data
+import seaborn as sns # create heatmaps to visualize data
+import torch # PyTorch
+import torch.nn.functional as F # useful functions in PyTorch
+
+from layers import MultiCategoryGumbelSoftmax # internal class for multicategory outputs
+from sklearn.preprocessing import OneHotEncoder # convert our data into a format PyTorch can understand
+```
