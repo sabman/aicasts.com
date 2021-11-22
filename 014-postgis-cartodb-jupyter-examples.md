@@ -1,4 +1,3 @@
-
 # Kepler + Carto + Jupyter
 
 - https://github.com/CartoDB/kepler.gl/blob/master/docs/keplergl-jupyter/README.md
@@ -12,11 +11,10 @@
 - https://carto.com/developers/cartoframes/
 
 # Connect to DBs
+
 - https://towardsdatascience.com/heres-how-to-run-sql-in-jupyter-notebooks-f26eb90f3259
 
-
 # Install
-
 
 ```bash
 
@@ -27,7 +25,7 @@ usermod -aG sudo sammy
 
 # https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-programming-environment-on-an-ubuntu-18-04-server
 apt update && apt install -y python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv expect
-# expect command is used for setting password https://likegeeks.com/expect-command/ 
+# expect command is used for setting password https://likegeeks.com/expect-command/
 
 su - sammy
 mkdir environments
