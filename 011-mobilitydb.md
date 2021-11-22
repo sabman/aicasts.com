@@ -1,18 +1,19 @@
-
 # Introduction
 
 Why GeoTemporal matters
-* https://www.youtube.com/watch?v=_t7jlFbpty4
-* https://www.youtube.com/watch?v=HyOLKAKh_e8
-* https://docs.mobilitydb.com/MobilityDB/master/
-* http://data4urbanmobility.l3s.uni-hannover.de/index.php/en/home-2/
-* http://data4urbanmobility.l3s.uni-hannover.de/index.php/en/mission-2/
-* http://data4urbanmobility.l3s.uni-hannover.de/index.php/en/results/
-* https://www.bmvi.de/SharedDocs/DE/Artikel/DG/mfund-projekte/mobility-data-space.html
+
+- https://www.youtube.com/watch?v=_t7jlFbpty4
+- https://www.youtube.com/watch?v=HyOLKAKh_e8
+- https://docs.mobilitydb.com/MobilityDB/master/
+- http://data4urbanmobility.l3s.uni-hannover.de/index.php/en/home-2/
+- http://data4urbanmobility.l3s.uni-hannover.de/index.php/en/mission-2/
+- http://data4urbanmobility.l3s.uni-hannover.de/index.php/en/results/
+- https://www.bmvi.de/SharedDocs/DE/Artikel/DG/mfund-projekte/mobility-data-space.html
 
 # Concepts
 
 ## Time and Range Data Types
+
 - `timestamptz` (native to postgresql)
 - `timestampset`
 - `period`
@@ -21,6 +22,7 @@ Why GeoTemporal matters
 ## Temporal Types
 
 tboolinst, tboolseq, tbooli, and tbools
+
 - `tintinst`, `tintseq`, `tinti`, and `tints`
 - `tfloatinst`, `tfloatseq`, `tfloati`, and `tfloats`
 - `ttextinst`, `ttextseq`, `ttexti`, and `ttexts`
@@ -29,7 +31,6 @@ tboolinst, tboolseq, tbooli, and tbools
 
 where the suffixes "inst", "seq", "i", and "s" correspond, respectively, to the durations instant, sequence,
 instant set, and sequence set.
-
 
 ## Interesting Operators
 
@@ -94,7 +95,6 @@ SELECT ST_Intersects(geometry 'Polygon((0 0,0 1,1 1,1 0,0 0))',
 ## Range Queries
 
 The queries in this category restrict Trips with respect to a spatial, temporal, or spatio-temporal point or range. In the examples, the spatial points and ranges are given, respectively, in tables Points and Regions, while temporal points and ranges are given, respectively, in tables Instants and Periods.
-
 
 1. List the cars that have passed at a region from Regions.
 
@@ -188,7 +188,6 @@ ORDER BY T.CarId, P.PeriodId;
 
 > The query performs a bounding box comparison with the && operator using the spatio-temporal index on the Trips table. It then projects the trip to the period, computes the length of the projected trip, and sum the lengths of all the trips of the same car during the period.
 
-
 9. List the minimum distance ever between each car and each point from Points.
 
 ```sql
@@ -200,8 +199,7 @@ ORDER BY T.CarId, P.PointId;
 
 > The query projects the trip to the spatial dimension with the trajectory function and computes the traditional distance between the trajectory of the trip and the point. The traditional minimum function is then applied for computing the minimum distance between all trips of the car and the point.
 
-
- 10. List the minimum temporal distance between each pair of cars.
+10. List the minimum temporal distance between each pair of cars.
 
 ```sql
 SELECT
@@ -216,17 +214,17 @@ ORDER BY T1.CarId, T2.CarId;
 
 The query selects two trips T1 and T2 from distinct cars that were both traveling during a common period of time, computes the temporal distance between the trips, and then computes the temporal minimum distance between all trips of the two cars. The query uses the spatio-temporal index to filter the pairs of trips that were both traveling during a common period of time.
 
- 11. List the nearest approach time, distance, and shortest line between each pair of trips.
+11. List the nearest approach time, distance, and shortest line between each pair of trips.
 
- ```sql
- SELECT T1.CarId AS Car1Id, T1.TripId AS Trip1Id, T2.CarId AS Car2Id,
-  T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
-  NearestApproachDistance(T1.Trip, T2.Trip) AS Distance,
-  ShortestLine(T1.Trip, T2.Trip) AS Line
+```sql
+SELECT T1.CarId AS Car1Id, T1.TripId AS Trip1Id, T2.CarId AS Car2Id,
+ T2.TripId AS Trip2Id, period(NearestApproachInstant(T1.Trip, T2.Trip)) AS Time,
+ NearestApproachDistance(T1.Trip, T2.Trip) AS Distance,
+ ShortestLine(T1.Trip, T2.Trip) AS Line
 FROM Trips1 T1, Trips1 T
 WHERE T1.CarId < T2.CarId AND period(T1.Trip) && period(T2.Trip)
 ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
- ```
+```
 
 This query shows similar functionality as that provided by the PostGIS functions `ST_ClosestPointOfApproach` and `ST_DistanceCPA`. The query selects two trips T1 and T2 from distinct cars that were both traveling during a common period of time and computes the required results.
 
@@ -244,11 +242,9 @@ ORDER BY T1.CarId, T2.CarId, Position;
 
 The query performs for each pair of trips T1 and T2 of distinct cars a bounding box comparison with the && operator using the spatio-temporal index on the Trips table, where the bounding box of T2 is expanded by 10 m. Then, the period expression computes the periods during which the cars were within 10 m. from each other and the atPeriodSet function projects the trips to those periods. Notice that the expression `tdwithin(T1.Trip, T2.Trip, 10.0)` is conceptually equivalent to `dwithin(T1.Trip, T2.Trip) #<= 10.0`. However, in this case the spatio-temporal index cannot be used for filtering values.
 
-
 **Nearest-Neighbor Queries**
 
 13. For each trip from Trips, list the three points from Points that have been closest to that car.
-
 
 ```sql
 WITH TripsTraj AS (
@@ -263,7 +259,6 @@ ORDER BY T.TripId, T.CarId, P1.Distance;
 ```
 
 This is a nearest-neighbor query where both the reference and the candidate objects are moving. Therefore, it is not possible to proceed as in the previous query to first project the moving points to the spatial dimension and then compute the traditional distance. Given a trip T1 in the outer query, the subquery computes the temporal distance between T1 and a trip T2 of another car distinct from the car from T1 and then computes the minimum value in the temporal distance. Finally,the ORDER BY and LIMIT clauses in the inner query select the three closest cars.
-
 
 14. For each trip from Trips, list the three cars that are closest to that car
 
@@ -292,7 +287,7 @@ SELECT T.CarId, T.TripId, P.PointId, PT.Distance
 FROM Trips T CROSS JOIN Points P JOIN PointTrips PT
 ON T.CarId = PT.CarId AND T.TripId = PT.TripId AND P.PointId = PT.PointId
 ORDER BY T.CarId, T.TripId, P.PointId;
- ```
+```
 
 This is a reverse nearest-neighbor query with moving reference objects and static candidate objects. The query starts by computing the corresponding nearest-neighbor query in the temporary table PointTrips as it is done in Query 13. Then, in the main query it verifies for each trip T and point P that both belong to the PointTrips table.
 
@@ -313,6 +308,7 @@ FROM Trips T1 JOIN Trips T2 ON T1.CarId < T2.CarId
   T2.CarId = TD.CarId2 AND T2.TripId = TD.TripId
 ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
 ```
+
 This is a reverse nearest-neighbor query where both the reference and the candidate objects are moving. The query starts by computing the corresponding nearest-neighbor query in the temporary table TripDistances as it is done in Query 14. Then, in the main query it verifies for each pair of trips T1 and T2 that both belong to the TripDistances table.
 
 17. Foreachgroupoftendisjointcars,listthepoint(s)fromPoints,havingtheminimumaggregateddistancefromthegiven group of ten cars during the given period.
@@ -339,12 +335,13 @@ CREATE EXTENSION MobilityDB CASCADE;
 ## Loading data
 
 The ZIP file with the data for this tutorial contains a set of CSV files as follows:
-* datamcar.csv with fields Moid, Licence, Type, and Model contains the vehiclede scriptions (without position history).
-* trips.csv with fields Moid, Tripid, Pos_x, Pos_y, and Instant contains vehicles movements and pauses
-* queryinstants.csv with fields Id and Instant contains timestamps used for queries.
-* queryperiods.csv with fields Id, Begin, and End contains periods used for the queries.
-* querypoints.csv with fields Id, Pos_x, and Pos_y contains points used for queries.
-* queryregions.csv with fields Id, SegNo, Xstart, Ystart, Xend, and Yend contains the polygons used for queries.
+
+- datamcar.csv with fields Moid, Licence, Type, and Model contains the vehiclede scriptions (without position history).
+- trips.csv with fields Moid, Tripid, Pos_x, Pos_y, and Instant contains vehicles movements and pauses
+- queryinstants.csv with fields Id and Instant contains timestamps used for queries.
+- queryperiods.csv with fields Id, Begin, and End contains periods used for the queries.
+- querypoints.csv with fields Id, Pos_x, and Pos_y contains points used for queries.
+- queryregions.csv with fields Id, SegNo, Xstart, Ystart, Xend, and Yend contains the polygons used for queries.
 
 ```
 CREATE EXTENSION MobilityDB CASCADE;
@@ -413,7 +410,6 @@ https://localhost.lan/user/rasul/api/v2/sql?q=CREATE TABLE TripsInput (
 
 `https://localhost.lan/user/rasul/api/v2/sql?q=SELECT+cdb_cartodbfytable('rasul','TripsInput')&api_key=b5ea4fd859ec55a4ff965bb1a2b382487130967c`
 
-
 ```sql
 CREATE TABLE Instants (
   InstantId integer PRIMARY KEY,
@@ -473,6 +469,7 @@ Alter TABLE regions ADD COLUMN regionid integer UNIQUE NOT NULL
 SELECT cdb_cartodbfytable('rasul','Regions')
 
 ```
+
 ```sql
 CREATE TABLE Trips
 (
@@ -580,12 +577,12 @@ group by carid, tripid
 
 There are a lot of nested functions, so reading from the innermost:
 
-* Function `ST_MakePoint` construct a point from the Lon and Lat values.
-* Function `ST_SetSRID` sets the SRID of the point to 4326, that is, to the standard WGS 84 GPS coordinates.
-* Function `ST_Transform` transforms the spherical GPS coordinates to plannar coordinates fitted for Germany.
-* Function `tgeompointinst` gets the point and the time values to create a temporal point of instant duration.
-* Function array_agg collects in an array all temporal points of a given car and a given trip (as specified by the GROUP BY clause)andsortthembytime(asspecifiedbytheORDER BYclause)
-* Function `tgeompointseq` gets the array of temporal points and construct a temporal point of sequence duration.
+- Function `ST_MakePoint` construct a point from the Lon and Lat values.
+- Function `ST_SetSRID` sets the SRID of the point to 4326, that is, to the standard WGS 84 GPS coordinates.
+- Function `ST_Transform` transforms the spherical GPS coordinates to plannar coordinates fitted for Germany.
+- Function `tgeompointinst` gets the point and the time values to create a temporal point of instant duration.
+- Function array_agg collects in an array all temporal points of a given car and a given trip (as specified by the GROUP BY clause)andsortthembytime(asspecifiedbytheORDER BYclause)
+- Function `tgeompointseq` gets the array of temporal points and construct a temporal point of sequence duration.
 
 Finally, we create indexes on `traditional`, `spatial`, `temporal` or `spatiotemporal` attributes as well as views to select a subset of the rows from the corresponding tables. This can be done as follows.
 
@@ -601,7 +598,6 @@ CREATE INDEX Trips_gist_idx ON Trips USING gist(trip);
 CREATE VIEW Instants1 AS SELECT * FROM Instants LIMIT 10;
 ```
 
-
 # Real World Application
 
 - emergency incident management
@@ -610,7 +606,6 @@ CREATE VIEW Instants1 AS SELECT * FROM Instants LIMIT 10;
 - security and servalence
 - forensic and legal usecases
 - contextual advertising https://www.adonmo.com/
-
 
 # Installation
 
@@ -672,7 +667,6 @@ $$ LANGUAGE plpgsql;
 
 ```
 
-
 In order to partition table `Trips` by date we need to add an addition column `TripDate` to table TripsInput.
 
 ```sql
@@ -701,6 +695,7 @@ CREATE TABLE Trips
 SELECT create_partitions_by_date('Trips', (SELECT MIN(TripDate) FROM TripsInput),
   (SELECT MAX(TripDate) FROM TripsInput));
 ```
+
 To see the partitions that have been created automatically we can use the following statement.
 
 ```sql
@@ -885,7 +880,6 @@ ORDER BY T1.CarId, T2.CarId, R.RegionId, P.PeriodId;
 
 This is a **spatio-temporal range join query**. The query selects two trips of different cars and performs bounding box comparisons of each trip with a region and a period using the spatio-temporal index of the `Trips` table. The query then verifies that both cars were located within the region during the period.
 
-
 4. List the first time at which a car visited a point in Points.
 
 ```sql
@@ -905,14 +899,14 @@ GROUP BY T.CarId, P.PointId;
 The query selects a trip and a point and verifies that the car passed by the point by testing that the trajectory of the trip contains the point. Notice that PostGIS will perform the bounding box containment `trajectory(T.Trip) ~ P.Geom` using the spatial index on table Points before executing `ST_Contains`. Then, the query projects the trip to the point with the `atValue` function, get the first `timestamp` of the projected trip with the `startTimestamp` function, and applies the traditional `MIN` aggregate function for all trips of the car and the point.
 
 ## Temporal Aggregate Queries
+
 There are three common types of temporal aggregate queries.
 
-* Instant temporal aggregate queries in which, from a conceptual perspective, the traditional aggregate function is applied at each instant.
+- Instant temporal aggregate queries in which, from a conceptual perspective, the traditional aggregate function is applied at each instant.
 
-* Window temporal aggregate queries (also known as cumulative queries), which, given a time interval w, compute the value of the aggregate at a time instant t from the values during the time period [t-w, t].
+- Window temporal aggregate queries (also known as cumulative queries), which, given a time interval w, compute the value of the aggregate at a time instant t from the values during the time period [t-w, t].
 
-* Span temporal aggregate queries, which, first, split the time line into predefined intervals independently of the target data, and then, for each of these intervals, aggregate the data that overlap the interval.
-
+- Span temporal aggregate queries, which, first, split the time line into predefined intervals independently of the target data, and then, for each of these intervals, aggregate the data that overlap the interval.
 
 5. Compute how many cars were active at each period in Periods.
 
@@ -955,7 +949,6 @@ ORDER BY S.Period;
 
 This is a span temporal aggregate query. The query defines the intervals to consider in the `TimeSplit` temporary table. For each of these intervals, the main query applies the traditional count function for counting the trips that overlap the interval.
 
-
 ### Distance queries
 
 The queries in this category deal with either the distance travelled by a single object or the distance between two objects. The complexity of the latter queries depend, on the one hand, on whether the reference objects are static or moving, and on the other, on whether the operation required is either the minimum distance ever or the temporal distance computed at each instant.
@@ -975,9 +968,7 @@ ORDER BY T.CarId, P.PeriodId;
 
 The query performs a bounding box comparison with the `&&` operator using the spatio-temporal index on the `Trips` table. It then projects the trip to the period, computes the length of the projected trip, and sum the lengths of all the trips of the same car during the period.
 
-
 9. List the minimum distance ever between each car and each point from Points.
-
 
 ```sql
 SELECT T.CarId, P.PointId, MIN(trajectory(T.Trip) <-> P.Geom) AS MinDistance
@@ -985,8 +976,8 @@ FROM Trips T, Points P
 GROUP BY T.CarId, P.PointId
 ORDER BY T.CarId, P.PointId;
 ```
-The query projects the trip to the spatial dimension with the `trajectory` function and computes the traditional distance between the trajectory of the trip and the point. The traditional minimum function is then applied for computing the minimum distance between all trips of the car and the point.
 
+The query projects the trip to the spatial dimension with the `trajectory` function and computes the traditional distance between the trajectory of the trip and the point. The traditional minimum function is then applied for computing the minimum distance between all trips of the car and the point.
 
 10. List the minimum temporal distance between each pair of cars.
 
@@ -1016,7 +1007,6 @@ This query shows similar functionality as that provided by the PostGIS functions
 
 12. List when and where a pairs of cars have been at 10 m or less from each other.
 
-
 ```sql
 SELECT T1.CarId AS CarId1, T2.CarId AS CarId2, atPeriodSet(T1.Trip,
   period(atValue(tdwithin(T1.Trip, T2.Trip, 10.0), TRUE))) AS Position
@@ -1029,7 +1019,6 @@ ORDER BY T1.CarId, T2.CarId, Position;
 
 The query performs for each pair of trips `T1` and `T2` of distinct cars a bounding box comparison with the `&&` operator using the spatio-temporal index on the `Trips` table, where the bounding box of `T2` is expanded by 10 m. Then, the `period` expression computes the periods during which the cars were within 10 m. from each other and the `atPeriodSet` function projects the trips to those periods. Notice that the expression `tdwithin(T1.Trip, T2.Trip, 10.0)` is conceptually equivalent to `dwithin(T1.Trip, T2.Trip) #<= 10.0`. However, in this case the spatio-temporal index cannot be used for filtering values.
 
-
 ## Nearest-Neighbor Queries
 
 There are three common types of nearest-neighbor queries in spatial databases.
@@ -1039,7 +1028,6 @@ There are three common types of nearest-neighbor queries in spatial databases.
 - Given two sets of points P and Q, aggregate nearest-neighbor (ANN) queries find the points from P that have minimum aggregated distance to all points from Q.
 
 The above types of queries are generalized to temporal points. However, the complexity of these queries depend on whether the reference object and the candidate objects are static or moving. In the examples that follow we only consider the nontemporal version of the nearest-neighbor queries, that is, the one in which the calculation is performed on the projection of temporal points on the spatial dimension. The temporal version of the nearest-neighbor queries remains to be done.
-
 
 13. For each trip from `Trips`, list the three points from `Points` that have been closest to that car.
 
@@ -1068,12 +1056,9 @@ ORDER BY Distance LIMIT 3 ) AS C2
 ORDER BY T1.CarId, C2.CarId;
 ```
 
-
 TThis is a nearest-neighbor query where both the reference and the candidate objects are moving. Therefore, it is not possible to proceed as in the previous query to first project the moving points to the spatial dimension and then compute the traditional distance. Given a trip T1 in the outer query, the subquery computes the temporal distance between T1 and a trip T2 of another car distinct from the car from T1 and then computes the minimum value in the temporal distance. Finally, the ORDER BY and LIMIT clauses in the inner query select the three closest cars.
 
-
 15. For each trip from `Trips`, list the points from `Points` that have that car among their three nearest neighbors.
-
 
 ```sql
 WITH TripsTraj AS (
@@ -1091,7 +1076,6 @@ ORDER BY T.CarId, T.TripId, P.PointId;
 ```
 
 This is a reverse nearest-neighbor query with moving reference objects and static candidate objects. The query starts by computing the corresponding nearest-neighbor query in the temporary table `PointTrips` as it is done in Query 13. Then, in the main query it verifies for each trip `T` and point `P` that both belong to the `PointTrips` table.
-
 
 16. For each trip from `Trips`, list the cars having the car of the trip among the three nearest neighbors.
 
@@ -1112,7 +1096,6 @@ ORDER BY T1.CarId, T1.TripId, T2.CarId, T2.TripId;
 ```
 
 This is a reverse nearest-neighbor query where both the reference and the candidate objects are moving. The query starts by computing the corresponding nearest-neighbor query in the temporary table `TripDistances` as it is done in Query 14. Then, in the main query it verifies for each pair of trips `T1` and `T2` that both belong to the `TripDistances` table.
-
 
 17. For each group of ten disjoint cars, list the point(s) from `Points`, having the minimum aggregated distance from the given group of ten cars during the given period.
 
@@ -1137,7 +1120,6 @@ WHERE S1.SumDist <= ALL (
 
 This is an aggregate nearest-neighbor query. The temporary table `Groups` splits the cars in groups where the `GroupId` column takes the values from 1 to total number of groups. The temporary table `SumDistances` computes for each group G and point P the sum of the distances between a trip of a car in the group and the point. The main query then selects for each group in table `SumDistances` the points(s) that have the minimum aggregated distance.
 
-
 # BerlinMOD/R Queries
 
 1. What are the models of the vehicles with licence plate numbers from Licences?
@@ -1156,24 +1138,21 @@ FROM Cars C
 WHERE Type = 'passenger';
 ```
 
-----
+---
 
 # Summary
-
 
 Time types Period, PeriodSet, and TimestampSet which, in addition of the the TimestampTz type provided by PostgreSQL, are used to represent time spans.
 Temporal types tbool, tint, tfloat, and ttext which are based on the bool, int, float, and text types provided by PostgreSQL and are used to represent basic types that evolve on time.
 Spatio-temporal types tgeompoint and tgeogpoint which are based on the geometry and geography types provided by PostGIS (restricted to 2D or 3D points) and are used to represent points that evolve on time. Range types intrange and floatrange which are used to represent ranges of int and float values.
 
-
------
+---
 
 ## Loading mobility data via SQL API
 
 1. Create table https://carto.com/developers/sql-api/guides/creating-tables/
 
 2. https://carto.com/developers/sql-api/guides/copy-queries/
-
 
 ```sql
 TABLE Bus ( LineNo integer, TripNo integer, Trip tgeompoint(Sequence, Point, 3812) );
@@ -1245,6 +1224,7 @@ Size B  Length from GPS to the stern
 Size C  Length from GPS to starboard side
 Size D  Length from GPS to port side
 ```
+
 This module uses the data of one day April 1st 2018. The CSV file size is 1.9 GB, and it contains about 10 M rows.
 
 **Tools used**
@@ -1346,7 +1326,6 @@ CREATE TABLE Ships(MMSI, Trip, SOG, COG) AS
 ```
 
 This query constructs, per ship, its spatiotemporal trajectory Trip, and two temporal attributes `SOG` and `COG`. `Trip` is a `temporal geometry point`, and both `SOG` and `COG` are `temporal floats`. MobilityDB builds on the coordinate transformation feature of PostGIS. Here the `SRID 25832` (European Terrestrial Reference System 1989) is used, because it i`s the one advised by Danish Maritime Authority in the download page of this dataset. Now, let's visualize the constructed trajectories in QGIS.
-
 
 ```sql
 ALTER TABLE Ships ADD COLUMN Traj geometry;
@@ -1567,22 +1546,22 @@ WHERE S1.MMSI > S2.MMSI AND
 
 The query first defines the area of interest as an envelope `ST_MakeEnvelope(640730, 6058230, 654100, 6042487, 25832)`, the red dashed line in Figure 1.9, “Ship that come closer than 300 meters to one another”).
 
-It then *restricts/crops the trajectories to only this envelope* using the `atGeometry` function.
+It then _restricts/crops the trajectories to only this envelope_ using the `atGeometry` function.
 
 ```sql
 atGeometry(S.TripETRS, B.Belt)
 -- where B.Belt is the AoI
 ```
 
- The **main query** then *find pairs of different trajectories* that ever came within a distance of `300 meters` `dwithin(S1.tripETRS, S2.tripETRS, 300)` to one another (the `dwithin`).
+The **main query** then _find pairs of different trajectories_ that ever came within a distance of `300 meters` `dwithin(S1.tripETRS, S2.tripETRS, 300)` to one another (the `dwithin`).
 
- For these trajectories, it computes the *spatial line that connects the two instants where the two trajectories were closest to one another* (the `shortestLine` function).
+For these trajectories, it computes the _spatial line that connects the two instants where the two trajectories were closest to one another_ (the `shortestLine` function).
 
- ```sql
- shortestLine(S1.tripETRS, S2.tripETRS) Approach
- ```
+```sql
+shortestLine(S1.tripETRS, S2.tripETRS) Approach
+```
 
- Figure 1.9, “Ship that come closer than 300 meters to one another” shows the green trajectories that came close to the blue trajectories, and their shortest connecting line in solid red. Most of the approaches occur at the entrance of the Rødby port, which looks normal. But we also see two interesting approaches, that may indicate danger of collision away from the port. They are shown with more zoom in Figure 1.10, “A zoom-in on a dangerous approach” and Figure 1.11, “Another dangerous approach”
+Figure 1.9, “Ship that come closer than 300 meters to one another” shows the green trajectories that came close to the blue trajectories, and their shortest connecting line in solid red. Most of the approaches occur at the entrance of the Rødby port, which looks normal. But we also see two interesting approaches, that may indicate danger of collision away from the port. They are shown with more zoom in Figure 1.10, “A zoom-in on a dangerous approach” and Figure 1.11, “Another dangerous approach”
 
 Figure 1.9. Ship that come closer than 300 meters to one another
 
@@ -1598,28 +1577,27 @@ In this chapter, we illustrate how to load GTFS data in MobilityDB. For this, we
 
 Several tools can be used to import GTFS data into PostgreSQL. For example, one publicly available in Github can be found [here](https://github.com/fitnr/gtfs-sql-importer). These tools load GTFS data into PostgreSQL tables, allowing one to perform multiple imports of data provided by the same agency covering different time frames, perform various complex tasks including data validation, and take into account variations of the format provided by different agencies, updates of route information among multiple imports, etc. For the purpose of this tutorial we do a simple import and transformation using only SQL. This is enough for loading the data set we are using but a much more robust solution should be used in an operational environment, if only for coping with the considerable size of typical GTFS data, which would require parallelization of this task.
 
-
 ## Loading GTFS Data in PostgreSQL
 
 The [ZIP](https://docs.mobilitydb.com/data/gtfs_data.zip) file with the data for this tutorial contains a set of CSV files (with extension .txt) as follows:
 
-* agency.txt contains the description of the transportation agencies provinding the services (a single one in our case).
+- agency.txt contains the description of the transportation agencies provinding the services (a single one in our case).
 
-* calendar.txt contains service patterns that operate recurrently such as, for example, every weekday.
+- calendar.txt contains service patterns that operate recurrently such as, for example, every weekday.
 
-* calendar_dates.txt define exceptions to the default service patterns defined in calendar.txt. There are two types of exceptions: 1 means that the service has been added for the specified date, and 2 means that the service has been removed for the specified date.
+- calendar_dates.txt define exceptions to the default service patterns defined in calendar.txt. There are two types of exceptions: 1 means that the service has been added for the specified date, and 2 means that the service has been removed for the specified date.
 
-* route_types.txt contains transportation types used on routes, such as bus, metro, tramway, etc.
+- route_types.txt contains transportation types used on routes, such as bus, metro, tramway, etc.
 
-* routes.txt contains transit routes. A route is a group of trips that are displayed to riders as a single service.
+- routes.txt contains transit routes. A route is a group of trips that are displayed to riders as a single service.
 
-* shapes.txt contains the vehicle travel paths, which are used to generate the corresponding geometry.
+- shapes.txt contains the vehicle travel paths, which are used to generate the corresponding geometry.
 
-* stop_times.txt contains times at which a vehicle arrives at and departs from stops for each trip.
+- stop_times.txt contains times at which a vehicle arrives at and departs from stops for each trip.
 
-* translations.txt contains the translation of the route information in French and Dutch. This file is not used in this tutorial.
+- translations.txt contains the translation of the route information in French and Dutch. This file is not used in this tutorial.
 
-* trips.txt contains trips for each route. A trip is a sequence of two or more stops that occur during a specific time period.
+- trips.txt contains trips for each route. A trip is a sequence of two or more stops that occur during a specific time period.
 
 We decompress the file with the data into a directory. This can be done using the command.
 
@@ -1668,7 +1646,6 @@ CREATE TABLE calendar_dates (
 CREATE INDEX calendar_dates_dateidx ON calendar_dates (date);
 
 ```
-
 
 ```sql
 CREATE TABLE route_types (
@@ -1832,7 +1809,7 @@ Figure 2.1. Visualization of the routes and stops for the GTFS data from Brussel
 
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/stib.png)
 
-#  Transforming GTFS Data for MobilityDB
+# Transforming GTFS Data for MobilityDB
 
 We start by creating a table that contains couples of `service_id` and `date` defining the dates at which a service is provided.
 
@@ -1950,7 +1927,6 @@ Then, we generate the `geometry` of the segment betwen two stops using the funct
 
 The geometry of a segment is a linestring containing multiple points. From the previous table we know at which time the trip arrived at the first point and at the last point of the segment. To determine at which time the trip arrived at the intermediate points of the segments, we create a table trip_points that contains all the points composing the geometry of a segment.
 
-
 ```sql
 DROP TABLE IF EXISTS trip_points;
 CREATE TABLE trip_points (
@@ -1994,7 +1970,7 @@ SELECT trip_id, route_id, service_id, stop1_sequence, point_sequence, point_geom
 FROM temp3;
 ```
 
-In the temporary table `temp1` we use the function `ST_DumpPoints` to obtain the points composing the geometry of a segment. Nevertheless, this table contains *duplicate* points, that is, the last point of a segment is equal to the first point of the next one.
+In the temporary table `temp1` we use the function `ST_DumpPoints` to obtain the points composing the geometry of a segment. Nevertheless, this table contains _duplicate_ points, that is, the last point of a segment is equal to the first point of the next one.
 
 ```sql
 SELECT trip_id, route_id, service_id, stop1_sequence, stop2_sequence,
@@ -2022,7 +1998,7 @@ SELECT trip_id, route_id, service_id, stop1_sequence, stop1_arrival_time,
     ORDER BY point_sequence)
 ```
 
-For this we use the function `ST_MakeLine` to construct the subsegment from the first point of the segment to the current one, determine the length of the subsegment with function `ST_Length` and divide this length by the overall *segment length*.
+For this we use the function `ST_MakeLine` to construct the subsegment from the first point of the segment to the current one, determine the length of the subsegment with function `ST_Length` and divide this length by the overall _segment length_.
 
 `ST_Length(ST_MakeLine(array_agg(point_geom) OVER w)) / seg_length AS perg c`
 
@@ -2058,7 +2034,7 @@ FROM trip_points t JOIN
   ON t.service_id = s.service_id;
 ```
 
-In the inner query of the `INSERT` statement, we *select* the first date of a service (`date + point_arrival_time`) in the `service_dates` table and then we `join` the resulting table with the `trip_points` table to compute the *arrival time* at each point composing the `trips`.
+In the inner query of the `INSERT` statement, we _select_ the first date of a service (`date + point_arrival_time`) in the `service_dates` table and then we `join` the resulting table with the `trip_points` table to compute the _arrival time_ at each point composing the `trips`.
 
 Notice that we **filter** the first date of each `trip` for optimization purposes because in the next step below we use the `shift` function to compute the trips to all other dates. Alternatively, we could join the two tables but this will be considerably slower for big GTFS files.
 
@@ -2090,13 +2066,11 @@ In the first `INSERT` statement we group the rows in the `trips_input` table by 
 
 As explained above, table `trips_input` only contains the first date of a trip. In the second `INSERT` statement we add the `trips` for all the other dates with the function `shift`.
 
-
 # Chapter 3. Managing Google Location History
 
 ## Loading Google Location History Data
 
 By activating the Location History in your Google account, you let Google track where you go with every mobile device. You can view and manage your Location History information through Google Maps Timeline. The data is provided in JSON format. An example of such a file is as follows.
-
 
 ```json
 {
@@ -2133,6 +2107,7 @@ cat location_history.json | jq -r ".locations[] | {latitudeE7, longitudeE7, time
 ```
 
 produces a CSV file of the following format
+
 ```
 508402936,43413790,"1525373187756"
 508402171,43413455,"1525373176729"
@@ -2163,6 +2138,7 @@ UPDATE location_history
 SET date = date(to_timestamp(timestampMs / 1000.0)::timestamptz);
 
 ```
+
 Notice that we added an attribute `date` to the table so we can split the full location history, which can comprise data for several years, by date. Since the `timestamps` are encoded in milliseconds since 1/1/1970, we divide them by 1,000 and apply the functions `to_timestamp` and `date` to obtain corresponding date.
 
 We can now transform this data into MobilityDB trips as follows.
@@ -2339,7 +2315,6 @@ The data generator can be configured by setting the number of simulated cars and
 
 The generator is written in PL/pgSQL, so that it will be easy to insert or adapt simulation rules to reflect other scenarios. It uses MobilityDB types and operations. The generated trajectories are also MobilityDB types. It is controlled by a single parameter, scale factor, that determines the size of the generated dataset. Additionally, many other parameters can be used to fine-tune the generation process to reflect various real-world simulation scenarios.
 
-
 ## Quick Start
 
 Running the generator is done in three steps:
@@ -2394,7 +2369,6 @@ psql -h localhost -p 5432 -U dbowner -d brussels \
 
 If everything is correct, you should see an output like that starts with this:
 
-
 ```
 INFO:  ------------------------------------------------------------------
 INFO:  Starting the BerlinMOD data generator with scale factor 0.005
@@ -2415,21 +2389,17 @@ psql -h localhost -p 5432 -U dbowner -d brussels -c \
   tee trace.txt
 ```
 
-
 You can show more messages describing the generation process by setting the optional parameter messages with one of the values 'minimal' (the default), 'medium', 'verbose', or 'debug'.
 
 Figure 5.1, “Visualization of the trips generated. The edges of the network are shown in blue, the edges traversed by the trips are shown in black, the home nodes in black and the work nodes in red.” shows a visualization of the trips generated.
 
 Figure 5.1. Visualization of the trips generated. The edges of the network are shown in blue, the edges traversed by the trips are shown in black, the home nodes in black and the work nodes in red.
 
-
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/berlinmod1.png)
-
 
 ## Exploring the Generated Data
 
 Now use a PostgreSQL client such as psql or pgAdmin to explore the properties of the generated trajecotries. We start by obtaining some statistics about the number, the total duration, and the total length in Km of the trips.
-
 
 ```sql
 SELECT COUNT(*), SUM(timespan(Trip)), SUM(length(Trip)) / 1e3
@@ -2576,7 +2546,6 @@ FROM Edges E, Temp T
 WHERE E.id = T.edge;
 ```
 
-
 Figure 5.5, “Visualization of the edges of the graph according to the speed of trips that traversed the edges.” shows the visualization of the speed map without and with the base map.
 
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/speedmap1.png)
@@ -2586,7 +2555,6 @@ Figure 5.5, “Visualization of the edges of the graph according to the speed of
 We describe next the main steps in the generation of the BerlinMOD scenario. The generator uses multiple parameters that can be set to customize the generation process. We explain in detail these parameters in the section called “Tuning the Generator Parameters”. It is worth noting that the procedures explained in this section have been slightly simplified with respect to the actual procedures by removing ancillary details concerning the generation of tracing messages at various verbosity levels.
 
 We start by creating a first set of tables for containing the generated data as follows.
-
 
 ```sql
 CREATE TABLE Vehicle(
@@ -2667,9 +2635,9 @@ UPDATE Vehicle V
 SET noNeighbours = (SELECT COUNT(*) FROM Neighbourhood N WHERE N.vehicle = V.id);
 ```
 
-We start by storing in the `Vehicles` table the *home* and the *work* node of each vehicle. Depending on the value of the variable `nodeChoice`, we chose these nodes either with a *uniform distribution among all nodes in the network or we call specific functions that take into account population and employment statistics in the area covered by the generation.* We then keep track in the `Destinations` table of the *two trips to and from work* and we store in the `Licences` table information describing the vehicle. Finally, we compute in the `Neighbourhood` table the set of nodes that are within a given distance of the home node of every vehicle. This distance is stated by the parameter `P_NEIGHBOURHOOD_RADIUS`, which is set by default to 3 Km.
+We start by storing in the `Vehicles` table the _home_ and the _work_ node of each vehicle. Depending on the value of the variable `nodeChoice`, we chose these nodes either with a _uniform distribution among all nodes in the network or we call specific functions that take into account population and employment statistics in the area covered by the generation._ We then keep track in the `Destinations` table of the _two trips to and from work_ and we store in the `Licences` table information describing the vehicle. Finally, we compute in the `Neighbourhood` table the set of nodes that are within a given distance of the home node of every vehicle. This distance is stated by the parameter `P_NEIGHBOURHOOD_RADIUS`, which is set by default to 3 Km.
 
-We create now *auxiliary tables* containing *benchmarking data*. The number of rows these tables is determined by the parameter `P_SAMPLE_SIZE`, which is set by default to 100. These tables are used by the BerlinMOD benchmark to assess the performance of various types of queries.
+We create now _auxiliary tables_ containing _benchmarking data_. The number of rows these tables is determined by the parameter `P_SAMPLE_SIZE`, which is set by default to 100. These tables are used by the BerlinMOD benchmark to assess the performance of various types of queries.
 
 ```sql
 CREATE TABLE QueryPoints(id int PRIMARY KEY, geom geometry(Point));
@@ -2773,7 +2741,7 @@ END LOOP;
 CREATE INDEX Destinations_vehicle_idx ON Destinations USING BTREE(vehicle);
 ```
 
-For each vehicle and *each day*, we determine the number of potential leisure trips depending on whether it is a week or weekend day. A leisure trip is generated with a *probability of 40%* and is composed of 1 to 3 destinations. These destinations are chosen so that *80% of the destinations are from the neighbourhood of the vehicle and 20% are from the complete graph*. The information about the composition of the leisure trips is then added to the LeisureTrip and Destinations tables.
+For each vehicle and _each day_, we determine the number of potential leisure trips depending on whether it is a week or weekend day. A leisure trip is generated with a _probability of 40%_ and is composed of 1 to 3 destinations. These destinations are chosen so that _80% of the destinations are from the neighbourhood of the vehicle and 20% are from the complete graph_. The information about the composition of the leisure trips is then added to the LeisureTrip and Destinations tables.
 
 We then call pgRouting to generate the path for each source and destination nodes in the Destinations table.
 
@@ -2825,11 +2793,9 @@ CREATE INDEX Paths_vehicle_start_vid_end_vid_idx ON Paths USING
   BTREE(vehicle, start_vid, end_vid);
 ```
 
-
 The variable `pathMode` determines whether pgRouting computes either the fastest or the shortest path from a source to a destination node. Then, we determine the number of calls to pgRouting. Indeed, depending on the available memory of the computer, there is a limit in the number of `paths` to be computed by pgRouting in a single call. The paths are stored in the `Paths` table. In addition to the columns generated by pgRouting, we add the `geometry` (adjusting the direction if necessary), the maximum `speed`, and the category of the `edge`. The `BerlinMOD` data generator considers three road categories: `side road`, `main road`, and `freeway`. The OSM road types are mapped to one of these categories in the function `berlinmod_roadCategory`.
 
 We are now ready to generate the trips.
-
 
 ```sql
 DROP TYPE IF EXISTS step CASCADE;
@@ -3091,7 +3057,6 @@ The procedure receives as first argument a path from a source to a destination n
 
 Each segment is divided in fractions of length `P_EVENT_LENGTH`, which is by default 5 meters. We then loop for each fraction and choose to add one event that can be an acceleration, a deceleration, or a stop event. If the speed of the vehicle is zero, only an accelation event can happen. For this, we increase the current speed with the value of `P_EVENT_ACC`, which is by default 12 Km/h, and verify that the speed is not greater than the maximum speed of either the edge or the next turn for the last fraction. Otherwise, if the current speed is not zero, we apply a deceleration or a stop event with a probability proportional to the maximum speed of the edge, otherwise we apply an acceleration event. After applying the event, if the speed is zero we add a waiting time with a random exponential distribution with mean `P_DEST_EXPMU`, which is by default 1 second. Otherwise, we move the current position towards the end of the segment and, depending on the variable `disturbData`, we disturbe the new position to simulate GPS errors. The timestamp at which the vehicle reaches the new position is determined by dividing the distance traversed by the current speed. Finally, at the end of each segment, if the current speed is not zero, we add a stop event depending on the categories of the current segment and the next one. This is determined by a transition matrix given by the parameter `P_DEST_STOPPROB`.
 
-
 ## Customizing the Generator to Your City
 
 In order to customize the generator to a particular city the only thing we need is to define a bounding box that will be used to download the data from OSM. There are many ways to obtain such a bounding box, and a typical way to proceed is to use one of the multiple online services that allows one to visually define a bounding box over a map. Figure 5.6, “Defining the bounding box for obtaining OSM data from Barcelona.” shows how we can define the bounding box around Barcelona using the web site bboxfinder.
@@ -3202,7 +3167,7 @@ Another set of paramaters determine how the trips are created out of the paths.
 
 `P_EVENT_ACC: float`: Constant speed in Km/h that is added to the current speed in an acceleration event. Default value: 12.0.
 
-`P_DEST_STOPPROB: float`: Probabilities for forced stops at crossings depending on the road type. It is defined by a transition matrix where lines and columns are ordered by *side road (S), main road (M), freeway (F)*. The OSM highway types must be mapped to one of these categories in the function `berlinmod_roadCategory`. Default value:
+`P_DEST_STOPPROB: float`: Probabilities for forced stops at crossings depending on the road type. It is defined by a transition matrix where lines and columns are ordered by _side road (S), main road (M), freeway (F)_. The OSM highway types must be mapped to one of these categories in the function `berlinmod_roadCategory`. Default value:
 
 ```
 {{0.33, 0.66, 1.00}, {0.33, 0.50, 0.66}, {0.10, 0.33, 0.05}}
@@ -3217,7 +3182,6 @@ Another set of paramaters determine how the trips are created out of the paths.
 In this workshop, we have used until now the BerlinMOD scenario, which models the trajectories of persons going from home to work in the morning and returning back from work to home in the evening during the week days, with one possible leisure trip during the weekday nights and two possible leisure trips in the morning and in the afternoon of the weekend days. In this section, we devise another scenario for the data generator. This scenario corresponds to a home appliance shop that has several warehouses located in various places of the city. From each warehouse, the deliveries of appliances to customers are done by vehicles belonging to the warehouse. Although this scenario is different than BerlinMOD, many things can be reused and adapted. For example, home nodes can be replaced by warehouse locations, leisure destinations can be replaced by customer locations, and in this way many functions of the BerlinMOD SQL code will work directly. This is a direct benefit of having the simulation code written in SQL, so it will be easy to adapt to other scenarios. We describe next the needed changes.
 
 Each day of the week excepted Sundays, deliveries of appliances from the warehouses to the customers are organized as follows. Each warehouse has several vehicles that make the deliveries. To each vehicle is assigned a list of customers that must be delivered during a day. A trip for a vehicle starts and ends at the warehouse and make the deliveries to the customers in the order of the list. Notice that in a real-world situation, the scheduling of the deliveries to clients by the vehicles requires to take into account the availability of the customers in a time slot of a day and the time needed to make the delivery of the previous customers in the list.
-
 
 We describe next the main steps in the generation of the deliveries scenario.
 
@@ -3331,9 +3295,7 @@ FOR i IN 1..noVehicles LOOP
 END LOOP;
 ```
 
-
 For every vehicle and every day which is not Sunday we proceed as follows. We randomly chose a number between 3 and 7 destinations and call the function `berlinmod_selectDestNode` we have seen in previous sections for determining these destinations. This function choses either one node in the neighbourhood of the warehouse of the vehicle with 80% probability or a node from the complete graph with 20% probability. Then, the sequence of source and destination couples starting in the warehouse, visiting sequentially the clients to deliver and returning to the warehouse are added to the tables `DeliveryTrip` and `Destinations`.
-
 
 Next, we compute the paths between all source and target nodes that are in the `Destinations` table. Such paths are generated by pgRouting and stored in the Paths table.
 
@@ -3387,7 +3349,7 @@ UPDATE Paths SET geom =
 CREATE INDEX Paths_start_vid_end_vid_idx ON Paths USING BTREE(start_vid, end_vid);
 ```
 
-After creating the `Paths` table, we set the query to be sent to `pgRouting` depending on whether we have want to compute the fastest or the shortest paths between two nodes. The generator uses the parameter `P_PGROUTING_BATCH_SIZE` to determine the maximum number of paths we compute in a single call to `pgRouting`. This parameter is set to 10,000 by default. Indeed, there is limit in the number of paths that `pgRouting` can compute in a single call and this depends in the available **memory** of the computer. Therefore, we need to determine the number of calls to `pgRouting` and compute the paths by calling the function `pgr_dijkstra`. Finally, we need to adjust the directionality of the geometry of the edges depending on which direction a trip traverses the edges, and set the *speed* and the *category* of the edges.
+After creating the `Paths` table, we set the query to be sent to `pgRouting` depending on whether we have want to compute the fastest or the shortest paths between two nodes. The generator uses the parameter `P_PGROUTING_BATCH_SIZE` to determine the maximum number of paths we compute in a single call to `pgRouting`. This parameter is set to 10,000 by default. Indeed, there is limit in the number of paths that `pgRouting` can compute in a single call and this depends in the available **memory** of the computer. Therefore, we need to determine the number of calls to `pgRouting` and compute the paths by calling the function `pgr_dijkstra`. Finally, we need to adjust the directionality of the geometry of the edges depending on which direction a trip traverses the edges, and set the _speed_ and the _category_ of the edges.
 
 The following procedure generates the trips for a number of vehicles and a number of days starting at a given day. The last argument correspond to the Boolean parameter `P_DISTURB_DATA` that determines whether simulated GPS errors are added to the trips.
 
@@ -3496,7 +3458,7 @@ END;
 $$ LANGUAGE plpgsql STRICT;
 ```
 
-We first set the *start time* of a delivery trip by adding to 7 am a random non-zero duration of 120 minutes using a uniform distribution.
+We first set the _start time_ of a delivery trip by adding to 7 am a random non-zero duration of 120 minutes using a uniform distribution.
 
 Then, for every couple of `source` and `destination` nodes to be visited in the trip, we call the function `create_trip` that we have seen previously to generate the trip, wich is then inserted into the `Trips` table.
 
@@ -3523,7 +3485,6 @@ osm2pgsql --create --database brussels --host localhost brussels.osm
 ```
 
 The table `planet_osm_line` contains all linear features imported from OSM, in particular road data, but also many other features which are not relevant for our use case such as pedestrian paths, cycling ways, train ways, electric lines, etc. Therefore, we use the attribute highway to extract the roads from this table. We first create a table containing the road types we are interested in and associate to them a priority, a maximum speed, and a category as follows.
-
 
 ```sql
 DROP TABLE IF EXISTS RoadTypes;
@@ -3618,8 +3579,8 @@ DELETE FROM Segments S1
     USING Segments S2
 WHERE S1.osm_id > S2.osm_id AND ST_Equals(S1.geom, S2.geom);
 ```
-We can obtain some characteristics of the segments with the following queries.
 
+We can obtain some characteristics of the segments with the following queries.
 
 ```sql
 SELECT DISTINCT geometrytype(geom) FROM Segments;
@@ -3773,6 +3734,7 @@ FROM Nodes N1, Nodes N2
 WHERE ST_Intersects(E.geom, N1.geom) AND ST_StartPoint(E.geom) = N1.geom AND
   ST_Intersects(E.geom, N2.geom) AND ST_EndPoint(E.geom) = N2.geom;
 ```
+
 We first set the identifiers of the source and target nodes to NULL before connecting them to the identifiers of the node. Finally, we delete the edges whose source or target node has been removed.
 
 ```sql
@@ -3841,15 +3803,15 @@ BEGIN
         R2.osm_id AS osm_id2,
         ST_LineMerge(ST_Union(R1.geom, R2.geom)) AS geom
       FROM MergedRoads R1, TempRoads R2
-      WHERE R1.osm_id <> R2.osm_id AND 
+      WHERE R1.osm_id <> R2.osm_id AND
             R1.highway = R2.highway AND
-            R1.oneway = R2.oneway AND 
+            R1.oneway = R2.oneway AND
             ST_Intersects(R1.geom, R2.geom) AND
             ST_EndPoint(R1.geom) =  ST_StartPoint(R2.geom)
         AND NOT EXISTS (
           SELECT * FROM TempRoads R3
           WHERE osm_id NOT IN (SELECT osm_id FROM DeletedRoads) AND
-            R3.osm_id <> R1.osm_id AND 
+            R3.osm_id <> R1.osm_id AND
             R3.osm_id <> R2.osm_id AND
             ST_Intersects(R3.geom, ST_StartPoint(R2.geom)))
       AND geometryType(ST_LineMerge(ST_Union(R1.geom, R2.geom))) = 'LINESTRING'
