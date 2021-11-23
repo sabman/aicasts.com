@@ -23,7 +23,6 @@ wget -O demodata_horse_collar.gpkg https://github.com/anitagraser/movingpandas/b
 
 ```
 
-
 ```
 $ docker build . -t test
 $ docker volume create somedir
