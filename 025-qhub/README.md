@@ -35,7 +35,6 @@ conda-docker, an extension to the docker concept of having declarative environme
 
 vscode built-in web editor tied to jupyterlab server
 
-
 Integrations
 In an effort for QHub to serve as a core that services can integrate with.
 
@@ -65,5 +64,3 @@ Full linux style permissions allowing for different shared folders for different
 Robust compute environment handling allowing both prebuilt and ad-hoc environment creation.
 
 - Integrated video conferencing, using Jitsi.
-
-
