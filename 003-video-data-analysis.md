@@ -3,7 +3,7 @@
 - https://www.analyticsvidhya.com/blog/2018/09/deep-learning-video-classification-python/
 - https://www.coursera.org/lecture/deep-learning-in-computer-vision/introduction-to-video-analysis-alApg
 
-----
+---
 
 Course: https://www.coursera.org/learn/deep-learning-in-computer-vision
 
