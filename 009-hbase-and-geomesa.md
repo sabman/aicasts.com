@@ -58,8 +58,8 @@ aws s3 mb s3://$bucket_name
 aws s3api put-object --bucket $bucket_name --key hbase-root/
 ```
 
-
 ## Geoserver
+
 ```
 10540  cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/kafka-clients-2.3.1.jar ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
 10541  cp /usr/local/Cellar/kafka/2.3.1/libexec/libs/kafka_2.12-2.3.1.jar ~/code/geoserver-2.14.4/webapps/geoserver/WEB-INF/lib
