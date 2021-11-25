@@ -1,5 +1,5 @@
-
 ## TimescaleDB
+
 - [ ] https://blog.timescale.com/blog/sql-functions-for-time-series-analysis/
 - [ ] https://blog.hasura.io/using-timescaledb-with-hasura-graphql-d05f030c4b10/
 - [ ] https://www.timescale.com/learn/
@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt # Visualization
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import math
 
-import warnings # Supress warnings 
+import warnings # Supress warnings
 warnings.filterwarnings('ignore')
 ```
 
@@ -40,4 +40,3 @@ targets = ['Depth_to_Groundwater']
 features = [feature for feature in df.columns if feature not in targets]
 df.head()
 ```
-
