@@ -1,4 +1,3 @@
-
 https://www.pythonforengineers.com/natural-language-processing-and-sentiment-analysis-with-python/
 https://github.com/huggingface/transformers
 https://huggingface.co/transformers/installation.html
@@ -17,7 +16,6 @@ python -m spacy download en
 For ios CoreML:
 
 https://github.com/huggingface/swift-coreml-transformers
-
 
 # Quickstart
 
@@ -162,7 +160,6 @@ Examples for each model class of each model architecture (`Bert`, `GPT`, `GPT-2`
 
 Here is a fully-working example using the past with `GPT2LMHeadModel` and `argmax` decoding (which should only be used as an example, as `argmax` decoding introduces a lot of repetition):
 
-
 ```python
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import torch
@@ -189,12 +186,9 @@ print(sequence)
 
 The model only requires a single token as input as all the previous tokens’ key/value pairs are contained in the `past`.
 
-
-
 > In this tutorial I’ll show you how to use BERT with the huggingface PyTorch library to quickly and efficiently fine-tune a model to get near state of the art performance in sentence classification. More broadly, I describe the practical application of transfer learning in NLP to create high performance models with minimal effort on a range of NLP tasks.
 
 - [ ] https://mccormickml.com/2019/07/22/BERT-fine-tuning/
-
 
 > This is Part 3 of a series on fine-grained sentiment analysis in Python. Parts 1 and 2 covered the analysis and explanation of six different classification methods on the Stanford Sentiment Treebank fine-grained (SST-5) dataset. In this post, we’ll look at how to improve on past results by building a transformer-based model and applying transfer learning, a powerful method that has been dominating NLP task leaderboards lately.
 
