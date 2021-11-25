@@ -1,12 +1,11 @@
 # PySAL
+
 - [ ] http://darribas.org/gds_scipy16/
 - [ ] https://www.tandfonline.com/doi/abs/10.1080/17421772.2019.1593495?journalCode=rsea20
 - [ ] https://skymind.ai/wiki/python-ai
 - [ ] http://darribas.org/gds_scipy16/ipynb_md/08_spatial_regression.html
 
-
 http://darribas.org/gds_scipy16/ipynb_md/03_spatial_weights.html
-
 
 ```python
 import pysal as ps
@@ -24,4 +23,3 @@ dataframe = ps.pdio.read_files(shp_path)
 All weights objects have a few traits that you can use to work with the weights object, as well as to get information about the weights object.
 
 To get the neighbors & weights around an observation, use the observation's index on the weights object, like a dictionary:
-
