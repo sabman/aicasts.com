@@ -68,13 +68,12 @@ wget https://netix.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VE
 Install WPS plugin in Geoserver:
 
 ```sh
-cd ~/tmp/ && wget https://iweb.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-wps-plugin.zip 
+cd ~/tmp/ && wget https://iweb.dl.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-wps-plugin.zip
 
 cp ~/tmp/geoserver-${GEOSERVER_VERSION}-wps-plugin/* ${GEOSERVER_HOME}/webapps/geoserver/WEB-INF/lib
 
 geoserver /usr/local/Cellar/geoserver/2.15.2/libexec/webapps/geoserver/data
 ```
-
 
 Kafka:
 
@@ -90,7 +89,6 @@ cp ${KAFKA_HOME}/libexec/libs/zookeeper-3.4.14.jar ${GEOSERVER_HOME}/webapps/geo
 cp ${KAFKA_HOME}/libexec/libs/metrics-core-2.2.0.jar ${GEOSERVER_HOME}/webapps/geoserver/WEB-INF/lib
 cp ${KAFKA_HOME}/libexec/libs/jopt-simple-5.0.4.jar ${GEOSERVER_HOME}/webapps/geoserver/WEB-INF/lib
 ```
-
 
 https://gis.stackexchange.com/questions/210316/access-control-allow-origin-openlayers-wfs
 
@@ -112,7 +110,6 @@ Should have the following:
   </filter-mapping>
 ```
 
-
 ```sh
 ❯ curl http://0.0.0.0:8080/geoserver/cite/wfs\?service\=WFS\&version\=1.1.0\&request\=GetFeature\&typeName\=cite:tdrive-quickstart\&outputFormat\=application/json | jq
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -129,10 +126,7 @@ Should have the following:
       "id": "1277",
       "geometry": {
         "type": "Point",
-        "coordinates": [
-          116.31777,
-          39.89572
-        ]
+        "coordinates": [116.31777, 39.89572]
       },
       "geometry_name": "geom",
       "properties": {
@@ -168,12 +162,11 @@ The logic is contained in the generic `org.geomesa.example.quickstart.GeoMesaQui
 
 Some relevant methods are:
 
-* `createDataStore` get a `datastore` instance from the input configuration
-* `createSchema` create the schema in the datastore, as a pre-requisite to writing data
-* `writeFeatures` overridden in the `KafkaQuickStart` to simultaneously write and read features from Kafka
-`queryFeatures` not used in this tutorial
-* `cleanup` delete the sample data and dispose of the `datastore` instance
-
+- `createDataStore` get a `datastore` instance from the input configuration
+- `createSchema` create the schema in the datastore, as a pre-requisite to writing data
+- `writeFeatures` overridden in the `KafkaQuickStart` to simultaneously write and read features from Kafka
+  `queryFeatures` not used in this tutorial
+- `cleanup` delete the sample data and dispose of the `datastore` instance
 
 ```sh
 cd leaflet-realtime
@@ -207,4 +200,3 @@ Click on the “Save” button when you are done.
 The GeoTools API also includes a mechanism to fire off a FeatureEvent each time there is an event in a DataStore (typically when the data is changed). A client may implement a FeatureListener, which has a single method called changed() that is invoked as each FeatureEvent is fired.
 
 The code in KafkaListener implements a simple FeatureListener that prints the messages received. Open up a second terminal window and run:
-
