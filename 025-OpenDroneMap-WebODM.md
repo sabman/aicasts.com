@@ -38,5 +38,15 @@ set -eo pipefail
 __dirname=$(cd $(dirname "$0"); pwd -P)
 cd "${__dirname}"
 
+platform="Linux" # Assumed
+uname=$(uname)
+case $uname in
+	"Darwin")
+	platform="MacOS / OSX"
+	;;
+	MINGW*)
+	platform="Windows"
+	;;
+esac
 
 ````
