@@ -12,7 +12,6 @@ streamlit hello
 - https://github.com/streamlit/streamlit/issues/837 (running behind nginx)
 - https://discuss.streamlit.io/search?q=multiple%20apps
 
-
 ```conf
  location ~* /streamlit.* {
     proxy_pass http://127.0.0.1:8501;
@@ -222,10 +221,10 @@ keyPrefix = ""
 #profile =
 ```
 
-To run behind a proxy change 
+To run behind a proxy change
 baseUrlPath = "/streamlit"
 
-----
+---
 
 https://towardsdatascience.com/build-an-app-to-synthesize-photorealistic-faces-using-tensorflow-and-streamlit-dd2545828021
 
@@ -264,7 +263,8 @@ def main():
 ```
 
 1. Download model files
-2. 
+2.
+
 ```py
 #  If the file exists and has the expected size, return.
 if os.path.exists(file_path):
