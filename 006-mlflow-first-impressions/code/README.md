@@ -8,12 +8,11 @@ First, edit the `MLFLOW_VERSION` variable from the `Dockerfile` to the latest.
 
 This example creates the image with the tag `launchpadrecruits/mlflow`, but you can change this to use your own username.
 
-
 ```
 $ docker build -t="launchpadrecruits/mlflow" .
 ```
 
-Alternately, you can run the following if you have *GNU Make* installed.
+Alternately, you can run the following if you have _GNU Make_ installed.
 
 ```
 $ make
