@@ -115,7 +115,8 @@ def correct_scores(scores, p1, p2):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Distance-based verification: PAN20 baseline')
+    parser = argparse.ArgumentParser(
+        description='Distance-based verification: PAN20 baseline')
 
     # data settings:
     parser.add_argument('-input_pairs', type=str, required=True,
@@ -156,7 +157,7 @@ def main():
     for line in open(args.input_truth):
         d = json.loads(line.strip())
         gold[d['id']] = int(d['same'])
-    
+
     # truncation for development purposes
     cutoff = 0
     if cutoff:
@@ -200,7 +201,7 @@ def main():
             else:
                 similarities.append(cosine_sim(x1, x2))
             labels.append(gold[d['id']])
-    
+
     similarities = np.array(similarities, dtype=np.float64)
     labels = np.array(labels, dtype=np.float64)
 
@@ -221,7 +222,7 @@ def main():
     print('optimal p1/p2:', opt_p1, opt_p2)
     plt.axvline(opt_p1, ls='--', c='darkgrey')
     plt.axvline(opt_p2, ls='--', c='darkgrey')
-    
+
     corrected_scores = correct_scores(similarities, p1=opt_p1, p2=opt_p2)
     print('optimal score:', evaluate_all(pred_y=corrected_scores,
                                          true_y=labels))
@@ -233,15 +234,15 @@ def main():
     plt.tight_layout()
     plt.savefig('kde.pdf')
     plt.clf()
-    
+
     print('-> determining optimal threshold')
     scores = []
     for th in np.linspace(0.25, 0.75, 1000):
         adjusted = (corrected_scores >= th) * 1
         scores.append((th,
-                        f1_score(labels, adjusted),
-                        precision_score(labels, adjusted),
-                        recall_score(labels, adjusted)))
+                       f1_score(labels, adjusted),
+                       precision_score(labels, adjusted),
+                       recall_score(labels, adjusted)))
     thresholds, f1s, precisions, recalls = zip(*scores)
 
     max_idx = np.array(f1s).argmax()
@@ -253,7 +254,7 @@ def main():
     plt.plot(thresholds, recalls, label='recall')
     plt.plot(thresholds, f1s, label='F1')
     plt.axvline(max_th, ls='-', c='darkgrey')
-    plt.xlim([0,1])
+    plt.xlim([0, 1])
     plt.gca().set_xlabel('theta')
     plt.gca().legend()
     plt.gca().set_facecolor('lightgrey')
@@ -271,14 +272,15 @@ def main():
                 similarities_ = []
                 for i in range(args.num_iterations):
                     similarities_.append(cosine_sim(x1[rnd_feature_idxs[i, :]],
-                                             x2[rnd_feature_idxs[i, :]]))
+                                                    x2[rnd_feature_idxs[i, :]]))
                     similarity = np.mean(similarities_)
             else:
                 similarity = cosine_sim(x1, x2)
-            
+
             similarity = correct_scores([similarity], p1=opt_p1, p2=opt_p2)[0]
             r = {'id': problem_id, 'value': similarity}
             outf.write(json.dumps(r) + '\n')
+
 
 if __name__ == '__main__':
     main()
