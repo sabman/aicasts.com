@@ -171,7 +171,7 @@ def c_at_1(true_y, pred_y, threshold=0.5):
             nu += 1
         elif (pred_score > 0.5) == (gt_score > 0.5):
             nc += 1.0
-    
+
     return (1 / n) * (nc + (nu * nc / n))
 
 
@@ -209,7 +209,7 @@ def f1(true_y, pred_y):
         if pred != 0.5:
             true_y_filtered.append(true)
             pred_y_filtered.append(pred)
-    
+
     pred_y_filtered = binarize(pred_y_filtered)
 
     return f1_score(true_y_filtered, pred_y_filtered)
@@ -249,7 +249,7 @@ def f_05_u_score(true_y, pred_y, pos_label=1, threshold=0.5):
 def load_file(fn):
     problems = {}
     for line in open(fn):
-        d =  json.loads(line.strip())
+        d = json.loads(line.strip())
         if 'value' in d:
             problems[d['id']] = d['value']
         else:
@@ -269,7 +269,7 @@ def evaluate_all(true_y, pred_y):
                'c@1': c_at_1(true_y, pred_y),
                'f_05_u': f_05_u_score(true_y, pred_y),
                'F1': f1(true_y, pred_y)}
-    
+
     results['overall'] = np.mean(list(results.values()))
 
     for k, v in results.items():
@@ -279,12 +279,13 @@ def evaluate_all(true_y, pred_y):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Evaluation script AA@PAN2020')
+    parser = argparse.ArgumentParser(
+        description='Evaluation script AA@PAN2020')
     parser.add_argument('-i', type=str,
                         help='Path to the jsonl-file with ground truth scores')
     parser.add_argument('-a', type=str,
                         help='Path to the jsonl-file with the answers (system prediction)')
-    parser.add_argument('-o', type=str, 
+    parser.add_argument('-o', type=str,
                         help='Path to output files')
     args = parser.parse_args()
 
@@ -295,7 +296,7 @@ def main():
         raise ValueError('The answers path is required')
     if not args.o:
         raise ValueError('The output folder path is required')
-    
+
     # load:
     gt = load_file(f"{args.i}/truth.jsonl")
     pred = load_file(f"{args.a}/answers.jsonl")
@@ -307,17 +308,17 @@ def main():
     for probl_id in sorted(gt):
         if probl_id not in pred:
             pred[probl_id] = 0.5
-    
-    # sanity check:    
+
+    # sanity check:
     assert len(gt) == len(pred)
     assert set(gt.keys()).union(set(pred)) == set(gt.keys())
-    
+
     # align the scores:
     scores = [(gt[k], pred[k]) for k in sorted(gt)]
     gt, pred = zip(*scores)
     gt = np.array(gt, dtype=np.float64)
     pred = np.array(pred, dtype=np.float64)
-    
+
     assert len(gt) == len(pred)
 
     # evaluate:
@@ -326,13 +327,14 @@ def main():
 
     with open(args.o + os.sep + 'out.json', 'w') as f:
         json.dump(results, f, indent=4, sort_keys=True)
-    
+
     with open(args.o + os.sep + 'evaluation.prototext', 'w') as f:
         for metric, score in results.items():
             f.write('measure {\n')
             f.write(' key: "' + metric + '"\n')
             f.write(' value: "' + str(score) + '"\n')
             f.write('}\n')
+
 
 if __name__ == '__main__':
     main()
