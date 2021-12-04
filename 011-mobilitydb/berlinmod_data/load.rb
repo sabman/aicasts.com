@@ -1,12 +1,12 @@
-require 'net/http'
-require 'uri'
-require 'openssl'
+require "net/http"
+require "uri"
+require "openssl"
 
-cdbhost="https://localhost.lan"
-user="rasul"
-api_key="b5ea4fd859ec55a4ff965bb1a2b382487130967c"
-sqlendpoint="#{cdbhost}/user/#{user}/api/v2/sql"
-query="COPY+cars(carid,licence,type,model)+FROM+STDIN+WITH+(FORMAT+csv,+HEADER)"
+cdbhost = "https://localhost.lan"
+user = "rasul"
+api_key = "b5ea4fd859ec55a4ff965bb1a2b382487130967c"
+sqlendpoint = "#{cdbhost}/user/#{user}/api/v2/sql"
+query = "COPY+cars(carid,licence,type,model)+FROM+STDIN+WITH+(FORMAT+csv,+HEADER)"
 uri = URI.parse("#{sqlendpoint}/copyfrom?api_key=#{api_key}&q=#{query}")
 
 datafile = "/Users/shoaib/Downloads/geodata/berlinmod_data/datamcar.csv"
