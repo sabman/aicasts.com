@@ -1,4 +1,7 @@
 FROM python:3.9
 
 # https://pypi.org/project/torchgeo/#installation-instructions
+# git clone https://github.com/microsoft/torchgeo.git
+# cd torchgeo
+# pip install -r requirements.txt
 RUN pip install torchgeo
