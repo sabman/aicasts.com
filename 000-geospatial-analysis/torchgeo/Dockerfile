@@ -4,4 +4,5 @@ FROM python:3.9
 # git clone https://github.com/microsoft/torchgeo.git
 # cd torchgeo
 # pip install -r requirements.txt
+RUN pip install numpy
 RUN pip install torchgeo
