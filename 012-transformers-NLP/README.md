@@ -20,3 +20,12 @@ classifier(
     ["I've been waiting for a HuggingFace course my whole life.", "I hate this so much!"]
 )
 ```
+
+By default, this pipeline selects a particular pretrained model that has been fine-tuned for sentiment analysis in English. The model is downloaded and cached when you create the classifier object. If you rerun the command, the cached model will be used instead and there is no need to download the model again.
+
+There are three main steps involved when you pass some text to a pipeline:
+
+1. The text is preprocessed into a format the model can understand.
+2. The preprocessed inputs are passed to the model.
+3. The predictions of the model are post-processed, so you can make sense of them.
+   Some of the currently available pipelines are:
