@@ -29,3 +29,15 @@ There are three main steps involved when you pass some text to a pipeline:
 2. The preprocessed inputs are passed to the model.
 3. The predictions of the model are post-processed, so you can make sense of them.
    Some of the currently available pipelines are:
+
+- feature-extraction (get the vector representation of a text)
+- fill-mask
+- ner (named entity recognition)
+- question-answering
+- sentiment-analysis
+- summarization
+- text-generation
+- translation
+- zero-shot-classification
+
+Let’s have a look at a few of these!
