@@ -56,3 +56,15 @@ classifier(
 )
 ```
 
+
+## Text generation
+
+Now let’s see how to use a pipeline to generate some text. The main idea here is that you provide a prompt and the model will auto-complete it by generating the remaining text. This is similar to the predictive text feature that is found on many phones. Text generation involves randomness, so it’s normal if you don’t get the same results as shown below.
+
+
+```py
+from transformers import pipeline
+
+generator = pipeline("text-generation")
+generator("In this course, we will teach you how to")
+```
