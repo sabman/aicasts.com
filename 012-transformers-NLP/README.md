@@ -68,3 +68,9 @@ from transformers import pipeline
 generator = pipeline("text-generation")
 generator("In this course, we will teach you how to")
 ```
+## Using any model from the Hub in a pipeline
+
+The previous examples used the default model for the task at hand, but you can also choose a particular model from the Hub to use in a pipeline for a specific task — say, text generation. Go to the Model Hub and click on the corresponding tag on the left to display only the supported models for that task. You should get to a page like this one.
+
+Let’s try the distilgpt2 model! Here’s how to load it in the same pipeline as before:
+
