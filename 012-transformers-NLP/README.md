@@ -74,3 +74,13 @@ The previous examples used the default model for the task at hand, but you can a
 
 Let’s try the distilgpt2 model! Here’s how to load it in the same pipeline as before:
 
+```py
+from transformers import pipeline
+
+generator = pipeline("text-generation", model="distilgpt2")
+generator(
+    "In this course, we will teach you how to",
+    max_length=30,
+    num_return_sequences=2,
+)
+```
