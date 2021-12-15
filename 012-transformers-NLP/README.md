@@ -95,3 +95,15 @@ All the models can be tested directly through your browser using the Inference A
 
 The Inference API that powers the widget is also available as a paid product, which comes in handy if you need it for your workflows. See the pricing page for more details.
 
+
+## Mask filling
+
+The next pipeline you’ll try is fill-mask. The idea of this task is to fill in the blanks in a given text:
+
+
+```
+from transformers import pipeline
+
+unmasker = pipeline("fill-mask")
+unmasker("This course will teach you all about <mask> models.", top_k=2)
+```
