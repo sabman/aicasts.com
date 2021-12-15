@@ -89,3 +89,9 @@ You can refine your search for a model by clicking on the language tags, and pic
 
 Once you select a model by clicking on it, you’ll see that there is a widget enabling you to try it directly online. This way you can quickly test the model’s capabilities before downloading it.
 
+## The Inference API
+
+All the models can be tested directly through your browser using the Inference API, which is available on the Hugging Face website. You can play with the model directly on this page by inputting custom text and watching the model process the input data.
+
+The Inference API that powers the widget is also available as a paid product, which comes in handy if you need it for your workflows. See the pricing page for more details.
+
