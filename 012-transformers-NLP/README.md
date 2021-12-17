@@ -179,3 +179,21 @@ summarizer(
                   'industrial countries in Europe and Asia, continue to encourage '
                   'and advance engineering .'}]
 ```
+
+Like with text generation, you can specify a max_length or a min_length for the result.
+
+### Translation
+
+For translation, you can use a default model if you provide a language pair in the task name (such as "translation_en_to_fr"), but the easiest way is to pick the model you want to use on the Model Hub. Here we’ll try translating from French to English:
+
+```py
+from transformers import pipeline
+
+translator = pipeline("translation", model="Helsinki-NLP/opus-mt-fr-en")
+translator("Ce cours est produit par Hugging Face.")
+```
+
+Like with text generation and summarization, you can specify a max_length or a min_length for the result.
+
+The pipelines shown so far are mostly for demonstrative purposes. They were programmed for specific tasks and cannot perform variations of them. In the next chapter, you’ll learn what’s inside a pipeline() function and how to customize its behavior.
+
