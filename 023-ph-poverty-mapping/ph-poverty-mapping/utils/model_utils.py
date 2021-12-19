@@ -66,6 +66,7 @@ sns.set(
 SEED = 42
 np.random.seed(SEED)
 
+
 def evaluate_model(
     data,
     feature_cols,
@@ -91,7 +92,7 @@ def evaluate_model(
     """ Automatically trains and evaluates the specified model on given dataset 
     using an n-fold nested cross validation scheme. Supported models so far are:
     ridge regression, random forest regression, and xgboost regression.
-    
+
     Parameters
     ----------
     data : pandas DataFrame
@@ -122,7 +123,7 @@ def evaluate_model(
         Indicates whether or not to apply standard scaling to features
     minmax_scale : bool (default is False)
         Indicates whether or not to apply min-max scaling to features
-    
+
     Returns
     ----------
     pandas DataFrame 
@@ -132,7 +133,7 @@ def evaluate_model(
 
     # Set up parameter grid
     param_grid = get_param_grid(model_type)
-        
+
     # Initialize results dictionary
     results = {
         indicator + type_: []
@@ -141,14 +142,14 @@ def evaluate_model(
     }
 
     # Iterate over the socioeconomic indicators
-    for index, indicator in enumerate(indicator_cols):        
+    for index, indicator in enumerate(indicator_cols):
         X = data[feature_cols]
         y = data[indicator].tolist()
         clusters = data[clust_str].tolist()
 
         # Instantiate model
         model = get_model(model_type)
-            
+
         # Nested cross validation
         cv, nested_scores, y_true, y_pred = nested_cross_validation(
             model,
@@ -181,11 +182,12 @@ def evaluate_model(
             print(nested_scores[score])
             if score == 'test_r2':
                 r_squared = nested_scores[score].mean()
-        
-        formatted_indicator = ' '.join([x for x in indicator.split() if '(' not in x]).title()
+
+        formatted_indicator = ' '.join(
+            [x for x in indicator.split() if '(' not in x]).title()
         if wandb is not None:
             wandb.log({'{} R-squared'.format(formatted_indicator): r_squared})
-        
+
         # Plot results
         if plot:
             plot_cross_val_results(
@@ -196,7 +198,7 @@ def evaluate_model(
                 wandb=wandb,
                 refit=refit
             )
-        
+
         # Get best estimator
         cv.fit(X, y)
         print(
@@ -218,19 +220,20 @@ def evaluate_model(
                 xgb_feature_importance(
                     cv, X, y, size=figsize
                 )
-                
+
     return pd.DataFrame(results)
+
 
 def get_param_grid(model_type='ridge'):
     """Returns the model parameter grid to be used as input for cross validation 
     hyper parameter optimization
-    
+
     Parameters
     ----------
     model_type : str (default is 'ridge')
         Type of model to use. Supported types so far are: 'ridge', 'random_forest', 
         and 'xgboost'
-    
+
     Returns
     ----------
     dict
@@ -276,15 +279,16 @@ def get_param_grid(model_type='ridge'):
         }
     return param_grid
 
+
 def get_model(model_type='ridge'):
     """Returns the model instance to be used as input for cross validation 
-    
+
     Parameters
     ----------
     model_type : str (default is 'ridge')
         Type of model to use. Supported types so far are: 'ridge', 'random_forest', 
         and 'xgboost'
-    
+
     Returns
     ----------
     model instance
@@ -299,7 +303,7 @@ def get_model(model_type='ridge'):
         model = ElasticNet(random_state=SEED)
     elif model_type == "random_forest":
         model = RandomForestRegressor(
-            random_state=SEED, 
+            random_state=SEED,
             n_jobs=-1
         )
     elif model_type == "xgboost":
@@ -310,8 +314,9 @@ def get_model(model_type='ridge'):
         )
     elif model_type == "svr":
         model = SVR()
-        
+
     return model
+
 
 def nested_cross_validation(
     model,
@@ -332,7 +337,7 @@ def nested_cross_validation(
     verbose=0
 ):
     """An implementation of n-fold nested cross validation.
-    
+
     Parameters
     ----------
     model: 
@@ -360,7 +365,7 @@ def nested_cross_validation(
         Indicates whether or not to apply standard scaling to features
     minmax_scale : bool (default is False)
         Indicates whether or not to apply min-max scaling to features
-        
+
     Returns 
     ----------
     CV instance
@@ -369,7 +374,7 @@ def nested_cross_validation(
         A dictionary containing the scores specified in the scoring dictionary
     """
     np.random.seed(SEED)
-    
+
     # Define inner and outer cross validation folds
     if task_type == "classification":
         inner_cv = StratifiedKFold(
@@ -393,7 +398,7 @@ def nested_cross_validation(
             shuffle=True,
             random_state=SEED,
         )
-        
+
     # Define pipeline: transformation + models
     pipeline = []
     if std_scale:
@@ -432,7 +437,7 @@ def nested_cross_validation(
             n_jobs=n_workers,
             refit=refit,
         )
-        
+
     # Commence cross validation
     nested_scores = cross_validate(
         cv,
@@ -444,18 +449,19 @@ def nested_cross_validation(
         verbose=verbose,
         return_train_score=True,
     )
-    
+
     # Get cross validated predictions
     y_pred = cross_val_predict(
-        cv, 
-        X=X, 
-        y=y, 
+        cv,
+        X=X,
+        y=y,
         cv=outer_cv,
         n_jobs=n_workers,
         verbose=verbose
-    )        
-    
+    )
+
     return cv, nested_scores, y, y_pred
+
 
 def plot_cross_val_results(
     y_true,
@@ -466,7 +472,7 @@ def plot_cross_val_results(
     refit='r2'
 ):
     """Plots cross validated estimates.
-    
+
     Parameters
     ----------
     y_true : pandas Series or list
@@ -480,7 +486,7 @@ def plot_cross_val_results(
     refit : str (default is 'r2')
         Scoring metric to be optimized
     """
-    
+
     # Get cross validation results
     #y_pred = cross_val_predict(cv_model, X, y, cv=n_splits)
 
@@ -503,11 +509,12 @@ def plot_cross_val_results(
         wandb.log({'{}'.format(indicator): wandb.Image(plt)})
     plt.show()
 
+
 def rf_feature_importance(
     cv, X, y, n_features=30, size=(10, 15)
 ):
     """ Plots the feature importances for random forest regressor.
-    
+
     Parameters
     ----------
     cv :         
@@ -548,7 +555,7 @@ def xgb_feature_importance(
     cv, X, y, n_features=30, size=(10, 15)
 ):
     """ Plots the feature importances for XGBoost regressor.
-    
+
     Parameters
     ----------
     cv :         

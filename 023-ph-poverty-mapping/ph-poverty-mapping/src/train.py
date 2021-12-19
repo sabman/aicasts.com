@@ -1,34 +1,35 @@
-import wandb ## having problems importing wandb
+import torchsummary
+from transfer_model import NTLModel
+import transfer_utils
+import torch
+import torchvision
+import wandb  # having problems importing wandb
 import os
 import sys
 import argparse
 import logging
 sys.path.insert(0, '../utils')
 
-import torchvision
-import torch
-import torchsummary 
-import transfer_utils
-from transfer_model import NTLModel
 
 SEED = 42
 IMG_DIM = (3, 400, 400)
 USE_GPU = "cuda:0" if torch.cuda.is_available() else "cpu"
 DEVICE = torch.device(USE_GPU)
- 
-def main(args):  
+
+
+def main(args):
     torch.manual_seed(42)
-    
+
     # Load data
     dataloaders, dataset_sizes, class_names = transfer_utils.load_transform_data(
         data_dir=args.data_dir, batch_size=args.batch_size
     )
-    
+
     # Sanity check
     logging.info(USE_GPU)
     logging.info(dataset_sizes)
     logging.info(class_names)
-    
+
     # Instantiate model
     model = torchvision.models.vgg16(pretrained=True)
     model = NTLModel(model, len(class_names))
@@ -36,11 +37,11 @@ def main(args):
         model = model.cuda()
     logging.info(torchsummary.summary(model, IMG_DIM))
     wandb.watch(model)
-    
+
     # Define loss function and optimizer
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-    
+
     # Load checkpoint, if found
     model, optimizer, curr_epoch = transfer_utils.load_checkpoint(
         args.model_best_dir, model, optimizer
@@ -48,26 +49,28 @@ def main(args):
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, factor=args.factor, patience=args.patience
     )
-    
+
     # Commence training
     model = transfer_utils.train_model(
-        model, 
-        dataloaders, 
-        dataset_sizes, 
+        model,
+        dataloaders,
+        dataset_sizes,
         class_names,
-        criterion, 
-        optimizer, 
-        scheduler, 
-        num_epochs=args.epochs, 
+        criterion,
+        optimizer,
+        scheduler,
+        num_epochs=args.epochs,
         curr_epoch=curr_epoch,
         checkpoint_dir=args.checkpoint_dir
     )
 
+
 if __name__ == "__main__":
     wandb.init(project="tm-poverty-prediction")
     logging.basicConfig(level=logging.DEBUG)
-    
-    parser = argparse.ArgumentParser(description='Philippine Poverty Prediction')
+
+    parser = argparse.ArgumentParser(
+        description='Philippine Poverty Prediction')
     parser.add_argument(
         '--batch-size', type=int, default=32, metavar='N',
         help='input batch size for training (default: 32)'
@@ -102,5 +105,5 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     wandb.config.update(args)
-    
+
     main(args)

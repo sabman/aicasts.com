@@ -22,6 +22,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def get_static_google_maps(
     filename,
     center=(0, 0),
@@ -52,7 +53,7 @@ def get_static_google_maps(
     """
     API_KEY = os.environ['GEO_AI_API_KEY']
     SECRET_KEY = os.environ['GEO_AI_SECRET_KEY']
-    
+
     base_url = "https://maps.googleapis.com/maps/api/staticmap?"
     # fmt: off
     gsm_url = (
@@ -85,14 +86,14 @@ def get_static_google_maps(
     image.convert("RGB").save(filename)
     return gsm_url
 
-        
+
 def get_satellite_images_with_labels(
-    csv_path, 
-    outdir, 
-    report_dir, 
-    scale=1, 
-    zoom=17, 
-    imgsize=(400,400), 
+    csv_path,
+    outdir,
+    report_dir,
+    scale=1,
+    zoom=17,
+    imgsize=(400, 400),
     limit=None
 ):
     """Get satellite image and saves it into an output path based 
@@ -111,8 +112,8 @@ def get_satellite_images_with_labels(
     if not os.path.exists(report_dir):
         os.makedirs(report_dir)
     report_file = report_dir + "report.csv"
-    
-    df = pd.read_csv(csv_path) 
+
+    df = pd.read_csv(csv_path)
     ids = df['ID'][:limit]
     latitude, longitude = df["ntllat"][:limit], df["ntllon"][:limit]
     clusters = df["DHSCLUST"][:limit]
@@ -127,15 +128,16 @@ def get_satellite_images_with_labels(
         try:
             if not os.path.isfile(filename):
                 get_static_google_maps(
-                    filename, 
-                    center=(lat, lon), 
+                    filename,
+                    center=(lat, lon),
                     scale=scale,
                     zoom=zoom,
                     imgsize=imgsize,
                     show=False
                 )
-                
-            report = {'id':[], 'lat':[], 'lon':[], 'cluster':[], 'filename':[], 'label':[]}
+
+            report = {'id': [], 'lat': [], 'lon': [],
+                      'cluster': [], 'filename': [], 'label': []}
             report['id'].append(id_)
             report['cluster'].append(cluster)
             report['lat'].append(lat)
@@ -143,13 +145,14 @@ def get_satellite_images_with_labels(
             report['filename'].append(filename)
             report['label'].append(label[:-1])
             report = pd.DataFrame(report)
-            report = report[['id', 'cluster', 'lat', 'lon', 'filename', 'label']]
-            
+            report = report[['id', 'cluster',
+                             'lat', 'lon', 'filename', 'label']]
+
             if not os.path.isfile(report_file):
                 report.to_csv(report_file, index=False)
             else:
                 report.to_csv(report_file, mode='a', header=False, index=False)
-            
+
         except urllib.error.HTTPError:
             logger.warn("No image for {}".format(filename))
             pass

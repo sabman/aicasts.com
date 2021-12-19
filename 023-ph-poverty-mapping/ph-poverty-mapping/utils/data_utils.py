@@ -34,9 +34,11 @@ SEED = 42
 np.random.seed(SEED)
 
 #### Scoring Helper Functions ####
+
+
 def pearsonr2(estimator, X, y_true):
     """Calculates r-squared score using pearsonr
-    
+
     Parameters
     ----------
     estimator 
@@ -45,7 +47,7 @@ def pearsonr2(estimator, X, y_true):
         The feature matrix
     y : list of pandas series
         The target vector
-        
+
     Returns
     ----------
     float
@@ -54,9 +56,10 @@ def pearsonr2(estimator, X, y_true):
     y_pred = estimator.predict(X)
     return pearsonr(y_true, y_pred)[0]**2
 
-def mae(estimator, X, y_true): 
+
+def mae(estimator, X, y_true):
     """Calculates mean absolute error
-    
+
     Parameters
     ----------
     estimator 
@@ -65,7 +68,7 @@ def mae(estimator, X, y_true):
         The feature matrix
     y : list of pandas series
         The target vector
-        
+
     Returns
     ----------
     float
@@ -73,10 +76,11 @@ def mae(estimator, X, y_true):
     """
     y_pred = estimator.predict(X)
     return mean_absolute_error(y_true, y_pred)
-    
-def rmse(estimator, X, y_true): 
+
+
+def rmse(estimator, X, y_true):
     """Calculates root mean squared error
-    
+
     Parameters
     ----------
     estimator 
@@ -85,7 +89,7 @@ def rmse(estimator, X, y_true):
         The feature matrix
     y : list of pandas series
         The target vector
-        
+
     Returns
     ----------
     float
@@ -94,9 +98,10 @@ def rmse(estimator, X, y_true):
     y_pred = estimator.predict(X)
     return np.sqrt(mean_squared_error(y_true, y_pred))
 
-def r2(estimator, X, y_true): 
+
+def r2(estimator, X, y_true):
     """Calculates r-squared score using python's r2_score function
-    
+
     Parameters
     ----------
     estimator 
@@ -105,18 +110,19 @@ def r2(estimator, X, y_true):
         The feature matrix
     y : list of pandas series
         The target vector
-        
+
     Returns
     ----------
     float
         R-squared score using python's r2_score function
     """
     y_pred = estimator.predict(X)
-    return r2_score(y_true, y_pred)  
+    return r2_score(y_true, y_pred)
 
-def mape(estimator, X, y_true): 
+
+def mape(estimator, X, y_true):
     """Calculates mean average percentage error
-    
+
     Parameters
     ----------
     estimator 
@@ -125,7 +131,7 @@ def mape(estimator, X, y_true):
         The feature matrix
     y : list of pandas series
         The target vector
-        
+
     Returns
     ----------
     float
@@ -134,9 +140,10 @@ def mape(estimator, X, y_true):
     y_pred = estimator.predict(X)
     return np.mean(np.abs(y_true - y_pred) / np.abs(y_true)) * 100
 
+
 def adj_r2(estimator, X, y_true):
     """Calculates adjusted r-squared score
-    
+
     Parameters
     ----------
     estimator 
@@ -145,7 +152,7 @@ def adj_r2(estimator, X, y_true):
         The feature matrix
     y : list of pandas series
         The target vector
-        
+
     Returns
     ----------
     float
@@ -156,17 +163,18 @@ def adj_r2(estimator, X, y_true):
     n = X.shape[0]
     k = X.shape[1]
     adj_r2 = 1 - (((1-r2)*(n-1))/(n - k - 1))
-    
+
     return adj_r2
+
 
 def percentile_ranking(series):
     """Converts list of numbers to percentile and ranking
-    
+
     Parameters
     ----------
     series : pandas Series
         A series of numbers to be converted to percentile ranking
-    
+
     Returns
     ----------
     list (of floats)
@@ -180,14 +188,15 @@ def percentile_ranking(series):
         percentile = percentileofscore(series[~curr_index], value)
         percentiles.append(percentile)
     ranks = series.rank(axis=0, ascending=False)
-    
+
     return percentiles, ranks
 
 #### Plotting Helper Functions ####
 
+
 def plot_hist(data, title, x_label, y_label, bins=30):
     """Plots histogram for the given data
-    
+
     Parameters
     ----------
     data : pandas Series
@@ -209,13 +218,13 @@ def plot_hist(data, title, x_label, y_label, bins=30):
 
 
 def plot_regplot(
-    data, 
-    x_label='Wealth Index', 
+    data,
+    x_label='Wealth Index',
     y_label='Average Nightlight Intensity',
     y_var='ntl2016'
 ):
     """Produces the regression plot for the given data
-    
+
     Parameters
     ----------
     data : pandas Series
@@ -237,7 +246,7 @@ def plot_regplot(
         line_kws={"color": "black", "lw": 2},
         scatter_kws={"alpha": 0.3},
     )
-    plt.ticklabel_format(style='sci', axis='x', scilimits=(1,5))
+    plt.ticklabel_format(style='sci', axis='x', scilimits=(1, 5))
     plt.title(
         "Relationship between {} \nand {}".format(
             x_label, y_label
@@ -266,7 +275,7 @@ def plot_corr(
 ):
     """Produces a barplot of the Spearman rank correlation and Pearson's correlation 
     for a group of values in descending order
-    
+
     Parameters
     ----------
     data : pandas DataFrame
@@ -280,7 +289,7 @@ def plot_corr(
     max_n : int
         Maximum number of variables to plot 
     """
-    
+
     n = len(features_cols)
     spearman = []
     pearsons = []
@@ -309,8 +318,8 @@ def plot_corr(
         )
     )
     plt.barh(
-        [x[0] for x in spearman[n - max_n :]],
-        [x[1] for x in spearman[n - max_n :]],
+        [x[0] for x in spearman[n - max_n:]],
+        [x[1] for x in spearman[n - max_n:]],
     )
     plt.grid()
 
@@ -321,8 +330,8 @@ def plot_corr(
         )
     )
     plt.barh(
-        [x[0] for x in pearsons[n - max_n :]],
-        [x[1] for x in pearsons[n - max_n :]],
+        [x[0] for x in pearsons[n - max_n:]],
+        [x[1] for x in pearsons[n - max_n:]],
     )
     plt.grid()
 
@@ -337,18 +346,19 @@ def ntl_agg_fnc(data):
     agg['median'] = data['ntl2016'].median()
     agg['cov'] = data['ntl2016'].cov(data['ntl2016'])
     agg['std'] = data['ntl2016'].std()
-    agg['skewness'] =  data['ntl2016'].skew()
-    agg['kurtosis'] =  data['ntl2016'].kurtosis()
+    agg['skewness'] = data['ntl2016'].skew()
+    agg['kurtosis'] = data['ntl2016'].kurtosis()
     return pd.Series(agg, index=[
-        'mean', 
-        'max', 
-        'min', 
-        'median', 
-        'cov', 
-        'std', 
-        'skewness', 
+        'mean',
+        'max',
+        'min',
+        'median',
+        'cov',
+        'std',
+        'skewness',
         'kurtosis'
     ])
+
 
 def unstack_clusters(
     data,
@@ -363,20 +373,21 @@ def unstack_clusters(
 ):
     """ Unstacks nightlights data where certain pixels can belong to two or more clusters. 
     Makes it so that each row is a unique (cluster, id) pair.
-    
+
     Parameters
     ----------
     data : pandas DataFrame
         The nightlights dataset to be unstacked
-    
+
     Returns
     ----------
     pandas DataFrame
         A dataframe of unstacked rows
     """
-    
+
     first_row = data.iloc[0, :]
-    temp = {x: [] for x in [id_col, dhs_col, lat_col, lon_col, ntl_col, file_col, pop_col] if x in first_row}
+    temp = {x: [] for x in [id_col, dhs_col, lat_col, lon_col,
+                            ntl_col, file_col, pop_col] if x in first_row}
     for index, row in tqdm(
         data.iterrows(), total=len(data)
     ):
@@ -400,21 +411,21 @@ def unstack_clusters(
             if file_col in row:
                 temp[file_col].append(row[file_col])
     data = pd.DataFrame(temp)
-    
+
     return data
 
 
 def gaussian_mixture_model(
-    data, 
+    data,
     ntl_col='ntl2016',
-    n_components=3, 
+    n_components=3,
     max_iter=1000,
     tol=1e-10,
     covariance_type='full',
     bin_labels=['low', 'medium', 'high']
 ):
     """ Implements Gaussian Mixture Model (GMM) on the nighttime light intensities
-    
+
     Parameters
     ----------
     data : pandas DataFrame
@@ -429,7 +440,7 @@ def gaussian_mixture_model(
         GMM tolerance
     covariance_type: str (default is 'full')
         GMM covariance type
-        
+
     Returns
     ----------
     pandas DataFrame
@@ -451,32 +462,32 @@ def gaussian_mixture_model(
 
     # Assign night light intensity levels
     data["label"] = intensities
-    
+
     bin_caps = {}
     for x in range(n_components):
         bin_caps[x] = data[data['label'] == x][ntl_col].max()
     print(bin_caps)
     bin_caps = sorted(bin_caps.items(), key=operator.itemgetter(1))
-    
+
     assign_labels = {}
     for val, label in zip(bin_caps, bin_labels):
         assign_labels[val[0]] = label
     print(assign_labels)
-    
+
     data["label"] = data["label"].replace(
         assign_labels
     )
-    
+
     return data
 
 
 def ad_hoc_binning(
-    intensity, 
+    intensity,
     bin_caps=[2, 20],
     bin_labels=['low', 'medium', 'high']
 ):
     """Implements ad-hoc binning (3 bins) for nighttime lights
-    
+
     Parameters
     ----------
     intensity : float
@@ -484,7 +495,7 @@ def ad_hoc_binning(
     bin_caps : list
         Maximum values per bin (should contain n-1 bins as there is 
         no need to specify the maximum cap of the last bin)
-    
+
     Returns
     ----------
     str
@@ -498,14 +509,14 @@ def ad_hoc_binning(
 
 def train_val_split(data, train_size=0.9):
     """Splits the data into training and validation set. 
-    
+
     Parameters
     ----------
     data : pandas DataFrame
         The data to be split
     train_size : float (default is 0.9)
         The size of the training set. Size of validation set is 1 - train_size
-        
+
     Returns
     -------
     pandas DataFrame
@@ -513,30 +524,31 @@ def train_val_split(data, train_size=0.9):
     pandas DataFrame
         The validation set
     """
-    
+
     train = data.iloc[: int(len(data) * train_size), :]
-    val = data.iloc[int(len(data) * train_size) :, :]
-    
+    val = data.iloc[int(len(data) * train_size):, :]
+
     return train, val
+
 
 def balance_dataset(data, size=60000):
     """Implements upsampling and downsampling for the three classes (low, medium, and high)
-    
+
     Parameters
     ----------
     data : pandas DataFrame
         A dataframe containing the labels indicating the different nightlight intensity bins
     size : int
         The number of samples per classes for upsampling and downsampling
-    
+
     Returns
     -------
     pandas DataFrame
         The data with relabelled and balanced nightlight intensity classes
     """
-    
+
     bin_labels = data.label.unique()
-    
+
     classes = []
     for label in bin_labels:
         class_ = data[data.label == label].reset_index()
@@ -560,7 +572,7 @@ def balance_dataset(data, size=60000):
 
 def train_val_split_images(data, report, dst_dir, phase="train"):
     """Splits the downloaded images into training and validation folders
-        
+
     Parameters
     ----------
     data : pandas DataFrame
@@ -570,7 +582,7 @@ def train_val_split_images(data, report, dst_dir, phase="train"):
     phase : str
         Indicates whether training or validation set
     """
-    
+
     for index, row in tqdm(
         data.iterrows(), total=len(data)
     ):
@@ -590,8 +602,8 @@ def train_val_split_images(data, report, dst_dir, phase="train"):
             filename = filename.split(".")
             dst_file = "{}{}/{}".format(dst_dir, phase, label)
             dst_file = "{}/{}_{}.{}".format(
-                dst_file, 
-                ".".join(x for x in filename[:-1]), 
+                dst_file,
+                ".".join(x for x in filename[:-1]),
                 str(index),
                 filename[-1]
             )
@@ -607,7 +619,7 @@ def upload_to_bucket(
     blob_name, directory, path_to_file, bucket_name
 ):
     """ Upload data to a Google Cloud Storage bucket
-    
+
     Parameters
     ----------
     blob_name : str
@@ -618,7 +630,7 @@ def upload_to_bucket(
         Local path to file
     bucket_name : str
         Name of GCS bucket
-    
+
     Returns
     -------
     str
@@ -639,7 +651,7 @@ def download_from_bucket(
     blob_name, directory, destination_file_name, bucket_name
 ):
     """ Download data from Gogle Cloud Storage bucket
-    
+
     Parameters
     ----------
     blob_name : str
@@ -650,7 +662,7 @@ def download_from_bucket(
         Local path to file
     bucket_name : str
         Name of GCS bucket
-    
+
     Returns
     -------
     str

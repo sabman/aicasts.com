@@ -2,28 +2,29 @@ import torch
 import torch.nn as nn
 import torchvision
 
+
 class NTLModel(nn.Module):
     def __init__(self, model, n_classes=3, input_size=(3, 400, 400)):
         super(NTLModel, self).__init__()
-        
+
         self.modelName = 'NTLCNN'
         self.n_classes = n_classes
         self.input_size = input_size
-        
+
         # Convert fc layers to conv layers
         self.features = model.features
         self.classifier = model.classifier
         self.convert_fc_to_conv()
-        
+
         # Freeze conv weights
         for p in self.features.parameters():
             p.requires_grad = False
 
     def forward(self, x):
-        x = self.features(x)  
+        x = self.features(x)
         x = self.classifier(x)
         return x
-    
+
     def convert_fc_to_conv(self):
         # Create a dummy input tensor and add a dim for batch-size
         x = torch.zeros(self.input_size).unsqueeze_(dim=0)
@@ -37,8 +38,8 @@ class NTLModel(nn.Module):
             x = layer(x)
 
         conv_classifier = []
-        kernel_sizes = [(6, 6), (1,1), (1,1)]
-        strides = [6, 1 , 1]
+        kernel_sizes = [(6, 6), (1, 1), (1, 1)]
+        strides = [6, 1, 1]
         s, k = 0, 0
         for layer in self.classifier:
             if isinstance(layer, nn.Linear):
@@ -54,7 +55,7 @@ class NTLModel(nn.Module):
                 layer = conv_layer
                 k += 1
                 s += 1
-                
+
                 if len(conv_classifier) == 6:
                     avg_pool = nn.AvgPool2d(2)
                     conv_classifier.extend([avg_pool])

@@ -42,17 +42,18 @@ IMGNET_STD = [0.229, 0.224, 0.225]
 
 NUM_IMGS = 5
 
+
 def load_transform_data(data_dir="../data", batch_size=32):
     """ Transforms the training and validation sets.
     Source: https://discuss.pytorch.org/t/questions-about-imagefolder/774/6 
-    
+
     Parameters
     ----------
     data_dir : str
         Directory of the training and validations image sets
     batch_size : int (default is 32)
         Batch size 
-    
+
     Returns
     -------
     dict
@@ -110,7 +111,7 @@ def load_transform_data(data_dir="../data", batch_size=32):
 
 def imshow(inp, title=None, size=(20, 20)):
     """Imshow for Pytorch tensor.
-    
+
     Parameters
     ----------
     inp : torch.Tensor
@@ -119,7 +120,7 @@ def imshow(inp, title=None, size=(20, 20)):
         Title of the image
     size : tuple (default is (20, 20))
         Size of image: (width, height)
-    
+
     """
     plt.figure(figsize=size)
     inp = inp.numpy().transpose((1, 2, 0))
@@ -132,7 +133,7 @@ def imshow(inp, title=None, size=(20, 20)):
 
 def save_plot(fig_dir, dict_, metric="loss"):
     """Saves train/ val loss curve as a PNG file
-    
+
     Parameters
     ----------
     fig_dir : str
@@ -149,11 +150,11 @@ def save_plot(fig_dir, dict_, metric="loss"):
         plt.xlabel("epoch")
         plt.ylabel(metric)
     plt.legend()
-    
+
     if not os.path.exists(fig_dir):
         os.makedirs(fig_dir)
     fig.savefig(fig_dir + metric + ".png")
-    
+
     plt.close()
 
 
@@ -161,7 +162,7 @@ def save_checkpoint(
     state, is_best, filename, checkpoint_dir
 ):
     """Saves latest model
-    
+
     Parameters
     ----------
     state : dict
@@ -180,30 +181,33 @@ def save_checkpoint(
             checkpoint_dir + filename,
             checkpoint_dir + "model_best.pt",
         )
-        
+
+
 def load_checkpoint(
     model_best_path,
-    model=None, 
-    optimizer=None, 
+    model=None,
+    optimizer=None,
     scheduler=None,
-    epoch = 0,
+    epoch=0,
 ):
-    # Load best model    
+    # Load best model
     if os.path.isfile(model_best_path):
         # Load states
         checkpoint = torch.load(model_best_path)
         model.load_state_dict(checkpoint['state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer'])
-        
+
         # Update settings
         epoch = checkpoint['epoch']
         losses = checkpoint['losses']
         accuracies = checkpoint['accuracies']
         f_ones = checkpoint['f_ones']
-        logging.info("Loaded checkpoint '{}' (epoch {}) successfully.".format(model_best_path, epoch))
+        logging.info("Loaded checkpoint '{}' (epoch {}) successfully.".format(
+            model_best_path, epoch))
     else:
         logging.info("No checkpoint found.")
     return model, optimizer, epoch
+
 
 def train_model(
     model,
@@ -218,7 +222,7 @@ def train_model(
     checkpoint_dir="models/",
 ):
     """ Trains Night Lights Model
-    
+
     Parameters
     ----------
     model : NTLModel class
@@ -235,14 +239,14 @@ def train_model(
         Learning rate scheduler
     num_epochs : int (default is 25)
         Number of epochs
-        
+
     Returns
     -------   
     NTLModel class
         The fine-tuned model
-    
+
     """
-    
+
     since = time.time()
 
     best_model_wts = copy.deepcopy(model.state_dict())
@@ -267,7 +271,7 @@ def train_model(
 
             preds_ = []
             labels_ = []
-            
+
             # Iterate over data.
             for idx, (inputs, labels) in tqdm(
                 enumerate(dataloaders[phase]),
@@ -305,9 +309,9 @@ def train_model(
                 labels_.extend(
                     labels.data.cpu().numpy().tolist()
                 )
-                #wandb.log({
+                # wandb.log({
                 #    "{} iteration loss".format(phase): loss.item()
-                #}, step=iteration[phase])
+                # }, step=iteration[phase])
                 iteration[phase] += 1
 
             # epoch loss, accuracy, and f1 score
@@ -319,7 +323,7 @@ def train_model(
             epoch_f1 = metrics.f1_score(
                 preds_, labels_, average="macro"
             )
-            
+
             wandb.log({
                 "{} epoch loss".format(phase): epoch_loss
             }, step=epoch)
@@ -329,13 +333,14 @@ def train_model(
             wandb.log({
                 "{} epoch F1".format(phase): epoch_f1
             }, step=epoch)
-            
+
             if phase == 'val':
                 examples = []
                 images_so_far = 0
                 for j in range(inputs.size()[0]):
                     pred = class_names[preds[j]]
-                    examples.append(wandb.Image(inputs.cpu().data[j], caption=pred))
+                    examples.append(wandb.Image(
+                        inputs.cpu().data[j], caption=pred))
                     if images_so_far > NUM_IMGS:
                         break
                     images_so_far += 1
@@ -358,7 +363,7 @@ def train_model(
             if phase == "val":
                 # Update scheduler
                 scheduler.step(epoch_loss)
-                
+
                 # Check if current model gives the best F1 score
                 is_best = False
                 if epoch_f1 > best_f1:
@@ -367,7 +372,7 @@ def train_model(
                         model.state_dict()
                     )
                     is_best = True
-                    
+
                 # Save states dictionary
                 state = {
                     "epoch": epoch + 1,
@@ -375,7 +380,7 @@ def train_model(
                     "state_dict": model.state_dict(),
                     "optimizer": optimizer.state_dict()
                 }
-                    
+
                 # Make filename verbose
                 filename = "model_{0:d}_{1:.3f}_{2:.3f}_{3:.3f}.pt".format(
                     epoch,
@@ -383,7 +388,7 @@ def train_model(
                     epoch_f1,
                     epoch_acc
                 )
-                    
+
                 # Save model checkpoint
                 save_checkpoint(
                     state,
@@ -394,7 +399,7 @@ def train_model(
 
         if learning_rate <= 1e-10:
             break
-            
+
         loss = loss.item()
 
     time_elapsed = time.time() - since
@@ -414,7 +419,7 @@ def visualize_model(
     model, dataloaders, class_names, num_images=4, size=(5, 5)
 ):
     """ Prints the predicted labels for selected images.
-    
+
     Parameters
     ----------
     model : NTLModel class
@@ -461,7 +466,7 @@ def visualize_model(
 def get_embedding(img_path, model_, size=4096, gpu=False):
     """ Returns vector embedding from PIL image
     Source: https://becominghuman.ai/extract-a-feature-vector-for-any-image-with-pytorch-9717561d1d4c
-    
+
     Parameters
     ----------
     img_path : str
@@ -470,7 +475,7 @@ def get_embedding(img_path, model_, size=4096, gpu=False):
         The model to be used for prediction
     size : int (default is 4096)
         Size of the feature embedding
-        
+
     Returns
     ------- 
     tensor 
@@ -504,55 +509,58 @@ def get_embedding(img_path, model_, size=4096, gpu=False):
 
     return embedding.view(embedding.size(0), -1)
 
+
 def get_embedding_per_image(report, model):
     """Iterates over each image and computes their corresponding feature embeddings
-    
+
     Parameters
     ----------
     report : pandas DataFrame
         The dataframe containing the file locations per image 
     model : model instance
         The transfer model used to extract feature embeddings
-        
+
     Returns
     ------- 
     pandas Dataframe
         Returns the report with an additional column indicating the extracted feature embeddings per image
     """
-    
+
     embeddings = []
     for index, row in tqdm(report.iterrows(), total=len(report)):
         filename = row['filename']
         embedding = np.array(get_embedding(filename, model, gpu=True))
-        embeddings.append(embedding[0]) 
-        
+        embeddings.append(embedding[0])
+
     report['embeddings'] = embeddings
     return report
 
+
 def get_mean_embedding_per_cluster(report):
     """Calculates the mean feature embedding per cluster
-    
+
     Parameters
     ----------
     report : pandas DataFrame
         The dataframe containing the file locations per image with an embeddings columns
-    
+
     Returns
     ------- 
     pandas Dataframe
         A DataFrame containing the mean feature embeddings per cluster
     """
-    
-    cluster_embeddings = {'cluster': [], 'mean_embedding':[]}
+
+    cluster_embeddings = {'cluster': [], 'mean_embedding': []}
     clusters = report['DHSCLUST'].unique()
 
     for cluster in tqdm(clusters, total=len(clusters)):
-        embeddings = report[report['DHSCLUST'] == cluster]['embeddings'].tolist()
+        embeddings = report[report['DHSCLUST']
+                            == cluster]['embeddings'].tolist()
         mean_embedding = np.mean(embeddings, axis=0)
         cluster_embeddings['cluster'].append(cluster)
         cluster_embeddings['mean_embedding'].append(mean_embedding)
 
     cluster_embeddings = pd.DataFrame(cluster_embeddings)
     cluster_embeddings.head(3)
-    
+
     return cluster_embeddings
