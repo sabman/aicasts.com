@@ -8,20 +8,20 @@
 # In[1]:
 
 
+import wandb
+import logging
+import warnings
+import numpy as np
+import pandas as pd
+import data_utils
+import model_utils
 import sys
 sys.path.insert(0, '../utils')
-import model_utils
-import data_utils
 
-import pandas as pd
-import numpy as np
 
-import warnings
-import logging
 logger = logging.getLogger()
 logger.setLevel(logging.CRITICAL)
 
-import wandb
 wandb.init(project="tm-poverty-prediction")
 
 get_ipython().run_line_magic('load_ext', 'autoreload')
@@ -86,7 +86,8 @@ osm_ntl = osm.merge(ntl_summary_stats, on='DHSCLUST')
 print("Shape of osm+ntl dataframe: {}".format(osm_ntl.shape))
 
 # merge dhs + osm
-dhs = dhs_indicators.merge(osm_ntl, left_on='Cluster number', right_on='DHSCLUST')
+dhs = dhs_indicators.merge(
+    osm_ntl, left_on='Cluster number', right_on='DHSCLUST')
 
 
 # ## Spearman and Pearsons Correlation
@@ -97,10 +98,10 @@ dhs = dhs_indicators.merge(osm_ntl, left_on='Cluster number', right_on='DHSCLUST
 data_utils.plot_corr(
     data=dhs,
     features_cols=osm_cols,
-    indicator = 'Wealth Index',
+    indicator='Wealth Index',
     max_n=50,
-    figsize=(5,13)
-);
+    figsize=(5, 13)
+)
 
 
 # ## Machine Learning Pipeline
@@ -132,15 +133,15 @@ indicators = [
 
 predictions = model_utils.evaluate_model(
     data=dhs,
-    feature_cols=osm_ntl_cols, 
+    feature_cols=osm_ntl_cols,
     indicator_cols=indicators,
     wandb=wandb,
     scoring=scoring,
-    model_type='random_forest', 
-    refit='r2', 
-    search_type='random', 
-    n_splits=5, 
-    n_iter=10, 
+    model_type='random_forest',
+    refit='r2',
+    search_type='random',
+    n_splits=5,
+    n_iter=10,
     plot_importance=False,
     verbose=2
 )
@@ -153,15 +154,15 @@ predictions = model_utils.evaluate_model(
 
 predictions = model_utils.evaluate_model(
     data=dhs,
-    feature_cols=osm_cols, 
+    feature_cols=osm_cols,
     indicator_cols=indicators,
     scoring=scoring,
     wandb=None,
-    model_type='random_forest', 
-    refit='r2', 
-    search_type='random', 
-    n_splits=5, 
-    n_iter=10, 
+    model_type='random_forest',
+    refit='r2',
+    search_type='random',
+    n_splits=5,
+    n_iter=10,
     plot_importance=True
 )
 
@@ -173,15 +174,15 @@ predictions = model_utils.evaluate_model(
 
 predictions = model_utils.evaluate_model(
     data=dhs,
-    feature_cols=road_cols, 
+    feature_cols=road_cols,
     indicator_cols=indicators,
     scoring=scoring,
     wandb=None,
-    model_type='random_forest', 
-    refit='r2', 
-    search_type='random', 
-    n_splits=5, 
-    n_iter=10, 
+    model_type='random_forest',
+    refit='r2',
+    search_type='random',
+    n_splits=5,
+    n_iter=10,
     plot_importance=True
 )
 
@@ -193,15 +194,15 @@ predictions = model_utils.evaluate_model(
 
 predictions = model_utils.evaluate_model(
     data=dhs,
-    feature_cols=building_cols, 
+    feature_cols=building_cols,
     indicator_cols=indicators,
     scoring=scoring,
     wandb=None,
-    model_type='random_forest', 
-    refit='r2', 
-    search_type='random', 
-    n_splits=5, 
-    n_iter=10, 
+    model_type='random_forest',
+    refit='r2',
+    search_type='random',
+    n_splits=5,
+    n_iter=10,
     plot_importance=True
 )
 
@@ -213,15 +214,14 @@ predictions = model_utils.evaluate_model(
 
 predictions = model_utils.evaluate_model(
     data=dhs,
-    feature_cols=poi_cols, 
+    feature_cols=poi_cols,
     indicator_cols=indicators,
     scoring=scoring,
     wandb=None,
-    model_type='random_forest', 
-    refit='r2', 
-    search_type='random', 
-    n_splits=5, 
-    n_iter=10, 
+    model_type='random_forest',
+    refit='r2',
+    search_type='random',
+    n_splits=5,
+    n_iter=10,
     plot_importance=True
 )
-
