@@ -6,31 +6,31 @@
 # In[1]:
 
 
+import transfer_utils
+from sklearn.manifold import TSNE
+import wandb
+import logging
+import warnings
+from transfer_model import NTLModel
+import torch
+import torchvision
+import torchsummary
+import pandas as pd
+import numpy as np
+from tqdm import tqdm
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
+import data_utils
+import model_utils
 import os
 import sys
 sys.path.insert(0, '../utils')
-import transfer_utils 
-import model_utils
-import data_utils
 
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-from tqdm import tqdm
-import numpy as np
-import pandas as pd
 
-import torchsummary
-import torchvision
-import torch
-from transfer_model import NTLModel
-
-import warnings
-import logging
 warnings.filterwarnings("ignore")
 logger = logging.getLogger()
 logger.setLevel(logging.CRITICAL)
 
-import wandb
 wandb.init(project="tm-poverty-prediction")
 
 use_gpu = "cuda" if torch.cuda.is_available() else "cpu"
@@ -45,7 +45,6 @@ get_ipython().run_line_magic('autoreload', '2')
 
 
 get_ipython().system('pip install wandb torch torchvision torchsummary xgboost')
- 
 
 
 # In[21]:
@@ -77,7 +76,7 @@ dhs_indicators_file = data_dir+'dhs_indicators.csv'
 # dhs_provinces_file = data_dir+'dhs_provinces.csv'
 # dhs_regions_file = data_dir+'dhs_regions.csv'
 
-gsm_data_dir = data_dir+'images/' 
+gsm_data_dir = data_dir+'images/'
 model_file = '../models/model_best.pt'
 feature_embeddings_file = data_dir+'embeddingsv2.csv'
 embeddings_indicators_file = data_dir+'indicators.csv'
@@ -117,7 +116,7 @@ model = torchvision.models.vgg16(pretrained=True)
 model = NTLModel(model, len(class_names))
 if use_gpu == "cuda":
     model = model.cuda()
-    
+
 # Load saved model
 checkpoint = torch.load(model_file)
 model.load_state_dict(checkpoint['state_dict'])
@@ -131,7 +130,7 @@ torchsummary.summary(model, (3, 400, 400))
 # In[6]:
 
 
-transfer_utils.visualize_model(model, dataloaders, class_names, 5, size=(5,5));
+transfer_utils.visualize_model(model, dataloaders, class_names, 5, size=(5, 5))
 
 
 # In[7]:
@@ -144,7 +143,7 @@ low1_embedding = transfer_utils.get_embedding(low1_file, model, gpu=True)
 low2_embedding = transfer_utils.get_embedding(low2_file, model, gpu=True)
 
 # Display test images
-figsize = (5,5)
+figsize = (5, 5)
 plt.figure(figsize=figsize)
 plt.imshow(mpimg.imread(high1_file))
 plt.show()
@@ -161,10 +160,14 @@ plt.show()
 # Sanity check: Get cosine similarity between feature embeddings
 cos = torch.nn.CosineSimilarity(dim=1, eps=1e-6)
 print("Embedding size: {}".format(high1_embedding.size()))
-print('Cosine similarity between 2 high nightlight intensity images: {0}'.format(cos(high1_embedding,high2_embedding)))
-print('Cosine similarity between 2 low nightlight intensity images: {0}'.format(cos(low1_embedding,low2_embedding)))
-print('Cosine similarity between 1 low and 1 high: {0}'.format(cos(low1_embedding,high2_embedding)))
-print('Cosine similarity 1 high and 1 low: {0}'.format(cos(high1_embedding,low2_embedding)))
+print('Cosine similarity between 2 high nightlight intensity images: {0}'.format(
+    cos(high1_embedding, high2_embedding)))
+print('Cosine similarity between 2 low nightlight intensity images: {0}'.format(
+    cos(low1_embedding, low2_embedding)))
+print('Cosine similarity between 1 low and 1 high: {0}'.format(
+    cos(low1_embedding, high2_embedding)))
+print('Cosine similarity 1 high and 1 low: {0}'.format(
+    cos(high1_embedding, low2_embedding)))
 
 
 # ## Generate feature embedding per cluster
@@ -173,14 +176,18 @@ print('Cosine similarity 1 high and 1 low: {0}'.format(cos(high1_embedding,low2_
 
 
 # Get feature embedding per image
-report.filename = report.filename.str.replace('../../data/gsm_data/images/', '../data/images/')
-report = nightlights_unstacked.merge(report, left_on='ID', right_on='id', how='left')
+report.filename = report.filename.str.replace(
+    '../../data/gsm_data/images/', '../data/images/')
+report = nightlights_unstacked.merge(
+    report, left_on='ID', right_on='id', how='left')
 report = transfer_utils.get_embedding_per_image(report, model)
 print("Report shape: {}".format(report.shape))
 
 # Sanity check: Get feature embedding for 1 high light intensity image and 1 low intensity image
-high = torch.from_numpy(np.array([report[report['label'] == 'high'].iloc[0]['embeddings']]))
-low = torch.from_numpy(np.array([report[report['label'] == 'low'].iloc[5]['embeddings']]))
+high = torch.from_numpy(
+    np.array([report[report['label'] == 'high'].iloc[0]['embeddings']]))
+low = torch.from_numpy(
+    np.array([report[report['label'] == 'low'].iloc[5]['embeddings']]))
 
 # Sanity Check: Cosine similarity between pairs of images
 cos = torch.nn.CosineSimilarity(dim=1, eps=1e-6)
@@ -194,10 +201,11 @@ print("Cosine similarity is: {}".format(cos(low, high)))
 cluster_embeddings = transfer_utils.get_mean_embedding_per_cluster(report)
 
 # Merge cluster embeddings with DHS indicators
-cluster_embeddings = cluster_embeddings.merge(dhs_indicators, left_on='cluster', right_on='Cluster number')
+cluster_embeddings = cluster_embeddings.merge(
+    dhs_indicators, left_on='cluster', right_on='Cluster number')
 feature_embeddings = cluster_embeddings.mean_embedding.apply(pd.Series)
 
-# Save embeddings 
+# Save embeddings
 feature_embeddings.to_csv(feature_embeddings_file)
 cluster_embeddings.to_csv(embeddings_indicators_file)
 
@@ -229,7 +237,7 @@ cluster_embeddings = pd.read_csv(embeddings_indicators_file)
 
 # region_cols = list(dhs_regions.columns[:-1])
 # province_cols = list(dhs_provinces.columns[:-1])
-embedding_cols = list(embeddings_df.columns) 
+embedding_cols = list(embeddings_df.columns)
 
 # Merge with DHS indicators
 embeddings_df['Cluster number'] = cluster_embeddings['Cluster number']
@@ -260,7 +268,6 @@ data.iloc[:, [-24, 0, 1, 2]].tail(3)
 # In[29]:
 
 
-from sklearn.manifold import TSNE
 tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
 tsne_results = tsne.fit_transform(embeddings[feature_cols].values)
 
@@ -268,12 +275,13 @@ tsne_results = tsne.fit_transform(embeddings[feature_cols].values)
 # In[30]:
 
 
-embeddings['x-tsne'] = tsne_results[:,0]
-embeddings['y-tsne'] = tsne_results[:,1]
+embeddings['x-tsne'] = tsne_results[:, 0]
+embeddings['y-tsne'] = tsne_results[:, 1]
 
 f, ax = plt.subplots()
-points = ax.scatter(embeddings['x-tsne'], embeddings['y-tsne'], c=embeddings['Wealth Index'], cmap='Blues', alpha=0.5)
-f.colorbar(points);
+points = ax.scatter(embeddings['x-tsne'], embeddings['y-tsne'],
+                    c=embeddings['Wealth Index'], cmap='Blues', alpha=0.5)
+f.colorbar(points)
 
 
 # ## Machine Learning Pipeline
@@ -285,19 +293,19 @@ f.colorbar(points);
 
 predictions = model_utils.evaluate_model(
     data=data,
-    feature_cols=embedding_cols+region_cols, 
-    indicator_cols=indicators, 
+    feature_cols=embedding_cols+region_cols,
+    indicator_cols=indicators,
     wandb=wandb,
     scoring=scoring,
-    model_type='ridge', 
-    refit='r2', 
-    search_type='grid', 
-    n_splits=5 ,
+    model_type='ridge',
+    refit='r2',
+    search_type='grid',
+    n_splits=5,
     n_workers=1
 )
 
 
-# ### Using CNN feature embeddings 
+# ### Using CNN feature embeddings
 
 # In[33]:
 
@@ -305,13 +313,12 @@ predictions = model_utils.evaluate_model(
 predictions = model_utils.evaluate_model(
     data=data,
     wandb=None,
-    feature_cols=embedding_cols, 
-    indicator_cols=indicators, 
+    feature_cols=embedding_cols,
+    indicator_cols=indicators,
     scoring=scoring,
-    model_type='ridge', 
-    refit='r2', 
-    search_type='grid', 
+    model_type='ridge',
+    refit='r2',
+    search_type='grid',
     n_splits=5,
     n_workers=1
 )
-
