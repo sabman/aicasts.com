@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # # Demographic and Health Survey (DHS) Data Preparation
-# 
+#
 # Download the Philippine National DHS Dataset from the [official website here](https://www.dhsprogram.com/what-we-do/survey/survey-display-510.cfm). Copy and unzip the file in the data directory. Importantly, the DHS folder should contain the following files:
 # - `PHHR70DT/PHHR70FL.DTA`
 # - `PHHR70DT/PHHR70FL.DO`
@@ -102,4 +102,3 @@ data.head(10)
 
 
 data.to_csv(data_dir+'dhs_indicators.csv')
-

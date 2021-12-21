@@ -8,16 +8,19 @@
 # In[1]:
 
 
+import wandb
+from google.cloud import storage
+import dotenv
+import warnings
+import numpy as np
+import pandas as pd
+import data_utils
+import model_utils
 import os
 import sys
 sys.path.insert(0, '../utils')
-import model_utils
-import data_utils
 
-import pandas as pd
-import numpy as np
 
-import warnings
 warnings.filterwarnings('ignore')
 
 get_ipython().run_line_magic('matplotlib', 'inline')
@@ -35,9 +38,7 @@ get_ipython().system('source ../.env')
 # In[3]:
 
 
-import dotenv
 dotenv.load_dotenv("../.env", override=True)
-from google.cloud import storage
 storage_client = storage.Client()
 
 
@@ -61,8 +62,10 @@ dhs_indicators_file = '../data/dhs_indicators.csv'
 
 
 # Download from Google Cloud Storage
-data_utils.download_from_bucket('nightlights_summary_stats.csv', directory, ntl_summary_stats_file, bucket_name);
-data_utils.download_from_bucket('dhs_indicators.csv', directory, dhs_indicators_file, bucket_name);
+data_utils.download_from_bucket(
+    'nightlights_summary_stats.csv', directory, ntl_summary_stats_file, bucket_name)
+data_utils.download_from_bucket(
+    'dhs_indicators.csv', directory, dhs_indicators_file, bucket_name)
 
 
 # In[ ]:
@@ -79,10 +82,12 @@ get_ipython().system('wget https://raw.githubusercontent.com/thinkingmachines/ph
 # Load nighttime lights dataset
 ntl_summary_stats = pd.read_csv(ntl_summary_stats_file, encoding="ISO-8859-1")
 dhs_indicators = pd.read_csv(dhs_indicators_file)
-dhs = ntl_summary_stats.merge(dhs_indicators, left_on='DHSCLUST', right_on='Cluster number')
+dhs = ntl_summary_stats.merge(
+    dhs_indicators, left_on='DHSCLUST', right_on='Cluster number')
 
 # Define feature columns
-feature_cols = ['cov', 'kurtosis', 'max', 'mean', 'median', 'min', 'skewness', 'std']
+feature_cols = ['cov', 'kurtosis', 'max',
+                'mean', 'median', 'min', 'skewness', 'std']
 
 
 # ## Correlations
@@ -93,8 +98,8 @@ feature_cols = ['cov', 'kurtosis', 'max', 'mean', 'median', 'min', 'skewness', '
 data_utils.plot_corr(
     data=dhs,
     features_cols=feature_cols,
-    indicator = 'Wealth Index',
-    figsize=(5,3)
+    indicator='Wealth Index',
+    figsize=(5, 3)
 )
 
 
@@ -123,7 +128,6 @@ indicators = [
 # In[14]:
 
 
-import wandb
 wandb.init(project="tm-poverty-prediction")
 
 
@@ -134,13 +138,13 @@ wandb.init(project="tm-poverty-prediction")
 
 predictions = model_utils.evaluate_model(
     data=dhs,
-    feature_cols=feature_cols, 
-    indicator_cols=indicators, 
+    feature_cols=feature_cols,
+    indicator_cols=indicators,
     scoring=scoring,
-    model_type='random_forest', 
-    refit='r2', 
-    search_type='random', 
-    n_splits=5, 
+    model_type='random_forest',
+    refit='r2',
+    search_type='random',
+    n_splits=5,
     n_iter=10,
     wandb=wandb
 )
@@ -153,13 +157,13 @@ predictions = model_utils.evaluate_model(
 
 predictions = model_utils.evaluate_model(
     data=dhs,
-    feature_cols=feature_cols, 
-    indicator_cols=indicators, 
+    feature_cols=feature_cols,
+    indicator_cols=indicators,
     scoring=scoring,
-    model_type='xgboost', 
-    refit='r2', 
-    search_type='random', 
-    n_splits=5, 
+    model_type='xgboost',
+    refit='r2',
+    search_type='random',
+    n_splits=5,
     n_iter=10,
     wandb=wandb
 )
@@ -172,12 +176,12 @@ predictions = model_utils.evaluate_model(
 
 predictions = model_utils.evaluate_model(
     data=dhs,
-    feature_cols=feature_cols, 
-    indicator_cols=indicators, 
+    feature_cols=feature_cols,
+    indicator_cols=indicators,
     scoring=scoring,
-    model_type='lasso', 
-    refit='r2', 
-    search_type='grid', 
+    model_type='lasso',
+    refit='r2',
+    search_type='grid',
     n_splits=5
 )
 
@@ -189,12 +193,11 @@ predictions = model_utils.evaluate_model(
 
 predictions = model_utils.evaluate_model(
     data=dhs,
-    feature_cols=feature_cols, 
-    indicator_cols=indicators, 
+    feature_cols=feature_cols,
+    indicator_cols=indicators,
     scoring=scoring,
-    model_type='ridge', 
-    refit='r2', 
-    search_type='grid', 
+    model_type='ridge',
+    refit='r2',
+    search_type='grid',
     n_splits=5
 )
-
