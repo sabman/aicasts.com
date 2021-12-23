@@ -64,4 +64,13 @@ if [[ $platform = "MacOS / OSX" ]]; then
     }
 fi
 
+# Load default values
+source "${__dirname}/.env"
+DEFAULT_PORT="$WO_PORT"
+DEFAULT_HOST="$WO_HOST"
+DEFAULT_MEDIA_DIR="$WO_MEDIA_DIR"
+DEFAULT_SSL="$WO_SSL"
+DEFAULT_SSL_INSECURE_PORT_REDIRECT="$WO_SSL_INSECURE_PORT_REDIRECT"
+DEFAULT_BROKER="$WO_BROKER"
+
 ````
