@@ -57,4 +57,11 @@ default_nodes=1
 dev_mode=false
 gpu=false
 
+# define realpath replacement function
+if [[ $platform = "MacOS / OSX" ]]; then
+    realpath() {
+        [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+    }
+fi
+
 ````
