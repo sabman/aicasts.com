@@ -49,4 +49,12 @@ case $uname in
 	;;
 esac
 
+if [[ $platform = "Windows" ]]; then
+	export COMPOSE_CONVERT_WINDOWS_PATHS=1
+fi
+
+default_nodes=1
+dev_mode=false
+gpu=false
+
 ````
