@@ -73,4 +73,96 @@ DEFAULT_SSL="$WO_SSL"
 DEFAULT_SSL_INSECURE_PORT_REDIRECT="$WO_SSL_INSECURE_PORT_REDIRECT"
 DEFAULT_BROKER="$WO_BROKER"
 
+
+# Parse args for overrides
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    --port)
+    export WO_PORT="$2"
+    shift # past argument
+    shift # past value
+    ;;    
+    --hostname)
+    export WO_HOST="$2"
+    shift # past argument
+    shift # past value
+    ;;
+	--media-dir)
+    export WO_MEDIA_DIR=$(realpath "$2")
+    shift # past argument
+    shift # past value
+    ;;
+    --ssl)
+    export WO_SSL=YES
+    shift # past argument
+    ;;
+	--ssl-key)
+    export WO_SSL_KEY=$(realpath "$2")
+    shift # past argument
+    shift # past value
+    ;;
+	--ssl-cert)
+    export WO_SSL_CERT=$(realpath "$2")
+    shift # past argument
+    shift # past value
+    ;;
+	--ssl-insecure-port-redirect)
+    export WO_SSL_INSECURE_PORT_REDIRECT="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    --debug)
+    export WO_DEBUG=YES
+    shift # past argument
+    ;;
+    --dev-watch-plugins)
+    export WO_DEV_WATCH_PLUGINS=YES
+    shift # past argument
+    ;;
+    --dev)
+    export WO_DEBUG=YES
+    export WO_DEV=YES
+    dev_mode=true
+    shift # past argument
+    ;;    
+	--gpu)
+    gpu=true
+    shift # past argument
+    ;;
+	--broker)
+    export WO_BROKER="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    --no-default-node)
+    default_nodes=0
+    echo "ATTENTION: --no-default-node is deprecated. Use --default-nodes instead."
+    export WO_DEFAULT_NODES=0
+    shift # past argument
+    ;;
+    --with-micmac)
+    load_micmac_node=true
+    shift # past argument
+    ;;
+    --detached)
+    detached=true
+    shift # past argument
+    ;;
+    --default-nodes)
+    default_nodes="$2"
+    export WO_DEFAULT_NODES="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
+
 ````
