@@ -2,13 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://aicasts.org/spatial-statistics-in-practice/</loc>
+    <loc>https://aicasts.org/</loc>
     <lastmod>2021-12-09T00:04:43+05:00</lastmod>
   </url><url>
-    <loc>https://aicasts.org/</loc>
+    <loc>https://aicasts.org/tags/geo/</loc>
+    <lastmod>2021-12-09T00:04:43+05:00</lastmod>
   </url><url>
-    <loc>https://aicasts.org/categories/</loc>
+    <loc>https://aicasts.org/posts/</loc>
+    <lastmod>2021-12-09T00:04:43+05:00</lastmod>
+  </url><url>
+    <loc>https://aicasts.org/posts/spatial-statistics-in-practice/</loc>
+    <lastmod>2021-12-09T00:04:43+05:00</lastmod>
   </url><url>
     <loc>https://aicasts.org/tags/</loc>
+    <lastmod>2021-12-09T00:04:43+05:00</lastmod>
+  </url><url>
+    <loc>https://aicasts.org/categories/</loc>
   </url>
 </urlset>
