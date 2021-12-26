@@ -70,7 +70,7 @@ params:
 
   # home-info mode
   homeInfoParams:
-    Title: "AICasts 🧐"
+    Title: "AICasts 🤖🧐"
     Content: Regular dose of Applied Machine Learning
 
   socialIcons:
