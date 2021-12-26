@@ -16,7 +16,9 @@
       <pubDate>Thu, 09 Dec 2021 00:04:43 +0500</pubDate>
       
       <guid>https://aicasts.org/posts/spatial-statistics-in-practice/</guid>
-      <description>Cheetsheet</description>
+      <description>Cheetsheet
+Box Map What is the map equalent to a box plot? Lets remind oursevles of what a box plot is.
+A box map (Anselin 1994) is the mapping counterpart of the idea behind a box plot. The point of departure is again a quantile map, more specifically, a quartile map. But the four categories are extended to six bins, to separately identify the lower and upper outliers. The definition of outliers is a function of a multiple of the inter-quartile range (IQR), the difference between the values for the 75 and 25 percentile.</description>
     </item>
     
   </channel>
