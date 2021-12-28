@@ -22,7 +22,6 @@ The third type of extreme values map is a standard deviation map. In some way, t
 
 In a standard deviation map, the variable under consideration is transformed to standard deviational units (with mean 0 and standard deviation 1). This is equivalent to the z-standardization we have seen before.
 
-The number of categories in the classification depends on the range of values, i.e., how many standard deviational units cover the range from lowest to highest. It is also quite common that some categories do not contain any observations (as in the example in Figure 29).
+The number of categories in the classification depends on the range of values, i.e., how many standard deviational units cover the range from lowest to highest. It is also quite common that some categories do not contain any observations.
 
-We continue with the variable rent2008 and bring up a standard deviation map by means of Map > Standard Deviation Map from the main menu or from the map toolbar icon.
 
