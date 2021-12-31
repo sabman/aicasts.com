@@ -47,6 +47,6 @@ An equal intervals map uses the same principle as a histogram to organize the ob
 ## Choropleth Map for Rates
 ### Spatially extensive and spatially intensive variables
 
-We start our discussion of rate maps by illustrating something we should not be doing. This pertains to the important difference between a spatially extensive and a spatially intensive variable. In many applications that use public health data, we typically have access to a count of events, such as the number of cancer cases (a spatially extensive variable), as well as to the relevant population at risk, which allows for the calculation of a rate (a spatially intensive variable).
+We start our discussion of rate maps by illustrating something we should not be doing. This pertains to the important difference between a *spatially extensive and a spatially intensive variable*. In many applications that use public health data, we typically have access to a count of events, such as the **number of cancer cases** (a spatially extensive variable), as well as to the relevant population at risk, which allows for the calculation of a **rate** (a spatially intensive variable).
 
 
