@@ -50,3 +50,9 @@ An equal intervals map uses the same principle as a histogram to organize the ob
 We start our discussion of rate maps by illustrating something we should not be doing. This pertains to the important difference between a *spatially extensive and a spatially intensive variable*. In many applications that use public health data, we typically have access to a count of events, such as the **number of cancer cases** (a spatially extensive variable), as well as to the relevant population at risk, which allows for the calculation of a **rate** (a spatially intensive variable).
 
 
+A major problem with spatially extensive variables like total counts, in that they tend to vary with the size (population) of the areal units. So, everything else being the same, we would expect to have more lung cancer cases in counties with larger populations.
+
+
+Instead, we opt for a spatially intensive variable, such as the ratio of the number of cases over the population. More formally, if O_i is the number of cancer cases in area i, and P_i is the corresponding population at risk (in our example, the total number of white females), then the raw or crude rate or proportion follows as:
+
+`r_i = O_i/P_i`
