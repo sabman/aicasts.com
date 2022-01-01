@@ -56,3 +56,16 @@ A major problem with spatially extensive variables like total counts, in that th
 Instead, we opt for a spatially intensive variable, such as the ratio of the number of cases over the population. More formally, if O_i is the number of cancer cases in area i, and P_i is the corresponding population at risk (in our example, the total number of white females), then the raw or crude rate or proportion follows as:
 
 `r_i = O_i/P_i`
+
+### Variance instability
+
+The crude rate is an estimator for the unknown underlying risk. In our example, that would be the risk of a white woman to be exposed to lung cancer. The crude rate is an unbiased estimator for the risk, which is a desirable property. However, its variance has an undesirable property, namely
+
+`Var[ri]=πi(1−πi)/Pi,`
+
+where πi is the underlying risk in area i.4 This implies that the larger the population of an area (Pi in the denominator), the smaller the variance for the estimator, or, in other words, the greater the precision.
+
+*The flip side of this result is that for areas with sparse populations (small Pi), the estimate for the risk will be imprecise (large variance).*
+
+Moreover, since the population typically varies across the areas under consideration, the precision of each rate will vary as well. This variance instability needs to somehow be reflected in the map, or corrected for, to avoid a spurious representation of the spatial distribution of the underlying risk. This is the main motivation for smoothing rates, to which we return below.
+
