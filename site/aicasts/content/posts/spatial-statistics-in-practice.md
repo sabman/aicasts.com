@@ -73,5 +73,4 @@ Moreover, since the population typically varies across the areas under considera
 $$
 f(a)={\frac {1}{2\pi i}}\oint _{\gamma }{\frac {f(z)}{z-a}}\,dz
 \tag{1}
-\label{1}
 $$
