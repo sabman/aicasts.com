@@ -69,3 +69,9 @@ where πi is the underlying risk in area i.4 This implies that the larger the po
 
 Moreover, since the population typically varies across the areas under consideration, the precision of each rate will vary as well. This variance instability needs to somehow be reflected in the map, or corrected for, to avoid a spurious representation of the spatial distribution of the underlying risk. This is the main motivation for *smoothing rates*, to which we return below.
 
+
+$$
+f(a)={\frac {1}{2\pi i}}\oint _{\gamma }{\frac {f(z)}{z-a}}\,dz
+\tag{1}
+\label{1}
+$$
