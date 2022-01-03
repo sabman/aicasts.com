@@ -82,3 +82,19 @@ GeoDa includes three methods to smooth the rates: an Empirical Bayes approach, a
 ## Bayes Law
 
 The formal logic behind the idea of smoothing is situated in a Bayesian framework, in which the distribution of a random variable is updated after observing data. The principle behind this is the so-called Bayes Law, which follows from the decomposition of a joint probability (or density) into two conditional probabilities:
+
+```
+P[AB]=P[A|B]×P[B]=P[B|A]×P[A]
+```
+
+where A and B are random events, and | stands for the conditional probability of one event, given a value for the other. The second equality yields the formal expression of Bayes law as:
+
+```
+P[A|B]=P[B|A]×P[A]/P[B]
+```
+
+In most instances in practice, the denominator in this expression can be ignored, and the equality sign is replaced by a proportionality sign:
+
+```
+P[A|B]∝P[B|A]×P[A]
+```
