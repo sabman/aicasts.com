@@ -98,3 +98,9 @@ In most instances in practice, the denominator in this expression can be ignored
 ```
 P[A|B]∝P[B|A]×P[A]
 ```
+
+In the context of estimation and inference, the A typically stands for a parameter (or a set of parameters) and B stands for the data. The general strategy is to update what we know about the parameter A a priori (reflected in the prior distribution P[A]), after observing the data B, to yield a posterior distribution, P[A|B]. The link between the prior and posterior distribution is established through the likelihood, P[B|A]. Using a more conventional notation with say π as the parameter and y as the observations, this gives:
+
+```
+P[π|y]∝P[y|π]×P[π]
+```
