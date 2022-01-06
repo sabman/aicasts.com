@@ -104,3 +104,8 @@ In the context of estimation and inference, the A typically stands for a paramet
 ```
 P[π|y]∝P[y|π]×P[π]
 ```
+
+# Conditional Map
+
+We consider conditional plots more in depth in the treatment of EDA, but one option is to use a map. This is also known as a conditioned choropleth map, or a micromap matrix, discussed at length in Carr and Pickle (2010). A micromap matrix is a matrix of maps that each pertain to a subset of the observations, determined by the conditioning variables on the horizontal and vertical axes. Each map shows the spatial distribution of the variable of interest, but only for those observations that fall into the associated categories of the conditioning variables.
+
