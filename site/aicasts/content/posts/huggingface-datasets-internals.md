@@ -28,3 +28,7 @@ DatasetDict({
     })
 })
 ```
+
+## `DatabaseBuilder` base class
+
+https://github.com/huggingface/datasets/blob/master/src/datasets/builder.py
