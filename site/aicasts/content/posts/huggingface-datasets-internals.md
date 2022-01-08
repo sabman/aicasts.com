@@ -32,3 +32,5 @@ DatasetDict({
 ## `DatabaseBuilder` base class
 
 https://github.com/huggingface/datasets/blob/master/src/datasets/builder.py
+
+## [Guide to adding new datasets](https://github.com/huggingface/datasets/blob/master/ADD_NEW_DATASET.md)
