@@ -26,32 +26,31 @@ import datasets
 # TODO: Add BibTeX citation
 # Find for instance the citation on arxiv or on the dataset repo/website
 _CITATION = """\
-@InProceedings{huggingface:dataset,
-title = {A great new dataset},
-author={huggingface, Inc.
-},
-year={2020}
+@misc{misc_electricityloaddiagrams20112014_321,
+  author       = {Trindade, Artur},
+  title        = {{ElectricityLoadDiagrams20112014}},
+  year         = {2015},
+  howpublished = {UCI Machine Learning Repository}
 }
 """
 
 # TODO: Add description of the dataset here
 # You can copy an official description
 _DESCRIPTION = """\
-This new dataset is designed to solve this great NLP task and is crafted with a lot of care.
+This new dataset is designed to do time series forecasting of Electric Demand.
+see: https://gist.github.com/czarinacatambing/3819d86538c99b42cd88481f67263f62
 """
 
-# TODO: Add a link to an official homepage for the dataset here
-_HOMEPAGE = ""
+_HOMEPAGE = "https://archive-beta.ics.uci.edu/ml/datasets/electricityloaddiagrams20112014"
+# "https://archive.ics.uci.edu/ml/datasets/ElectricityLoadDiagrams20112014"
 
 # TODO: Add the licence for the dataset here if you can find it
 _LICENSE = ""
 
-# TODO: Add link to the official dataset URLs here
 # The HuggingFace Datasets library doesn't host the datasets but only points to the original files.
 # This can be an arbitrary nested dict/list of URLs (see below in `_split_generators` method)
 _URLS = {
-    "first_domain": "https://huggingface.co/great-new-dataset-first_domain.zip",
-    "second_domain": "https://huggingface.co/great-new-dataset-second_domain.zip",
+    "electricity_load": "https://archive.ics.uci.edu/ml/machine-learning-databases/00321/LD2011_2014.txt.zip",
 }
 
 
