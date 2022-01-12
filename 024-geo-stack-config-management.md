@@ -4,6 +4,7 @@
 
 - Real-time
 - Batch/Bulk
+- Pipelines
 
 ## Config Management Tools
 
