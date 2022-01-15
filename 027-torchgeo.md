@@ -19,6 +19,8 @@ Remotely sensed data refers to data collected about the planet earth, but isn't 
 
 - Why is it important?
 
+> However, the variance in data collection methods and handling of geospatial metadata make the application of deep learning methodology to remotely sensed data nontrivia
+
 # How do I use TorchGeo in the context of Remote Sensing, ML and AI
 
 
