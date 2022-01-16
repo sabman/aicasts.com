@@ -1,0 +1,3 @@
+[submodule "027-torchgeo/torchgeo-docker"]
+	path = 027-torchgeo/torchgeo-docker
+	url = git@github.com:sabman/torchgeo-docker.git
