@@ -60,6 +60,23 @@ chesapeake_root = os.path.join(data_root, "chesapeake")
 
 # Next, we tell TorchGeo to automatically download the corresponding Chesapeake labels.
 chesapeake = ChesapeakeDE(chesapeake_root, crs=naip.crs, res=naip.res, download=True)
+
+# Finally, we create an IntersectionDataset so that we can automatically sample from both GeoDatasets simultaneously.
+dataset = naip & chesapeake
+
+# Sampler (RandomGeoSampler)
+# Unlike typical PyTorch Datasets, TorchGeo GeoDatasets are indexed using lat/long/time bounding boxes. This requires us to use a custom GeoSampler instead of the default sampler/batch_sampler that comes with PyTorch.
+sampler = RandomGeoSampler(naip, size=1000, length=10)
+
+# DataLoader
+# Now that we have a Dataset and Sampler, we can combine these into a single DataLoader.
+dataloader = DataLoader(dataset, sampler=sampler, collate_fn=stack_samples)
+
+# Training
+# Other than that, the rest of the training pipeline is the same as it is for torchvision.
+for sample in dataloader:
+    image = sample["image"]
+    target = sample["mask"]
 ```
 
 # Where does TorchGeo fit in an organisational context?
