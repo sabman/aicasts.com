@@ -25,6 +25,41 @@ Remote sensing has been a crucial technology in the scientific understanding of 
 
 # How do I use TorchGeo in the context of Remote Sensing, ML and AI
 
+```python
+# GETTING STARTED
+# In this tutorial, we demonstrate some of the basic features of TorchGeo and show how easy it is to use if you’re already familiar with other PyTorch domain libraries like torchvision.
 
+# It’s recommended to run this notebook on Google Colab if you don’t have your own GPU. Click the “Open in Colab” button above to get started.
+
+
+import os
+import tempfile
+
+from torch.utils.data import DataLoader
+
+from torchgeo.datasets import NAIP, ChesapeakeDE, stack_samples
+from torchgeo.datasets.utils import download_url
+from torchgeo.samplers import RandomGeoSampler
+
+# For this tutorial, we’ll be using imagery from the National Agriculture Imagery Program (NAIP) and labels from the Chesapeake Bay High-Resolution Land Cover Project. First, we manually download a few NAIP tiles and create a PyTorch Dataset.
+data_root = tempfile.gettempdir()
+naip_root = os.path.join(data_root, "naip")
+naip_url = "https://naipblobs.blob.core.windows.net/naip/v002/de/2018/de_060cm_2018/38075/"
+tiles = [
+    "m_3807511_ne_18_060_20181104.tif",
+    "m_3807511_se_18_060_20181104.tif",
+    "m_3807512_nw_18_060_20180815.tif",
+    "m_3807512_sw_18_060_20180815.tif",
+]
+for tile in tiles:
+    download_url(naip_url + tile, naip_root)
+
+naip = NAIP(naip_root)
+
+chesapeake_root = os.path.join(data_root, "chesapeake")
+
+# Next, we tell TorchGeo to automatically download the corresponding Chesapeake labels.
+chesapeake = ChesapeakeDE(chesapeake_root, crs=naip.crs, res=naip.res, download=True)
+```
 
 # Where does TorchGeo fit in an organisational context?
