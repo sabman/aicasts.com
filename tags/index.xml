@@ -19,5 +19,23 @@
       <description></description>
     </item>
     
+    <item>
+      <title>convnets</title>
+      <link>https://aicasts.org/tags/convnets/</link>
+      <pubDate>Tue, 15 Sep 2020 11:30:03 +0000</pubDate>
+      
+      <guid>https://aicasts.org/tags/convnets/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>e2eml</title>
+      <link>https://aicasts.org/tags/e2eml/</link>
+      <pubDate>Tue, 15 Sep 2020 11:30:03 +0000</pubDate>
+      
+      <guid>https://aicasts.org/tags/e2eml/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>convnets on AICasts</title>
+    <link>https://aicasts.org/tags/convnets/</link>
+    <description>Recent content in convnets on AICasts</description>
+    <image>
+      <url>https://aicasts.org/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://aicasts.org/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 15 Sep 2020 11:30:03 +0000</lastBuildDate><atom:link href="https://aicasts.org/tags/convnets/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Convolution Neural Network in One Dimension</title>
+      <link>https://aicasts.org/posts/001-e2eml-321-convnets-one-dim/</link>
+      <pubDate>Tue, 15 Sep 2020 11:30:03 +0000</pubDate>
+      
+      <guid>https://aicasts.org/posts/001-e2eml-321-convnets-one-dim/</guid>
+      <description>This is a summary of what I learnt doing this course https://end-to-end-machine-learning.teachable.com/courses/776160/lectures/14555482</description>
+    </item>
+    
+  </channel>
+</rss>

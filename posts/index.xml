@@ -21,5 +21,14 @@ Box Map What is the map equalent to a box plot? Lets remind oursevles of what a 
 A box map (Anselin 1994) is the mapping counterpart of the idea behind a box plot. The point of departure is again a quantile map, more specifically, a quartile map. But the four categories are extended to six bins, to separately identify the lower and upper outliers. The definition of outliers is a function of a multiple of the inter-quartile range (IQR), the difference between the values for the 75 and 25 percentile.</description>
     </item>
     
+    <item>
+      <title>Convolution Neural Network in One Dimension</title>
+      <link>https://aicasts.org/posts/001-e2eml-321-convnets-one-dim/</link>
+      <pubDate>Tue, 15 Sep 2020 11:30:03 +0000</pubDate>
+      
+      <guid>https://aicasts.org/posts/001-e2eml-321-convnets-one-dim/</guid>
+      <description>This is a summary of what I learnt doing this course https://end-to-end-machine-learning.teachable.com/courses/776160/lectures/14555482</description>
+    </item>
+    
   </channel>
 </rss>
