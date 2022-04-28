@@ -117,3 +117,4 @@ In our example, in Figure 53, we use forhis08 (% of Hispanic population not born
 
 ![](https://www.evernote.com/l/Ah5fUED0YLNPH5LLm6Umg66l52fCk33a_gYB/image.png)
 
+![](../../posts-assets/20220428224839-Conditional-Map.png)
