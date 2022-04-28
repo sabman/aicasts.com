@@ -111,3 +111,9 @@ We consider conditional plots more in depth in the treatment of EDA, but one opt
 
 The main objective behind this conditioning is to detect any potential interaction between the conditioning variables and the topic of interest. The point of departure (or, null hypothesis) is that there is no interaction. If this were indeed the case, then the patterns shown on all the micromaps should be essentially the same. If there is interaction, then we would see high or low values of the variable of interest systematically associated with specific categories of the conditioning variables.
 
+Selecting this option brings up a variable selection dialog containing three columns, as was the case for the conditional histogram plots. The first column pertains to the conditioning variable for the horizontal axis, the second defines the conditioning variable for the vertical axis. The third column, Map Theme, selects the variable that will be mapped.
+
+In our example, in Figure 53, we use forhis08 (% of Hispanic population not born in the U.S.) and hhsiz08 (average number of people per household) as the two conditioning variables, and rent2008 (median rent) as the focus variable. All values are for 2008. Note that the second column also contains an empty category, which can be used when only conditioning on one dimension.
+
+![](https://www.evernote.com/l/Ah5fUED0YLNPH5LLm6Umg66l52fCk33a_gYB/image.png)
+
