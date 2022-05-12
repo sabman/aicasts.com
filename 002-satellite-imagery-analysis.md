@@ -112,3 +112,9 @@ for(i in 1:1000) {
  # You can find full code of the training process for similar example in https://www.manning.com/books/deep-learning-with-r
 }
 ```
+
+# xView2
+
+Humanitarian Assistance & Disaster Recovery
+When a disaster strikes, quick and accurate situational information is critical to an effective response. Before responders can act in the affected area, they need to know the location, cause and severity of damage. But disasters can strike anywhere, disrupting local communication and transportation infrastructure, making the process of assessing specific local damage difficult, dangerous, and slow.
+
