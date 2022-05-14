@@ -9,7 +9,7 @@ RUN apt-get update \
 
 RUN git clone https://github.com/ULB-CoDE-WIT/MobilityDB.git && git checkout v1.0 \
 	&& mkdir /usr/local/src/MobilityDB/build \
- 	&& cd /usr/local/src/MobilityDB/build \
+	&& cd /usr/local/src/MobilityDB/build \
 	&& cmake .. \
 	&& make \
 	&& make install
