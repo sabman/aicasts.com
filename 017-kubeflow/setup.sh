@@ -20,3 +20,5 @@ mkdir -p ${KF_DIR}
 cd ${KF_DIR}
 kfctl apply -V -f ${CONFIG_URI}
 
+# Tutorial: From Notebook to Kubeflow Pipelines to KFServing: the Data Science... - Karl Weinmeister
+# https://www.youtube.com/watch?v=VDINH5WkBhA
