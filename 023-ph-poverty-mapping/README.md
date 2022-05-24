@@ -11,3 +11,5 @@ Below are the relevant link:
 - Most Relevant Citations: https://arxiv.org/abs/1510.00098 and https://science.sciencemag.org/content/353/6301/790
 
 OneTab link https://www.one-tab.com/page/S6nRACxmQ8yQ2zA4-0Gzgw
+
+https://stories.thinkingmachin.es/philippines-most-vulnerable-communities/
