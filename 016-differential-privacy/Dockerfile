@@ -1,5 +1,5 @@
 FROM ubuntu:bionic
-MAINTAINER romeOz <serggalka@gmail.com>
+LABEL author="Shoaib Burq <shoaib@decision-labs.com>"
 
 ENV OS_LOCALE="en_US.UTF-8" \
     DEBIAN_FRONTEND=noninteractive
