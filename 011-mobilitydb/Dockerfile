@@ -1,4 +1,4 @@
-FROM kartoza/postgis:13
+FROM kartoza/postgis:14-3.2
 ENV POSTGRES_DBNAME=mobilitydb
 ENV POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,mobilitydb
 WORKDIR /usr/local/src
