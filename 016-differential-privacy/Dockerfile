@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y locales libreadline-dev bison flex git 
 ENV LANG=${OS_LOCALE} \
     LANGUAGE=${OS_LOCALE} \
     LC_ALL=${OS_LOCALE} \
-    PG_VERSION=11 \
+    PG_VERSION=14 \
     PG_USER=postgres \
     PG_HOME=/var/lib/postgresql \
     PG_RUN_DIR=/run/postgresql \
