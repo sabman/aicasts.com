@@ -1,5 +1,5 @@
 # adapted from https://github.com/aarande/docker-pyart/blob/master/Dockerfile-py3
-FROM continuumio/miniconda3
+FROM continuumio/miniconda3:4.12.0
 
 ARG MOVINGPANDAS_VERSION=0.1.dev3
 ARG USER_ID=1001
