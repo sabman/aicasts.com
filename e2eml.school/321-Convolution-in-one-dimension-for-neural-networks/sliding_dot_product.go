@@ -17,7 +17,15 @@ func main() {
 	var signal = []int{0, 0, 0, 4, 5, 0, 0, 0, 0, 1, 2, 3}
 
 	// reverse kernel
-	var convolution = reverse(kernel)
+	var convolution = make([]int, len(kernel))
+	for i := len(kernel) - 1; i >= 0; i-- {
+		convolution[len(kernel)-i-1] = kernel[i]
+	}
+
+	// iterate over the signal with the convolution
+	for i := 0; i < len(signal); i++ {
+		fmt.Println(slidingDotProduct(signal[i:i+len(convolution)], convolution))
+	}
 
 	// print kernel
 	fmt.Println(kernel)
