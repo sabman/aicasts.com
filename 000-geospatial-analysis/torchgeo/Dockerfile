@@ -6,3 +6,5 @@ FROM python:3.9
 # pip install -r requirements.txt
 RUN pip install numpy
 RUN pip install torchgeo
+
+# examples https://torchgeo.readthedocs.io/en/latest/tutorials/getting_started.html
