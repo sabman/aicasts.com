@@ -36,30 +36,6 @@
         document.body.classList.add('dark');
     }
 
-    { { - if or(.HasShortcode "mathjax/block")(.HasShortcode "mathjax/inline") -} }
-    <style>
-        .has-mathjax {
-            visibility: hidden;
-        }
-    </style>
-
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-    <script>
-            window.MathJax = {
-                startup: {
-                    pageReady: () => {
-                        return MathJax.startup.defaultPageReady().then(() => {
-                            for (let element of document.getElementsByClassName("has-mathjax")) {
-                                element.style.visibility = "visible"
-                            }
-                        });
-                    }
-                }
-            };
-    </script>
-{{- end -}}
 </script>
 {{- end }}
 
@@ -108,8 +84,7 @@
                     {{- range . -}}
                     {{- if ne $lang .Lang }}
                     <li>
-                        <a href="{{- .Permalink -}}"
-                            title="{{ .Language.Params.languageAltTitle | default (.Language.LanguageName | emojify) | default (.Lang | title) }}"
+                        <a href="{{- .Permalink -}}" title="{{ .Language.Params.languageAltTitle | default (.Language.LanguageName | emojify) | default (.Lang | title) }}"
                             aria-label="{{ .Language.LanguageName | default (.Lang | title) }}">
                             {{- if (and $.Site.Params.displayFullLangName (.Language.LanguageName)) }}
                             {{- .Language.LanguageName | emojify -}}
@@ -131,9 +106,8 @@
             {{- $page_url:= $currentPage.Permalink | absLangURL }}
             {{- $is_search := eq ($.Site.GetPage .KeyName).Layout `search` }}
             <li>
-                <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }} {{- cond $is_search (" (Alt + /)"
-                    | safeHTMLAttr) ("" | safeHTMLAttr ) }}" {{- cond $is_search (" accesskey=/" | safeHTMLAttr) ("" |
-                    safeHTMLAttr ) }}>
+                <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }} {{- cond $is_search (" (Alt + /)" | safeHTMLAttr) ("" | safeHTMLAttr ) }}"
+                {{- cond $is_search (" accesskey=/" | safeHTMLAttr) ("" | safeHTMLAttr ) }}>
                     <span {{- if eq $menu_item_url $page_url }} class="active" {{- end }}>
                         {{- .Pre }}
                         {{- .Name -}}
@@ -145,3 +119,26 @@
         </ul>
     </nav>
 </header>
+
+<style>
+    .has-mathjax {
+        visibility: hidden;
+    }
+</style>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<script>
+        window.MathJax = {
+            startup: {
+                pageReady: () => {
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        for (let element of document.getElementsByClassName("has-mathjax")) {
+                            element.style.visibility = "visible"
+                        }
+                    });
+                }
+            }
+        };
+</script>
