@@ -51,3 +51,6 @@ As well as some general questions about NNs
 - [ ] How a batch normalization layer works and how to implement it
 - [ ] How to create a neural network out of any differentiable function you like
 
+
+When $a \ne 0$, there are two solutions to $(ax^2 + bx + c = 0)$ and they are 
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
