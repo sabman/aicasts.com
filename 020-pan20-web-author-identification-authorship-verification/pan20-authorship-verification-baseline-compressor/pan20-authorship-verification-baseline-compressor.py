@@ -52,6 +52,7 @@ import matplotlib.pyplot as plt
 from joblib import dump, load
 import decimal
 
+
 class Model(object):
     # cnt - count of characters read
     # modelOrder - order of the model
@@ -238,6 +239,8 @@ class Context(object):
             del self.chars[c]
 
 # calculates the cross-entropy of the string 's' using model 'm'
+
+
 def h(m, s):
     n = len(s)
     h = 0
@@ -253,46 +256,53 @@ def h(m, s):
 
 # Calculates the cross-entropy of text2 using the model of text1 and vice-versa
 # Returns the mean and the absolute difference of the two cross-entropies
-def distance(text1,text2,ppm_order=5):
+
+
+def distance(text1, text2, ppm_order=5):
     mod1 = Model(ppm_order, 256)
     mod1.read(text1)
-    d1=h(mod1, text2)
+    d1 = h(mod1, text2)
     mod2 = Model(ppm_order, 256)
     mod2.read(text2)
-    d2=h(mod2, text1)
-    return [round((d1+d2)/2.0,4),round(abs(d1-d2),4)]
+    d2 = h(mod2, text1)
+    return [round((d1+d2)/2.0, 4), round(abs(d1-d2), 4)]
 
-# Prepares training data 
+# Prepares training data
 # For each verification case it calculates the mean and absolute differences of cross-entropies
-def train_data(train_file,truth_file,out_file,ppm_order=5):
-    with open(truth_file,'r') as tfp:
-        labels=[]
+
+
+def train_data(train_file, truth_file, out_file, ppm_order=5):
+    with open(truth_file, 'r') as tfp:
+        labels = []
         for line in tfp:
             labels.append(json.loads(line))
-    with open(train_file,'r') as fp:
-        data=[]
-        tr_labels=[]
-        tr_data={}
-        for i,line in enumerate(fp):
-            X=json.loads(line)
-            true_label=[x for x in labels if x["id"] == X["id"] ][0]
-            D=distance(X['pair'][0],X['pair'][1],ppm_order)
-            if true_label["same"]==True:
-                tl=1
-            else: tl=0
+    with open(train_file, 'r') as fp:
+        data = []
+        tr_labels = []
+        tr_data = {}
+        for i, line in enumerate(fp):
+            X = json.loads(line)
+            true_label = [x for x in labels if x["id"] == X["id"]][0]
+            D = distance(X['pair'][0], X['pair'][1], ppm_order)
+            if true_label["same"] == True:
+                tl = 1
+            else:
+                tl = 0
             tr_labels.append(tl)
-            print(i,X['id'],D[0],true_label["same"])
+            print(i, X['id'], D[0], true_label["same"])
 
         # Saves training data
-        tr_data["data"]=data
-        tr_data["labels"]=tr_labels
+        tr_data["data"] = data
+        tr_data["labels"] = tr_labels
         with open(out_file, 'w') as outf:
             json.dump(tr_data, outf)
 
 # Trains the logistic regression model
-def train_model(train_data_file,output_model_file):
+
+
+def train_model(train_data_file, output_model_file):
     with open(train_data_file) as fp:
-        D1=json.load(fp)
+        D1 = json.load(fp)
         X_train = D1['data']
         y_train = D1['labels']
     logreg = LogisticRegression()
@@ -301,33 +311,40 @@ def train_model(train_data_file,output_model_file):
 
 # Applies the model to evaluation data
 # Produces an output file (answers.jsonl) with predictions
-def apply_model(eval_data_file,output_folder,model_file,radius):
+
+
+def apply_model(eval_data_file, output_folder, model_file, radius):
     start_time = time.time()
-    model = load(model_file) 
-    answers=[]
-    with open(eval_data_file,'r') as fp:
-        for i,line in enumerate(fp):
-			X=json.loads(line)
-			D=distance(X['pair'][0],X['pair'][1],ppm_order=5)
-			pred = model.predict_proba([D])
-			# All values around 0.5 are transformed to 0.5
-			if pred[0,1] >= 0.5 - radius and pred[0,1] <= 0.5 + radius:
-				pred[0,1] = 0.5
-			print(i+1,X['id'],round(pred[0,1],3))
-			answers.append({'id': X['id'],'value': round(pred[0,1],3)})
+    model = load(model_file)
+    answers = []
+    with open(eval_data_file, 'r') as fp:
+        for i, line in enumerate(fp):
+            X = json.loads(line)
+            D = distance(X['pair'][0], X['pair'][1], ppm_order=5)
+            pred = model.predict_proba([D])
+            # All values around 0.5 are transformed to 0.5
+            if pred[0, 1] >= 0.5 - radius and pred[0, 1] <= 0.5 + radius:
+                pred[0, 1] = 0.5
+            print(i+1, X['id'], round(pred[0, 1], 3))
+            answers.append({'id': X['id'], 'value': round(pred[0, 1], 3)})
     with open(output_folder+os.sep+'answers.jsonl', 'w') as outfile:
         for ans in answers:
             json.dump(ans, outfile)
             outfile.write('\n')
     print('elapsed time:', time.time() - start_time)
 
+
 def main():
     parser = argparse.ArgumentParser()
-    parser = argparse.ArgumentParser(description='PAN-20 Cross-domain Authorship Verification task: Baseline Compressor')
-    parser.add_argument('-i', type=str, help='Full path name to the evaluation dataset JSNOL file')
+    parser = argparse.ArgumentParser(
+        description='PAN-20 Cross-domain Authorship Verification task: Baseline Compressor')
+    parser.add_argument(
+        '-i', type=str, help='Full path name to the evaluation dataset JSNOL file')
     parser.add_argument('-o', type=str, help='Path to an output folder')
-    parser.add_argument('-m', type=str, default='model_small.joblib', help='Full path name to the model file')
-    parser.add_argument('-r', type=float, default=0.05, help='Radius around 0.5 to leave verification cases unanswered')
+    parser.add_argument('-m', type=str, default='model_small.joblib',
+                        help='Full path name to the model file')
+    parser.add_argument('-r', type=float, default=0.05,
+                        help='Radius around 0.5 to leave verification cases unanswered')
     args = parser.parse_args()
     if not args.i:
         print('ERROR: The input file is required')
@@ -335,8 +352,9 @@ def main():
     if not args.o:
         print('ERROR: The output folder is required')
         parser.exit(1)
-    
+
     apply_model(args.i, args.o, args.m, args.r)
+
 
 if __name__ == '__main__':
     main()
