@@ -4,21 +4,37 @@
 # In[1]:
 
 
-input_pairs="datasets/pan20-authorship-verification-training-small/prepare/input_pairs.jsonl"
-input_truth="datasets/pan20-authorship-verification-training-small/prepare/input_truth.jsonl"
-test_pairs="datasets/pan20-authorship-verification-training-small/prepare/test_pairs.jsonl"
-seed=42
-output="out"
-vocab_size=3000
-ngram_size=4
-num_iterations=0
-dropout=0.5
+import pandas as pd
+from pan20_verif_evaluator import evaluate_all
+from tqdm import tqdm
+from seaborn import kdeplot
+import matplotlib.pyplot as plt
+from scipy.spatial.distance import cosine
+from sklearn.metrics import f1_score, precision_score, recall_score
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np
+from itertools import combinations
+import shutil
+import glob
+import os
+import random
+import json
+import argparse
+input_pairs = "datasets/pan20-authorship-verification-training-small/prepare/input_pairs.jsonl"
+input_truth = "datasets/pan20-authorship-verification-training-small/prepare/input_truth.jsonl"
+test_pairs = "datasets/pan20-authorship-verification-training-small/prepare/test_pairs.jsonl"
+seed = 42
+output = "out"
+vocab_size = 3000
+ngram_size = 4
+num_iterations = 0
+dropout = 0.5
 
 
 # In[2]:
 
 
-# Imports 
+# Imports
 
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -62,24 +78,6 @@ Example usage from the command line:
           -num_iterations=0 \
           -output="out"
 """
-
-import argparse
-import json
-import random
-import os
-import glob
-import shutil
-from itertools import combinations
-
-import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics import f1_score, precision_score, recall_score
-from scipy.spatial.distance import cosine
-import matplotlib.pyplot as plt
-from seaborn import kdeplot
-from tqdm import tqdm
-
-from pan20_verif_evaluator import evaluate_all
 
 
 # In[3]:
@@ -185,7 +183,7 @@ def correct_scores(scores, p1, p2):
     for line in open(input_truth):
         d = json.loads(line.strip())
         gold[d['id']] = int(d['same'])
-    
+
     # truncation for development purposes
     cutoff = 0
     if cutoff:
@@ -202,7 +200,7 @@ def correct_scores(scores, p1, p2):
 # In[5]:
 
 
-# 
+#
 dict.keys(d)
 
 
@@ -258,7 +256,6 @@ labels = np.array(labels, dtype=np.float64)
 # In[9]:
 
 
-import pandas as pd
 sim_lab = pd.DataFrame([similarities, labels]).transpose()
 sim_lab.columns = ["similarity", "label"]
 sim_lab.to_csv("similarities.csv")
@@ -308,9 +305,9 @@ scores = []
 for th in np.linspace(0.25, 0.75, 1000):
     adjusted = (corrected_scores >= th) * 1
     scores.append((th,
-                    f1_score(labels, adjusted),
-                    precision_score(labels, adjusted),
-                    recall_score(labels, adjusted)))
+                   f1_score(labels, adjusted),
+                   precision_score(labels, adjusted),
+                   recall_score(labels, adjusted)))
 thresholds, f1s, precisions, recalls = zip(*scores)
 
 max_idx = np.array(f1s).argmax()
@@ -322,7 +319,7 @@ plt.plot(thresholds, precisions, label='precision')
 plt.plot(thresholds, recalls, label='recall')
 plt.plot(thresholds, f1s, label='F1')
 plt.axvline(max_th, ls='-', c='darkgrey')
-plt.xlim([0,1])
+plt.xlim([0, 1])
 plt.gca().set_xlabel('theta')
 plt.gca().legend()
 plt.gca().set_facecolor('lightgrey')
@@ -344,7 +341,7 @@ with open(output + os.sep + 'answers.jsonl', 'w') as outf:
             similarities_ = []
             for i in range(num_iterations):
                 similarities_.append(cosine_sim(x1[rnd_feature_idxs[i, :]],
-                                         x2[rnd_feature_idxs[i, :]]))
+                                                x2[rnd_feature_idxs[i, :]]))
                 similarity = np.mean(similarities_)
         else:
             similarity = cosine_sim(x1, x2)
@@ -355,7 +352,3 @@ with open(output + os.sep + 'answers.jsonl', 'w') as outf:
 
 
 # In[ ]:
-
-
-
-
