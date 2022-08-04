@@ -79,4 +79,4 @@ for sample in dataloader:
     target = sample["mask"]
 ```
 
-# Where does TorchGeo fit in an organisational context?
+# Where does TorchGeo fit in an organizational context?

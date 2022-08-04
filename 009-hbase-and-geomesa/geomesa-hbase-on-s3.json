@@ -1,15 +1,14 @@
 [
-   {
-     "Classification": "hbase-site",
-     "Properties": {
-       "hbase.rootdir": "s3://geomesa-storage/hbase-root"
-     }
-   },
-   {
-     "Classification": "hbase",
-     "Properties": {
-       "hbase.emr.storageMode": "s3"
-     }
-   }
+  {
+    "Classification": "hbase-site",
+    "Properties": {
+      "hbase.rootdir": "s3://geomesa-storage/hbase-root"
+    }
+  },
+  {
+    "Classification": "hbase",
+    "Properties": {
+      "hbase.emr.storageMode": "s3"
+    }
+  }
 ]
-
