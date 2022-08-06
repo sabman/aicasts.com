@@ -76,3 +76,4 @@ command=/bin/bash -c 'source /home/sammy/environments/my_env/bin/activate && jup
 supervisorctl -c /opt/supervisord.conf update jupyter
 # jupyter: added process group
 ```
+
