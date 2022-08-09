@@ -296,7 +296,6 @@ with open(file_path, "wb") as output_file:
                 "Downloading %s... (%6.2f/%6.2f MB)" %
                 (file_path, downloaded_size))
             progress_bar.progress(downloaded_ratio)
-
 ...
 
 # Clear UI elements when done.
