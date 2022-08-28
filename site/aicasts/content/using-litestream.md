@@ -64,4 +64,3 @@ litestream version8
 ```sh
 # v0.3.8
 ```
-

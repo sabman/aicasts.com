@@ -52,4 +52,3 @@ Visualize Data from BigQuery on a Kepler.gl map and share it with your team:
 Deploy to Google App Engine and manage access with Google IAP
 Run with Docker
 Configuration
-
