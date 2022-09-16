@@ -82,3 +82,16 @@ append_to_carto(gdf,
                 'starbucks_brooklyn_filtered',
                 credentials=auth_credentials)
 ```
+
+
+# Updating data in a dataset
+```python
+
+from cartoframes.io import update_carto
+gdf = read_carto('SELECT * FROM starbucks_brooklyn_filtered')
+gdf['new_column'] = 1
+update_carto(gdf,
+             'starbucks_brooklyn_filtered',
+             credentials=auth_credentials)
+```
+
