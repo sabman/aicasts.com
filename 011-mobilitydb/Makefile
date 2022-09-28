@@ -1,2 +1,2 @@
 build:
-	docker build . -f Dockerfile.src -t sabman/mobilitydb
+	docker build . -f Dockerfile -t sabman/mobilitydb
