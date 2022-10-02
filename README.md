@@ -47,5 +47,5 @@ WIP:
 ## Blog
 Setup https://github.com/adityatelange/hugo-PaperMod/
 
-  
 Look at new mobilitydb types... network types
+
