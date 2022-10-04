@@ -17,3 +17,20 @@ There are two static network types, `npoint` (short for network point) and `nseg
 
 The `npoint` type serves as base type for defining the temporal network point type `tnpoint`. The tnpoint type has similar functionality as the temporal point type `tgeompoint` with the exception that it only considers two dimensions. Thus, all functions and operators described before for the `tgeompoint` type are also applicable for the `tnpoint` type. In addition, there are specific functions defined for the `tnpoint` type.
 
+## 6.1. Static Network Types
+
+
+An `npoint` value is a couple of the form `(rid,position)` where `rid` is a `bigint` value representing a route identifier and `position` is a `float` value in the range `[0,1]` indicating its relative position. The values 0 and 1 of position denote, respectively, the starting and the ending position of the route. The road distance between an `npoint` value and the starting position of route with identifier `rid` is computed by multiplying position by length, where length is the route length. Examples of input of network point values are as follows:
+
+```sql
+SELECT npoint 'Npoint(76, 0.3)';
+SELECT npoint 'Npoint(64, 1.0)';
+```
+
+The constructor function for network points has one argument for the route identifier and one argument for the relative position. An example of a network point value defined with the constructor function is as follows:
+
+```sql
+SELECT npoint(76, 0.3);
+```
+
+
