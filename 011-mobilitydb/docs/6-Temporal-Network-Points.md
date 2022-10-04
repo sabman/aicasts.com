@@ -33,4 +33,21 @@ The constructor function for network points has one argument for the route ident
 SELECT npoint(76, 0.3);
 ```
 
+An `nsegment` value is a triple of the form `(rid,startPosition,endPosition)` where rid is a bigint value representing a route identifier and `startPosition` and `endPosition` are float values in the range `[0,1]` such that `startPosition ≤ endPosition`. Semantically, a network segment represents a set of network points `(rid,position)` with `startPosition ≤ position ≤ endPosition`. If `startPosition=0` and `endPosition=1`, the network segment is equivalent to the entire route. If `startPosition=endPosition`, the network segment represents into a single network point. Examples of input of network point values are as follows:
 
+
+```sql
+SELECT nsegment 'Nsegment(76, 0.3, 0.5)';
+SELECT nsegment 'Nsegment(64, 0.5, 0.5)';
+SELECT nsegment 'Nsegment(64, 0.0, 1.0)';
+SELECT nsegment 'Nsegment(64, 1.0, 0.0)';
+-- converted to nsegment 'Nsegment(64, 0.0, 1.0)';
+```
+
+As can be seen in the last example, the `startPosition` and `endPosition` values will be inverted to ensure that the condition `startPosition ≤ endPosition` is always satisfied. The constructor function for network segments has one argument for the route identifier and two optional arguments for the start and end positions. Examples of network segment values defined with the constructor function are as follows:
+
+```sql
+SELECT nsegment(76, 0.3, 0.3);
+SELECT nsegment(76); -- start and end position assumed to be 0 and 1 respectively
+SELECT nsegment(76, 0.5); -- end position assumed to be 1
+```
