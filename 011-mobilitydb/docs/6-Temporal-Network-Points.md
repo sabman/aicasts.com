@@ -51,3 +51,9 @@ SELECT nsegment(76, 0.3, 0.3);
 SELECT nsegment(76); -- start and end position assumed to be 0 and 1 respectively
 SELECT nsegment(76, 0.5); -- end position assumed to be 1
 ```
+
+Values of the `npoint` type can be converted to the `nsegment` type using an explicit CAST or using the `::` notation as shown next.
+
+```sql
+SELECT npoint(76, 0.33)::nsegment;
+```
