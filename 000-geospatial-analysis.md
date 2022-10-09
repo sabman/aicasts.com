@@ -9,6 +9,10 @@
 
 - https://media.ccc.de/v/bucharest-448-demystifying-ai-in-geo#t=166
 
+You are probably familiar with the terms artificial intelligence (AI), machine learning (ML) and deep learning (DL). However, do you really know how they work with GIS? In this session, we will use Python and various libraries to illustrate how artificial intelligence is used to detect deep and complex spatiotemporal patterns in data, and how to predict geospatial events of interest. This talk will cover several scenarios of applying the latest machine learning and deep learning techniques to geospatial data, including applying object detention using satellite imagery, detecting objects in videos and other workflows to incorporate these data sciences.
+
+
+
 ## Code
 
 - https://github.com/thinkingmachines/ph-poverty-mapping
