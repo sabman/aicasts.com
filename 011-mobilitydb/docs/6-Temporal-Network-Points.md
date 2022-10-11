@@ -57,3 +57,10 @@ Values of the `npoint` type can be converted to the `nsegment` type using an exp
 ```sql
 SELECT npoint(76, 0.33)::nsegment;
 ```
+
+Values of static network types must satisfy several constraints so that they are well defined. These constraints are given next.
+
+- The route identifier `rid` must be found in column `gid` of table ways.
+
+- The `position, startPosition`, and `endPosition` values must be in the range [0,1]. An error is raised whenever one of these constraints are not satisfied.
+
