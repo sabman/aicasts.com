@@ -64,3 +64,13 @@ Values of static network types must satisfy several constraints so that they are
 
 - The `position, startPosition`, and `endPosition` values must be in the range [0,1]. An error is raised whenever one of these constraints are not satisfied.
 
+Examples of incorrect static network type values are as follows.
+
+```sql
+-- incorrect rid value
+SELECT npoint 'Npoint(87.5, 1.0)';
+-- incorrect position value
+SELECT npoint 'Npoint(87, 2.0)';
+-- rid value not found in the ways table
+SELECT npoint 'Npoint(99999999, 1.0)';
+```
