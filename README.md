@@ -49,3 +49,6 @@ Setup https://github.com/adityatelange/hugo-PaperMod/
 
 Look at new mobilitydb types... network types
 
+
+# k8s
+https://software.danielwatrous.com/kubernetes-on-the-cheap/
