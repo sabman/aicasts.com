@@ -1,4 +1,4 @@
-FROM postgres:15beta4-bullseye
+FROM postgres:15.0-bullseye
 
 LABEL maintainer="Shoaib Burq - https://burq.fun"
 
