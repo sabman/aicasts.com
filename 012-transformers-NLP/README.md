@@ -196,4 +196,3 @@ translator("Ce cours est produit par Hugging Face.")
 Like with text generation and summarization, you can specify a max_length or a min_length for the result.
 
 The pipelines shown so far are mostly for demonstrative purposes. They were programmed for specific tasks and cannot perform variations of them. In the next chapter, you’ll learn what’s inside a pipeline() function and how to customize its behavior.
-
