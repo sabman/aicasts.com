@@ -74,3 +74,24 @@ SELECT npoint 'Npoint(87, 2.0)';
 -- rid value not found in the ways table
 SELECT npoint 'Npoint(99999999, 1.0)';
 ```
+
+We give next the functions and operators for the static network types.
+
+
+### 6.1.1. Constructor Functions
+
+Constructor for network points
+
+```sql
+npoint(bigint,double precision): npoint
+
+SELECT npoint(76, 0.3);
+```
+
+Constructor for network segments
+
+```sql
+nsegment(bigint,double precision,double precision): nsegment
+
+SELECT nsegment(76, 0.3, 0.5);
+```
