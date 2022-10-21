@@ -95,3 +95,9 @@ nsegment(bigint,double precision,double precision): nsegment
 
 SELECT nsegment(76, 0.3, 0.5);
 ```
+
+### 6.1.2. Modification Functions
+
+Set the precision of the position(s) of the network point or the network segment to the number of decimal places
+
+`setPrecision({npoint,nsegment},integer): {npoint,nsegment}`
