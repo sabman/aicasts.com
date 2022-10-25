@@ -52,3 +52,8 @@ Look at new mobilitydb types... network types
 
 # k8s
 https://software.danielwatrous.com/kubernetes-on-the-cheap/
+
+
+# frontend
+
+- 
