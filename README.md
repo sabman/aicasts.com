@@ -29,6 +29,8 @@ https://www.crunchydata.com/case-study/sas
 
 - https://github.com/azavea/raster-vision
 - https://github.com/AdeelH/pytorch-multi-class-focal-loss
+- https://github.com/weiji14/zen3geo
+
 
 WIP:
 
@@ -57,4 +59,4 @@ https://software.danielwatrous.com/kubernetes-on-the-cheap/
 # frontend
 
 - Viz Academy from Uber
-- 
+  
