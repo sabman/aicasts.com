@@ -60,3 +60,7 @@ https://software.danielwatrous.com/kubernetes-on-the-cheap/
 
 - Viz Academy from Uber
   
+
+  # Books
+
+  https://urbanspatial.github.io/PublicPolicyAnalytics/index.html#table-of-contents
