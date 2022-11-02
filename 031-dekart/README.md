@@ -1,0 +1,1 @@
+https://dekart.xyz/docs/contributing/architecture-overview/
