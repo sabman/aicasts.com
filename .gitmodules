@@ -1,3 +1,6 @@
 [submodule "031-dekart/dekart"]
 	path = 031-dekart/dekart
 	url = git@github.com:dekart-xyz/dekart.git
+[submodule "033-tile38/tile38"]
+	path = 033-tile38/tile38
+	url = git@github.com:tidwall/tile38.git
