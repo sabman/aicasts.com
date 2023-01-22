@@ -64,3 +64,23 @@ Mathjax block:
 
 Inline shortcode {{< mathjax/inline >}}\(a \ne 0\){{< /mathjax/inline >}} with
 Mathjax.
+
+```python
+# convolution in one dimension using numba
+
+import time
+from numba import njit
+import numpy as np
+
+@njit
+def convolve(signal, kernel):
+    """Convolve a signal with a kernel using numba"""
+    signal_len = len(signal)
+    kernel_len = len(kernel)
+    output_len = signal_len - kernel_len + 1
+    reversed_kernel = kernel[::-1]
+    result = np.zeros(output_len)
+    for i in range(output_len):
+        result[i] = np.dot(signal[i:i+kernel_len], reversed_kernel)
+    return result
+```
