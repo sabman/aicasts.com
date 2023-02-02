@@ -18,6 +18,60 @@ search = pystac.Client.open('https://earth-search.aws.element84.com/v0').search(
 
 # Print the number of items found
 print(len(search.get_items()))
+
+# Print the first item found
+print(search.get_items()[0])
+
+# Print the first item's geometry
+print(search.get_items()[0].geometry)
+
+# Print the first item's datetime
+print(search.get_items()[0].datetime)
+
+# Print the first item's properties
+print(search.get_items()[0].properties)
+
+# Print the first item's assets
+print(search.get_items()[0].assets)
+
+# Print the first item's asset's href
+print(search.get_items()[0].assets['B02'].href)
+
+# Print the first item's asset's media type
+print(search.get_items()[0].assets['B02'].media_type)
+
+# Print the first item's asset's title
+print(search.get_items()[0].assets['B02'].title)
+
+# Print the first item's asset's description
+print(search.get_items()[0].assets['B02'].description)
+
+# Print the first item's asset's roles
+print(search.get_items()[0].assets['B02'].roles)
+
+# Print the first item's asset's eo:bands
+print(search.get_items()[0].assets['B02'].extra_fields['eo:bands'])
+
+# Print the first item's asset's eo:bands' common_name
+print(search.get_items()[0].assets['B02'].extra_fields['eo:bands'][0]['common_name'])
+
+# Print the first item's asset's eo:bands' center_wavelength
+print(search.get_items()[0].assets['B02'].extra_fields['eo:bands'][0]['center_wavelength'])
+
+# Print the first item's asset's eo:bands' full_width_half_max
+print(search.get_items()[0].assets['B02'].extra_fields['eo:bands'][0]['full_width_half_max'])
+
+# Print the first item's asset's eo:bands' description
+print(search.get_items()[0].assets['B02'].extra_fields['eo:bands'][0]['description'])
+
+# Print the first item's asset's eo:bands' gsd
+print(search.get_items()[0].assets['B02'].extra_fields['eo:bands'][0]['gsd'])
+
+# Print the first item's asset's eo:bands' center_wavelength
+print(search.get_items()[0].assets['B02'].extra_fields['eo:bands'][0]['center_wavelength'])
+
+# Download the first item's asset's data
+search.get_items()[0].assets['B02'].download('B02.tif')
 ```
 
 # What's a simple example of using STAC in javascript?
@@ -48,4 +102,3 @@ let search = Client::open("https://earth-search.aws.element84.com/v0").search(&[
 // Print the number of items found
 println!("{}", search.get_items().await?.len());
 ```
-
