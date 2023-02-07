@@ -1,0 +1,24 @@
+# gitignore for rust and c++ projects
+
+# Rust
+target/
+Cargo.lock
+
+# C++ below:
+*.o
+*.d
+*.so
+*.a
+*.dylib
+*.dll
+*.exe
+*.lib
+*.exp
+*.pdb
+*.ilk
+*.obj
+*.pch
+*.idb
+*.pdb
+*.tlog
+*.ipch
