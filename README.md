@@ -64,4 +64,3 @@ https://software.danielwatrous.com/kubernetes-on-the-cheap/
   # Books
 
   https://urbanspatial.github.io/PublicPolicyAnalytics/index.html#table-of-contents
-
