@@ -13,3 +13,5 @@ pip install interpret
 ```
 
 https://developers.google.com/machine-learning/guides/rules-of-ml
+
+https://developers.google.com/machine-learning/foundational-courses
