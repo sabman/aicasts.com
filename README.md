@@ -64,3 +64,6 @@ https://software.danielwatrous.com/kubernetes-on-the-cheap/
   # Books
 
   https://urbanspatial.github.io/PublicPolicyAnalytics/index.html#table-of-contents
+
+  The goal of this book is to make data science accessible to social scientists and City Planners, in particular. I hope to convince readers that one with strong domain expertise plus intermediate data skills can have a greater impact in government than the sharpest computer scientist who has never studied economics, sociology, public health, political science, criminology etc.
+
