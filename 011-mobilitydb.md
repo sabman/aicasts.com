@@ -3879,3 +3879,6 @@ Figure 5.10, “Comparison of the nodes obtained by contracting the graph (in bl
 
 Figure 5.10. Comparison of the nodes obtained by contracting the graph (in black), before contraction (in blue), and those obtained by osm2pgrouting (in red).
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/node_comp2.png)
+
+----
+
