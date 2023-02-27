@@ -101,3 +101,10 @@ SELECT nsegment(76, 0.3, 0.5);
 Set the precision of the position(s) of the network point or the network segment to the number of decimal places
 
 `setPrecision({npoint,nsegment},integer): {npoint,nsegment}`
+
+```sql
+SELECT setPrecision(npoint(76, 0.33333), 2);
+```
+
+### 6.1.3. Accessor Functions
+
