@@ -12,3 +12,7 @@ OptaPlanner is a lightweight, embeddable constraint satisfaction engine which op
 
 - Vehicle routing: planning vehicle routes (trucks, trains, boats, airplanes, …​) for moving freight and/or passengers through multiple destinations using known mapping tools …​
 
+- Cloud computing: scheduling virtual machines, containers, …​
+
+https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html
+
