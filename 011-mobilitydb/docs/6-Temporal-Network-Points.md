@@ -2,7 +2,6 @@
 
 The temporal points that we have considered so far represent the movement of objects that can move freely on space since it is assumed that they can change their position from one location to the next one without any motion restriction. This is the case for animals and for flying objects such as planes or drones. However, in many cases, objects do not move freely in space but rather within spatially embedded networks such as routes or railways. In this case, it is necessary to take the embedded networks into account while describing the movements of these moving objects. Temporal network points account for these requirements.
 
-
 Compared with the free-space temporal points, network-based points have the following advantages:
 
 - Network points provide road constraints that reflect the real movements of moving objects.
@@ -108,3 +107,13 @@ SELECT setPrecision(npoint(76, 0.33333), 2);
 
 ### 6.1.3. Accessor Functions
 
+- Get the route identifier
+
+`route({npoint,nsegment}): bigint`
+
+```sql
+SELECT route(npoint 'Npoint(63, 0.3)');
+-- 63
+SELECT route(nsegment 'Nsegment(76, 0.3, 0.3)');
+-- 76
+```
