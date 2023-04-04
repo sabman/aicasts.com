@@ -2,6 +2,10 @@
 
 Weekly AI Tutorials
 
+Spatial Stats
+
+- GeoDa spatial data science course https://youtube.com/playlist?list=RDCMUCzvhOfSmJpRsFRF2Pgrv-Wg&playnext=1
+
 TODO:
 
 
