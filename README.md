@@ -75,3 +75,7 @@ https://software.danielwatrous.com/kubernetes-on-the-cheap/
 # Seafloor mapping
 
 https://gist.github.com/schwehr/4698869
+
+---
+
+prettymaps python package
