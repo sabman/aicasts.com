@@ -53,9 +53,7 @@ sha1:cfa3f5498c81:9a74501e8126bae20c9938b0e0a1bcca80d9e990
 # c.NotebookApp.base_url = '/jupyter'
 
 sed -i.back -e "s/#c.NotebookApp.base_url = '\/'/c.NotebookApp.base_url = '\/jupyter'/" /home/sammy/.jupyter/jupyter_notebook_config.py
-
 sed -i.bak -e "s/#c.NotebookApp.allow_remote_access = False/c.NotebookApp.allow_remote_access = True/" /home/sammy/.jupyter/jupyter_notebook_config.py
-
 sed -i.bak -e "s/#c.NotebookApp.quit_button = True/c.NotebookApp.quit_button = False/" /home/sammy/.jupyter/jupyter_notebook_config.py
 
 ```
