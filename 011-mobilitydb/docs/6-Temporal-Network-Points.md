@@ -117,3 +117,16 @@ SELECT route(npoint 'Npoint(63, 0.3)');
 SELECT route(nsegment 'Nsegment(76, 0.3, 0.3)');
 -- 76
 ```
+
+### 6.1.4. Spatial Functions
+
+```
+srid({npoint,nsegment}): int
+```
+
+```sql
+SELECT SRID(nspoint 'Npoint(76, 0.3)');
+-- 5676
+SELECT SRID(nsegment 'Nsegment(76, 0.3, 0.5)');
+-- 5676
+```
