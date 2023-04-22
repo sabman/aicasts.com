@@ -131,7 +131,7 @@ SELECT SRID(nsegment 'Nsegment(76, 0.3, 0.5)');
 -- 5676
 ```
 
-Values of the npoint and nsegment types can be converted to the geometry type using an explicit CAST or using the :: notation as shown next.
+Values of the `npoint` and `nsegment` types can be converted to the `geometry` type using an explicit `CAST` or using the `::` notation as shown next.
 
 - Cast a network point to a geometry
 
@@ -146,3 +146,4 @@ SELECT ST_AsText(nsegment(76, 0.33, 0.66)::geometry);
 SELECT ST_AsText(nsegment(76, 0.33, 0.33)::geometry);
 -- POINT(21.6338731332283 50.0545869554067)
 ```
+
