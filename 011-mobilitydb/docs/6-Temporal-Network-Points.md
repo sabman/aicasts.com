@@ -147,3 +147,5 @@ SELECT ST_AsText(nsegment(76, 0.33, 0.33)::geometry);
 -- POINT(21.6338731332283 50.0545869554067)
 ```
 
+Similarly, geometry values of subtype `point` or `linestring` (restricted to two points) can be converted, respectively, to `npoint` and `nsegment` values using an explicit `CAST` or using the `::` notation. For this, the route that intersects the given points must be found, where a tolerance of 0.00001 units (depending on the coordinate system) is assumed so a point and a route that are close are considered to intersect. If no such route is found, a null value is returned.
+
