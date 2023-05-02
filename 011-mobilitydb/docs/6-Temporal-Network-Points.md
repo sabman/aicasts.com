@@ -149,3 +149,14 @@ SELECT ST_AsText(nsegment(76, 0.33, 0.33)::geometry);
 
 Similarly, geometry values of subtype `point` or `linestring` (restricted to two points) can be converted, respectively, to `npoint` and `nsegment` values using an explicit `CAST` or using the `::` notation. For this, the route that intersects the given points must be found, where a tolerance of 0.00001 units (depending on the coordinate system) is assumed so a point and a route that are close are considered to intersect. If no such route is found, a null value is returned.
 
+
+Values of the npoint and nsegment types can be converted to the geometry type using an explicit CAST or using the :: notation as shown next.
+
+Cast a network point to a geometry
+
+`{npoint,nsegment}::geometry`
+
+### 6.1.5. Comparison Operators
+
+The comparison operators (=, <, and so on) for static network types require that the left and right arguments be of the same type. Excepted the equality and inequality, the other comparison operators are not useful in the real world but allow B-tree indexes to be constructed on static network types.
+
