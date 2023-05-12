@@ -160,3 +160,23 @@ Cast a network point to a geometry
 
 The comparison operators (=, <, and so on) for static network types require that the left and right arguments be of the same type. Excepted the equality and inequality, the other comparison operators are not useful in the real world but allow B-tree indexes to be constructed on static network types.
 
+- Are the values equal?
+`{npoint,nsegment} = {npoint,nsegment}`
+
+```sql
+SELECT npoint 'Npoint(3, 0.5)' = npoint 'Npoint(3, 0.5)';
+-- true
+SELECT nsegment 'Nsegment(3, 0.5, 0.5)' = nsegment 'Nsegment(3, 0.5, 0.6)';
+-- false
+```
+
+- Are the values different?
+
+`{npoint,nsegment} <> {npoint,nsegment}`
+
+```sql
+SELECT npoint 'Npoint(3, 0.5)' <> npoint 'Npoint(3, 0.6);
+-- true
+SELECT nsegment 'Nsegment(3, 0.5, 0.5)' <> nsegment 'Nsegment(3, 0.5, 0.5)';
+-- false
+```
