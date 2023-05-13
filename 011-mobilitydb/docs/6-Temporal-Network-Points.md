@@ -180,3 +180,12 @@ SELECT npoint 'Npoint(3, 0.5)' <> npoint 'Npoint(3, 0.6);
 SELECT nsegment 'Nsegment(3, 0.5, 0.5)' <> nsegment 'Nsegment(3, 0.5, 0.5)';
 -- false
 ```
+
+- Is the first value less than the second one?
+
+`{npoint,nsegment} < {npoint,nsegment}`
+
+```sql
+SELECT nsegment 'Nsegment(3, 0.5, 0.5)' < nsegment 'Nsegment(3, 0.5, 0.6)';
+-- true
+```
