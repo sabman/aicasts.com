@@ -181,11 +181,24 @@ SELECT nsegment 'Nsegment(3, 0.5, 0.5)' <> nsegment 'Nsegment(3, 0.5, 0.5)';
 -- false
 ```
 
-- Is the first value less than the second one?
+- Is the left value less than the right value?
 
 `{npoint,nsegment} < {npoint,nsegment}`
 
 ```sql
+SELECT npoint 'Npoint(3, 0.5)' < npoint 'Npoint(3, 0.6)';
+-- true
 SELECT nsegment 'Nsegment(3, 0.5, 0.5)' < nsegment 'Nsegment(3, 0.5, 0.6)';
 -- true
 ```
+
+- Is the left value less than or equal to the right value?
+
+`{npoint,nsegment} <= {npoint,nsegment}`
+
+```sql
+SELECT npoint 'Npoint(3, 0.5)' <= npoint 'Npoint(3, 0.6)';
+-- true
+SELECT nsegment 'Nsegment(3, 0.5, 0.5)' <= nsegment 'Nsegment(3, 0.5, 0.6)';
+```
+
