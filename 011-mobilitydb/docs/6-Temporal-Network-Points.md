@@ -202,3 +202,14 @@ SELECT npoint 'Npoint(3, 0.5)' <= npoint 'Npoint(3, 0.6)';
 SELECT nsegment 'Nsegment(3, 0.5, 0.5)' <= nsegment 'Nsegment(3, 0.5, 0.6)';
 ```
 
+- Is the left value greater than the right value?
+
+`{npoint,nsegment} > {npoint,nsegment}`
+
+```sql
+SELECT npoint 'Npoint(3, 0.5)' > npoint 'Npoint(3, 0.6)';
+-- false
+SELECT nsegment 'Nsegment(3, 0.5, 0.5)' > nsegment 'Nsegment(3, 0.5, 0.6)';
+-- false
+```
+
