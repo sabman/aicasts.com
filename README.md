@@ -77,5 +77,4 @@ https://software.danielwatrous.com/kubernetes-on-the-cheap/
 https://gist.github.com/schwehr/4698869
 
 ---
-
 prettymaps python package
