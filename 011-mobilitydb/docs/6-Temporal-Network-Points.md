@@ -18,7 +18,6 @@ The `npoint` type serves as base type for defining the temporal network point ty
 
 ## 6.1. Static Network Types
 
-
 An `npoint` value is a couple of the form `(rid,position)` where `rid` is a `bigint` value representing a route identifier and `position` is a `float` value in the range `[0,1]` indicating its relative position. The values 0 and 1 of position denote, respectively, the starting and the ending position of the route. The road distance between an `npoint` value and the starting position of route with identifier `rid` is computed by multiplying position by length, where length is the route length. Examples of input of network point values are as follows:
 
 ```sql
@@ -33,7 +32,6 @@ SELECT npoint(76, 0.3);
 ```
 
 An `nsegment` value is a triple of the form `(rid,startPosition,endPosition)` where rid is a bigint value representing a route identifier and `startPosition` and `endPosition` are float values in the range `[0,1]` such that `startPosition ≤ endPosition`. Semantically, a network segment represents a set of network points `(rid,position)` with `startPosition ≤ position ≤ endPosition`. If `startPosition=0` and `endPosition=1`, the network segment is equivalent to the entire route. If `startPosition=endPosition`, the network segment represents into a single network point. Examples of input of network point values are as follows:
-
 
 ```sql
 SELECT nsegment 'Nsegment(76, 0.3, 0.5)';
@@ -75,7 +73,6 @@ SELECT npoint 'Npoint(99999999, 1.0)';
 ```
 
 We give next the functions and operators for the static network types.
-
 
 ### 6.1.1. Constructor Functions
 
@@ -135,7 +132,6 @@ Values of the `npoint` and `nsegment` types can be converted to the `geometry` t
 
 - Cast a network point to a geometry
 
-
 `{npoint,nsegment}::geometry`
 
 ```sql
@@ -149,7 +145,6 @@ SELECT ST_AsText(nsegment(76, 0.33, 0.33)::geometry);
 
 Similarly, geometry values of subtype `point` or `linestring` (restricted to two points) can be converted, respectively, to `npoint` and `nsegment` values using an explicit `CAST` or using the `::` notation. For this, the route that intersects the given points must be found, where a tolerance of 0.00001 units (depending on the coordinate system) is assumed so a point and a route that are close are considered to intersect. If no such route is found, a null value is returned.
 
-
 Values of the npoint and nsegment types can be converted to the geometry type using an explicit CAST or using the :: notation as shown next.
 
 Cast a network point to a geometry
@@ -161,7 +156,7 @@ Cast a network point to a geometry
 The comparison operators (=, <, and so on) for static network types require that the left and right arguments be of the same type. Excepted the equality and inequality, the other comparison operators are not useful in the real world but allow B-tree indexes to be constructed on static network types.
 
 - Are the values equal?
-`{npoint,nsegment} = {npoint,nsegment}`
+  `{npoint,nsegment} = {npoint,nsegment}`
 
 ```sql
 SELECT npoint 'Npoint(3, 0.5)' = npoint 'Npoint(3, 0.5)';
@@ -213,3 +208,16 @@ SELECT nsegment 'Nsegment(3, 0.5, 0.5)' > nsegment 'Nsegment(3, 0.5, 0.6)';
 -- false
 ```
 
+## 6.2. Temporal Network Points
+
+The temporal network point type `tnpoint` allows to represent the movement of objects over a network. It corresponds to the temporal point type `tgeompoint` restricted to two-dimensional coordinates. As all the other temporal types it comes in four subtypes, namely, instant, instant set, sequence, and sequence set. Examples of tnpoint values in these subtypes are given next.
+
+```sql
+SELECT tnpoint 'Npoint(1, 0.5)@2000-01-01';
+SELECT tnpoint '{Npoint(1, 0.3)@2000-01-01, Npoint(1, 0.5)@2000-01-02,
+  Npoint(1, 0.5)@2000-01-03}';
+SELECT tnpoint '[Npoint(1, 0.2)@2000-01-01, Npoint(1, 0.4)@2000-01-02,
+  Npoint(1, 0.5)@2000-01-03]';
+SELECT tnpoint '{[Npoint(1, 0.2)@2000-01-01, Npoint(1, 0.4)@2000-01-02,
+  Npoint(1, 0.5)@2000-01-03], [Npoint(2, 0.6)@2000-01-04, Npoint(2, 0.6)@2000-01-05]}';
+```
