@@ -221,3 +221,11 @@ SELECT tnpoint '[Npoint(1, 0.2)@2000-01-01, Npoint(1, 0.4)@2000-01-02,
 SELECT tnpoint '{[Npoint(1, 0.2)@2000-01-01, Npoint(1, 0.4)@2000-01-02,
   Npoint(1, 0.5)@2000-01-03], [Npoint(2, 0.6)@2000-01-04, Npoint(2, 0.6)@2000-01-05]}';
 ```
+The temporal network point type accepts type modifiers (or typmod in PostgreSQL terminology). The possible values for the type modifier are Instant, InstantSet, Sequence, and SequenceSet. If no type modifier is specified for a column, values of any subtype are allowed.
+
+```sql
+SELECT tnpoint(Sequence) '[Npoint(1, 0.2)@2000-01-01, Npoint(1, 0.4)@2000-01-02,
+  Npoint(1, 0.5)@2000-01-03]';
+SELECT tnpoint(Sequence) 'Npoint(1, 0.2)@2000-01-01';
+-- ERROR: Temporal type (Instant) does not match column type (Sequence)
+```
