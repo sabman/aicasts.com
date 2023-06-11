@@ -229,3 +229,16 @@ SELECT tnpoint(Sequence) '[Npoint(1, 0.2)@2000-01-01, Npoint(1, 0.4)@2000-01-02,
 SELECT tnpoint(Sequence) 'Npoint(1, 0.2)@2000-01-01';
 -- ERROR: Temporal type (Instant) does not match column type (Sequence)
 ```
+
+the network point changes its route at 2001-01-03.
+
+Temporal network point values of sequence or sequence set subtype are converted into a normal form so that equivalent values have identical representations. For this, consecutive instant values are merged when possible. Three consecutive instant values can be merged into two if the linear functions defining the evolution of values are the same. Examples of transformation into a normal form are as follows.
+
+```sql
+SELECT tnpoint '[NPoint(1, 0.2)@2001-01-01, NPoint(1, 0.4)@2001-01-02,
+  NPoint(1, 0.6)@2001-01-03)';
+-- [NPoint(1,0.2)@2001-01-01, NPoint(1,0.6)@2001-01-03)
+SELECT tnpoint '{[NPoint(1, 0.2)@2001-01-01, NPoint(1, 0.3)@2001-01-02,
+  NPoint(1, 0.5)@2001-01-03), [NPoint(1, 0.5)@2001-01-03, NPoint(1, 0.7)@2001-01-04)}';
+-- {[NPoint(1,0.2)@2001-01-01, NPoint(1,0.3)@2001-01-02, NPoint(1,0.7)@2001-01-04)}
+```
