@@ -242,3 +242,16 @@ SELECT tnpoint '{[NPoint(1, 0.2)@2001-01-01, NPoint(1, 0.3)@2001-01-02,
   NPoint(1, 0.5)@2001-01-03), [NPoint(1, 0.5)@2001-01-03, NPoint(1, 0.7)@2001-01-04)}';
 -- {[NPoint(1,0.2)@2001-01-01, NPoint(1,0.3)@2001-01-02, NPoint(1,0.7)@2001-01-04)}
 ```
+
+## 6.3. Validity of Temporal Network Points
+Temporal network point values must satisfy the constraints specified in Section 3.2 so that they are well defined. An error is raised whenever one of these constraints are not satisfied. Examples of incorrect values are as follows.
+
+```
+-- null values are not allowed
+SELECT tnpoint 'NULL@2001-01-01 08:05:00';
+SELECT tnpoint 'Point(0 0)@NULL';
+-- base type is not a network point
+SELECT tnpoint 'Point(0 0)@2001-01-01 08:05:00';
+-- multiple routes in a sequence
+SELECT tnpoint '[Npoint(1, 0.2)@2001-01-01 09:00:00, Npoint(2, 0.2)@2001-01-01 09:05:00)';
+```
