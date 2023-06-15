@@ -255,3 +255,30 @@ SELECT tnpoint 'Point(0 0)@2001-01-01 08:05:00';
 -- multiple routes in a sequence
 SELECT tnpoint '[Npoint(1, 0.2)@2001-01-01 09:00:00, Npoint(2, 0.2)@2001-01-01 09:05:00)';
 ```
+
+## 6.4. Constructors for Temporal Network Points
+
+- Constructor for temporal network points of instant subtype
+
+`tnpoint_inst(val npoint,t timestamptz):tnpoint_inst`
+
+```sql
+SELECT tnpoint_inst('Npoint(1, 0.5)', '2000-01-01');
+-- NPoint(1,0.5)@2000-01-01
+```
+
+- Constructors for temporal network points of instant set subtype
+
+`tnpoint_instset(tnpoint[]):tnpoint_instset`
+
+`tnpoint_instset(npoint,timestampset):tnpoint_instset`
+
+```sql
+SELECT tnpoint_instset(ARRAY[tnpoint 'Npoint(1, 0.3)@2000-01-01',
+  'Npoint(1, 0.5)@2000-01-02', 'Npoint(1, 0.5)@2000-01-03']);
+-- {NPoint(1,0.3)@2000-01-01, NPoint(1,0.5)@2000-01-02, NPoint(1,0.5)@2000-01-03}
+SELECT tnpoint_instset('Npoint(1, 0.3)', '{2000-01-01, 2000-01-03, 2000-01-05}');
+-- {NPoint(1,0.3)@2000-01-01, NPoint(1,0.3)@2000-01-03, NPoint(1,0.3)@2000-01-05}
+```
+
+
