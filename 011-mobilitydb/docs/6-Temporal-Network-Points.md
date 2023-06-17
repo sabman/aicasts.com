@@ -258,7 +258,7 @@ SELECT tnpoint '[Npoint(1, 0.2)@2001-01-01 09:00:00, Npoint(2, 0.2)@2001-01-01 0
 
 ## 6.4. Constructors for Temporal Network Points
 
-- Constructor for temporal network points of instant subtype
+Constructor for temporal network points of instant subtype
 
 `tnpoint_inst(val npoint,t timestamptz):tnpoint_inst`
 
@@ -280,5 +280,4 @@ SELECT tnpoint_instset(ARRAY[tnpoint 'Npoint(1, 0.3)@2000-01-01',
 SELECT tnpoint_instset('Npoint(1, 0.3)', '{2000-01-01, 2000-01-03, 2000-01-05}');
 -- {NPoint(1,0.3)@2000-01-01, NPoint(1,0.3)@2000-01-03, NPoint(1,0.3)@2000-01-05}
 ```
-
 
