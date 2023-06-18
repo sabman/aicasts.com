@@ -258,7 +258,7 @@ SELECT tnpoint '[Npoint(1, 0.2)@2001-01-01 09:00:00, Npoint(2, 0.2)@2001-01-01 0
 
 ## 6.4. Constructors for Temporal Network Points
 
-Constructor for temporal network points of instant subtype
+- Constructor for temporal network points of instant subtype
 
 `tnpoint_inst(val npoint,t timestamptz):tnpoint_inst`
 
@@ -281,3 +281,27 @@ SELECT tnpoint_instset('Npoint(1, 0.3)', '{2000-01-01, 2000-01-03, 2000-01-05}')
 -- {NPoint(1,0.3)@2000-01-01, NPoint(1,0.3)@2000-01-03, NPoint(1,0.3)@2000-01-05}
 ```
 
+- Constructor for temporal network points of sequence subtype
+
+```c
+tnpoint_seq(
+  tnpoint[],
+  lower_inc boolean=true,
+  upper_inc boolean=true, 
+  linear boolean=true
+):tnpoint_seq
+
+tnpoint_seq(
+  npoint,
+  period,
+  linear boolean=true
+):tnpoint_seq
+```
+
+```sql
+SELECT tnpoint_seq(ARRAY[tnpoint 'Npoint(1, 0.2)@2000-01-01', 'Npoint(1, 0.4)@2000-01-02',
+  'Npoint(1, 0.5)@2000-01-03']);
+-- [NPoint(1,0.2)@2000-01-01, NPoint(1,0.4)@2000-01-02, NPoint(1,0.5)@2000-01-03]
+SELECT tnpoint_seq(npoint 'Npoint(1, 0.2)', '[2000-01-01, 2000-01-03]', false);
+-- Interp=Stepwise;[NPoint(1,0.2)@2000-01-01, NPoint(1,0.2)@2000-01-03]
+```
