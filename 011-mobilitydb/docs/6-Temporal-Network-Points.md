@@ -305,3 +305,18 @@ SELECT tnpoint_seq(ARRAY[tnpoint 'Npoint(1, 0.2)@2000-01-01', 'Npoint(1, 0.4)@20
 SELECT tnpoint_seq(npoint 'Npoint(1, 0.2)', '[2000-01-01, 2000-01-03]', false);
 -- Interp=Stepwise;[NPoint(1,0.2)@2000-01-01, NPoint(1,0.2)@2000-01-03]
 ```
+
+- Constructor for temporal network points of sequence set subtype
+
+```c
+tnpoint_seqset(tnpoint[]):tnpoint_seqset
+
+tnpoint_seqset(npoint,periodset,boolean=true):tnpoint_seqset
+```
+
+```sql
+SELECT tnpoint_seqset(ARRAY[tnpoint '[Npoint(1, 0.2)@2000-01-01, Npoint(1, 0.4)@2000-01-02,
+  Npoint(1, 0.5)@2000-01-03]', '[Npoint(2, 0.6)@2000-01-04, Npoint(2, 0.6)@2000-01-05]']);
+-- {[NPoint(1,0.2)@2000-01-01, NPoint(1,0.4)@2000-01-02, NPoint(1,0.5)@2000-01-03],
+  [NPoint(2,0.6)@2000-01-04, NPoint(2,0.6)@2000-01-05]}
+```
