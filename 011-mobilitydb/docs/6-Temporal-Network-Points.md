@@ -320,3 +320,34 @@ SELECT tnpoint_seqset(ARRAY[tnpoint '[Npoint(1, 0.2)@2000-01-01, Npoint(1, 0.4)@
 -- {[NPoint(1,0.2)@2000-01-01, NPoint(1,0.4)@2000-01-02, NPoint(1,0.5)@2000-01-03],
   [NPoint(2,0.6)@2000-01-04, NPoint(2,0.6)@2000-01-05]}
 ```
+
+## 6.5. Casting for Temporal Network Points
+
+A temporal network point value can be converted to and from a temporal geometry point. This can be done using an explicit `CAST` or using the `::` notation. A null value is returned if any of the composing geometry point values cannot be converted into a npoint value.
+
+- Cast a temporal network point to a temporal geometry point
+
+`tnpoint::tgeompoint`
+
+```sql
+SELECT astext((tnpoint '[NPoint(1, 0.2)@2001-01-01,
+  NPoint(1, 0.3)@2001-01-02)')::tgeompoint);
+-- [POINT(23.057077727326 28.7666335767956)@2001-01-01,
+  POINT(48.7117553116406 20.9256801894708)@2001-01-02)
+```
+
+- Cast a temporal geometry point to a temporal network point
+
+
+`tgeompoint::tnpoint`
+  
+```sql
+SELECT tgeompoint '[POINT(23.057077727326 28.7666335767956)@2001-01-01,
+  POINT(48.7117553116406 20.9256801894708)@2001-01-02)'::tnpoint
+-- [NPoint(1,0.2)@2001-01-01, NPoint(1,0.3)@2001-01-02)
+SELECT tgeompoint '[POINT(23.057077727326 28.7666335767956)@2001-01-01,
+  POINT(48.7117553116406 20.9)@2001-01-02)'::tnpoint
+-- NULL
+```
+
+We give next the functions and operators for network point types.
