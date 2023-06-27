@@ -357,17 +357,24 @@ All functions for temporal types described in Chapter 5 can be applied for tempo
 
 Transform a temporal network point to another subtype
 
-- `tnpoint_inst(tnpoint): tnpoint_inst`
+`tnpoint_inst(tnpoint): tnpoint_inst`
 
-- `tnpoint_instset(tnpoint): tnpoint_instset`
+`tnpoint_instset(tnpoint): tnpoint_instset`
 
-- `tnpoint_seq(tnpoint): tnpoint_seq`
+`tnpoint_seq(tnpoint): tnpoint_seq`
 
-- `tnpoint_seqset(tnpoint): tnpoint_seqset`
+`tnpoint_seqset(tnpoint): tnpoint_seqset`
 
 ```sql
 SELECT tnpoint_seqset(tnpoint 'NPoint(1, 0.5)@2001-01-01');
 -- {[NPoint(1,0.5)@2001-01-01]}
 ```
 
+- Set the precision of the fraction of the temporal network point to the number of decimal places
 
+`setPrecision(tnpoint,integer): tnpoint`
+
+```sql
+SELECT setPrecision(tnpoint '{[NPoint(1, 0.123456789)@2012-01-01, NPoint(1, 0.5)@2012-01-02)}', 6);
+-- {[NPoint(1,0.123457)@2012-01-01 00:00:00+01, NPoint(1,0.5)@2012-01-02 00:00:00+01)}
+```
