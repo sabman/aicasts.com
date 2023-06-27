@@ -350,4 +350,24 @@ SELECT tgeompoint '[POINT(23.057077727326 28.7666335767956)@2001-01-01,
 -- NULL
 ```
 
-We give next the functions and operators for network point types.
+## We give next the functions and operators for network point types.
+
+6.6. Functions and Operators for Temporal Network Points
+All functions for temporal types described in Chapter 5 can be applied for temporal network point types. Therefore, in the signatures of the functions, the notation `base` also represents an npoint and the notations `ttype`, `tpoint`, and `tgeompoint` also represent a `tnpoint`. Furthermore, the functions that have an argument of type `geometry` accept in addition an argument of type `npoint`. To avoid redundancy, we only present next some examples of these functions and operators for temporal network points.
+
+Transform a temporal network point to another subtype
+
+- `tnpoint_inst(tnpoint): tnpoint_inst`
+
+- `tnpoint_instset(tnpoint): tnpoint_instset`
+
+- `tnpoint_seq(tnpoint): tnpoint_seq`
+
+- `tnpoint_seqset(tnpoint): tnpoint_seqset`
+
+```sql
+SELECT tnpoint_seqset(tnpoint 'NPoint(1, 0.5)@2001-01-01');
+-- {[NPoint(1,0.5)@2001-01-01]}
+```
+
+
