@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 backcall = "==0.1.0"
 cachetools = "==3.1.0"
-certifi = "==2018.11.29"
+certifi = "==2022.12.7"
 chardet = "==3.0.4"
 decorator = "==4.3.2"
 google-api-core = "==1.7.0"
