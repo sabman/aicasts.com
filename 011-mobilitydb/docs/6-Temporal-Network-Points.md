@@ -378,3 +378,14 @@ SELECT tnpoint_seqset(tnpoint 'NPoint(1, 0.5)@2001-01-01');
 SELECT setPrecision(tnpoint '{[NPoint(1, 0.123456789)@2012-01-01, NPoint(1, 0.5)@2012-01-02)}', 6);
 -- {[NPoint(1,0.123457)@2012-01-01 00:00:00+01, NPoint(1,0.5)@2012-01-02 00:00:00+01)}
 ```
+
+- Get the values
+
+`getValues(tnpoint): npoint[]`
+  
+  ```sql
+SELECT getValues(tnpoint '{[NPoint(1, 0.3)@2012-01-01, NPoint(1, 0.5)@2012-01-02)}');
+-- {"NPoint(1,0.3)","NPoint(1,0.5)"}
+SELECT getValues(tnpoint '{[NPoint(1, 0.3)@2012-01-01, NPoint(1, 0.3)@2012-01-02)}');
+-- {"NPoint(1,0.3)"}
+```
