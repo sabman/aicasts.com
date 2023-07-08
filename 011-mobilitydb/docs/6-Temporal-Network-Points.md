@@ -389,3 +389,13 @@ SELECT getValues(tnpoint '{[NPoint(1, 0.3)@2012-01-01, NPoint(1, 0.5)@2012-01-02
 SELECT getValues(tnpoint '{[NPoint(1, 0.3)@2012-01-01, NPoint(1, 0.3)@2012-01-02)}');
 -- {"NPoint(1,0.3)"}
 ```
+
+- Get the value at a timestamp
+
+`valueAtTimestamp(tnpoint,timestamptz): npoint`
+
+```sql
+SELECT valueAtTimestamp(tnpoint '[NPoint(1, 0.3)@2012-01-01, NPoint(1, 0.5)@2012-01-03)',
+  '2012-01-02');
+-- NPoint(1,0.4)
+```
