@@ -399,3 +399,4 @@ SELECT valueAtTimestamp(tnpoint '[NPoint(1, 0.3)@2012-01-01, NPoint(1, 0.5)@2012
   '2012-01-02');
 -- NPoint(1,0.4)
 ```
+
