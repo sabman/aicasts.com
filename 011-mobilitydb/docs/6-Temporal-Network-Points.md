@@ -410,3 +410,11 @@ SELECT length(tnpoint '[NPoint(1, 0.3)@2000-01-01, NPoint(1, 0.5)@2000-01-02]');
 -- 54.3757408468784
 ```
 
+- Get the cumulative length traversed by the temporal network point
+
+`length(tnpoint): float`
+
+```sql
+SELECT length(tnpoint '[NPoint(1, 0.3)@2000-01-01, NPoint(1, 0.5)@2000-01-02]');
+-- 54.3757408468784
+```
