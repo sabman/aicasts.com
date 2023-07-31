@@ -418,3 +418,16 @@ SELECT length(tnpoint '[NPoint(1, 0.3)@2000-01-01, NPoint(1, 0.5)@2000-01-02]');
 SELECT length(tnpoint '[NPoint(1, 0.3)@2000-01-01, NPoint(1, 0.5)@2000-01-02]');
 -- 54.3757408468784
 ```
+
+
+- Get the speed of the temporal network point in units per second
+
+`speed({tnpoint_seq, tpoint_seqset}): tfloat_seqset`
+
+```sql
+SELECT speed(tnpoint '[NPoint(1, 0.1)@2000-01-01, NPoint(1, 0.4)@2000-01-02,
+  NPoint(1, 0.6)@2000-01-03]') * 3600 * 24;
+-- Interp=Stepwise;[21.4016800272077@2000-01-01, 14.2677866848051@2000-01-02,
+  14.2677866848051@2000-01-03]
+```
+
