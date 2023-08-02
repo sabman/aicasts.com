@@ -431,3 +431,16 @@ SELECT speed(tnpoint '[NPoint(1, 0.1)@2000-01-01, NPoint(1, 0.4)@2000-01-02,
   14.2677866848051@2000-01-03]
 ```
 
+- Construct the bounding box from a npoint and, optionally, a timestamp or a period
+
+`stbox(npoint,{timestamptz,period}): stbox`
+
+```sql
+SELECT stbox(npoint 'NPoint(1,0.3)');
+-- STBOX((48.711754,20.92568),(48.711758,20.925682))
+SELECT stbox(npoint 'NPoint(1,0.3)', timestamptz '2000-01-01');
+-- STBOX T((62.786633,80.143555,2000-01-01),(62.786636,80.143562,2000-01-01))
+SELECT stbox(npoint 'NPoint(1,0.3)', period '[2000-01-01,2000-01-02]');
+-- STBOX T((62.786633,80.143555,2000-01-01),(62.786636,80.143562,2000-01-02))
+```
+
