@@ -446,3 +446,13 @@ SELECT stbox(npoint 'NPoint(1,0.3)', period '[2000-01-01,2000-01-02]');
 -- STBOX T((62.786633,80.143555,2000-01-01),(62.786636,80.143562,2000-01-02))
 ```
 
+- Get the time-weighted centroid
+
+`twCentroid(tnpoint): geometry(Point)`
+
+```sql
+SELECT st_astext(twCentroid(tnpoint '{[NPoint(1, 0.3)@2012-01-01,
+  NPoint(1, 0.5)@2012-01-02, NPoint(1, 0.5)@2012-01-03, NPoint(1, 0.7)@2012-01-04)}'));
+-- POINT(79.9787466444847 46.2385558051041)
+```
+
