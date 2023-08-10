@@ -55,7 +55,7 @@ wcwidth = "==0.1.7"
 Cycler = "==0.10.0"
 ipython_genutils = "==0.2.0"
 Pillow = "==9.3.0"
-Pygments = "==2.3.1"
+Pygments = "==2.15.0"
 sklearn = "*"
 wandb = "*"
 
