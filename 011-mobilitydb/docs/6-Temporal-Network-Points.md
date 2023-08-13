@@ -467,3 +467,18 @@ SELECT azimuth(tnpoint '[NPoint(2, 0.3)@2012-01-01, NPoint(2, 0.7)@2012-01-02]')
   [3.68970843029227@2012-01-01 23:54:36.721091+01,
   3.68970843029227@2012-01-02 00:00:00+01)}
 ```
+
+Since the underlying geometry associated to a route may have several vertices, the azimuth value may change between instants of the input temporal network point, as shown in the example above.
+
+- Get the instant of the first temporal network point at which the two arguments are at the nearest distance
+
+`nearestApproachInstant({geo,npoint,tpoint},{geo,npoint,tpoint}): tpoint`
+
+```sql
+SELECT nearestApproachInstant(tnpoint '[NPoint(2, 0.3)@2012-01-01,
+  NPoint(2, 0.7)@2012-01-02]', geometry 'Linestring(50 50,55 55)');
+-- NPoint(2,0.349928)@2012-01-01 02:59:44.402905+01
+SELECT nearestApproachInstant(tnpoint '[NPoint(2, 0.3)@2012-01-01,
+  NPoint(2, 0.7)@2012-01-02]', npoint 'NPoint(1, 0.5)');
+-- NPoint(2,0.592181)@2012-01-01 17:31:51.080405+01
+```
