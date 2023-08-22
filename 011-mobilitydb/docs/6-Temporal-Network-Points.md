@@ -482,3 +482,19 @@ SELECT nearestApproachInstant(tnpoint '[NPoint(2, 0.3)@2012-01-01,
   NPoint(2, 0.7)@2012-01-02]', npoint 'NPoint(1, 0.5)');
 -- NPoint(2,0.592181)@2012-01-01 17:31:51.080405+01
 ```
+
+- Get the smallest distance ever between the two arguments
+
+`nearestApproachDistance({geo,npoint,tpoint},{geo,npoint,tpoint}): float``
+
+```sql
+SELECT nearestApproachDistance(tnpoint '[NPoint(2, 0.3)@2012-01-01,
+  NPoint(2, 0.7)@2012-01-02]', geometry 'Linestring(50 50,55 55)');
+-- 1.41793220500979
+SELECT nearestApproachDistance(tnpoint '[NPoint(2, 0.3)@2012-01-01,
+  NPoint(2, 0.7)@2012-01-02]', npoint 'NPoint(1, 0.5)');
+-- NPoint(2,0.592181)@2012-01-01 17:31:51.080405+01
+```
+
+Function `nearestApproachDistance` has an associated operator `|=|` that can be used for doing nearest neightbor searches using a `GiST` index (see Section 5.17. Indexing of Temporal Types).
+
