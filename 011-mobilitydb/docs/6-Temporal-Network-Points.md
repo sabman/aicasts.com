@@ -498,3 +498,19 @@ SELECT nearestApproachDistance(tnpoint '[NPoint(2, 0.3)@2012-01-01,
 
 Function `nearestApproachDistance` has an associated operator `|=|` that can be used for doing nearest neightbor searches using a `GiST` index (see Section 5.17. Indexing of Temporal Types).
 
+
+- Get the line connecting the nearest approach point between the two arguments
+
+`shortestLine({geo,npoint,tpoint},{geo,npoint,tpoint}): geometry`
+
+The function will only return the first line that it finds if there are more than one
+
+```sql
+SELECT st_astext(shortestLine(tnpoint '[NPoint(2, 0.3)@2012-01-01,
+  NPoint(2, 0.7)@2012-01-02]', geometry 'Linestring(50 50,55 55)'));
+-- LINESTRING(50.7960725266492 48.8266286733015,50 50)
+SELECT st_astext(shortestLine(tnpoint '[NPoint(2, 0.3)@2012-01-01,
+  NPoint(2, 0.7)@2012-01-02]', npoint 'NPoint(1, 0.5)'));
+-- LINESTRING(77.0902838115125 66.6659083092593,90.8134936900394 46.4385792121146)
+
+```
