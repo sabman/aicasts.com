@@ -514,3 +514,20 @@ SELECT st_astext(shortestLine(tnpoint '[NPoint(2, 0.3)@2012-01-01,
 -- LINESTRING(77.0902838115125 66.6659083092593,90.8134936900394 46.4385792121146)
 
 ```
+
+Function `shortestLine` can be used to obtain the result provided by the PostGIS function `ST_CPAWithin` when both arguments are trajectories as shown next.
+
+```sql
+SELECT ST_Length(shortestLine(
+  tgeompoint '[Point(0 0 0)@2012-01-01, Point(1 1 1)@2012-01-03,
+    Point(0 0 0)@2012-01-05)',
+  tgeompoint '[Point(2 0 0)@2012-01-02, Point(1 1 1)@2012-01-04,
+    Point(2 2 2)@2012-01-06)')) <= 0.5;
+-- true
+SELECT ST_CPAWithin(
+  tgeompoint '[Point(0 0 0)@2012-01-01, Point(1 1 1)@2012-01-03,
+    Point(0 0 0)@2012-01-05)'::geometry,
+  tgeompoint '[Point(2 0 0)@2012-01-02, Point(1 1 1)@2012-01-04,
+    Point(2 2 2)@2012-01-06)'::geometry, 0.5);
+-- true
+```
