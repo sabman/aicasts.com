@@ -350,9 +350,9 @@ SELECT tgeompoint '[POINT(23.057077727326 28.7666335767956)@2001-01-01,
 -- NULL
 ```
 
-## We give next the functions and operators for network point types.
+We give next the functions and operators for network point types.
 
-6.6. Functions and Operators for Temporal Network Points
+## 6.6. Functions and Operators for Temporal Network Points
 All functions for temporal types described in Chapter 5 can be applied for temporal network point types. Therefore, in the signatures of the functions, the notation `base` also represents an npoint and the notations `ttype`, `tpoint`, and `tgeompoint` also represent a `tnpoint`. Furthermore, the functions that have an argument of type `geometry` accept in addition an argument of type `npoint`. To avoid redundancy, we only present next some examples of these functions and operators for temporal network points.
 
 Transform a temporal network point to another subtype
@@ -512,22 +512,16 @@ SELECT st_astext(shortestLine(tnpoint '[NPoint(2, 0.3)@2012-01-01,
 SELECT st_astext(shortestLine(tnpoint '[NPoint(2, 0.3)@2012-01-01,
   NPoint(2, 0.7)@2012-01-02]', npoint 'NPoint(1, 0.5)'));
 -- LINESTRING(77.0902838115125 66.6659083092593,90.8134936900394 46.4385792121146)
-
 ```
 
 Function `shortestLine` can be used to obtain the result provided by the PostGIS function `ST_CPAWithin` when both arguments are trajectories as shown next.
 
+- Restrict to a value
+
+`atValue(tnpoint,base): tnpoint`
+
 ```sql
-SELECT ST_Length(shortestLine(
-  tgeompoint '[Point(0 0 0)@2012-01-01, Point(1 1 1)@2012-01-03,
-    Point(0 0 0)@2012-01-05)',
-  tgeompoint '[Point(2 0 0)@2012-01-02, Point(1 1 1)@2012-01-04,
-    Point(2 2 2)@2012-01-06)')) <= 0.5;
--- true
-SELECT ST_CPAWithin(
-  tgeompoint '[Point(0 0 0)@2012-01-01, Point(1 1 1)@2012-01-03,
-    Point(0 0 0)@2012-01-05)'::geometry,
-  tgeompoint '[Point(2 0 0)@2012-01-02, Point(1 1 1)@2012-01-04,
-    Point(2 2 2)@2012-01-06)'::geometry, 0.5);
--- true
+SELECT atValue(tnpoint '[NPoint(2, 0.3)@2012-01-01, NPoint(2, 0.7)@2012-01-03]',
+  'NPoint(2, 0.5)');
+-- {[NPoint(2,0.5)@2012-01-02]}
 ```
