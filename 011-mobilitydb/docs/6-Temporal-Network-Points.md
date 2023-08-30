@@ -534,3 +534,4 @@ SELECT atValue(tnpoint '[NPoint(2, 0.3)@2012-01-01, NPoint(2, 0.7)@2012-01-03]',
 SELECT atGeometry(tnpoint '[NPoint(2, 0.3)@2012-01-01, NPoint(2, 0.7)@2012-01-03]',
   'Polygon((40 40,40 50,50 50,50 40,40 40))');
 ```
+
