@@ -546,13 +546,14 @@ SELECT minusValue(tnpoint '[NPoint(2, 0.3)@2012-01-01, NPoint(2, 0.7)@2012-01-03
   (NPoint(2,0.5)@2012-01-02, NPoint(2,0.7)@2012-01-03]}
 ```
 
-- Difference with a value
+- Difference with a geometry
 
-`minusValue(tnpoint,base): tnpoint``
+`minusGeometry(tnpoint,geometry): tnpoint`
 
 ```sql
-SELECT minusValue(tnpoint '[NPoint(2, 0.3)@2012-01-01, NPoint(2, 0.7)@2012-01-03]',
-  'NPoint(2, 0.5)');
--- {[NPoint(2,0.3)@2012-01-01, NPoint(2,0.5)@2012-01-02),
-  (NPoint(2,0.5)@2012-01-02, NPoint(2,0.7)@2012-01-03]}
+SELECT minusGeometry(tnpoint 
+  '[NPoint(2, 0.3)@2012-01-01, NPoint(2, 0.7)@2012-01-03]', 
+  'Polygon((40 40,40 50,50 50,50 40,40 40))'
+);
+-- {(NPoint(2,0.342593)@2012-01-01 05:06:40.364673+01, NPoint(2,0.7)@2012-01-03 00:00:00+01]}
 ```
