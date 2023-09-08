@@ -557,3 +557,33 @@ SELECT minusGeometry(tnpoint
 );
 -- {(NPoint(2,0.342593)@2012-01-01 05:06:40.364673+01, NPoint(2,0.7)@2012-01-03 00:00:00+01]}
 ```
+
+- Traditional comparison operators
+
+```
+tnpoint = tnpoint: boolean
+
+tnpoint <> tnpoint: boolean
+
+tnpoint < tnpoint: boolean
+
+tnpoint > tnpoint: boolean
+
+tnpoint <= tnpoint: boolean
+
+tnpoint >= tnpoint: boolean
+```
+
+```sql
+SELECT tnpoint '{[NPoint(1, 0.1)@2001-01-01, NPoint(1, 0.3)@2001-01-02),
+  [NPoint(1, 0.3)@2001-01-02, NPoint(1, 0.5)@2001-01-03]}' =
+  tnpoint '[NPoint(1, 0.1)@2001-01-01, NPoint(1, 0.5)@2001-01-03]';
+-- true
+SELECT tnpoint '{[NPoint(1, 0.1)@2001-01-01, NPoint(1, 0.5)@2001-01-03]}' <>
+  tnpoint '[NPoint(1, 0.1)@2001-01-01, NPoint(1, 0.5)@2001-01-03]';
+-- false
+SELECT tnpoint '[NPoint(1, 0.1)@2001-01-01, NPoint(1, 0.5)@2001-01-03]' <
+  tnpoint '[NPoint(1, 0.1)@2001-01-01, NPoint(1, 0.6)@2001-01-03]';
+-- true
+
+```
