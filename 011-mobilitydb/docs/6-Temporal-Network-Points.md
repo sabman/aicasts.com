@@ -585,5 +585,23 @@ SELECT tnpoint '{[NPoint(1, 0.1)@2001-01-01, NPoint(1, 0.5)@2001-01-03]}' <>
 SELECT tnpoint '[NPoint(1, 0.1)@2001-01-01, NPoint(1, 0.5)@2001-01-03]' <
   tnpoint '[NPoint(1, 0.1)@2001-01-01, NPoint(1, 0.6)@2001-01-03]';
 -- true
+```
+
+- Temporal comparison operators
 
 ```
+tnpoint #= tnpoint: tbool
+tnpoint #<> tnpoint: tbool
+```
+
+```sql
+SELECT tnpoint '[NPoint(1, 0.2)@2012-01-01, NPoint(1, 0.4)@2012-01-03)' #=
+  npoint 'NPoint(1, 0.3)';
+-- {[f@2012-01-01, t@2012-01-02], (f@2012-01-02, f@2012-01-03)}
+SELECT tnpoint '[NPoint(1, 0.2)@2012-01-01, NPoint(1, 0.8)@2012-01-03)' #<>
+  tnpoint '[NPoint(1, 0.3)@2012-01-01, NPoint(1, 0.7)@2012-01-03)';
+-- {[t@2012-01-01, f@2012-01-02], (t@2012-01-02, t@2012-01-03)}
+```
+
+- Ever and always equal operators
+
