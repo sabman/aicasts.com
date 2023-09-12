@@ -605,3 +605,15 @@ SELECT tnpoint '[NPoint(1, 0.2)@2012-01-01, NPoint(1, 0.8)@2012-01-03)' #<>
 
 - Ever and always equal operators
 
+```
+tnpoint ?= tnpoint: boolean
+
+tnpoint &= tnpoint: boolean
+```
+
+```sql
+SELECT tnpoint '[Npoint(1, 0.2)@2012-01-01, Npoint(1, 0.4)@2012-01-04)' ?= Npoint(1, 0.3);
+-- true
+SELECT tnpoint '[Npoint(1, 0.2)@2012-01-01, Npoint(1, 0.2)@2012-01-04)' &= Npoint(1, 0.2);
+-- true
+```
