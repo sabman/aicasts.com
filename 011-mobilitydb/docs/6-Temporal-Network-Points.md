@@ -617,3 +617,46 @@ SELECT tnpoint '[Npoint(1, 0.2)@2012-01-01, Npoint(1, 0.4)@2012-01-04)' ?= Npoin
 SELECT tnpoint '[Npoint(1, 0.2)@2012-01-01, Npoint(1, 0.2)@2012-01-04)' &= Npoint(1, 0.2);
 -- true
 ```
+
+- Relative position operators
+
+```
+tnpoint << tnpoint: boolean
+
+tnpoint &< tnpoint: boolean
+
+tnpoint >> tnpoint: boolean
+
+tnpoint &> tnpoint: boolean
+
+tnpoint <<| tnpoint: boolean
+
+tnpoint &<| tnpoint: boolean
+
+tnpoint |>> tnpoint: boolean
+
+tnpoint |&> tnpoint: boolean
+
+tnpoint <<# tnpoint: boolean
+
+tnpoint &<# tnpoint: boolean
+
+tnpoint #>> tnpoint: boolean
+
+tnpoint |&> tnpoint: boolean
+```
+
+```sql
+SELECT tnpoint '[NPoint(1, 0.3)@2000-01-01, NPoint(1, 0.5)@2000-01-02]' <<
+  npoint 'NPoint(1, 0.2)'
+-- false
+SELECT tnpoint '[NPoint(1, 0.3)@2000-01-01, NPoint(1, 0.5)@2000-01-02]' <<|
+  stbox(npoint 'NPoint(1, 0.5)')
+-- false
+SELECT tnpoint '[NPoint(1, 0.3)@2000-01-01, NPoint(1, 0.5)@2000-01-02]' &>
+  npoint 'NPoint(1, 0.3)'::geometry
+-- true
+SELECT tnpoint '[NPoint(1, 0.3)@2000-01-01, NPoint(1, 0.5)@2000-01-02]' >>#
+  tnpoint '[NPoint(1, 0.3)@2000-01-03, NPoint(1, 0.5)@2000-01-05]'
+-- true
+```
