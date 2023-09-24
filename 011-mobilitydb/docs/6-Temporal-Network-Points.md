@@ -660,3 +660,7 @@ SELECT tnpoint '[NPoint(1, 0.3)@2000-01-01, NPoint(1, 0.5)@2000-01-02]' >>#
   tnpoint '[NPoint(1, 0.3)@2000-01-03, NPoint(1, 0.5)@2000-01-05]'
 -- true
 ```
+
+- Temporal network point operators
+
+```
