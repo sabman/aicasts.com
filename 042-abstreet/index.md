@@ -9,6 +9,13 @@ The GMNS format is a unifying data format for AMS. [Here](https://github.com/sta
 
 ## What problems does A/B Street solve?
 
+A/B Street is a traffic simulation game exploring how small changes to roads affect cyclists, transit users, pedestrians, and drivers. In other words, you can transform that street parking into a bus lane or fix that pesky left turn at a traffic signal, measure the effects, then propose actually making the change.
+
+A/B Street uses game-like elements to gradually introduce all of the features of the simulation, with a tutorial and a few challenge modes. But just becaused it's called a "game" doesn't mean it's not trying to model the real world as accurately as possible from open data. (Keep in mind it's impossible to simulate all complexity in the real world of people moving around a city. Every traffic model makes lots of assumptions and trade-offs, including A/B Street.)
+
+
+See urban tranportation guide here. [Urban Transportation Guide](https://nacto.org/publication/urban-street-design-guide/)
+
 ## How are people solving these problems today?
 
 
