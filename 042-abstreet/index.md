@@ -29,3 +29,8 @@ A/B Street uses game-like elements to gradually introduce all of the features of
 - https://a-b-street.github.io/docs/tech/dev/index.html
 
 - Running headless https://a-b-street.github.io/docs/tech/dev/api.html
+
+
+Suppose you're tired of manually fiddling with traffic signals, and you want to use machine learning to do it. You can run A/B Street without graphics and automatically control it through an API.
+
+e.g. https://github.com/a-b-street/abstreet/blob/main/headless/examples/python_client.py
