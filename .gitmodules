@@ -4,3 +4,6 @@
 [submodule "033-tile38/tile38"]
 	path = 033-tile38/tile38
 	url = git@github.com:tidwall/tile38.git
+[submodule "044_open-earth-map/oem-lightweight"]
+	path = 044_open-earth-map/oem-lightweight
+	url = github.com:sabman/oem-lightweight.git
