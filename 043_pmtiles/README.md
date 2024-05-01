@@ -42,4 +42,6 @@ Commands:
 Run "pmtiles <command> --help" for more information on a command.
 
 pmtiles show https://build.protomaps.com/20240428.pmtiles
+
+pmtiles tile https://build.protomaps.com/20240428.pmtiles 12 2048 2048 > tile.mvt
 ```
