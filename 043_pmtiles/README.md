@@ -43,5 +43,5 @@ Run "pmtiles <command> --help" for more information on a command.
 
 pmtiles show https://build.protomaps.com/20240428.pmtiles
 
-pmtiles tile https://build.protomaps.com/20240428.pmtiles 12 2048 2048 > tile.mvt
+pmtiles extract https://build.protomaps.com/20240501.pmtiles my_area.pmtiles --bbox=4.742883,51.830755,5.552837,52.256198
 ```
