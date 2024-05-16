@@ -8,3 +8,4 @@ How do I use this:
 https://github.com/cliffbb/oem-lightweight 
 
 The lightweight models searched and pretrained on the OpenEarthMap dataset can be downloaded as following:
+
