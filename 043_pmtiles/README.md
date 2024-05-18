@@ -45,3 +45,15 @@ pmtiles show https://build.protomaps.com/20240428.pmtiles
 
 pmtiles extract https://build.protomaps.com/20240501.pmtiles my_area.pmtiles --bbox=4.742883,51.830755,5.552837,52.256198
 ```
+
+https://docs.protomaps.com/pmtiles/
+
+PMTiles is a single-file archive format for pyramids of tiled data. A PMTiles archive can be hosted on a storage platform like S3, and enables low-cost, zero-maintenance map applications.
+
+- PMTiles is a general format for tiled data addressed by Z/X/Y coordinates. This can be cartographic basemap vector tiles, remote sensing observations, JPEG images, or more.
+
+- PMTiles readers use HTTP Range Requests to fetch only the relevant tile or metadata inside a PMTiles archive on-demand.
+
+- The arrangement of tiles and directories is designed to minimize the amount of overhead requests when panning and zooming.
+
+The current specification version of PMTiles is version 3, which you can read on GitHub.
