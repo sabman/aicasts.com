@@ -62,7 +62,7 @@ The current specification version of PMTiles is version 3, which you can read on
 # PostgreSQL/PostGIS => GeoJSON => PMtiles
 source .env
 
-ogr2ogr -progress -f "GeoJSON" doha_buildings.geojson PG:"user=supabase_admin password=$DBPASS host=$DBHOST port=6443 dbname=postgres" doha_buildings
+ogr2ogr -progress -f "GeoJSON" doha_buildings.geojson PG:"user=geobase_admin password=$DBPASS host=$DBHOST port=6443 dbname=postgres" doha_buildings
 
 tippecanoe --minimum-zoom=6 --maximum-zoom=21 --projection=EPSG:4326 -o doha_buildings.pmtiles -l doha_buildings doha_buildings.geojson --force
 ```
