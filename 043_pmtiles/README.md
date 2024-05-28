@@ -57,3 +57,12 @@ PMTiles is a single-file archive format for pyramids of tiled data. A PMTiles ar
 - The arrangement of tiles and directories is designed to minimize the amount of overhead requests when panning and zooming.
 
 The current specification version of PMTiles is version 3, which you can read on GitHub.
+
+```sh
+# PostgreSQL/PostGIS => GeoJSON => PMtiles
+source .env
+
+ogr2ogr -progress -f "GeoJSON" doha_buildings.geojson PG:"user=supabase_admin password=$DBPASS host=$DBHOST port=6443 dbname=postgres" doha_buildings
+
+tippecanoe --minimum-zoom=6 --maximum-zoom=21 --projection=EPSG:4326 -o doha_buildings.pmtiles -l doha_buildings doha_buildings.geojson --force
+```
