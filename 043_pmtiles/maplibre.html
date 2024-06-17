@@ -38,10 +38,10 @@
         container: 'map',
         zoom: h.maxZoom - 6,
         center: [h.centerLon, h.centerLat],
-        style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json" 
+        style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
       });
 
-      map.on("load", ()=> {
+      map.on("load", () => {
         map.addSource("example_source", {
             type: "vector",
             url: "pmtiles://" + PMTILES_URL,
