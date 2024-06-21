@@ -1,4 +1,4 @@
-# aicasts.com ☑️
+# aicasts.com 
 
 Weekly AI Tutorials
 
