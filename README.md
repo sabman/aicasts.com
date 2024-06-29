@@ -1,3 +1,7 @@
+# Playlists
+
+- Intro to Database Systems https://15445.courses.cs.cmu.edu/fall2024/
+  - Latest Playlist https://www.youtube.com/watch?v=vdPALZ-GCfI&list=PLSE8ODhjZXjbj8BMuIrRcacnQh20hmY9g
 
 # aicasts.com 
 
