@@ -1,0 +1,3 @@
+https://samgeo.gishub.org/
+
+The segment-geospatial package draws its inspiration from segment-anything-eo repository authored by Aliaksandr Hancharenka. To facilitate the use of the Segment Anything Model (SAM) for geospatial data, I have developed the segment-anything-py and segment-geospatial Python packages, which are now available on PyPI and conda-forge. My primary objective is to simplify the process of leveraging SAM for geospatial data analysis by enabling users to achieve this with minimal coding effort. I have adapted the source code of segment-geospatial from the segment-anything-eo repository, and credit for its original version goes to Aliaksandr Hancharenka.
