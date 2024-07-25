@@ -14,7 +14,6 @@ Spatial Stats
 
 TODO:
 
-
 - look at hbase
 - look at geomesa
 - Kafka
