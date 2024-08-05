@@ -4,10 +4,7 @@ Numpy is all about vectorization. If you are familiar with Python, this is the m
 
 Let's take a very simple example, random walk. One possible object oriented approach would be to define a RandomWalker class and write a walk method that would return the current position after each (random) step. It's nice, it's readable, but it is slow:
 
-
 ### Object oriented approach
-
-
 
 ```python
 import numpy as np
@@ -15,9 +12,6 @@ import scipy as sp
 import matplotlib.pyplot as plt
 import random
 ```
-
-
-
 
 ```python
 class RandomWalker:
@@ -35,10 +29,7 @@ walk = [position for position in walker.walk(1000)]
 # print(walk[0:10])
 ```
 
-
-
 Benchmarking gives us:
-
 
 ```python
 import timeit
@@ -46,8 +37,6 @@ walker = RandomWalker()
 # timeit.timeit("[position for position in walker.walk(n=10000)]", number=10000)
 # 10 loops, best of 3: 15.7 msec per loop
 ```
-
-
 
 ### Procedural approach
 
@@ -70,7 +59,6 @@ print(walk[0:10])
 
 ### Vectorized approach
 
-
 ```python
 def random_walk_faster(n=1000):
     from itertools import accumulate
@@ -91,10 +79,7 @@ print(walk[0:10])
 [0, -1, 0, 1, 0, -1, 0, 1, 0, 1]
 ```
 
-
-
 Let's use `numpy` instead of the `itertools`:
-
 
 ```python
 def random_walk_fastest(n=1000):
@@ -116,10 +101,7 @@ timeit("random_walk_fastest(n=10000)", number = 10000, globals = globals())
 4.638278706988785
 ```
 
-
-
 ### Readability vs speed
-
 
 ```python
 def function_1(seq, sub):
@@ -132,7 +114,5 @@ def function_2(seq, sub):
     mask = np.all((np.take(seq, check) == sub), axis = -1)
     return candidates[mask]
 ```
-
-
 
 The second function is hardly readable! The numpy optimised version.
