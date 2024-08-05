@@ -4,13 +4,10 @@ This means the problem you are trying to solve is inherently vectorizable. In ot
 
 regular python:
 
-
 ```python
 def add_python(Z1,Z2):
   return [z1+z2 for (z1,z2) in zip(Z1,Z2)]
 ```
-
-
 
 now numpy:
 
@@ -20,10 +17,7 @@ def add_numpy(Z1,Z2):
   return np.add(Z1,Z2)
 ```
 
-
-
 let's benchmark:
-
 
 ```python
 import random
@@ -38,10 +32,6 @@ timeit("add_python(Z1,Z2)", number = 10000, globals = globals())
 0.11206055301590823
 ```
 
-
-
-
-
 ```python
 import random
 from timeit import timeit
@@ -54,8 +44,6 @@ timeit("add_numpy(Z1,Z2)", number = 10000, globals = globals())
 ```
 0.24996316598844714
 ```
-
-
 
 ## Uniform vectorization
 
@@ -70,7 +58,6 @@ Simplest form of vectorization. Where all elements share the same computation at
 
 We can implement the Game of Life rules and steps as follows:
 
-
 ```python
 Z = [[0,0,0,0,0,0],
      [0,0,0,1,0,0],
@@ -79,9 +66,6 @@ Z = [[0,0,0,0,0,0],
      [0,0,0,0,0,0],
      [0,0,0,0,0,0]]
 ```
-
-
-
 
 ```python
 def compute_neighbours(Z):
@@ -95,9 +79,6 @@ def compute_neighbours(Z):
     return N
 ```
 
-
-
-
 ```python
 def iterate(Z):
     N = compute_neighbours(Z)
@@ -110,12 +91,7 @@ def iterate(Z):
     return Z
 ```
 
-
-
-
 ## Numpy implementation
-
-
 
 ```python
 N = np.zeros(Z.shape, dtype=int)
@@ -135,10 +111,7 @@ Traceback (most recent call last)<ipython-input-1-a66d88b4d01b> in
 AttributeError: 'list' object has no attribute 'shape'
 ```
 
-
-
 Rules enforcement:
-
 
 ```python
 # Flatten arrays
@@ -173,12 +146,9 @@ Traceback (most recent call last)<ipython-input-1-9b34b1bbcc10> in
 NameError: name 'N' is not defined
 ```
 
-
-
 ## Temporal vectorization
 
 The Mandelbrot set:
-
 
 ```python
 def mandelbrot_python(xmin, xmax, ymin, ymax, xn, yn, maxiter, horizon=2.0):
@@ -194,12 +164,9 @@ def mandelbrot_python(xmin, xmax, ymin, ymax, xn, yn, maxiter, horizon=2.0):
     return [mandelbrot(complex(r, i),maxiter) for r in r1 for i in r2]
 ```
 
-
 Temporal vectorization
 
 The interesting (and slow) part of this code is the mandelbrot function that actually computes the sequence fc(fc(fc...))). The vectorization of such code is not totally straightforward because the internal return implies a differential processing of the element. Once it has diverged, we don't need to iterate any more and we can safely return the iteration count at divergence. The problem is to then do the same in numpy. But how?
-
-
 
 ```python
 def mandelbrot_numpy_2(xmin, xmax, ymin, ymax, xn, yn, itermax, horizon=2.0):
@@ -233,14 +200,11 @@ def mandelbrot_numpy_2(xmin, xmax, ymin, ymax, xn, yn, itermax, horizon=2.0):
     return Z_.T, N_.T
 ```
 
-
-
 We now want to measure the fractal dimension of the Mandelbrot set using the Minkowski–Bouligand dimension. To do that, we need to do box-counting with a decreasing box size (see figure below). As you can imagine, we cannot use pure Python because it would be way too slow. The goal of the exercise is to write a function using numpy that takes a two-dimensional float array and returns the dimension. We'll consider values in the array to be normalized (i.e. all values are between 0 and 1).
 
 ## Spatial vectorization
 
 Spatial vectorization refers to a situation where elements share the same computation but are in interaction with only a subgroup of other elements. This was already the case for the game of life example, but in some situations there is an added difficulty because the subgroup is dynamic and needs to be updated at each iteration. This the case, for example, in particle systems where particles interact mostly with local neighbours. This is also the case for "boids" that simulate flocking behaviors.
-
 
 ```python
 import math
@@ -267,9 +231,6 @@ Traceback (most recent call last)<ipython-input-1-24da46298b2b> in
 ModuleNotFoundError: No module named 'vec2'
 ```
 
-
-
-
 ```python
 def separation(self, boids):
     count = 0
@@ -292,9 +253,6 @@ def separation(self, boids):
 IndentationError: unindent does not match any outer indentation level
 ```
 
-
-
-
 ```python
 class Flock:
     def __init__(self, count=150):
@@ -308,10 +266,7 @@ class Flock:
             boid.run(self.boids)
 ```
 
-
-
 numpy implementation takes a different approach and we'll gather all our boids into a position array and a velocity array
-
 
 ```python
 n = 500
@@ -323,11 +278,8 @@ dy = np.subtract.outer(position[:, 1], position[:, 1])
 distance = np.hypot(dx, dy)
 ```
 
-
-
 https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html
 https://numpy.org/doc/stable/reference/generated/numpy.hypot.html
-
 
 ```python
 mask_0 = (distance > 0)
@@ -338,13 +290,8 @@ mask_2 *= mask_0
 mask_3 = mask_2
 ```
 
-
-
-
 ```python
 mask_1_count = np.maximum(mask_1.sum(axis=1), 1)
 mask_2_count = np.maximum(mask_2.sum(axis=1), 1)
 mask_3_count = mask_2_count
 ```
-
-
