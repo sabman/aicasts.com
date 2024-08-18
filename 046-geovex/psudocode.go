@@ -145,3 +145,15 @@ func countTags(hexagon Hexagon, tag int) int {
 	// Dummy implementation
 	return 0
 }
+
+func main() {
+	center := Point{0, 0}         // Center of the grid
+	theta := make([]float64, 256) // Assume D = 256
+	p := Point{5, 5}              // Example point
+
+	// Execute the F_theta encoder
+	embedding := F_theta(p, theta)
+
+	// The embedding can now be used in downstream tasks
+	fmt.Println(embedding)
+}
