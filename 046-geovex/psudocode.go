@@ -115,7 +115,7 @@ func tensorSum(tensor [][][]int) float64 {
 
 // Main function to execute the pipeline and the F_theta encoder
 func main() {
-	center := Point{0, 0}         // Center of the grid
+	// center := Point{0, 0}         // Center of the grid
 	theta := make([]float64, 256) // Assume D = 256
 	p := Point{5, 5}              // Example point
 
