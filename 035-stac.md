@@ -1,6 +1,6 @@
 # What is STAC?
 
-STAC is a specification for storing geospatial metadata in a way that is easy to search. It is designed to be flexible and to be able to represent a wide range of geospatial data. It is a community driven project, and welcomes contributions from anyone.
+STAC is a specification for storing geospatial metadata in a way that is easy to search. It is designed to be flexible and to be able to represent a wide range of geospatial data. It is a community driven project, and welcomes contributions from anyone. https://stacspec.org/
 
 # What problem does STAC solve?
 
@@ -102,3 +102,4 @@ let search = Client::open("https://earth-search.aws.element84.com/v0").search(&[
 // Print the number of items found
 println!("{}", search.get_items().await?.len());
 ```
+
