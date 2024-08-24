@@ -4,6 +4,7 @@
 # In[1]:
 
 
+import pandas as pd
 import seaborn as sns
 sns.set_theme(style="whitegrid")
 tips = sns.load_dataset("tips")
@@ -19,9 +20,6 @@ sns.__version__
 # In[16]:
 
 
-import pandas as pd
-
-
 # In[46]:
 
 
@@ -31,13 +29,10 @@ tips[tips.day == "Sun"]
 # In[57]:
 
 
-rec = tips.iloc[[77,90,19,1]]
+rec = tips.iloc[[77, 90, 19, 1]]
 
 
 # In[58]:
-
-
-
 
 
 # In[59]:
@@ -75,7 +70,3 @@ ax = sns.stripplot(x="day", y="total_bill", data=tips)
 
 
 # In[ ]:
-
-
-
-
