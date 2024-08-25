@@ -41,18 +41,19 @@ def update(frame):
     global U, V, u, v, im
 
     for i in range(10):
-        Lu = (                  U[0:-2, 1:-1] +
+        Lu = (U[0:-2, 1:-1] +
               U[1:-1, 0:-2] - 4*U[1:-1, 1:-1] + U[1:-1, 2:] +
-                                U[2:  , 1:-1])
-        Lv = (                  V[0:-2, 1:-1] +
+              U[2:, 1:-1])
+        Lv = (V[0:-2, 1:-1] +
               V[1:-1, 0:-2] - 4*V[1:-1, 1:-1] + V[1:-1, 2:] +
-                                V[2:  , 1:-1])
+              V[2:, 1:-1])
         uvv = u*v*v
         u += (Du*Lu - uvv + F*(1-u))
         v += (Dv*Lv + uvv - (F+k)*v)
 
     im.set_data(V)
     im.set_clim(vmin=V.min(), vmax=V.max())
+
 
 fig = plt.figure(figsize=(4, 4))
 fig.add_axes([0.0, 0.0, 1.0, 1.0], frameon=False)
