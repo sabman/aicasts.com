@@ -3879,3 +3879,212 @@ Figure 5.10, “Comparison of the nodes obtained by contracting the graph (in bl
 
 Figure 5.10. Comparison of the nodes obtained by contracting the graph (in black), before contraction (in blue), and those obtained by osm2pgrouting (in red).
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/node_comp2.png)
+
+# Chapter 3. BerlinMOD Benchmark on MobilityDB
+
+```sql
+-------------------------------------------------------------------------------
+-- Loads the BerlinMOD data in projected (2D) coordinates with SRID 5676
+-- https://epsg.io/5676
+-------------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS berlinmod_load();
+CREATE OR REPLACE FUNCTION berlinmod_load(scale_factor text DEFAULT '0.005',
+  path text DEFAULT '/usr/local/BerlinMOD/') 
+RETURNS text AS $$
+DECLARE
+  fullpath text;
+BEGIN
+  fullpath = path || scale_factor || '/';
+  DROP TABLE IF EXISTS streets;
+  CREATE TABLE streets (
+    StreetId integer,
+    vmax integer,
+    x1 double precision,
+    y1 double precision,
+    x2 double precision,
+    y2 double precision,
+    Geom geometry(LineString, 5676) );
+  EXECUTE format('COPY streets(StreetId, vmax, x1, y1, x2, y2) FROM ''%sstreets.csv'' 
+    DELIMITER '','' CSV HEADER', fullpath);
+  UPDATE streets
+  SET Geom = ST_Transform(ST_SetSRID(ST_MakeLine(ARRAY[ST_MakePoint(x1, y1),
+    ST_MakePoint(x2, y2)]), 4326), 5676);
+
+  DROP TABLE IF EXISTS Points CASCADE;
+  CREATE TABLE Points (
+    PointId integer,
+    PosX double precision,
+    PosY double precision,
+    Geom geometry(Point, 5676) );
+  EXECUTE format('COPY Points(PointId, PosX, PosY) FROM ''%spoints.csv'' 
+    DELIMITER  '','' CSV HEADER', fullpath);
+  UPDATE Points
+  SET Geom = ST_Transform(ST_SetSRID(ST_MakePoint(PosX, PosY), 4326), 5676);
+
+  CREATE INDEX Points_geom_idx ON Points USING gist(Geom);
+
+  CREATE VIEW Points1(PointId, PosX, PosY, Geom) AS
+  SELECT PointId, PosX, PosY, Geom
+  FROM Points
+  LIMIT 10;
+
+  DROP TABLE IF EXISTS RegionsInput CASCADE;
+  CREATE TABLE RegionsInput (
+    RegionId integer,
+    SegNo integer,
+    XStart double precision,
+    YStart double precision,
+    XEnd double precision,
+    YEnd double precision );
+  EXECUTE format('COPY RegionsInput(RegionId, SegNo, XStart, YStart, XEnd, YEnd) 
+    FROM ''%sregions.csv'' DELIMITER  '','' CSV HEADER', fullpath);
+
+  DROP TABLE IF EXISTS Regions CASCADE;
+  CREATE TABLE Regions (
+    RegionId integer,
+    Geom Geometry(Polygon, 5676) );
+  INSERT INTO Regions (RegionId, Geom)
+  WITH RegionsSegs AS (
+    SELECT RegionId, SegNo, ST_Transform(ST_SetSRID(St_MakeLine(
+      ST_MakePoint(XStart, YStart), ST_MakePoint(XEnd, YEnd)), 4326), 5676) AS Geom
+    FROM RegionsInput )
+  SELECT RegionId, ST_Polygon(ST_LineMerge(ST_Union(Geom ORDER BY SegNo)), 5676) AS Geom
+  FROM RegionsSegs
+  GROUP BY RegionId;
+
+  CREATE INDEX Regions_geom_idx ON Regions USING gist(Geom);
+
+  CREATE VIEW Regions1(RegionId, Geom) AS
+  SELECT RegionId, Geom
+  FROM Regions
+  LIMIT 10;
+
+  DROP TABLE IF EXISTS Instants CASCADE;
+  CREATE TABLE Instants (
+    InstantId integer,
+    Instant timestamptz );
+  EXECUTE format('COPY Instants(InstantId, Instant) FROM ''%sinstants.csv''
+    DELIMITER  '','' CSV HEADER', fullpath);
+
+  CREATE INDEX Instants_instant_btree_idx ON Instants USING btree(instant);
+
+  CREATE VIEW Instants1(InstantId, Instant) AS
+  SELECT InstantId, Instant 
+  FROM Instants
+  LIMIT 10;
+
+  DROP TABLE IF EXISTS Periods CASCADE;
+  CREATE TABLE Periods (
+    PeriodId integer,
+    BeginP timestamp,
+    EndP timestamp,
+    Period period );
+  EXECUTE format('COPY Periods(PeriodId, BeginP, EndP) FROM ''%speriods.csv'' 
+    DELIMITER  '','' CSV HEADER', fullpath);
+  UPDATE Periods
+  SET Period = period(BeginP,EndP);
+
+  CREATE INDEX Periods_Period_gist_idx ON Periods USING gist(Period);
+
+  CREATE VIEW Periods1(PeriodId, BeginP, EndP, Period) AS
+  SELECT PeriodId, BeginP, EndP, Period
+  FROM Periods
+  LIMIT 10;
+
+  DROP TABLE IF EXISTS Vehicles CASCADE;
+  CREATE TABLE Vehicles (
+    VehId integer PRIMARY KEY,
+    Licence varchar(32),
+    Type varchar(32),
+    Model varchar(32) );
+  EXECUTE format('COPY Vehicles(VehId, Licence, Type, Model) FROM ''%svehicles.csv'' 
+    DELIMITER  '','' CSV HEADER', fullpath);
+
+  DROP TABLE IF EXISTS Licences CASCADE;
+  CREATE TABLE Licences (
+    VehId integer PRIMARY KEY,
+    LicenceId integer,
+    Licence varchar(8) );
+  EXECUTE format('COPY Licences(Licence, LicenceId) FROM ''%slicences.csv'' 
+    DELIMITER  '','' CSV HEADER', fullpath);
+  UPDATE Licences Q
+  SET VehId = ( SELECT C.VehId FROM Vehicles C WHERE C.Licence = Q.Licence );
+
+  CREATE INDEX Licences_VehId_idx ON Licences USING btree(VehId);
+
+  CREATE VIEW Licences1(LicenceId, Licence, VehId) AS
+  SELECT LicenceId, Licence, VehId
+  FROM Licences
+  LIMIT 10;
+
+  CREATE VIEW Licences2(LicenceId, Licence, VehId) AS
+  SELECT LicenceId, Licence, VehId
+  FROM Licences
+  LIMIT 10 OFFSET 10;
+
+  DROP TABLE IF EXISTS TripsInput CASCADE;
+  CREATE TABLE TripsInput (
+    VehId integer,
+    TripId integer,
+    TStart timestamp without time zone,
+    TEnd timestamp without time zone,
+    XStart double precision,
+    YStart double precision,
+    XEnd double precision,
+    YEnd double precision,
+    Geom geometry(LineString) );
+  EXECUTE format('COPY TripsInput(VehId, TripId, TStart, TEnd, XStart, YStart, XEnd, YEnd) 
+    FROM ''%strips.csv'' DELIMITER  '','' CSV HEADER', fullpath);
+  UPDATE TripsInput
+  SET Geom = ST_Transform(ST_SetSRID(ST_MakeLine(ARRAY[ST_MakePoint(XStart, YStart),
+    ST_MakePoint(XEnd, YEnd)]), 4326), 5676);
+
+  DROP TABLE IF EXISTS TripsInputInstants;
+  CREATE TABLE TripsInputInstants AS (
+  SELECT VehId, TripId, TStart, XStart, YStart, 
+    ST_Transform(ST_SetSRID(ST_MakePoint(XStart, YStart), 4326), 5676) as Geom
+  FROM TripsInput
+  UNION ALL
+  SELECT T1.VehId, T1.TripId, T1.TEnd, T1.XEnd, T1.YEnd, 
+    ST_Transform(ST_SetSRID(ST_MakePoint(T1.XEnd, T1.YEnd), 4326), 5676) as Geom
+  FROM TripsInput T1 INNER JOIN (
+    SELECT VehId, TripId, max(TEnd) as MaxTend
+    FROM TripsInput 
+    GROUP BY VehId, TripId
+  ) T2 ON T1.VehId = T2.VehId AND T1.TripId = T2.TripId AND T1.TEnd = T2.MaxTend );
+  ALTER TABLE TripsInputInstants ADD COLUMN inst tgeompoint;
+  UPDATE TripsInputInstants
+  SET inst = tgeompoint_inst(Geom, TStart);
+
+  DROP TABLE IF EXISTS Trips CASCADE;
+  CREATE TABLE Trips (
+    TripId integer PRIMARY KEY,
+    VehId integer NOT NULL,
+    Trip tgeompoint,
+    Traj geometry,
+    PRIMARY KEY (VehId, TripId),
+    FOREIGN KEY (VehId) REFERENCES Vehicles(VehId));
+  INSERT INTO Trips
+  SELECT VehId, TripId, tgeompoint_seq(array_agg(inst ORDER BY TStart))
+  FROM TripsInputInstants
+  GROUP BY VehId, TripId;
+  UPDATE Trips
+  SET Traj = trajectory(Trip);
+
+  CREATE INDEX Trips_VehId_idx ON Trips USING btree(VehId);
+  CREATE INDEX Trips_gist_idx ON Trips USING gist(trip);
+
+  DROP VIEW IF EXISTS Trips1;
+  CREATE VIEW Trips1 AS
+  SELECT * FROM Trips LIMIT 100;
+
+  -- Drop temporary tables
+  DROP TABLE RegionsInput;
+  DROP TABLE TripsInput;
+  DROP TABLE TripsInputInstants;
+
+  RETURN 'The End';
+END;
+$$ LANGUAGE 'plpgsql';
+```
