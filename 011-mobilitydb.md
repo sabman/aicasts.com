@@ -4088,3 +4088,10 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 ```
+ The script above creates a procedure to load pregenerated BerlinMOD data (in CSV format and WGS84 coordinates) at various scale factors. The procedure has two parameters: the scale factor and the directory where the CSV files are located. It supposes by default that the scale factor is 0.005 and that the CSV files are located in the directory /usr/local/BerlinMOD/<scale factor>/. Notice that the procedure creates GiST indexes for the tables. Alternatively, SP-GiST indexes could be used. The procedure can be called, for example, as follows. 
+
+ ```sql
+ SELECT berlinmod_load('0.05');
+ ```
+
+ 
