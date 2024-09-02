@@ -4093,5 +4093,3 @@ $$ LANGUAGE 'plpgsql';
  ```sql
  SELECT berlinmod_load('0.05');
  ```
-
- 
