@@ -4093,3 +4093,62 @@ $$ LANGUAGE 'plpgsql';
  ```sql
  SELECT berlinmod_load('0.05');
  ```
+
+# Loading the Data in Partitioned Tables
+
+As we discussed in Chapter 1, MobilityDB Tutorial, partioning allows one to split a large table into smaller physical pieces. We show next how to modify the scripts given in the previous section to take advantage of partioning. We will partition the Trips table by date using list partitioning, where each partitition will contain all the trips that start at a particular date. We will use the procedure create_partitions_by_date shown in Chapter 1, MobilityDB Tutorial for automatically creating the partitions according to the date range of the corresponding scale factor. 
+
+```sql
+[...]
+DROP TABLE IF EXISTS TripsInput CASCADE;
+CREATE TABLE TripsInput (
+  VehId integer,
+  TripId integer,
+  TripDate date,
+  TStart timestamp without time zone,
+  TEnd timestamp without time zone,
+  XStart double precision,
+  YStart double precision,
+  XEnd double precision,
+  YEnd double precision,
+  Geom geometry(LineString) );
+EXECUTE format('COPY TripsInput(VehId, TripId, TStart, TEnd, XStart, YStart, XEnd, YEnd) 
+FROM ''%strips.csv'' DELIMITER  '','' CSV HEADER', fullpath);
+UPDATE TripsInput
+SET Geom = ST_Transform(ST_SetSRID(ST_MakeLine(ARRAY[ST_MakePoint(XStart, YStart),
+  ST_MakePoint(XEnd, YEnd)]), 4326), 5676);
+UPDATE TripsInput T1 
+SET TripDate = T2.TripDate
+FROM (SELECT DISTINCT TripId, date_trunc('day', MIN(TStart) OVER 
+  (PARTITION BY TripId)) AS TripDate FROM TripsInput) T2
+WHERE T1.TripId = T2.TripId;
+[...]
+DROP TABLE IF EXISTS Trips CASCADE;
+CREATE TABLE Trips (
+  VehId integer NOT NULL,
+  TripId integer NOT NULL,
+  TripDate date,
+  Trip tgeompoint,
+  Traj geometry,
+  PRIMARY KEY (VehId, TripId, TripDate),
+  FOREIGN KEY (VehId) REFERENCES Vehicles (VehId) 
+) PARTITION BY LIST(TripDate);
+
+-- Create the partitions 
+SELECT MIN(TripDate), MAX(TripDate) INTO mindate, maxdate FROM TripsInputInstants;
+PERFORM create_partitions_by_date('Trips', mindate, maxdate);
+
+INSERT INTO Trips(VehId, TripId, TripDate, Trip)
+SELECT VehId, TripId, TripDate, tgeompoint_seq(array_agg(inst ORDER BY TStart))
+FROM TripsInputInstants
+GROUP BY VehId, TripId, TripDate;
+UPDATE Trips
+SET Traj = trajectory(Trip);
+
+CREATE INDEX Trips_VehId_idx ON Trips USING btree(VehId);
+CREATE UNIQUE INDEX Trips_pkey_idx ON Trips USING btree(VehId, TripId, TripDate);
+CREATE INDEX Trips_gist_idx ON Trips USING gist(trip);
+[...]
+```
+
+With respect to the script given in the previous section, we need to add an additional column TripDate to the tables TripsInput, TripsInputInstants (not shown), and Trips that will be used for partitioning.
