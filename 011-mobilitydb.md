@@ -4152,3 +4152,33 @@ CREATE INDEX Trips_gist_idx ON Trips USING gist(trip);
 ```
 
 With respect to the script given in the previous section, we need to add an additional column TripDate to the tables TripsInput, TripsInputInstants (not shown), and Trips that will be used for partitioning.
+
+## BerlinMOD/R Queries
+
+The script for querying BerlinMOD data loaded in MobilityDB with the BerlinMOD/R queries is available here.
+
+1. What are the models of the vehicles with licence plate numbers from Licences?
+
+```sql
+SELECT DISTINCT L.Licence, C.Model AS Model
+FROM Vehicles C, Licences L
+WHERE C.Licence = L.Licence;
+```
+
+2. How many vehicles exist that are passenger cars?
+
+```sql
+SELECT COUNT (Licence)
+FROM Vehicles C
+WHERE Type = 'passenger';
+```
+
+3. Where have the vehicles with licences from Licences1 been at each of the instants from Instants1?
+
+```sql
+SELECT DISTINCT L.Licence, I.InstantId, I.Instant AS Instant,
+  valueAtTimestamp(T.Trip, I.Instant) AS Pos
+FROM Trips T, Licences1 L, Instants1 I
+WHERE T.VehId = L.VehId AND valueAtTimestamp(T.Trip, I.Instant) IS NOT NULL
+ORDER BY L.Licence, I.InstantId;
+```
