@@ -4182,3 +4182,13 @@ FROM Trips T, Licences1 L, Instants1 I
 WHERE T.VehId = L.VehId AND valueAtTimestamp(T.Trip, I.Instant) IS NOT NULL
 ORDER BY L.Licence, I.InstantId;
 ```
+
+4. Which vehicles have passed the points from Points?
+  
+```sql
+SELECT DISTINCT P.PointId, P.Geom, C.Licence
+FROM Trips T, Vehicles C, Points P
+WHERE T.VehId = C.VehId AND T.Trip && P.Geom AND
+  ST_Intersects(trajectory(T.Trip), P.Geom) 
+ORDER BY P.PointId, C.Licence;
+```
