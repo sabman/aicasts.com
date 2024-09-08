@@ -4218,3 +4218,15 @@ order by
   l1.licence,
   l2.licence;
 ```
+
+6. What are the pairs of trucks that have ever been as close as 10m or less to each other?
+
+```sql
+select distinct c1.licence as licence1, c2.licence as licence2
+from trips t1, vehicles c1, trips t2, vehicles c2
+where t1.vehid = c1.vehid and t2.vehid = c2.vehid and
+  t1.vehid < t2.vehid and c1.type = 'truck' and c2.type = 'truck' and
+  t1.trip && expandspatial(t2.trip, 10) and
+  tdwithin(t1.trip, t2.trip, 10.0) ?= true
+order by c1.licence, c2.licence;
+```
