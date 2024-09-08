@@ -4192,3 +4192,29 @@ WHERE T.VehId = C.VehId AND T.Trip && P.Geom AND
   ST_Intersects(trajectory(T.Trip), P.Geom) 
 ORDER BY P.PointId, C.Licence;
 ```
+
+5. What is the minimum distance between places, where a vehicle with a licence from Licences1 and a vehicle with a licence from Licences2 have been?
+
+```sql
+select
+  l1.licence as licence1,
+  l2.licence as licence2,
+  min(
+    st_distance(trajectory(t1.trip), trajectory(t2.trip))
+  ) as mindist
+from
+  trips t1,
+  licences1 l1,
+  trips t2,
+  licences2 l2
+where
+  t1.vehid = l1.vehid
+  and t2.vehid = l2.vehid
+  and t1.vehid < t2.vehid
+group by
+  l1.licence,
+  l2.licence
+order by
+  l1.licence,
+  l2.licence;
+```
