@@ -4230,3 +4230,24 @@ where t1.vehid = c1.vehid and t2.vehid = c2.vehid and
   tdwithin(t1.trip, t2.trip, 10.0) ?= true
 order by c1.licence, c2.licence;
 ```
+
+7. What are the licence plate numbers of the passenger cars that have reached the points from Points first of all passenger cars during the complete observation period?
+
+```sql
+WITH Timestamps AS (
+  SELECT DISTINCT C.Licence, P.PointId, P.Geom, 
+    MIN(startTimestamp(atValue(T.Trip,P.Geom))) AS Instant
+  FROM Trips T, Vehicles C, Points1 P
+  WHERE T.VehId = C.VehId AND C.Type = 'passenger' AND
+    T.Trip && P.Geom AND ST_Intersects(trajectory(T.Trip), P.Geom)
+  GROUP BY C.Licence, P.PointId, P.Geom )
+SELECT T1.Licence, T1.PointId, T1.Geom, T1.Instant
+FROM Timestamps T1
+WHERE T1.Instant <= ALL (
+  SELECT T2.Instant
+  FROM Timestamps T2
+  WHERE T1.PointId = T2.PointId )
+ORDER BY T1.PointId, T1.Licence;
+```
+
+https://docs.mobilitydb.com/MobilityDB-BerlinMOD/master/ch03s03.html
