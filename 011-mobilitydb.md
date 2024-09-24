@@ -4259,4 +4259,19 @@ where t.vehid = l.vehid and t.trip && p.period
 group by l.licence, p.periodid, p.period 
 order by l.licence, p.periodid;
 ```
+
+9. What is the longest distance that was travelled by a vehicle during each of the periods from Periods?
+
+```sql
+with distances as (
+  select p.periodid, p.period, t.vehid, sum(length(atperiod(t.trip, p.period))) as dist
+  from trips t, periods p
+  where t.trip && p.period
+  group by p.periodid, p.period, t.vehid )
+select periodid, period, max(dist) as maxdist
+from distances
+group by periodid, period
+order by periodid;
+```
+
 https://docs.mobilitydb.com/MobilityDB-BerlinMOD/master/ch03s03.html
