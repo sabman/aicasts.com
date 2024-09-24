@@ -4250,4 +4250,13 @@ where t1.instant <= all (
 order by t1.pointid, t1.licence;
 ```
 
+8. What are the overall travelled distances of the vehicles with licence plate numbers from Licences1 during the periods from Periods1?
+
+```sql
+select l.licence, p.periodid, p.period, sum(length(atperiod(t.trip, p.period))) as dist
+from trips t, licences1 l, periods1 p
+where t.vehid = l.vehid and t.trip && p.period
+group by l.licence, p.periodid, p.period 
+order by l.licence, p.periodid;
+```
 https://docs.mobilitydb.com/MobilityDB-BerlinMOD/master/ch03s03.html
