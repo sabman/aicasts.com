@@ -4274,4 +4274,20 @@ group by periodid, period
 order by periodid;
 ```
 
+10. When and where did the vehicles with licence plate numbers from Licences1 meet other vehicles (distance < 3m) and what are the latter licences?
+
+```sql
+with values as (
+  select distinct l1.licence as querylicence, c2.licence as otherlicence,
+    atperiodset(t1.trip, gettime(atvalue(tdwithin(t1.trip, t2.trip, 3.0), true))) as pos
+  from trips t1, licences1 l1, trips t2, licences2 c2 
+  where t1.vehid = l1.vehid and t2.vehid = c2.vehid and t1.vehid < t2.vehid and
+    expandspatial(t1.trip, 3) && expandspatial(t2.trip, 3) 
+    dwithin(t1.trip, t2.trip, 3.0) )
+select querylicence, otherlicence, array_agg(pos order by starttimestamp(pos)) as pos
+from values 
+group by querylicence, otherlicence
+order by querylicence, otherlicence;
+```
+
 https://docs.mobilitydb.com/MobilityDB-BerlinMOD/master/ch03s03.html
