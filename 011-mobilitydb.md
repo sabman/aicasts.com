@@ -4290,4 +4290,14 @@ group by querylicence, otherlicence
 order by querylicence, otherlicence;
 ```
 
+11. Which vehicles passed a point from Points1 at one of the instants from Instants1?
+
+```sql
+select p.pointid, p.geom, i.instantid, i.instant, c.licence
+from trips t, vehicles c, points1 p, instants1 i
+where t.vehid = c.vehid and t.trip @> stbox(p.geom, i.instant) and
+  valueattimestamp(t.trip, i.instant) = p.geom
+order by p.pointid, i.instantid, c.licence;
+```
+
 https://docs.mobilitydb.com/MobilityDB-BerlinMOD/master/ch03s03.html
