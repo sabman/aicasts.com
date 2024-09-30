@@ -4300,4 +4300,18 @@ where t.vehid = c.vehid and t.trip @> stbox(p.geom, i.instant) and
 order by p.pointid, i.instantid, c.licence;
 ```
 
+12. Which vehicles met at a point from Points1 at an instant from Instants1?
+
+```sql
+select distinct p.pointid, p.geom, i.instantid, i.instant,
+  c1.licence as licence1, c2.licence as licence2
+from trips t1, vehicles c1, trips t2, vehicles c2, points1 p, instants1 i
+where t1.vehid = c1.vehid and t2.vehid = c2.vehid and t1.vehid < t2.vehid and
+  t1.trip @> stbox(p.geom, i.instant) and t2.trip @> stbox(p.geom, i.instant) and
+  valueattimestamp(t1.trip, i.instant) = p.geom and
+  valueattimestamp(t2.trip, i.instant) = p.geom
+order by p.pointid, i.instantid, c1.licence, c2.licence;
+```
+
+
 https://docs.mobilitydb.com/MobilityDB-BerlinMOD/master/ch03s03.html
