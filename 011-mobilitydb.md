@@ -4313,5 +4313,15 @@ where t1.vehid = c1.vehid and t2.vehid = c2.vehid and t1.vehid < t2.vehid and
 order by p.pointid, i.instantid, c1.licence, c2.licence;
 ```
 
+13. Which vehicles travelled within one of the regions from Regions1 during the periods from Periods1?
+
+```sql
+select distinct r.regionid, p.periodid, p.period, c.licence
+from trips t, vehicles c, regions1 r, periods1 p
+where t.vehid = c.vehid and t.trip && stbox(r.geom, p.period) and
+  st_intersects(trajectory(atperiod(t.trip, p.period)), r.geom)
+order by r.regionid, p.periodid, c.licence;
+```
+
 
 https://docs.mobilitydb.com/MobilityDB-BerlinMOD/master/ch03s03.html
