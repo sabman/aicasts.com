@@ -4323,5 +4323,17 @@ where t.vehid = c.vehid and t.trip && stbox(r.geom, p.period) and
 order by r.regionid, p.periodid, c.licence;
 ```
 
+14.Which vehicles travelled within one of the regions from Regions1 at one of the instants from Instants1?
+
+```sql
+select distinct r.regionid, i.instantid, i.instant, c.licence
+from trips t, vehicles c, regions1 r, instants1 i
+where t.vehid = c.vehid and t.trip && stbox(r.geom, i.instant) and
+  st_contains(r.geom, valueattimestamp(t.trip, i.instant))
+order by r.regionid, i.instantid, c.licence;
+```
+
+
+
 
 https://docs.mobilitydb.com/MobilityDB-BerlinMOD/master/ch03s03.html
