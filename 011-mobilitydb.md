@@ -4323,7 +4323,7 @@ where t.vehid = c.vehid and t.trip && stbox(r.geom, p.period) and
 order by r.regionid, p.periodid, c.licence;
 ```
 
-14.Which vehicles travelled within one of the regions from Regions1 at one of the instants from Instants1?
+14. Which vehicles travelled within one of the regions from Regions1 at one of the instants from Instants1?
 
 ```sql
 select distinct r.regionid, i.instantid, i.instant, c.licence
@@ -4333,6 +4333,15 @@ where t.vehid = c.vehid and t.trip && stbox(r.geom, i.instant) and
 order by r.regionid, i.instantid, c.licence;
 ```
 
+15. Which vehicles passed a point from Points1 during a period from Periods1?
+
+```sql
+select distinct po.pointid, po.geom, pr.periodid, pr.period, c.licence
+from trips t, vehicles c, points1 po, periods1 pr
+where t.vehid = c.vehid and t.trip && stbox(po.geom, pr.period) and
+  st_intersects(trajectory(atperiod(t.trip, pr.period)),po.geom)
+order by po.pointid, pr.periodid, c.licence;
+```
 
 
 
