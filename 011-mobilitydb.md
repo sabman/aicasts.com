@@ -4344,5 +4344,18 @@ order by po.pointid, pr.periodid, c.licence;
 ```
 
 
+16. List the pairs of licences for vehicles, the first from Licences1, the second from Licences2, where the corresponding vehicles are both present within a region from Regions1 during a period from QueryPeriod1, but do not meet each other there and then.
+
+```sql
+select p.periodid, p.period, r.regionid, l1.licence as licence1, l2.licence as licence2
+from trips t1, licences1 l1, trips t2, licences2 l2, periods1 p, regions1 r
+where t1.vehid = l1.vehid and t2.vehid = l2.vehid and l1.licence < l2.licence and
+  t1.trip && stbox(r.geom, p.period) and t2.trip && stbox(r.geom, p.period) and
+  st_intersects(trajectory(atperiod(t1.trip, p.period)), r.geom) and
+  st_intersects(trajectory(atperiod(t2.trip, p.period)), r.geom) and
+  tintersects(atperiod(t1.trip, p.period), atperiod(t2.trip, p.period)) %= false
+order by periodid, regionid, licence1, licence2;
+```
+
 
 https://docs.mobilitydb.com/MobilityDB-BerlinMOD/master/ch03s03.html
