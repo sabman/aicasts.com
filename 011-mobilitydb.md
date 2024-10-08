@@ -3880,6 +3880,13 @@ Figure 5.10, “Comparison of the nodes obtained by contracting the graph (in bl
 Figure 5.10. Comparison of the nodes obtained by contracting the graph (in black), before contraction (in blue), and those obtained by osm2pgrouting (in red).
 ![](https://docs.mobilitydb.com/MobilityDB/master/workshop/workshopimages/node_comp2.png)
 
+# Chapter 2. Generating Realistic Trajectory Datasets
+
+Do you need an arbitrarily large trajectory dataset to tests your ideas? This chapter illustrates how to generate car trips in a city. It implements the BerlinMOD benchmark data generator that is described in: 
+
+>  Düntgen, C., Behr, T. and Güting, R.H. BerlinMOD: a benchmark for moving object databases. The VLDB Journal 18, 1335 (2009). https://doi.org/10.1007/s00778-009-0142-5
+
+
 # Chapter 3. BerlinMOD Benchmark on MobilityDB
 
 ```sql
