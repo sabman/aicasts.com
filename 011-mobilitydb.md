@@ -3886,6 +3886,20 @@ Do you need an arbitrarily large trajectory dataset to tests your ideas? This ch
 
 >  Düntgen, C., Behr, T. and Güting, R.H. BerlinMOD: a benchmark for moving object databases. The VLDB Journal 18, 1335 (2009). https://doi.org/10.1007/s00778-009-0142-5
 
+ The data generator can be configured by setting the number of simulated cars and the number of simulation days. It models people trips using their cars to and from work during the week as well as some additional leisure trips at evenings or weekends. The simulation uses multiple ideas to be close to reality, including: 
+
+The data generator can be configured by setting the number of simulated cars and the number of simulation days. It models people trips using their cars to and from work during the week as well as some additional leisure trips at evenings or weekends. The simulation uses multiple ideas to be close to reality, including: 
+
+- The home locations are sampled with respect to the population statistics of the different administrative areas in the city
+- Similarly, the work locations are sampled with respect to employment statistics
+- Drivers will try to accelerate to the maximum allowed speed of a road
+- Random events will force drivers to slow down or even stop to simulate obstacles, traffic lights, etc.
+- Drivers will slow down in curves
+- Trips between home and work do not include additional destinations
+- Leisure trips start and end at home locations and include multiple destinations
+- Trips between home and work do not include additional destinations
+- Leisure trips start and end at home locations and include multiple destinations
+
 
 # Chapter 3. BerlinMOD Benchmark on MobilityDB
 
