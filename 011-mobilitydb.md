@@ -3902,6 +3902,17 @@ The data generator can be configured by setting the number of simulated cars and
 
 The generator is written in PL/pgSQL, so that it will be easy to insert or adapt simulation rules to reflect other scenarios. It uses MobilityDB types and operations. The generated trajectories are also MobilityDB types. It is controlled by a single parameter, scale factor, that determines the size of the generated dataset. Additionally, many other parameters can be used to fine-tune the generation process to reflect various real-world simulation scenarios. 
 
+This chapter covers the following topics:
+  - A quick start using the generator
+  - Understanding the generation process
+  - Exploring the generated data
+  - Customizing the generator to your city
+  - Tuning the generator parameters
+  - Modifying the generator by changing the simulation scenario
+  - Creating a network topology from your own streets layer, to be used for the generator
+
+
+
 # Chapter 3. BerlinMOD Benchmark on MobilityDB
 
 ```sql
