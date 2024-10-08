@@ -3911,6 +3911,7 @@ This chapter covers the following topics:
   - Modifying the generator by changing the simulation scenario
   - Creating a network topology from your own streets layer, to be used for the generator
 
+Location of generator https://github.com/MobilityDB/MobilityDB-BerlinMOD
 
 
 # Chapter 3. BerlinMOD Benchmark on MobilityDB
