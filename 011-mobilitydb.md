@@ -3900,6 +3900,7 @@ The data generator can be configured by setting the number of simulated cars and
 - Trips between home and work do not include additional destinations
 - Leisure trips start and end at home locations and include multiple destinations
 
+The generator is written in PL/pgSQL, so that it will be easy to insert or adapt simulation rules to reflect other scenarios. It uses MobilityDB types and operations. The generated trajectories are also MobilityDB types. It is controlled by a single parameter, scale factor, that determines the size of the generated dataset. Additionally, many other parameters can be used to fine-tune the generation process to reflect various real-world simulation scenarios. 
 
 # Chapter 3. BerlinMOD Benchmark on MobilityDB
 
