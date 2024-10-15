@@ -4367,7 +4367,7 @@ where t.vehid = c.vehid and t.trip && stbox(r.geom, i.instant) and
 order by r.regionid, i.instantid, c.licence;
 ```
 
-15. Which vehicles passed a point from Points1 during a period from Periods1?
+### 15. Which vehicles passed a point from Points1 during a period from Periods1?
 
 ```sql
 select distinct po.pointid, po.geom, pr.periodid, pr.period, c.licence
@@ -4378,7 +4378,7 @@ order by po.pointid, pr.periodid, c.licence;
 ```
 
 
-16. List the pairs of licences for vehicles, the first from Licences1, the second from Licences2, where the corresponding vehicles are both present within a region from Regions1 during a period from QueryPeriod1, but do not meet each other there and then.
+### 16. List the pairs of licences for vehicles, the first from Licences1, the second from Licences2, where the corresponding vehicles are both present within a region from Regions1 during a period from QueryPeriod1, but do not meet each other there and then.
 
 ```sql
 select p.periodid, p.period, r.regionid, l1.licence as licence1, l2.licence as licence2
