@@ -4324,7 +4324,7 @@ group by querylicence, otherlicence
 order by querylicence, otherlicence;
 ```
 
-11. Which vehicles passed a point from Points1 at one of the instants from Instants1?
+### 11. Which vehicles passed a point from `Points1` at one of the instants from `Instants1`?
 
 ```sql
 select p.pointid, p.geom, i.instantid, i.instant, c.licence
