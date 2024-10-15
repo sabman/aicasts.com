@@ -4294,7 +4294,7 @@ group by l.licence, p.periodid, p.period
 order by l.licence, p.periodid;
 ```
 
-9. What is the longest distance that was travelled by a vehicle during each of the periods from Periods?
+### 9. What is the longest distance that was travelled by a vehicle during each of the periods from `Periods`?
 
 ```sql
 with distances as (
@@ -4308,7 +4308,7 @@ group by periodid, period
 order by periodid;
 ```
 
-10. When and where did the vehicles with licence plate numbers from Licences1 meet other vehicles (distance < 3m) and what are the latter licences?
+### 10. When and where did the vehicles with licence plate numbers from `Licences1` meet other vehicles (distance < 3m) and what are the latter licences?
 
 ```sql
 with values as (
