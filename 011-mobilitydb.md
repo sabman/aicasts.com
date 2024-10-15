@@ -4334,7 +4334,7 @@ where t.vehid = c.vehid and t.trip @> stbox(p.geom, i.instant) and
 order by p.pointid, i.instantid, c.licence;
 ```
 
-12. Which vehicles met at a point from Points1 at an instant from Instants1?
+### 12. Which vehicles met at a point from `Points1` at an instant from `Instants1`?
 
 ```sql
 select distinct p.pointid, p.geom, i.instantid, i.instant,
