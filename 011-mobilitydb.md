@@ -4391,7 +4391,7 @@ where t1.vehid = l1.vehid and t2.vehid = l2.vehid and l1.licence < l2.licence an
 order by periodid, regionid, licence1, licence2;
 ```
 
-17. Which point(s) from Points have been visited by a maximum number of different vehicles?
+### 17. Which point(s) from Points have been visited by a maximum number of different vehicles?
 
 ```sql
 with pointcount as (
