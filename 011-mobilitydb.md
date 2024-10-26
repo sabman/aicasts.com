@@ -2557,32 +2557,32 @@ We describe next the main steps in the generation of the BerlinMOD scenario. The
 We start by creating a first set of tables for containing the generated data as follows.
 
 ```sql
-CREATE TABLE Vehicle(
-  id int PRIMARY KEY,
-  home bigint NOT NULL,
-  work bigint NOT NULL,
-  noNeighbours int
+create table vehicle(
+  id int primary key,
+  home bigint not null,
+  work bigint not null,
+  noneighbours int
 );
 
-CREATE TABLE Destinations(
+create table destinations(
   vehicle int,
   source bigint,
   target bigint,
-  PRIMARY KEY (vehicle, source, target)
+  primary key (vehicle, source, target)
 );
 
-CREATE TABLE Licences(
-  vehicle int PRIMARY KEY,
+create table licences(
+  vehicle int primary key,
   licence text,
   type text,
   model text
 );
 
-CREATE TABLE Neighbourhood(
+create table neighbourhood(
   vehicle int,
   seq int,
-  node bigint NOT NULL,
-  PRIMARY KEY (vehicle, seq)
+  node bigint not null,
+  primary key (vehicle, seq)
 );
 ```
 
