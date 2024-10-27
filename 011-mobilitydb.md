@@ -165,9 +165,9 @@ ORDER BY R.RegionID;
 
 ```sql
 WITH TimeSplit(Period) AS (
-  SELECT period(H, H + interval ’1 hour’)
-  FROM generate_series(timestamptz ’2007-05-29 00:00:00’,
-    timestamptz ’2007-05-29 23:00:00’, interval ’1 hour’) AS H )
+  SELECT period(H, H + interval '1 hour')
+  FROM generate_series(timestamptz '2007-05-29 00:00:00',
+    timestamptz '2007-05-29 23:00:00', interval '1 hour') AS H )
 SELECT Period, COUNT(*)
 FROM TimeSplit S, Trips T
 WHERE S.Period && T.Trip AND atPeriod(Trip, Period) IS NOT NULL
@@ -429,14 +429,14 @@ CREATE TABLE Periods (
   Period period
 );
 
-SELECT cdb_cartodbfytable('rasul','Periods')
-ALTER TABLE periods ADD COLUMN periodid INTEGER UNIQUE NOT NULL
+select cdb_cartodbfytable('rasul','periods')
+alter table periods add column periodid integer unique not null
 
-CREATE TABLE Points (
-  PointId integer PRIMARY KEY,
-  PosX double precision,
-  PosY double precision,
-  Geom Geometry(Point)
+create table points (
+  pointid integer primary key,
+  posx double precision,
+  posy double precision,
+  geom geometry(point)
 );
 
 ALTER TABLE points ADD COLUMN pointid INTEGER UNIQUE NOT NULL
@@ -493,25 +493,25 @@ We created the table `Trips` in order to assemble all points composing a trip in
 Loading the data is as follows:
 
 ```sql
-COPY Cars(CarId, Licence, Type, Model) FROM ’/home/mobilitydb/data/datamcar.csv’
-  DELIMITER  ’,’ CSV HEADER;
-COPY TripsInput(CarId, TripId, Lon, Lat, T) FROM ’/home/mobilitydb/data/trips.csv’
-  DELIMITER  ’,’ CSV HEADER;
-COPY Instants(InstantId, Instant) FROM ’/home/mobilitydb/data/queryinstants.csv’
-  DELIMITER  ’,’ CSV HEADER;
-COPY Periods(PeriodId, Tstart, Tend) FROM ’/home/mobilitydb/data/queryperiods.csv’
-  DELIMITER  ’,’ CSV HEADER;
+COPY Cars(CarId, Licence, Type, Model) FROM '/home/mobilitydb/data/datamcar.csv'
+  DELIMITER  ',' CSV HEADER;
+COPY TripsInput(CarId, TripId, Lon, Lat, T) FROM '/home/mobilitydb/data/trips.csv'
+  DELIMITER  ',' CSV HEADER;
+COPY Instants(InstantId, Instant) FROM '/home/mobilitydb/data/queryinstants.csv'
+  DELIMITER  ',' CSV HEADER;
+COPY Periods(PeriodId, Tstart, Tend) FROM '/home/mobilitydb/data/queryperiods.csv'
+  DELIMITER  ',' CSV HEADER;
 UPDATE Periods
 SET Period = period(Tstart, Tend);
 ```
 
 ```sql
-COPY Points(PointId, PosX, PosY) FROM ’/home/mobilitydb/data/querypoints.csv’
-  DELIMITER  ’,’ CSV HEADER;
+COPY Points(PointId, PosX, PosY) FROM '/home/mobilitydb/data/querypoints.csv'
+  DELIMITER  ',' CSV HEADER;
 UPDATE Points
 SET Geom = ST_Transform(ST_SetSRID(ST_MakePoint(PosX, PosY), 4326), 5676);
 COPY RegionsInput(RegionId, SegNo, XStart, YStart, XEnd, YEnd) FROM
-  ’/home/mobilitydb/data/queryregions.csv’ DELIMITER  ’,’ CSV HEADER;
+  '/home/mobilitydb/data/queryregions.csv' DELIMITER  ',' CSV HEADER;
 ```
 
 ```sql
