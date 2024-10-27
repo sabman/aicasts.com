@@ -379,13 +379,13 @@ Alter table cars ALTER COLUMN carid SET NOT NULL;
 **Trips**
 
 ```sql
-CREATE TABLE TripsInput (
-  CarId integer REFERENCES Cars,
-  TripId integer,
-  Lon float,
-  Lat float,
-  T timestamptz,
-  PRIMARY KEY (CarId, TripId, T)
+create table tripsinput (
+  carid integer references cars,
+  tripid integer,
+  lon float,
+  lat float,
+  t timestamptz,
+  primary key (carid, tripid, t)
 );
 
 ALTER TABLE tripsinput ADD COLUMN carid INTEGER;
