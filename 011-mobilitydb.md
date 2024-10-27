@@ -388,10 +388,10 @@ create table tripsinput (
   primary key (carid, tripid, t)
 );
 
-ALTER TABLE tripsinput ADD COLUMN carid INTEGER;
-ALTER TABLE tripsinput ALTER COLUMN carid TYPE INTEGER
-Alter TABLE tripsinput ADD UNIQUE (carid, tripid, t)
-Alter TABLE tripsinput ADD CONSTRAINT fkcars FOREIGN KEY (carid) REFERENCES cars (carid)
+alter table tripsinput add column carid integer;
+alter table tripsinput alter column carid type integer
+alter table tripsinput add unique (carid, tripid, t)
+alter table tripsinput add constraint fkcars foreign key (carid) references cars (carid)
 
 ```
 
