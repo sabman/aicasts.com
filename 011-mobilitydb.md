@@ -354,11 +354,11 @@ By using `CASCADE` we load the required "PostGIS" extension prior to loading Mob
 **Cars**
 
 ```sql
-CREATE TABLE Cars (
-  CarId integer PRIMARY KEY,
-  Licence varchar(32),
-  Type varchar(32),
-  Model varchar(32)
+create table cars (
+  carid integer primary key,
+  licence varchar(32),
+  type varchar(32),
+  model varchar(32)
 )
 ```
 
