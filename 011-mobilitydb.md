@@ -4202,9 +4202,9 @@ WHERE C.Licence = L.Licence;
 2. How many vehicles exist that are passenger cars?
 
 ```sql
-SELECT COUNT (Licence)
-FROM Vehicles C
-WHERE Type = 'passenger';
+select count (licence)
+from vehicles c
+where type = 'passenger';
 ```
 
 3. Where have the vehicles with licences from Licences1 been at each of the instants from Instants1?
