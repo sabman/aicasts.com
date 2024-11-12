@@ -4210,21 +4210,21 @@ where type = 'passenger';
 3. Where have the vehicles with licences from Licences1 been at each of the instants from Instants1?
 
 ```sql
-SELECT DISTINCT L.Licence, I.InstantId, I.Instant AS Instant,
-  valueAtTimestamp(T.Trip, I.Instant) AS Pos
-FROM Trips T, Licences1 L, Instants1 I
-WHERE T.VehId = L.VehId AND valueAtTimestamp(T.Trip, I.Instant) IS NOT NULL
-ORDER BY L.Licence, I.InstantId;
+select distinct l.licence, i.instantid, i.instant as instant,
+  valueattimestamp(t.trip, i.instant) as pos
+from trips t, licences1 l, instants1 i
+where t.vehid = l.vehid and valueattimestamp(t.trip, i.instant) is not null
+order by l.licence, i.instantid;
 ```
 
 4. Which vehicles have passed the points from Points?
   
 ```sql
-SELECT DISTINCT P.PointId, P.Geom, C.Licence
-FROM Trips T, Vehicles C, Points P
-WHERE T.VehId = C.VehId AND T.Trip && P.Geom AND
-  ST_Intersects(trajectory(T.Trip), P.Geom) 
-ORDER BY P.PointId, C.Licence;
+select distinct p.pointid, p.geom, c.licence
+from trips t, vehicles c, points p
+where t.vehid = c.vehid and t.trip && p.geom and
+  st_intersects(trajectory(t.trip), p.geom) 
+order by p.pointid, c.licence;
 ```
 
 5. What is the minimum distance between places, where a vehicle with a licence from Licences1 and a vehicle with a licence from Licences2 have been?
