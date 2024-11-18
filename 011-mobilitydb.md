@@ -63,13 +63,13 @@ select speed(tgeompoints(array[tgeompointseq
 Signature: `nearestApproachDistance({geometry, tgeompointmult}, {geometry, tgeompointmult}): float`
 
 ```sql
-SELECT nearestApproachDistance(
-tgeompointseq '[Point(0 0)@2012-01-02, Point(1 1)@2012-01-04, Point(0 0)@2012-01-06)',
-geometry 'Linestring(2 2,2 1,3 1)');
+select nearestapproachdistance(
+tgeompointseq '[point(0 0)@2012-01-02, point(1 1)@2012-01-04, point(0 0)@2012-01-06)',
+geometry 'linestring(2 2,2 1,3 1)');
 -- "1"
-SELECT nearestApproachDistance(
-tgeompointseq '[Point(0 0)@2012-01-01, Point(1 1)@2012-01-03, Point(0 0)@2012-01-05)',
-tgeompointseq '[Point(2 0)@2012-01-02, Point(1 1)@2012-01-04, Point(2 2)@2012-01-06)');
+select nearestapproachdistance(
+tgeompointseq '[point(0 0)@2012-01-01, point(1 1)@2012-01-03, point(0 0)@2012-01-05)',
+tgeompointseq '[point(2 0)@2012-01-02, point(1 1)@2012-01-04, point(2 2)@2012-01-06)');
 -- "0.5"
 ```
 
