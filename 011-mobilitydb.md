@@ -51,9 +51,9 @@ select tintersects(tgeompointseq '[point(0 1)@2001-01-01, point(3 1)@2001-01-04)
 Signature: `speed({tpointseq, tpoints}): tfloats`
 
 ```sql
-SELECT speed(tgeompoints(ARRAY[tgeompointseq
-'[Point(0 0)@2000-01-01, Point(1 1)@2000-01-02, Point(1 0)@2000-01-03]',
-'[Point(1 0)@2000-01-04, Point(0 0)@2000-01-05]']))
+select speed(tgeompoints(array[tgeompointseq
+'[point(0 0)@2000-01-01, point(1 1)@2000-01-02, point(1 0)@2000-01-03]',
+'[point(1 0)@2000-01-04, point(0 0)@2000-01-05]']))
 * 3600 * 24;
 -- "{[1.4142135623731@2000-01-01, 1.4142135623731@2000-01-02),
 [1@2000-01-02, 1@2000-01-03], [1@2000-01-04, 1@2000-01-05]}"
