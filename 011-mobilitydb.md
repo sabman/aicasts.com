@@ -74,10 +74,10 @@ tgeompointseq '[point(2 0)@2012-01-02, point(1 1)@2012-01-04, point(2 2)@2012-01
 ```
 
 ```sql
-SELECT DISTINCT R.RegionId, T.CarId
-FROM Trips T, Regions R
-WHERE ST_Intersects(trajectory(T.Trip), R.Geom)
-ORDER BY R.RegionId, T.CarId;
+select distinct r.regionid, t.carid
+from trips t, regions r
+where st_intersects(trajectory(t.trip), r.geom)
+order by r.regionid, t.carid;
 ```
 
 ## Spatial Relationships for Temporal Points
