@@ -122,13 +122,13 @@ This is a spatio-temporal range query. The query performs a bounding box compari
 3. List the pairs of cars that were both located within a region from Regions during a period from Periods.
 
 ```sql
-SELECT DISTINCT T1.CarId AS CarId1, T2.CarId AS CarId2, R.RegionId, P.PeriodId
-FROM Trips T1, Trips T2, Regions R, Periods P
-WHERE T1.CarId < T2.CarId AND T1.Trip && stbox(R.Geom, P.Period) AND
-  T2.Trip && stbox(R.Geom, P.Period) AND
-  _intersects(atPeriod(T1.Trip, P.Period), R.Geom) AND
-  _intersects(atPeriod(T2.Trip, P.Period), R.Geom)
-ORDER BY T1.CarId, T2.CarId, R.RegionId, P.PeriodId;
+select distinct t1.carid as carid1, t2.carid as carid2, r.regionid, p.periodid
+from trips t1, trips t2, regions r, periods p
+where t1.carid < t2.carid and t1.trip && stbox(r.geom, p.period) and
+  t2.trip && stbox(r.geom, p.period) and
+  _intersects(atperiod(t1.trip, p.period), r.geom) and
+  _intersects(atperiod(t2.trip, p.period), r.geom)
+order by t1.carid, t2.carid, r.regionid, p.periodid;
 ```
 
 4. List the first time at which a car visited a point in Points.
