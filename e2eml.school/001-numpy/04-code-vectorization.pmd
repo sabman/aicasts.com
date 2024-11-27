@@ -248,4 +248,3 @@ mask_1_count = np.maximum(mask_1.sum(axis=1), 1)
 mask_2_count = np.maximum(mask_2.sum(axis=1), 1)
 mask_3_count = mask_2_count
 ```
-
