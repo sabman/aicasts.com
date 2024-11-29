@@ -59,7 +59,7 @@ class ChangeVisualizer(object):
         """
         Returns a Figure with two subplots.
         """
-        fig = plt.figure(num=num , figsize=(8, 4.5))
+        fig = plt.figure(num=num, figsize=(8, 4.5))
         fig.clf()
         plt.style.use("dark_background")
         return fig
@@ -258,14 +258,14 @@ class ChangeVisualizer(object):
         weights_before = tools.make_trajectory(
             duration=duration,
             waypoints=[
-               before_start + 0 * (before_stop - before_start),
-               before_start + 1 * (before_stop - before_start),
-               before_start + .33 * (before_stop - before_start),
-               before_start + .66 * (before_stop - before_start),
-               before_start + .4 * (before_stop - before_start),
-               before_start + .6 * (before_stop - before_start),
-               before_start + .45 * (before_stop - before_start),
-               before_start + .55 * (before_stop - before_start),
+                before_start + 0 * (before_stop - before_start),
+                before_start + 1 * (before_stop - before_start),
+                before_start + .33 * (before_stop - before_start),
+                before_start + .66 * (before_stop - before_start),
+                before_start + .4 * (before_stop - before_start),
+                before_start + .6 * (before_stop - before_start),
+                before_start + .45 * (before_stop - before_start),
+                before_start + .55 * (before_stop - before_start),
             ],
         )
 
@@ -327,14 +327,14 @@ class ChangeVisualizer(object):
             duration=duration,
             reverse=False,
             waypoints=[
-               after_start + 0 * (after_stop - after_start),
-               after_start + 1 * (after_stop - after_start),
-               after_start + .33 * (after_stop - after_start),
-               after_start + .66 * (after_stop - after_start),
-               after_start + .4 * (after_stop - after_start),
-               after_start + .6 * (after_stop - after_start),
-               after_start + .45 * (after_stop - after_start),
-               after_start + .55 * (after_stop - after_start),
+                after_start + 0 * (after_stop - after_start),
+                after_start + 1 * (after_stop - after_start),
+                after_start + .33 * (after_stop - after_start),
+                after_start + .66 * (after_stop - after_start),
+                after_start + .4 * (after_stop - after_start),
+                after_start + .6 * (after_stop - after_start),
+                after_start + .45 * (after_stop - after_start),
+                after_start + .55 * (after_stop - after_start),
             ],
         )
 
@@ -396,14 +396,14 @@ class ChangeVisualizer(object):
         shifts = tools.make_trajectory(
             duration=duration,
             waypoints=[
-               shift_start + 0 * (shift_stop - shift_start),
-               shift_start + 1 * (shift_stop - shift_start),
-               shift_start + .33 * (shift_stop - shift_start),
-               shift_start + .66 * (shift_stop - shift_start),
-               shift_start + .4 * (shift_stop - shift_start),
-               shift_start + .6 * (shift_stop - shift_start),
-               shift_start + .45 * (shift_stop - shift_start),
-               shift_start + .55 * (shift_stop - shift_start),
+                shift_start + 0 * (shift_stop - shift_start),
+                shift_start + 1 * (shift_stop - shift_start),
+                shift_start + .33 * (shift_stop - shift_start),
+                shift_start + .66 * (shift_stop - shift_start),
+                shift_start + .4 * (shift_stop - shift_start),
+                shift_start + .6 * (shift_stop - shift_start),
+                shift_start + .45 * (shift_stop - shift_start),
+                shift_start + .55 * (shift_stop - shift_start),
             ],
         )
 
