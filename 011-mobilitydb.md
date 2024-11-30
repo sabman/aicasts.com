@@ -4405,4 +4405,3 @@ where p.hits = ( select max(hits) from pointcount );
 ```
 
 https://docs.mobilitydb.com/MobilityDB-BerlinMOD/master/ch03s03.html
-
