@@ -29,5 +29,3 @@ new_datetime = datetime.datetime.strptime(
 # Turn a datetime into a date string.
 datestr = new_datetime.strftime('%Y-%m-%d')
 print(datestr)
-
-
