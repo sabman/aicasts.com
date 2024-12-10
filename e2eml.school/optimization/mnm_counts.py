@@ -62,4 +62,3 @@ if __name__ == "__main__":
     print("Best estimate is {0:.2f} M&Ms per bag.".format(best_estimate))
     print("The mean value is {0:.2f} M&Ms per bag."
           .format(np.mean(np.array(mnm_counts))))
-
