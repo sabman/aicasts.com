@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 x = np.linspace(-1, 1)
-y = x + np.random.normal(size=x.size)
+y = x + np.random.nmal(size=x.size)
 
 fig = plt.figure()
 ax = fig.gca()
@@ -21,4 +21,3 @@ ax.scatter(x, y, s=sizes)
 from matplotlib.colors import LinearSegmentedColormap
 custom_cmap = LinearSegmentedColormap.from_list("my_cmap", ["red", "black", "white"])
 print(custom_cmap)
-
