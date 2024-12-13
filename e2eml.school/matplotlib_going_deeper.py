@@ -1,7 +1,8 @@
+from matplotlib.colors import LinearSegmentedColormap
+import numpy as np
+import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use("agg")
-import matplotlib.pyplot as plt
-import numpy as np
 
 x = np.linspace(-1, 1)
 y = x + np.random.nmal(size=x.size)
@@ -18,6 +19,6 @@ ax.scatter(x, y, s=80)
 sizes = (np.random.sample(size=x.size) * 10) ** 2
 ax.scatter(x, y, s=sizes)
 
-from matplotlib.colors import LinearSegmentedColormap
-custom_cmap = LinearSegmentedColormap.from_list("my_cmap", ["red", "black", "white"])
+custom_cmap = LinearSegmentedColormap.from_list(
+    "my_cmap", ["red", "black", "white"])
 print(custom_cmap)
