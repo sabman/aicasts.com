@@ -17,3 +17,4 @@ OptaPlanner is a lightweight, embeddable constraint satisfaction engine which op
 https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html
 
 OptaPlanner is a constraint satisfaction engine. It is a type of constraint satisfaction engine.
+
