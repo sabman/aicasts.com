@@ -102,4 +102,3 @@ let search = Client::open("https://earth-search.aws.element84.com/v0").search(&[
 // Print the number of items found
 println!("{}", search.get_items().await?.len());
 ```
-
