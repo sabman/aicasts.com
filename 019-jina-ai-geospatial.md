@@ -1,1 +1,1 @@
-https://github.com/jina-ai/jina/tree/master/docs/chapters/101
+https://github.com/jina-ai/
