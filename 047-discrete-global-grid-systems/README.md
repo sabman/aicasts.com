@@ -9,3 +9,11 @@ Pangeo Showcase talk on Dec 4, 2024 by Justis Magin. Discrete Global Grid System
 xdggs is a library that extends xarray to work with data on a DGGS by leveraging the information contained in the numeric cell IDs. It supports tasks like selecting and visualizing data, as well as computing geographic coordinates for cell centers and boundaries, allowing the integration with “traditional” GIS data systems and libraries.
 
 https://xdggs.readthedocs.io/en/latest/
+
+```python
+import xarray as xr
+
+import xdggs
+
+_ = xr.set_options(display_expand_data=False)
+```
