@@ -1,0 +1,4 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_fare_url,agency_email
+3,Tuniberg Express,https://www.vag-freiburg.de/fahrplan-linien/fahrplanauskunft.html,Europe/Berlin,DE,0761 / 45110,,
+1,Freiburger Verkehrs AG,https://www.vag-freiburg.de/fahrplan-linien/fahrplanauskunft.html,Europe/Berlin,DE,0761 / 45110,,
+5,R.A.S.T. Reisen,https://www.vag-freiburg.de/fahrplan-linien/fahrplanauskunft.html,Europe/Berlin,DE,0761 / 45110,,
