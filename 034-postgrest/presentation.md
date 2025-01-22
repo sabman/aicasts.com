@@ -23,5 +23,3 @@
 
 ## What about authentication?
 
-
-
