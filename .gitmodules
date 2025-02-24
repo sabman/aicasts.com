@@ -7,3 +7,6 @@
 [submodule "044_open-earth-map/oem-lightweight"]
 	path = 044_open-earth-map/oem-lightweight
 	url = github.com:sabman/oem-lightweight.git
+[submodule "051-aibrix/aibrix"]
+	path = 051-aibrix/aibrix
+	url = git@github.com:vllm-project/aibrix.git
