@@ -16,3 +16,4 @@ import torch.nn.functional as F # useful functions in PyTorch
 from layers import MultiCategoryGumbelSoftmax # internal class for multicategory outputs
 from sklearn.preprocessing import OneHotEncoder # convert our data into a format PyTorch can understand
 ```
+
