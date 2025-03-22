@@ -45,3 +45,8 @@ ids = tokenizer.encode(text)
 
 print(ids)
 print(tokenizer.decode(ids))
+
+# ============ unknown ==================
+
+text = "Hello, do you like tea?"
+print(tokenizer.encode(text))
