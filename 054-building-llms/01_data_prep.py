@@ -44,3 +44,4 @@ text = """"It's the last he painted, you know,"
 ids = tokenizer.encode(text)
 
 print(ids)
+print(tokenizer.decode(ids))
