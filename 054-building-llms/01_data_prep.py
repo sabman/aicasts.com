@@ -36,3 +36,10 @@ for i, item in enumerate(vocab.items()):
     print(item)
     if i >= 50:
         break
+
+# =============== Try Tokenizer ================
+tokenizer = SimpleTokenizerV1(vocab)
+text = """"It's the last he painted, you know,"
+       Mrs. Gisburn said with pardonable pride."""
+ids = tokenizer.encode(text)
+print(ids)
