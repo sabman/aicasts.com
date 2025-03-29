@@ -28,13 +28,15 @@ all_words = sorted(set(preprocessed))
 
 vocab_size = len(all_words)
 
-print(vocab_size)
+all_tokens = sorted(list(set(preprocessed)))
+all_tokens.extend(["<|endoftext|>", "<|unk|>"])
+vocab = {token:integer for integer,token in enumerate(all_tokens)}
+print(len(vocab.items()))
 
-vocab = {token:integer for integer,token in enumerate(all_words)}
-
-for i, item in enumerate(vocab.items()):
+for i, item in reversed(list(enumerate(vocab.items()))):
     print(item)
-    if i >= 50:
+    print(i)
+    if i < 1000:
         break
 
 # =============== Try Tokenizer ================
