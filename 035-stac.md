@@ -102,3 +102,10 @@ let search = Client::open("https://earth-search.aws.element84.com/v0").search(&[
 // Print the number of items found
 println!("{}", search.get_items().await?.len());
 ```
+
+# What do i use STAC for?
+
+STAC is used to search for geospatial data. It is used by many different organizations, including NASA, the US Geological Survey, and the European Space Agency. It is also used by many different companies, including Amazon, Google, and Microsoft.
+
+# What are the benefits of using STAC?
+
