@@ -32,3 +32,6 @@ for i in range(1, context_size+1):
     print(tokenizer.decode(context), "---->", tokenizer.decode([desired]))
 
 
+integers = tokenizer.encode("Akawari")
+print(integers)
+print(tokenizer.decode(integers))
