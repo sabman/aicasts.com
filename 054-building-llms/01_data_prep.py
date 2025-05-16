@@ -2,9 +2,11 @@ import urllib.request
 import re
 from models.simple_tokenizer_v2 import SimpleTokenizerV2
 
-url = ("https://raw.githubusercontent.com/rasbt/"
-       "LLMs-from-scratch/main/ch02/01_main-chapter-code/"
-       "the-verdict.txt")
+url = (
+    "https://raw.githubusercontent.com/rasbt/"
+    "LLMs-from-scratch/main/ch02/01_main-chapter-code/"
+    "the-verdict.txt"
+)
 
 file_path = "data/the-verdict.txt"
 
@@ -30,7 +32,7 @@ vocab_size = len(all_words)
 
 all_tokens = sorted(list(set(preprocessed)))
 all_tokens.extend(["<|endoftext|>", "<|unk|>"])
-vocab = {token:integer for integer,token in enumerate(all_tokens)}
+vocab = {token: integer for integer, token in enumerate(all_tokens)}
 print(len(vocab.items()))
 
 for i, item in reversed(list(enumerate(vocab.items()))):
